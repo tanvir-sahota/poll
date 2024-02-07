@@ -1,19 +1,27 @@
 const express = require('express')
 const Quiz = require("../models/quiz_model")
 
+// used to sanitise :id input
+const mongoose = require('mongoose')
+
 // Paths are relative to /api/quizzes, e.g. the below is /api/quizzes/
 
 // Retrieves all of the quizzes
 const get_all_quizzes = async (request, response) => {
-    const quizzes = await Quiz.find({})
+    const quizzes = await Quiz.find({})    
     response.status(200).json(quizzes)
 }
 
 // Retrieves a single quiz
 const get_one_quiz = async (request, response) => {
-    const {id} = req.params
+    const {id} = request.params
+    
+    const is_id_sanitised = mongoose.Types.ObjectId.isValid(id)
+    if(!is_id_sanitised){
+        return response.status(404).json({error: "Quiz does not exist. ID not in correct format."})
+    }
+    
     const quiz = await Quiz.findById(id)
-
     if(!quiz){
         return response.status(404).json({error: "Quiz does not exist."})
     }
@@ -33,13 +41,37 @@ const create_quiz = async (request, response) => {
 }
 
 // Delete a quiz
-const delete_quiz = (request, response) => {
-    response.json({mssg: 'DELETE a quiz'})
+const delete_quiz = async (request, response) => {
+    const {id} = request.params
+    
+    const is_id_sanitised = mongoose.Types.ObjectId.isValid(id)
+    if(!is_id_sanitised){
+        return response.status(404).json({error: "Quiz does not exist. ID not in correct format."})
+    }
+    
+    const deleted_quiz = await Quiz.findOneAndDelete({_id: id})
+    if(!deleted_quiz){
+        return response.status(404).json({error: "Quiz does not exist."})
+    }
+    
+    response.status(200).json(deleted_quiz)
 }
 
 // Update a quiz
-const patch_quiz = (request, response) => {
-    response.json({mssg: 'UPDATE a quiz'})
+const patch_quiz = async (request, response) => {
+    const {id} = request.params
+        
+    const is_id_sanitised = mongoose.Types.ObjectId.isValid(id)
+    if(!is_id_sanitised){
+        return response.status(404).json({error: "Quiz does not exist. ID not in correct format."})
+    }
+    
+    const updated_quiz = await Quiz.findOneAndUpdate({_id: id}, {...request.body})
+    if(!updated_quiz){
+        return response.status(404).json({error: "Quiz does not exist."})
+    }
+    
+    response.status(200).json(updated_quiz)
 }
 
 module.exports = {
