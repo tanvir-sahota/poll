@@ -10,7 +10,7 @@ const SignupForm = () => {
 
     const user = {username, password}
     
-    const response = await fetch('/api/users', {
+    const response = await fetch('http://localhost:4000/api/users', {
       method: 'POST',
       body: JSON.stringify(user),
       headers: {
@@ -21,6 +21,7 @@ const SignupForm = () => {
 
     if (!response.ok) {
       setError(json.error)
+      console.log('new user NOT added:', json)
     }
     if (response.ok) {
       setError(null)

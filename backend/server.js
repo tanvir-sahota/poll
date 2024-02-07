@@ -1,11 +1,18 @@
 require('dotenv').config()
 
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const port = 4000
 const userRoutes = require('./routes/users')
 
 const mongoose = require('mongoose')
+
+let corsOptions = {
+  origin: ['http://localhost:3000'],
+}
+
+app.use(cors(corsOptions))
 
 app.use('/api/users', userRoutes)
 
