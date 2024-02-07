@@ -9,7 +9,7 @@ const questionSchema = new Schema({
     },
     options: {
         type: [String],
-        //required: false
+        required: false
     },
     answers: {
         type: [String],
