@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
+const PORT = 4000;
 const URI = process.env.MONGO_URI;
 
 // MongoDB Connection
@@ -14,7 +14,7 @@ mongoose.connect(URI, {
   .catch(err => console.log(err));
 
 // Routes
-app.use('/virtualClassrooms', require('./routes/virtualClassroom'));
+app.use('/classrooms', require('./routes/Classroom'));
 
 // Start Server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 // create Schema
 
-const VirtualClassroomSchema = new mongoose.Schema({
+const ClassroomSchema = new mongoose.Schema({
     title:{
         type: String,
         required: true
     },
-    teacher:{
+    owner:{
         // type: mongoose.Schema.Types.ObjectId,
         type: String,
         // required: true
@@ -18,6 +18,6 @@ const VirtualClassroomSchema = new mongoose.Schema({
     quizzes:[{
         type: mongoose.Schema.Types.ObjectId
     }]
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model('VirtualClassroomModel',VirtualClassroomSchema);
+module.exports = mongoose.model('Classroom',ClassroomSchema);
