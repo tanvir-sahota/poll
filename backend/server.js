@@ -1,26 +1,20 @@
-require('dotenv').config()
+const express = require('express');
+const mongoose = require('mongoose');
 
-const express = require('express')
-const app = express()
-const port = 3000
+require('dotenv').config();
 
-const mongoose = require('mongoose')
+const app = express();
+const PORT = 3000;
+const URI = process.env.MONGO_URI;
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('Successfuly connected to database.')
+// MongoDB Connection
+mongoose.connect(URI, {
 
-    app.use(express.json())
+}).then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
 
-    app.get('/', (req, res) => {
-      res.send('Hello World!')
-    })
-    
-    app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`)
-    })
+// Routes
+app.use('/virtualClassrooms', require('./routes/virtualClassroom'));
 
-  })
-  .catch((err) => {
-    console.log(err)
-  }) 
+// Start Server
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
