@@ -45,7 +45,9 @@ const createQuestion = async (request, response) => {
 
 
     try {
-        const question = await Question.create({title, reps, load})
+        //const answersArray = answers.split(/\s*,\s*/)
+        //const optionsArray = options.split(/\s*,\s*/)
+        const question = await Question.create({question, options, answers})
         response.status(200).json(question)
     } catch (error) {
         response.status(400).json({error: error.message})
