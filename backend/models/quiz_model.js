@@ -10,8 +10,12 @@ const quizSchema = new Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: false,
+    },
     num_questions: {
-        type: Int16Array,
+        type: Number,
         required: false,
     },
     questions: {
