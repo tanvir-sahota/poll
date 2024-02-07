@@ -45,10 +45,14 @@ const createQuestion = async (request, response) => {
 
 
     try {
-        //const answersArray = answers.split(/\s*,\s*/)
-        //const optionsArray = options.split(/\s*,\s*/)
-        const question = await Question.create({question, options, answers})
-        response.status(200).json(question)
+        const answersArray = answers.split(/\s*,\s*/)
+        const optionsArray = options.split(/\s*,\s*/)
+
+        const fullQuestion = await Question.create({
+            question: question, 
+            options:optionsArray, 
+            answers:answersArray})
+        response.status(200).json(fullQuestion)
     } catch (error) {
         response.status(400).json({error: error.message})
     }
