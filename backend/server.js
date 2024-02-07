@@ -8,11 +8,21 @@ const userRoutes = require('./routes/users')
 
 const mongoose = require('mongoose')
 
-const corsOptions = { 
-  origin : ['http://localhost:3000'], 
-} 
+const allowEveryOrigin = true;
 
-app.use(cors(corsOptions))
+if (!allowEveryOrigin)
+{
+  //Only allows requests from one host for security, enable in production
+  const corsOptions = { 
+    origin : ['http://localhost:3000'], 
+  } 
+  app.use(cors(corsOptions))
+}
+else
+{
+  //Allows CORS from everywhere for development
+  app.use(cors())
+}
 
 app.use('/api/users', userRoutes)
 
