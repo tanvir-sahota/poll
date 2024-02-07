@@ -8,7 +8,11 @@ const userRoutes = require('./routes/users')
 
 const mongoose = require('mongoose')
 
-app.use(cors())
+const corsOptions = { 
+  origin : ['http://localhost:3000'], 
+} 
+
+app.use(cors(corsOptions))
 
 app.use('/api/users', userRoutes)
 
