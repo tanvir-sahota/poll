@@ -4,7 +4,7 @@ const Controller = require('../controllers/questionController')
 
 const router = express.Router()
 
-router.get("/", Controller.getAllQuestion)
+router.get("/", Controller.getAllQuestions)
 
 router.get("/:id", Controller.getQuestion)
 
