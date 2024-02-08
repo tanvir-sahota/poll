@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const quizRoutes = require('./routes/quizzes')
 const app = express()
-const port = 3000
+const port = 4000
 
 const mongoose = require('mongoose')
 
