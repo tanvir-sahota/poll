@@ -9,7 +9,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchClassrooms = async () => {
-            const response = await fetch('/classrooms')
+            const response = await fetch('http://localhost:4000/classrooms')
             const json = await response.json()
 
             if (response.ok) {
@@ -24,7 +24,7 @@ const Dashboard = () => {
     return (
         <div className="dashboard">
             <h2>Dashboard</h2>
-            <div classname="classrooms">
+            <div className="classrooms">
                 {classrooms && classrooms.map(classroom => (
                     <ClassroomObject classroom={classroom} key={classroom._id} />
                 ))}

@@ -1,6 +1,7 @@
 const ClassroomModel = require('../models/ClassroomModel');
 
 exports.getAllClassrooms = async (req, res) => {
+    console.log("get classrooms")
     try {
         const classrooms = await ClassroomModel.find();
         res.json(classrooms);
@@ -25,8 +26,8 @@ exports.getClassroomById = async (req, res) => {
 
 exports.createClassroom = async (req, res) => {
     try {
-        const { teacher, title } = req.body;
-        const classroom = new ClassroomModel({ teacher, title });
+        const { owner, title } = req.body;
+        const classroom = new ClassroomModel({ owner, title });
         await classroom.save();
         res.json(classroom);
     } catch (err) {
@@ -36,8 +37,11 @@ exports.createClassroom = async (req, res) => {
 };
 
 exports.deleteClassroom = async (req, res) => {
+    console.log("Delete class")
     try {
+        console.log("ID: " + req.params.id)
         const classroom = await ClassroomModel.findById(req.params.id);
+        console.log("Classroom: " + classroom)
         if (!classroom) {
             return res.status(404).json({ msg: 'Virtual classroom not found' });
         }

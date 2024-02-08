@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/tanvir-sahota/poll#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "mongoose": "^8.1.1"

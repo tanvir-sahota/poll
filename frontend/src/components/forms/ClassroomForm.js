@@ -9,12 +9,12 @@ const ClassroomForm = () => {
     const [emptyFields, setEmptyFields] = useState([])
     const [error, setError] = useState(null)
 
-    const clickSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         const classroom = {title, owner}
 
-        const response = await fetch('/classrooms', {
+        const response = await fetch('http://localhost:4000/classrooms', {
             method: 'POST',
             body: JSON.stringify(classroom),
             headers: {
@@ -24,7 +24,7 @@ const ClassroomForm = () => {
 
         const json = await response.json()
 
-        if(!response.ok) {
+        if (!response.ok) {
             setError(json.error)
             setEmptyFields(json.emptyFields)
         }
@@ -40,7 +40,7 @@ const ClassroomForm = () => {
     }
 
     return (
-        <form className="create" onSubmit={clickSubmit}>
+        <form className="create" onSubmit={handleSubmit}>
             <h3>Add a new classroom</h3>
             <label>Class Name:</label>
             <input 
@@ -56,7 +56,7 @@ const ClassroomForm = () => {
                 value={owner}
                 className={emptyFields.includes('owner') ? 'error' : ''}
             />
-            <button>Add Classroom</button>
+            <button type="submit">Add Classroom</button>
             {error && <div className="error">{error}</div>}
         </form>
     )
