@@ -8,7 +8,7 @@ function App() {
         <div className="pages">
           <Routes>
             <Route
-              path="/"
+              path="/api/quizzes/"
               element={<Quiz />}
               />
           </Routes>
