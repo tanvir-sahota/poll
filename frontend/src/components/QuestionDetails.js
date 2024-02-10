@@ -5,7 +5,7 @@ const QuestionDetails = ({ question }) => {
     const { dispatch } = useQuestionContext()
 
     const handleClick = async () => {
-        const response = await fetch("/api/workouts/" + workout._id, {
+        const response = await fetch("/api/questions/" + question._id, {
             method: "DELETE"
         })
         const json = await response.json()
@@ -21,7 +21,7 @@ const QuestionDetails = ({ question }) => {
             <h4>{question.question}</h4>
             <p><strong>Options: </strong>{question.options}</p>
             <p><strong>Answer(s): </strong>{question.answers}</p>
-            <p>{workout.createdAt}</p>
+            <p>{question.createdAt}</p>
             <span onClick={handleClick}>delete</span>
 
         </div>

@@ -23,6 +23,7 @@ const QuestionForm = () => {
             }
         })
         const json = await response.json()
+        console.log(response)
 
         if(!response.ok){
             setError(json.error)
@@ -67,6 +68,8 @@ const QuestionForm = () => {
                 className={emptyFields.includes("answers") ? "error" : ""}
             />
 
+            <p>Input as a comma seperated string for multiple answers and options</p>
+
             <button>Add Question</button>
             {error && <div className="error">{error}</div>}
 
@@ -75,4 +78,4 @@ const QuestionForm = () => {
 
 }
 
-export default WorkoutForm
+export default QuestionForm
