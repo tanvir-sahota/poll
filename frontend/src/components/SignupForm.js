@@ -46,8 +46,11 @@ const SignupForm = () => {
                   placeholder="Enter username"
                   type="text"
                   {...field}
+                  isInvalid={!!errors.username}
                 />
-                {errors.username && <div className="error">{errors.username.message}</div>}
+                <Form.Control.Feedback type="invalid" className="text-danger">
+                  {errors.username && errors.username.message}
+                </Form.Control.Feedback>
               </div>
             )}
           />
@@ -65,8 +68,11 @@ const SignupForm = () => {
                   placeholder="Enter password"
                   type="password"
                   {...field}
+                  isInvalid={!!errors.password}
                 />
-                {errors.password && <div className="error">{errors.password.message}</div>}
+                <Form.Control.Feedback type="invalid" className="text-danger">
+                  {errors.password && errors.password.message}
+                </Form.Control.Feedback>
               </div>
             )}
           />
