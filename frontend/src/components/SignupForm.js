@@ -6,7 +6,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Form, Button } from "react-bootstrap";
 
 const SignupForm = () => {
-  const { handleSubmit, control, formState: { errors } } = useForm();
+  const { handleSubmit, control, setError, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
     const response = await fetch("http://localhost:4000/api/users", {
@@ -20,6 +20,7 @@ const SignupForm = () => {
 
     if (!response.ok) {
       console.log("new user NOT added:", json);
+      setError("username", { message: json.error })
     }
     if (response.ok) {
       console.log("new user added:", json);

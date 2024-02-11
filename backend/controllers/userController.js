@@ -10,12 +10,11 @@ const createUser = async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const user = new User({ username, password });
-        await user.save();
+        const user = await User.signUp(username, password)
         res.json(user);
       } catch (err) {
         console.error(err.message);
-        res.status(400).send('Server Error');
+        res.status(400).send( {error: err.message} );
       }
 
 }

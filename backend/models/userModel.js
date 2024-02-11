@@ -14,6 +14,21 @@ const userSchema = new Schema({
 
 }, { timestamps: true })
 
+userSchema.statics.signUp = async function(username, password) {
+
+  if (!(username && password)) {
+    throw Error("Need username and password details.");
+  }
+  
+  const existingUsername = await this.exists({ username })
+  if(existingUsername) {
+    throw Error("This username is already in use.");
+  }
+
+  const user = await this.create({ username, password });
+  return user
+}
+
 // Hash password before saving to database, via bcrypt
 userSchema.pre('save', function (next) {
   bcrypt.hash(this.password, 10, (err, hashedPassword) => {
