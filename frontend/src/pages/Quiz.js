@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 
-
+//components
+import QuizForm from "../components/QuizForm";
 const Quiz = () => {
     const [quizzes, setQuizzes] = useState(null)
 
@@ -26,6 +27,7 @@ const Quiz = () => {
                     <p key={quiz._id}>{quiz.title}</p>
                 ))}
             </div>
+            <QuizForm />
         </div>
     )
 }
