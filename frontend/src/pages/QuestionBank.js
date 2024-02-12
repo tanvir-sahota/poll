@@ -9,7 +9,7 @@ const QuestionBank = () => {
 
     useEffect(() => {
         const fetchQuestions = async () =>{
-            const response = await fetch("/api/questions")
+            const response = await fetch("http://localhost:4000/api/questions/")
             const json = await response.json()
 
             if(response.ok){

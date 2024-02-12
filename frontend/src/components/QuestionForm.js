@@ -14,8 +14,9 @@ const QuestionForm = () => {
         e.preventDefault()
 
         const question = {questionAsked, options, answers}
-
-        const response = await fetch("/api/questions", {
+        let body = JSON.stringify(question)
+        console.log(body)
+        const response = await fetch("http://localhost:4000/api/questions", {
             method: "POST",
             body: JSON.stringify(question),
             headers: {
@@ -47,9 +48,10 @@ const QuestionForm = () => {
             <label>Question</label>
             <input
                 type="text"
-                onChange={(e) => setQuestion(e.target.value)}
+                onChange={(e) =>
+                    setQuestion(e.target.value)}
                 value={questionAsked}
-                className={emptyFields.includes("question") ? "error" : ""}
+                className={emptyFields.includes("questionAsked") ? "error" : ""}
             />
 
             <label>Options</label>

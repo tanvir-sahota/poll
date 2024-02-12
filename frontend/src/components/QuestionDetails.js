@@ -5,7 +5,7 @@ const QuestionDetails = ({ question }) => {
     const { dispatch } = useQuestionContext()
 
     const handleClick = async () => {
-        const response = await fetch("/api/questions/" + question._id, {
+        const response = await fetch("http://localhost:4000/api/questions/" + question._id, {
             method: "DELETE"
         })
         const json = await response.json()

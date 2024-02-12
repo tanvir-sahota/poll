@@ -26,12 +26,12 @@ const getQuestion = async (request, response) => {
 
 //Post request to create workout
 const createQuestion = async (request, response) => {
-    const {question, options, answers} = request.body
+    const {questionAsked, options, answers} = request.body
 
     let emptyFields = []
 
-    if(!question){
-        emptyFields.push("questions")
+    if(!questionAsked){
+        emptyFields.push("questionAsked")
     }
     if(!options){
         emptyFields.push("options")
@@ -49,7 +49,7 @@ const createQuestion = async (request, response) => {
         const optionsArray = options.split(/\s*,\s*/)
 
         const fullQuestion = await Question.create({
-            question: question, 
+            question: questionAsked, 
             options:optionsArray, 
             answers:answersArray})
         response.status(200).json(fullQuestion)

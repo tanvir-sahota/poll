@@ -1,17 +1,34 @@
 require('dotenv').config()
 
 const express = require('express')
+const cors = require('cors')
 const path = require("path")
 const app = express()
 const port = 4000
 const mongoose = require('mongoose')
+
+const allowEveryOrigin = true;
+
+if (!allowEveryOrigin)
+{
+  //Only allows requests from one host for security, enable in production
+  const corsOptions = { 
+    origin : ['http://localhost:3000'], 
+  } 
+  app.use(cors(corsOptions))
+}
+else
+{
+  //Allows CORS from everywhere for development
+  app.use(cors())
+}
 
 const questionRoutes = require("./routes/questions")
 
 app.use(express.json())
 
 app.use((req, res, next) => {
-  console.log(req,path, req.method)
+  //console.log(req,path, req.method)
   next()
 })
 

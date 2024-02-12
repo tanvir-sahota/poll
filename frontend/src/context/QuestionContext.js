@@ -10,11 +10,11 @@ export const questionsReducer = (state, action) => {
             }
         case "CREATE_QUESTIONS":
             return{
-                questions: [action.payload, ...state.workouts]
+                questions: [action.payload, ...state.questions]
             }
         case "DELETE_QUESTIONS":
             return{
-                questions: state.workouts.filter(question => question._id != action.payload._id)
+                questions: state.questions.filter(question => question._id != action.payload._id)
             }
         default:
             return state
