@@ -24,15 +24,21 @@ else
   app.use(cors())
 }
 
+
+
+
+
+app.use(express.json())
+
+app.use('/api/quizzes', quizRoutes)
+
+
+
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('Successfuly connected to database.')
 
-    app.use(express.json())
-
-    app.get('/', (req, res) => {
-      res.send('Hello World!')
-    })
     
     app.listen(port, () => {
       console.log(`Example app listening on port ${port}`)
@@ -41,7 +47,6 @@ mongoose.connect(process.env.MONGO_URI)
     // routes
 
     // uses routes specified in the quizzes.js file
-      app.use('/api/quizzes', quizRoutes)
 
   })
   .catch((err) => {
