@@ -34,7 +34,7 @@ const create_quiz = async (request, response) => {
     const {title, description, num_questions, questions} = request.body
     try{
         const quiz = await Quiz.create({title, description, num_questions, questions})
-        response.status(200).json(quiz)
+        response.status(201).json(quiz)
     } catch (error) {
         response.status(400).json({error: error.message})
     }
