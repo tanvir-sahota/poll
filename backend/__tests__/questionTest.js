@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const request = require("supertest")
 
 const app = require("../server")
-//const questionModel = require("../models/questionModel")
+const questionModel = require("../models/questionModel")
 
 require("dotenv").config()
 
@@ -41,23 +41,30 @@ describe("POST /api/questions", () => {
     })
   })
 
-  /*describe("DELETE /api/questions/:id", () => {
-    let questionID;
-
-      const question = new questionModel({
-        question: "Wh",
-        options: "3 4 5",
-        answers: "4",
-      }).save()
+  
+  describe("DELETE /api/questions/:id", () => {
+      let questionID
     
 
-    it("should delete the question from database", async () => {
+    it("should add a question then delete the same question from database", async () => {
+    
       const response = await request(app)
-        .delete("/api/questions/${question._id}")
-        .send()
+      .post("/api/questions")
+        .send({
+          questionAsked: "What is 3 + 12",
+          options: "5 45 56 36 18",
+          answers: "36"
+        })
         .set({
           "Content-Type": "application/json"
         })
       expect(response.statusCode).toBe(200)
-    })
-  })*/
+      
+      questionID = response.body._id
+
+    
+      const deleteResponse = await request(app)
+        .delete("/api/questions/${questionID}")
+        .expect(deleteResponse.statusCode) 
+    }) 
+  }) 
