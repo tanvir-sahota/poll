@@ -104,9 +104,10 @@ describe("POST /api/questions", () => {
   }) 
 
   describe("POST /api/questions", () => {
-    it("should return a 422 error as the input is invalid", async () => {
+    it("should return a 422 error as the options doesnt contain all answers", async () => {
       const response = await request(app)
         .post(`/api/questions`)
+        //4 in answers is not one of the options
         .send({
           questionAsked: "What is 3 + 12",
           options: "5,45,56,36,18",
@@ -120,5 +121,30 @@ describe("POST /api/questions", () => {
     })
   })
   
+  describe("GET /api/questions/:id", () => {
+    it("should return 404 error as question doesn't exist", async () => {
+      const response = await request(app)
+      //object doesnt exist in database
+        .get(`/api/questions/invalidID`)
+      expect(response.statusCode).toBe(404)
+    })
+  })
+
+  describe("POST /api/questions", () => {
+    it("should return a 400 error as all fields not filled", async () => {
+      const response = await request(app)
+        .post(`/api/questions`)
+        //answers field unfilled
+        .send({
+          questionAsked: "What is 3 + 12",
+          options: "5,45,56,36,18",
+          questionType: "MCQ"
+        })
+        .set({
+          "Content-Type": "application/json"
+        })
+      expect(response.statusCode).toBe(400)
+    })
+  })
 
   
