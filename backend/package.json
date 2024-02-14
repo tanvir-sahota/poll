@@ -4,7 +4,7 @@
   "description": "Polling Software",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=5000",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
@@ -26,6 +26,9 @@
     "mongoose": "^8.1.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3"
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
+    "supertest": "^6.3.4"
   }
 }
