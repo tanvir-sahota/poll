@@ -4,7 +4,7 @@ const express = require('express')
 const cors = require('cors')
 const quizRoutes = require('./routes/quizzes')
 const app = express()
-const port = 3000
+const port = 4000
 
 const mongoose = require('mongoose')
 
@@ -14,7 +14,7 @@ if (!allowEveryOrigin)
 {
   //Only allows requests from one host for security, enable in production
   const corsOptions = { 
-    origin : ['http://localhost:3000'], 
+    origin : ['http://localhost:4000'],
   } 
   app.use(cors(corsOptions))
 }

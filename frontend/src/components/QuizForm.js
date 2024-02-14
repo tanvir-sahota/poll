@@ -1,6 +1,8 @@
 import {useState} from "react";
+import {useQuizzesContext} from "../hooks/useQuizzesContext";
 
 const QuizForm = () => {
+    const{dispatch} = useQuizzesContext()
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [error, setError] = useState(null)
@@ -26,6 +28,7 @@ const QuizForm = () => {
             setDescription('')
             setError(null)
             console.log('new quiz added', json)
+            dispatch({type:'CREATE_QUIZ', payload: json})
         }
     }
     return (

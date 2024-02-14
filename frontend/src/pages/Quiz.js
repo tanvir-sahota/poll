@@ -1,10 +1,11 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
+import {useQuizzesContext} from "../hooks/useQuizzesContext";
 
 //components
 import QuizForm from "../components/QuizForm";
 const Quiz = () => {
-    const [quizzes, setQuizzes] = useState(null)
 
+    const {quizzes, dispatch} = useQuizzesContext()
     // Fires once when the component first renders
     useEffect(() => {
         const fetchQuizzes = async () => {
@@ -12,7 +13,7 @@ const Quiz = () => {
             const json = await response.json()
 
             if (response.ok){
-                setQuizzes(json)
+                dispatch({type: 'SET_QUIZZES', payload: json})
             }
         }
 
