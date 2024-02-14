@@ -14,8 +14,7 @@ const QuestionForm = () => {
         e.preventDefault()
 
         const question = {questionAsked, options, answers}
-        let body = JSON.stringify(question)
-        console.log(body)
+
         const response = await fetch("http://localhost:4000/api/questions", {
             method: "POST",
             body: JSON.stringify(question),
@@ -24,7 +23,6 @@ const QuestionForm = () => {
             }
         })
         const json = await response.json()
-        console.log(response)
 
         if(!response.ok){
             setError(json.error)
@@ -36,7 +34,7 @@ const QuestionForm = () => {
             setAnswers("")
             setError(null)
             setEmptyFields([])
-            console.log("Successful added workout")
+            console.log("Successful added question")
             dispatch({type: "CREATE_QUESTIONS", payload: json})
         }
     }
@@ -48,8 +46,7 @@ const QuestionForm = () => {
             <label>Question</label>
             <input
                 type="text"
-                onChange={(e) =>
-                    setQuestion(e.target.value)}
+                onChange={(e) => setQuestion(e.target.value)}
                 value={questionAsked}
                 className={emptyFields.includes("questionAsked") ? "error" : ""}
             />
@@ -72,7 +69,7 @@ const QuestionForm = () => {
 
             <p>Input as a comma seperated string for multiple answers and options</p>
 
-            <button>Add Question</button>
+            <button className = "create">Add Question</button>
             {error && <div className="error">{error}</div>}
 
         </form>

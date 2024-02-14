@@ -21,7 +21,7 @@ const getQuestion = async (request, response) => {
         return response.status(404).json({error: "Question doesn't exist"})
     }
 
-    response.status(200).json(workout)
+    response.status(200).json(question)
 }
 
 //Post request to create workout
@@ -48,11 +48,22 @@ const createQuestion = async (request, response) => {
         const answersArray = answers.split(/\s*,\s*/)
         const optionsArray = options.split(/\s*,\s*/)
 
-        const fullQuestion = await Question.create({
-            question: questionAsked, 
-            options:optionsArray, 
-            answers:answersArray})
-        response.status(200).json(fullQuestion)
+        const checkOptionsIncludeAnswer = answersArray.filter(x => {
+            return optionsArray.includes(x)
+        })
+
+        if(checkOptionsIncludeAnswer.length != answersArray.length){
+            return response.status(422).json({error: "All answers must be included in options", emptyFields})
+        }
+        else{
+            const fullQuestion = await Question.create({
+                question: questionAsked, 
+                options:optionsArray, 
+                answers:answersArray})
+            response.status(200).json(fullQuestion)
+        }
+
+        
     } catch (error) {
         response.status(400).json({error: error.message})
     }
@@ -77,18 +88,30 @@ const deleteQuestion = async (request, response) => {
 
 const updateQuestion = async(request, response) =>{
     const {id} = request.params
+    const {questionAsked, options, answers} = request.body
+    const answersArray = answers.split(/\s*,\s*/)
+    const optionsArray = options.split(/\s*,\s*/)
 
     if(!mongoose.isValidObjectId(id)){
-        return response.status(404).json({error: "Question not Found"})
+        return response.status(404).json({error: "Invalid Object"})
     }
 
-    const question = await Question.findOneAndUpdate({_id:id}, {...request.body})
+    const checkOptionsIncludeAnswer = answersArray.filter(x => {
+        return optionsArray.includes(x)
+    })
+
+    if(checkOptionsIncludeAnswer.length != answersArray.length){
+        return response.status(422).json({error: "All answers must be included in options"})
+    }
+
+    const question = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray })
 
     if(!question){
         return response.status(400).json({error: "Question not Found"})
     }
 
-    response.status(200).json(question)
+    const newQuestion = await Question.findById(id)
+    response.status(200).json(newQuestion)
 }
 
 module.exports = {
