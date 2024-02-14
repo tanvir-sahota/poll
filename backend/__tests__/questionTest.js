@@ -2,7 +2,6 @@ const mongoose = require("mongoose")
 const request = require("supertest")
 
 const app = require("../server")
-const questionModel = require("../models/questionModel")
 
 require("dotenv").config()
 
@@ -15,8 +14,9 @@ beforeAll(async () => {
     .post("/api/questions")
     .send({
       questionAsked: "question",
-      options: "5 6 7",
-      answers: "6 7"
+      options: "5,6,7",
+      answers: "6,7",
+      questionType: "MCQ"
     })
     .expect(200)
   questionID = response.body._id
@@ -32,13 +32,16 @@ describe("POST /api/questions", () => {
         .post(`/api/questions`)
         .send({
           questionAsked: "What is 3 + 12",
-          options: "5 45 56 36 18",
-          answers: "36 5"
+          options: "5,45,56,36,18",
+          answers: "5,45",
+          questionType: "MCQ"
         })
         .set({
           "Content-Type": "application/json"
         })
       expect(response.statusCode).toBe(200)
+
+      await request(app).delete(`/api/questions/${response.body._id}`)
     })
   })
 
@@ -49,30 +52,41 @@ describe("POST /api/questions", () => {
       expect(response.statusCode).toBe(200)
     })
   })
-  /*
+  
   describe("GET /api/questions/:id", () => {
     it("should get the sample question from the database", async () => {
       const response = await request(app)
         .get(`/api/questions/${questionID}`)
       expect(response.statusCode).toBe(200)
     })
-  })*/
+  })
 
   describe("PATCH /api/questions/:id", () => {
 
     it("it should update the sample question multiple times", async () => {
 
-      const response = await request(app)
+      const responseOne = await request(app)
         .patch(`/api/questions/${questionID}`)
         .send({
           questionAsked: "new question",
-          options: "9 3 a",
-          answers: "3 a"
+          options: "9,3,a",
+          answers: "3,a"
         })
         .set({
           "Content-Type": "application/json"
         })
-      expect(response.statusCode).toBe(200)
+      expect(responseOne.statusCode).toBe(200)
+        
+      const responseTwo = await request(app)
+        .patch(`/api/questions/${questionID}`)
+        .send({
+          options: "3,a,6,7,f",
+          answers: "6,7"
+        })
+        .set({
+          "Content-Type": "application/json"
+        })
+      expect(responseTwo.statusCode).toBe(200)
     }) 
   }) 
 
@@ -85,5 +99,6 @@ describe("POST /api/questions", () => {
         expect(response.statusCode).toBe(200)
     }) 
   }) 
+  
 
   
