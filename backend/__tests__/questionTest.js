@@ -18,6 +18,9 @@ beforeAll(async () => {
       answers: "6,7",
       questionType: "MCQ"
     })
+    .set({
+      "Content-Type": "application/json"
+    })
     .expect(200)
   questionID = response.body._id
 })
@@ -99,6 +102,23 @@ describe("POST /api/questions", () => {
         expect(response.statusCode).toBe(200)
     }) 
   }) 
+
+  describe("POST /api/questions", () => {
+    it("should return a 422 error as the input is invalid", async () => {
+      const response = await request(app)
+        .post(`/api/questions`)
+        .send({
+          questionAsked: "What is 3 + 12",
+          options: "5,45,56,36,18",
+          answers: "5,4",
+          questionType: "MCQ"
+        })
+        .set({
+          "Content-Type": "application/json"
+        })
+      expect(response.statusCode).toBe(422)
+    })
+  })
   
 
   
