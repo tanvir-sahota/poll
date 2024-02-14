@@ -33,9 +33,6 @@ const createQuestion = async (request, response) => {
     if(!questionAsked){
         emptyFields.push("questionAsked")
     }
-    if(!options){
-        emptyFields.push("options")
-    }
     if(!answers){
         emptyFields.push("answers")
     }
@@ -46,22 +43,32 @@ const createQuestion = async (request, response) => {
 
     try {
         const answersArray = answers.split(/\s*,\s*/)
-        const optionsArray = options.split(/\s*,\s*/)
 
-        const checkOptionsIncludeAnswer = answersArray.filter(x => {
-            return optionsArray.includes(x)
-        })
-
-        if(checkOptionsIncludeAnswer.length != answersArray.length){
-            return response.status(422).json({error: "All answers must be included in options", emptyFields})
+        if(options.length != 0){
+            const optionsArray = options.split(/\s*,\s*/)
+            const checkOptionsIncludeAnswer = answersArray.filter(x => {
+                return optionsArray.includes(x)
+            })
+            if(checkOptionsIncludeAnswer.length != answersArray.length){
+                return response.status(422).json({error: "All answers must be included in options", emptyFields})
+            }
+            else{
+                const fullQuestion = await Question.create({
+                    question: questionAsked, 
+                    options:optionsArray, 
+                    answers:answersArray})
+                response.status(200).json(fullQuestion)
+            }
         }
         else{
             const fullQuestion = await Question.create({
                 question: questionAsked, 
-                options:optionsArray, 
                 answers:answersArray})
             response.status(200).json(fullQuestion)
         }
+        
+
+        
 
         
     } catch (error) {
@@ -96,12 +103,15 @@ const updateQuestion = async(request, response) =>{
         return response.status(404).json({error: "Invalid Object"})
     }
 
-    const checkOptionsIncludeAnswer = answersArray.filter(x => {
+    if(options.length != 0)
+    {
+        const checkOptionsIncludeAnswer = answersArray.filter(x => {
         return optionsArray.includes(x)
-    })
+        })
 
-    if(checkOptionsIncludeAnswer.length != answersArray.length){
-        return response.status(422).json({error: "All answers must be included in options"})
+        if(checkOptionsIncludeAnswer.length != answersArray.length){
+            return response.status(422).json({error: "All answers must be included in options"})
+        }
     }
 
     const question = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray })

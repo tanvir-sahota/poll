@@ -56,7 +56,7 @@ const QuestionForm = () => {
                 type="text"
                 onChange={(e) => setOptions(e.target.value)}
                 value={options}
-                className={emptyFields.includes("options") ? "error" : ""}
+                className={""}
             />
 
             <label>Answers</label>
