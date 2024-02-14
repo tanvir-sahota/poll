@@ -29,6 +29,7 @@ const QuestionDetails = ({ question }) => {
             <p><strong>Options: </strong>{question.options.toString()}</p>
             <p><strong>Answer(s): </strong>{question.answers.toString()}</p>
             <span onClick={deleteQuestion}>delete</span>
+            <p><strong>{question.questionType}</strong></p>
             <div>
             <input type="submit" className="edit" value= {showForm ? "Hide" : "Edit"} onClick={editQuestion} />
             { showForm ? <UpdateQuestionForm question = {question} setShowForm={setShowForm}/> : null }

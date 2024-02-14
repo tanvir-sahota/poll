@@ -56,14 +56,16 @@ const createQuestion = async (request, response) => {
                 const fullQuestion = await Question.create({
                     question: questionAsked, 
                     options:optionsArray, 
-                    answers:answersArray})
+                    answers:answersArray,
+                    questionType:"MCQ"})
                 response.status(200).json(fullQuestion)
             }
         }
         else{
             const fullQuestion = await Question.create({
                 question: questionAsked, 
-                answers:answersArray})
+                answers:answersArray,
+                questionType:"Wh-Question"})
             response.status(200).json(fullQuestion)
         }
         
@@ -114,7 +116,8 @@ const updateQuestion = async(request, response) =>{
         }
     }
 
-    const question = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray })
+    const questionType = (options.length != 0) ? "Wh-Question" : "MCQ"
+    const question = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
 
     if(!question){
         return response.status(400).json({error: "Question not Found"})
