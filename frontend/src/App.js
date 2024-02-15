@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import { BrowserRouter, Routes, Route} from "react-router-dom"
-import QuestionBank from './pages/QuestionBank';
+import QuestionBankPage from './pages/QuestionBankPage';
 
 function App() {
   return (
@@ -9,8 +9,8 @@ function App() {
         <div className="pages">
           <Routes>
             <Route 
-              path="/question-bank"
-              element = {<QuestionBank />}
+              path="/question-bank"  //this will have to take a parameter of 
+              element = {<QuestionBankPage />}
             />
           </Routes>
         </div>
