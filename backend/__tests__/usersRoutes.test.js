@@ -15,7 +15,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await User.deleteOne(defaultUserModel);
+  await User.deleteOne({username: defaultUser.username});
   await User.deleteOne({ username: "janedoe" });
   await mongoose.connection.close();
 });
