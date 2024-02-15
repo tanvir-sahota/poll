@@ -17,7 +17,7 @@ code {
 }
 
 header {
-  background-color: #282c34;
+  background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,7 +30,7 @@ header .container {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 header a {
   color: white;
@@ -49,14 +49,16 @@ header a {
   gap: 100px;
 }
 
-.classroom-object {
+.card {
   background: #fff;
   border-radius: 4px;
   margin: 20px auto;
   padding: 20px;
   position: relative;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+  
 }
+
 .classroom-object h4 {
   margin: 0 0 10px 0;
   font-size: 1.2em;
@@ -110,4 +112,14 @@ div.error {
 }
 input.error {
   border: 1px solid crimson;
+}
+
+#add {
+  background: goldenrod;
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
 }

@@ -1,6 +1,6 @@
 import { useClassroomContext } from "../hooks/useClassroomContext"
-
-//import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import { Link } from 'react-router-dom'
 
 const ClassroomObject = ({ classroom }) => {
     const { dispatch } = useClassroomContext()
@@ -17,18 +17,22 @@ const ClassroomObject = ({ classroom }) => {
       if (response.ok) {
         console.log(json)
         dispatch({type: 'DELETE_CLASSROOM', payload: classroom._id})
-        //dispatch({type: 'DELETE_CLASSROOM', payload: json})
         
       }
+
     }
 
     return (
-      <div className="classroom-object">
-        <h4>{classroom.title}</h4>
-        <p><strong>Owner: </strong>{classroom.owner}</p>
-        <p><strong>Number of quizzes: </strong>{classroom.quizzes.length}</p>
-        <p>{classroom.createdAt}</p>
-        <span className="material-symbols-outlined" onClick={handleClick}>Delete</span>
+      <div class="card-grid">
+        <div class="card">
+          <div className="classroom-object">
+            <Link to="http://localhost:4000/classrooms"><h4>{classroom.title}</h4></Link>
+            <p><strong>Owner: </strong>Me</p>
+            <p><strong>Number of quizzes: </strong>{classroom.quizzes.length}</p>
+            <p>{formatDistanceToNow(new Date(classroom.createdAt), { addSuffix: true })}</p>
+            <span className="material-symbols-outlined" onClick={handleClick}>Delete</span>
+          </div>
+        </div>
       </div>
     )
   }

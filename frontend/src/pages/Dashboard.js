@@ -23,13 +23,15 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard">
+            
             <h2>Dashboard</h2>
+            <ClassroomForm />
+           
             <div className="classrooms">
                 {classrooms && classrooms.map(classroom => (
                     <ClassroomObject classroom={classroom} key={classroom._id} />
                 ))}
             </div>
-            <ClassroomForm />
         </div>
          
     )
