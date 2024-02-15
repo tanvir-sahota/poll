@@ -7,7 +7,8 @@ const User = require("../models/userModel");
 const userController = require("../controllers/userController");
 const defaultUser = require("./fixtures/default_user.json");
 
-const app = require("../server.js");
+const app = require("../app.js");
+const server = require("../server.js");
 
 beforeAll(async () => {
   await mongoose.connect(process.env.MONGO_URI);
@@ -15,9 +16,10 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await User.deleteOne(defaultUserModel);
+  await User.deleteOne({username: defaultUser.username});
   await User.deleteOne({ username: "janedoe" });
   await mongoose.connection.close();
+  await server.close()
 });
 
 describe("GET /api/users", () => {
@@ -31,8 +33,7 @@ describe("GET /api/users", () => {
 describe("POST /api/users", () => {
   it("should post a user", async () => {
     const username = "janedoe";
-    const password =
-      "$2b$10$1sG4DFGZRLaxdABGJTP1E.NHIRpt2Fqt1eJpzD4r8pTAtU8Fqw7c.";
+    const password = "$2b$10$1sG4DFGZRLaxdABGJTP1E.NHIRpt2Fqt1eJpzD4r8pTAtU8Fqw7c.";
 
     const oldNumberOfUsers = (await request(app).get("/api/users/")).body.length;
 
