@@ -35,7 +35,7 @@ const SignupForm = () => {
       <Form className="sign-up" onSubmit={handleSubmit(onSubmit)}>
         <h1>Sign Up</h1>
         <Form.Group className="mb-3">
-          <Form.Label>Username:</Form.Label>
+          <Form.Label htmlFor="username">Username:</Form.Label>
           <Controller
             name="username"
             control={control}
@@ -43,6 +43,7 @@ const SignupForm = () => {
             render={({ field }) => (
               <div>
                 <Form.Control
+                  id="username"
                   placeholder="Enter username"
                   type="text"
                   {...field}
@@ -57,7 +58,7 @@ const SignupForm = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Password:</Form.Label>
+          <Form.Label htmlFor="password">Password:</Form.Label>
           <Controller
             name="password"
             control={control}
@@ -65,6 +66,7 @@ const SignupForm = () => {
             render={({ field }) => (
               <div>
                 <Form.Control
+                  id="password"
                   placeholder="Enter password"
                   type="password"
                   {...field}
