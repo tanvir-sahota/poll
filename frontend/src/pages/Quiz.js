@@ -2,6 +2,7 @@ import {useEffect} from "react";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 
 //components
+import QuizDetails from "../components/QuizDetails"
 import QuizForm from "../components/QuizForm";
 const Quiz = () => {
 
@@ -25,7 +26,7 @@ const Quiz = () => {
             <h2>Quiz</h2>
             <div className="quizzes">
                 {quizzes && quizzes.map((quiz) => (
-                    <p key={quiz._id}>{quiz.title}</p>
+                    <QuizDetails key={quiz._id} quiz={quiz}/>
                 ))}
             </div>
             <QuizForm />

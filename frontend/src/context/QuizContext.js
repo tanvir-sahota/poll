@@ -17,6 +17,10 @@ export const quizzesReducer = (state, action) => {
             return {
                 quizzes: [action.payload, ...state.quizzes]
             }
+        case 'DELETE_QUIZ':
+            return {
+                quizzes: state.quizzes.filter((q) => q._id != action.payload._id)
+            }
         default:
             return state
     }
