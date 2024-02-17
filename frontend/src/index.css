@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root{
+  --error: #e7195a;
+}
+
+div.error{
+  border: 1px solid var(--error);
+}
+
+input.error{
+  border: 1px solid var(--error);
+}

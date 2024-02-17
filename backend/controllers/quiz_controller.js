@@ -32,6 +32,20 @@ const get_one_quiz = async (request, response) => {
 // Post a new quiz
 const create_quiz = async (request, response) => {
     const {title, description, num_questions, questions} = request.body
+
+    let emptyFields = []
+
+    if (!title){
+        emptyFields.push('title')
+    }
+    // if (!description){
+    //     emptyFields.push('description')
+    // }
+
+    if (emptyFields.length > 0){
+        return response.status(400).json({error: 'Please fill in all the fields', emptyFields})
+    }
+
     try{
         const quiz = await Quiz.create({title, description, num_questions, questions})
         response.status(201).json(quiz)
