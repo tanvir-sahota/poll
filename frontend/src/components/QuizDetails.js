@@ -1,6 +1,6 @@
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 
-const QuizDetails = ({ quiz }) => {
+const QuizDetails = ({quiz}) => {
 
     const {dispatch} = useQuizzesContext()
 
@@ -8,14 +8,14 @@ const QuizDetails = ({ quiz }) => {
      * Handles quiz delete requests
      * @returns {Promise<void>}
      */
-    const handleClick = async() => {
+    const handleClick = async () => {
         const response = await fetch('/api/quizzes/' + quiz._id, {
             method: 'DELETE'
         })
 
         const json = await response.json()
 
-        if (response.ok){
+        if (response.ok) {
             dispatch({type: 'DELETE_QUIZ', payload: json})
         }
     }

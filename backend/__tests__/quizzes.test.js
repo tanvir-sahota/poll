@@ -7,13 +7,17 @@ require('dotenv').config()
 
 
 beforeEach(async () => {
-    await mongoose.connect(process.env.MONGO_URI).then(() => {console.log('Successfully connected to database.')})
+    await mongoose.connect(process.env.MONGO_URI).then(() => {
+        console.log('Successfully connected to database.')
+    })
 })
 afterEach(async () => {
-    await mongoose.connection.close().then(() => {{console.log('End of test.')}})
+    await mongoose.connection.close().then(() => {
+        {
+            console.log('End of test.')
+        }
+    })
 })
-
-
 
 
 // TODO:
@@ -23,9 +27,8 @@ afterEach(async () => {
 //      constrasts with controllers where we check the innards of the route functions
 
 
-
 describe("GET /api/quizzes", () => {
-    it("should get all quizzes", async () => {        
+    it("should get all quizzes", async () => {
         const response = await request(app).get("/api/quizzes/")
             .set({
                 "Content-Type": "application/json"
@@ -49,14 +52,14 @@ describe("POST /api/quizzes", () => {
             .set({
                 "Content-Type": "application/json"
             })
-        
+
         const quizzes_after_post = await request(app).get("/api/quizzes/")
             .set({
                 "Content-Type": "application/json"
             })
 
 
-        const quiz_added = (quizzes_after_post.body.length==quizzes_before_post.body.length+1)
+        const quiz_added = (quizzes_after_post.body.length == quizzes_before_post.body.length + 1)
         expect(quiz_added).toBe(true)
     })
 })
@@ -71,16 +74,16 @@ describe("GET /api/quizzes/:id", () => {
                 "Content-Type": "application/json"
             })
         expect(ensure_at_least_one_quiz.statusCode).toBe(201)
-        
+
         const all_quizzes = await request(app).get("/api/quizzes/")
-        .set({
-            "Content-Type": "application/json"
-        })
+            .set({
+                "Content-Type": "application/json"
+            })
         expect(all_quizzes.statusCode).toBe(200)
 
 
         const id = all_quizzes.body[0]._id
-        const get_one_quiz = await request(app).get("/api/quizzes/"+id)
+        const get_one_quiz = await request(app).get("/api/quizzes/" + id)
             .set({
                 "Content-Type": "application/json"
             })
@@ -90,7 +93,7 @@ describe("GET /api/quizzes/:id", () => {
 })
 
 describe("DELETE /api/quizzes/:id", () => {
-    it("should delete one quiz", async () => {    
+    it("should delete one quiz", async () => {
         const ensure_at_least_one_quiz = await request(app).post("/api/quizzes")
             .send({
                 title: "exa"
@@ -99,9 +102,9 @@ describe("DELETE /api/quizzes/:id", () => {
                 "Content-Type": "application/json"
             })
         expect(ensure_at_least_one_quiz.statusCode).toBe(201)
-        
+
         const id = ensure_at_least_one_quiz.body._id
-        const delete_this_quiz = await request(app).delete("/api/quizzes/"+id)
+        const delete_this_quiz = await request(app).delete("/api/quizzes/" + id)
             .set({
                 "Content-Type": "application/json"
             })
@@ -110,7 +113,7 @@ describe("DELETE /api/quizzes/:id", () => {
 })
 
 describe("PATCH /api/quizzes/:id", () => {
-    it("should patch one quiz", async () => {    
+    it("should patch one quiz", async () => {
         const ensure_at_least_one_quiz = await request(app).post("/api/quizzes")
             .send({
                 title: "exa"
@@ -119,9 +122,9 @@ describe("PATCH /api/quizzes/:id", () => {
                 "Content-Type": "application/json"
             })
         expect(ensure_at_least_one_quiz.statusCode).toBe(201)
-        
+
         const id = ensure_at_least_one_quiz.body._id
-        const patch_this_quiz = await request(app).patch("/api/quizzes/"+id)
+        const patch_this_quiz = await request(app).patch("/api/quizzes/" + id)
             .send({
                 title: "not_exa"
             })
@@ -130,7 +133,7 @@ describe("PATCH /api/quizzes/:id", () => {
             })
         expect(patch_this_quiz.statusCode).toBe(200)
 
-        const get_one_quiz = await request(app).get("/api/quizzes/"+id)
+        const get_one_quiz = await request(app).get("/api/quizzes/" + id)
             .set({
                 "Content-Type": "application/json"
             })

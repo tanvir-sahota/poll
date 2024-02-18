@@ -1,21 +1,22 @@
-import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 import Quiz from './pages/Quiz'
+
 function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <div className="pages">
-          <Routes>
-            <Route
-              path="/api/quizzes/"
-              element={<Quiz />}
-              />
-          </Routes>
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <div className="pages">
+                    <Routes>
+                        <Route
+                            path="/api/quizzes/"
+                            element={<Quiz/>}
+                        />
+                    </Routes>
+                </div>
+            </BrowserRouter>
         </div>
-      </BrowserRouter>
-    </div>
-  );
+    );
 }
 
 export default App;

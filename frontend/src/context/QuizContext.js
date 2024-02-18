@@ -8,7 +8,7 @@ export const QuizzesContext = createContext()
  * @param action corresponds to the action performed on a quiz
  */
 export const quizzesReducer = (state, action) => {
-    switch(action.type){
+    switch (action.type) {
         case 'SET_QUIZZES':
             return {
                 quizzes: action.payload
@@ -38,7 +38,7 @@ export const QuizzesContextProvider = ({children}) => {
     })
 
 
-    return(
+    return (
         <QuizzesContext.Provider value={{...state, dispatch}}>
             {children}
         </QuizzesContext.Provider>

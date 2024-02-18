@@ -4,6 +4,7 @@ import {useQuizzesContext} from "../hooks/useQuizzesContext";
 //components
 import QuizDetails from "../components/QuizDetails"
 import QuizForm from "../components/QuizForm";
+
 const Quiz = () => {
 
     const {quizzes, dispatch} = useQuizzesContext()
@@ -13,7 +14,7 @@ const Quiz = () => {
             const response = await fetch('/api/quizzes')
             const json = await response.json()
 
-            if (response.ok){
+            if (response.ok) {
                 dispatch({type: 'SET_QUIZZES', payload: json})
             }
         }
@@ -29,7 +30,7 @@ const Quiz = () => {
                     <QuizDetails key={quiz._id} quiz={quiz}/>
                 ))}
             </div>
-            <QuizForm />
+            <QuizForm/>
         </div>
     )
 }

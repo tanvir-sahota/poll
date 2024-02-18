@@ -2,7 +2,7 @@ import {useState} from "react";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 
 const QuizForm = () => {
-    const{dispatch} = useQuizzesContext()
+    const {dispatch} = useQuizzesContext()
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [error, setError] = useState(null)
@@ -21,21 +21,21 @@ const QuizForm = () => {
         })
         const json = await response.json()
 
-        if (!response.ok){
+        if (!response.ok) {
             setError(json.error)
             setEmptyFields(json.emptyFields)
         }
-        if (response.ok){
+        if (response.ok) {
             setTitle('')
             setDescription('')
             setError(null)
             setEmptyFields([])
             console.log('new quiz added', json)
-            dispatch({type:'CREATE_QUIZ', payload: json})
+            dispatch({type: 'CREATE_QUIZ', payload: json})
         }
     }
     return (
-        <form className="create" onSubmit={handleSubmit}>
+        <form className="create" onSubmit={handleSubmit} title="quiz form">
             <h3> Add a new quiz</h3>
             <label>Quiz title:</label>
             <input
@@ -43,14 +43,16 @@ const QuizForm = () => {
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 className={emptyFields.includes('title') ? 'error' : ''}
-                />
+                placeholder={"Input the new title"}
+            />
             <label>Description:</label>
             <input
                 type="text"
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
                 className={emptyFields.includes('description') ? 'error' : ''}
-                />
+                placeholder={"Input the new description"}
+            />
             <button> Add Quiz</button>
             {error && <div className={"error"}>{error}</div>}
         </form>
