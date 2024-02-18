@@ -22,9 +22,10 @@ const QuizDetails = ({quiz}) => {
 
     return (
         <div className="quiz-details">
-            <h4>{quiz.title}</h4>
+            <h4>{quiz.title} </h4>
             <p><strong>Description: </strong> {quiz.description}</p>
             <span onClick={handleClick}>delete</span>
+            <p><a href={quiz._id}>"Go to this quizzes page"</a></p>
         </div>
     )
 }

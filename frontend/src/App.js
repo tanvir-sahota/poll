@@ -1,6 +1,7 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
-import Quiz from './pages/Quiz'
+import QuizDashboard from './pages/QuizDashboard'
+import Quiz from "./pages/Quiz";
 
 function App() {
     return (
@@ -10,6 +11,10 @@ function App() {
                     <Routes>
                         <Route
                             path="/api/quizzes/"
+                            element={<QuizDashboard/>}
+                        />
+                        <Route
+                            path="/api/quizzes/:id"
                             element={<Quiz/>}
                         />
                     </Routes>

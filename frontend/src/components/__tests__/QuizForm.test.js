@@ -1,7 +1,7 @@
 import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import QuizForm from "../QuizForm";
 import {QuizzesContextProvider} from "../../context/QuizContext";
-import Quiz from "../../pages/Quiz";
+import QuizDashboard from "../../pages/QuizDashboard";
 import {wait} from "@testing-library/user-event/dist/utils";
 import userEvent from "@testing-library/user-event";
 import {useQuizzesContext} from "../../hooks/useQuizzesContext";
@@ -64,7 +64,7 @@ describe("quiz description tests", () => {
 describe("quiz submission tests", () => {
     test("Checks whether there is a button to submit the new quiz", () => {
         const quizForm = render(MockQuizForm()).container.firstChild
-        const submitButton = screen.getByRole("button", {name: /Add Quiz/})
+        const submitButton = screen.getByRole("button", {name: /Add QuizDashboard/})
         expect(submitButton).toBeInTheDocument()
     })
 
@@ -85,7 +85,7 @@ describe("quiz submission tests", () => {
             <QuizForm onSubmit={mockCallback()}/>
         </QuizzesContextProvider>)
 
-        fireEvent.click(screen.getByRole("button", {name: /Add Quiz/}))
+        fireEvent.click(screen.getByRole("button", {name: /Add QuizDashboard/}))
         expect(mockCallback).toHaveBeenCalled()
     })
 

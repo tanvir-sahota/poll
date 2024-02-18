@@ -1,12 +1,12 @@
 import {fireEvent, render, screen, waitFor} from '@testing-library/react';
-import Quiz from "../Quiz";
+import QuizDashboard from "../QuizDashboard";
 import QuizForm from "../../components/QuizForm";
 import {QuizzesContextProvider} from "../../context/QuizContext";
 import {wait} from "@testing-library/user-event/dist/utils";
 
 const MockQuiz = () => {
     return (<QuizzesContextProvider>
-        <Quiz/>
+        <QuizDashboard/>
     </QuizzesContextProvider>)
 }
 
