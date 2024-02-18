@@ -1,7 +1,8 @@
 const mongoose = require("mongoose")
 const request = require("supertest")
 
-const app = require("../server")
+const app = require("../app")
+const server = require("../server")
 
 require("dotenv").config()
 
@@ -27,6 +28,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
     await mongoose.connection.close()
+    await server.close()
 }) 
 
 describe("POST /api/questions", () => {
