@@ -16,10 +16,10 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await User.deleteOne({username: defaultUser.username});
+  await User.deleteOne({ username: defaultUser.username });
   await User.deleteOne({ username: "janedoe" });
   await mongoose.connection.close();
-  await server.close()
+  await server.close();
 });
 
 describe("GET /api/users", () => {
@@ -47,5 +47,56 @@ describe("POST /api/users", () => {
     const newNumberOfUsers = (await request(app).get("/api/users/")).body.length;
     const userAdded = newNumberOfUsers == oldNumberOfUsers + 1;
     expect(userAdded).toBe(true);
+  });
+});
+
+describe("POST /api/users", () => {
+  it("should return error 400 as user field is empty", async () => {
+    const username = "";
+    const password = "$2b$10$1sG4DFGZRLaxdABGJTP1E.NHIRpt2Fqt1eJpzD4r8pTAtU8Fqw7c.";
+
+    const response = await request(app).post("/api/users").send({
+      username: username,
+      password: password,
+    });
+    expect(response.statusCode).toBe(400);
+  });
+});
+
+describe("POST /api/users", () => {
+  it("should return error 400 as password field is empty", async () => {
+    const username = "abc";
+    const password = "";
+
+    const response = await request(app).post("/api/users").send({
+      username: username,
+      password: password,
+    });
+    expect(response.statusCode).toBe(400);
+  });
+});
+
+describe("POST /api/users", () => {
+  it("should return error 400 as username and password field is empty", async () => {
+    const username = "";
+    const password = "";
+
+    const response = await request(app).post("/api/users").send({
+      username: username,
+      password: password,
+    });
+    expect(response.statusCode).toBe(400);
+  });
+});
+
+describe("POST /api/users", () => {
+  it("should return error 400 as the username is in use", async () => {
+    const password = "Password123";
+
+    const response = await request(app).post("/api/users").send({
+      username: defaultUser.username,
+      password: password,
+    });
+    expect(response.statusCode).toBe(400);
   });
 });
