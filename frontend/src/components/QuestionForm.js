@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useQuestionContext } from "../hooks/useQuestionContext"
 
-const QuestionForm = () => {
+const QuestionForm = (classID) => {
 
     const {dispatch} = useQuestionContext()
     const [questionAsked, setQuestion] = useState("")
@@ -15,7 +15,7 @@ const QuestionForm = () => {
 
         const question = {questionAsked, options, answers}
 
-        const response = await fetch("http://localhost:4000/api/questions", {
+        const response = await fetch("http://localhost:4000/api/questions/" + classID, {
             method: "POST",
             body: JSON.stringify(question),
             headers: {

@@ -2,14 +2,18 @@ import { useEffect} from "react"
 import QuestionDetails from "../components/QuestionDetails"
 import QuestionForm from "../components/QuestionForm"
 import { useQuestionContext } from "../hooks/useQuestionContext"
+import { useLocation } from "react-router-dom"
+
 
 const QuestionBank = () => {
+
+    const classID = useLocation().pathname.split("/").at(1)
 
     const {questions, dispatch} = useQuestionContext()
 
     useEffect(() => {
         const fetchQuestions = async () =>{
-            const response = await fetch("http://localhost:4000/api/questions/")
+            const response = await fetch("http://localhost:4000/api/questions/" + classID)
             const json = await response.json()
 
             if(response.ok){
@@ -25,10 +29,10 @@ const QuestionBank = () => {
         <div className="questionBank">
             <div className="questions">
                 {questions && questions.map(question => (
-                    <QuestionDetails question = {question} key={question._id}  />
+                    <QuestionDetails question = {question} key={question._id} classID = {classID} />
                 ))}
             </div>
-            <QuestionForm/>
+            <QuestionForm classID = {classID}/>
         </div>
     )
 }

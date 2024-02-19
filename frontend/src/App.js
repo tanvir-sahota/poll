@@ -9,7 +9,7 @@ function App() {
         <div className="pages">
           <Routes>
             <Route 
-              path="/question-bank"  //this will have to take a parameter of 
+              path="/:classID/question-bank"  //this will have to take a parameter of 
               element = {<QuestionBankPage />}
             />
           </Routes>

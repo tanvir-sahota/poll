@@ -4,15 +4,15 @@ const Controller = require('../controllers/questionController')
 
 const router = express.Router()
 
-router.get("/", Controller.getAllQuestions)
+router.get("/:classID/", Controller.getAllQuestions)
 
-router.get("/:id", Controller.getQuestion)
+router.get("/:classID/:id", Controller.getQuestion)
 
-router.post("/", Controller.createQuestion)
+router.post("/:classID/", Controller.createQuestion)
 
-router.delete("/:id", Controller.deleteQuestion)
+router.delete("/:classID/:id", Controller.deleteQuestion)
 
-router.patch("/:id", Controller.updateQuestion)
+router.patch("/:classID/:id", Controller.updateQuestion)
 
 module.exports = router
 

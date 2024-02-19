@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useQuestionContext } from "../hooks/useQuestionContext"
 
-const UpdateQuestionForm = ({question, setShowForm}) => {
+const UpdateQuestionForm = ({question, setShowForm, classID}) => {
 
     const {dispatch} = useQuestionContext()
     const [questionAsked, setQuestion] = useState(question.question.toString())
@@ -14,7 +14,7 @@ const UpdateQuestionForm = ({question, setShowForm}) => {
 
         const newQuestion = {questionAsked, options, answers}
         
-        const response = await fetch("http://localhost:4000/api/questions/" + question._id, {
+        const response = await fetch("http://localhost:4000/api/questions/" + classID + "/" + question._id, {
             method: "PATCH",
             body: JSON.stringify(newQuestion),
             headers: {

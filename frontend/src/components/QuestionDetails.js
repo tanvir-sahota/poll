@@ -1,15 +1,14 @@
-import { useNavigate } from "react-router-dom"
 import { useQuestionContext } from "../hooks/useQuestionContext"
 import UpdateQuestionForm from "./UpdateQuestionForm"
 import { useState } from "react"
 
-const QuestionDetails = ({ question }) => {
+const QuestionDetails = ({ question, classID }) => {
     
     const { dispatch } = useQuestionContext()
     const [showForm, setShowForm] = useState(false)
 
     const deleteQuestion = async () => {
-        const response = await fetch("http://localhost:4000/api/questions/" + question._id, {
+        const response = await fetch("http://localhost:4000/api/questions/" + classID + "/" + question._id, {
             method: "DELETE"
         })
         const json = await response.json()
@@ -32,7 +31,7 @@ const QuestionDetails = ({ question }) => {
             <p><strong>{question?.questionType}</strong></p>
             <div>
             <input type="submit" className="edit" value= {showForm ? "Hide" : "Edit"} onClick={editQuestion} />
-            { showForm ? <UpdateQuestionForm question = {question} setShowForm={setShowForm}/> : null }
+            { showForm ? <UpdateQuestionForm classID={classID} question = {question} setShowForm={setShowForm}/> : null }
             </div>
         </div>
     )
