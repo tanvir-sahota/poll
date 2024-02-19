@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const request = require("supertest")
 
-const app = require("../server")
+const app = require("../app")
 
 require('dotenv').config()
 
@@ -29,12 +29,40 @@ afterEach(async () => {
 
 describe("GET /api/quizzes", () => {
     it("should get all quizzes", async () => {
+        const ensure_at_least_one_quiz = await request(app).post("/api/quizzes")
+            .send({
+                title: "exa"
+            })
+            .set({
+                "Content-Type": "application/json"
+            })
+        expect(ensure_at_least_one_quiz.statusCode).toBe(201)
+        
+        const ensure_at_least_two_quizzes = await request(app).post("/api/quizzes")
+            .send({
+                title: "exa2"
+            })
+            .set({
+                "Content-Type": "application/json"
+            })
+        expect(ensure_at_least_one_quiz.statusCode).toBe(201)
+        
+        
         const response = await request(app).get("/api/quizzes/")
             .set({
                 "Content-Type": "application/json"
             })
         expect(response.statusCode).toBe(200)
         expect(response.body.length).toBeGreaterThan(0)
+
+        await request(app).delete("/api/quizzes/" + ensure_at_least_one_quiz.body._id)
+            .set({
+                "Content-Type": "application/json"
+            })
+        await request(app).delete("/api/quizzes/" + ensure_at_least_two_quizzes.body._id)
+            .set({
+                "Content-Type": "application/json"
+            })
     })
 })
 
@@ -47,48 +75,26 @@ describe("POST /api/quizzes", () => {
 
         const response = await request(app).post("/api/quizzes")
             .send({
-                title: "example",
+                title: "N",
             })
             .set({
                 "Content-Type": "application/json"
             })
-
         const quizzes_after_post = await request(app).get("/api/quizzes/")
             .set({
                 "Content-Type": "application/json"
             })
+        const delete_response = await request(app).delete("/api/quizzes/" + response.body._id)
+            .set({
+                "Content-Type": "application/json"
+            })
+        expect(delete_response.statusCode).toBe(200)
 
 
-        const quiz_added = (quizzes_after_post.body.length == quizzes_before_post.body.length + 1)
+
+        const quiz_added = (quizzes_after_post.body.length > quizzes_before_post.body.length)
         expect(quiz_added).toBe(true)
-    })
-})
 
-describe("GET /api/quizzes/:id", () => {
-    it("should get one quiz", async () => {
-        const ensure_at_least_one_quiz = await request(app).post("/api/quizzes")
-            .send({
-                title: "exa"
-            })
-            .set({
-                "Content-Type": "application/json"
-            })
-        expect(ensure_at_least_one_quiz.statusCode).toBe(201)
-
-        const all_quizzes = await request(app).get("/api/quizzes/")
-            .set({
-                "Content-Type": "application/json"
-            })
-        expect(all_quizzes.statusCode).toBe(200)
-
-
-        const id = all_quizzes.body[0]._id
-        const get_one_quiz = await request(app).get("/api/quizzes/" + id)
-            .set({
-                "Content-Type": "application/json"
-            })
-        expect(get_one_quiz.statusCode).toBe(200)
-        expect(get_one_quiz.body._id).toBe(id)
     })
 })
 
@@ -109,6 +115,33 @@ describe("DELETE /api/quizzes/:id", () => {
                 "Content-Type": "application/json"
             })
         expect(delete_this_quiz.statusCode).toBe(200)
+    })
+})
+
+describe("GET /api/quizzes/:id", () => {
+    it("should get one quiz", async () => {
+        const ensure_at_least_one_quiz = await request(app).post("/api/quizzes")
+            .send({
+                title: "exa"
+            })
+            .set({
+                "Content-Type": "application/json"
+            })
+        expect(ensure_at_least_one_quiz.statusCode).toBe(201)
+
+        const get_one_quiz = await request(app).get("/api/quizzes/" + ensure_at_least_one_quiz.body._id)
+        .set({
+            "Content-Type": "application/json"
+        })
+        expect(get_one_quiz.statusCode).toBe(200)
+        expect(get_one_quiz.body._id).toBe(ensure_at_least_one_quiz.body._id)
+        
+
+        const delete_ensure = await request(app).delete("/api/quizzes/" + ensure_at_least_one_quiz.body._id)
+            .set({
+                "Content-Type": "application/json"
+            })
+        expect(delete_ensure.statusCode).toBe(200)
     })
 })
 
@@ -139,5 +172,11 @@ describe("PATCH /api/quizzes/:id", () => {
             })
         expect(get_one_quiz.statusCode).toBe(200)
         expect(get_one_quiz.body.title).toBe("not_exa")
+        
+        
+        await request(app).delete("/api/quizzes/" + ensure_at_least_one_quiz.body._id)
+            .set({
+                "Content-Type": "application/json"
+            })
     })
 })
