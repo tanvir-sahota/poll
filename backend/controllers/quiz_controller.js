@@ -71,6 +71,15 @@ const delete_quiz = async (request, response) => {
     response.status(200).json(deleted_quiz)
 }
 
+// Delete a quiz
+const delete_all_quizzes = async (request, response) => {
+    const deleted_quiz = await Quiz.deleteMany({})
+    if (!deleted_quiz) {
+        return response.status(404).json({error: "Quiz does not exist."})
+    }
+    response.status(200).json(deleted_quiz)
+}
+
 // Update a quiz
 const patch_quiz = async (request, response) => {
     const {id} = request.params
@@ -94,4 +103,5 @@ module.exports = {
     create_quiz,
     delete_quiz,
     patch_quiz,
+    delete_all_quizzes,
 }

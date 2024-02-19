@@ -4,6 +4,7 @@ const {
     get_one_quiz,
     create_quiz,
     delete_quiz,
+    delete_all_quizzes,
     patch_quiz,
 } = require('../controllers/quiz_controller')
 const Quiz = require("../models/quiz_model")
@@ -26,5 +27,8 @@ router.delete('/:id', delete_quiz)
 
 // Update a quiz
 router.patch('/:id', patch_quiz)
+
+// Delete all quizzes
+router.delete('/', delete_all_quizzes)
 
 module.exports = router
