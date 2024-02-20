@@ -12,9 +12,10 @@ const ClassroomSchema = new mongoose.Schema({
         type: String,
         // required: true
     },
-    questions:[{
-        type: mongoose.Schema.Types.ObjectId, ref:"QuestionBank"
-    }],
+    questions:{
+        type: mongoose.Schema.Types.ObjectId, ref:"QuestionBank",
+        required : true
+    },
     quizzes:[{
         type: mongoose.Schema.Types.ObjectId
     }]

@@ -17,7 +17,7 @@ const QuestionForm = (classID) => {
 
         const question = {questionAsked, options, answers}
 
-        const response = await fetch("http://localhost:4000/api/questions/" + classID, {
+        const response = await fetch("http://localhost:4000/api/questions/" + classID.classID, {
             method: "POST",
             body: JSON.stringify(question),
             headers: {

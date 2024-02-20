@@ -1,14 +1,21 @@
 const QuestionBank = require("../models/questionBankModel")
 const Question = require("../models/questionModel")
+const Classroom = require("../models/ClassroomModel")
 const mongoose = require("mongoose")
 
 //Get all questions
 const getAllQuestions = async (request, response) => {
-    const classID = request.params
-    //const questions = await QuestionBank.findById(classID).select("questionArray")
-    const questions = await Question.find({}).sort({createdAt : -1})
-    console.log(questions)
-    response.status(200).json(questions)
+    const {classID} = request.params
+    try {
+        const classroom = await Classroom.findById(classID)
+        const questionBank = await QuestionBank.findById(classroom.questions)
+        const questionIDs = questionBank.questionArray
+        const questions = await Question.find({_id: {$in : questionIDs}})
+        response.status(200).json(questions)
+    } catch (error) {
+        console.log("Error")
+        return response.status(404).json({error: "QuestionBank doesn't exist"})
+    }
 }
 
 //Get a question
@@ -19,8 +26,8 @@ const getQuestion = async (request, response) => {
         return response.status(404).json({error: "Question doesn't Exist"})
     }
 
-    const question = await Question.findById(id)
-    //const question = await QuestionBank.findById(classID).select("questionArray").findById(id)
+    // const question = await Question.findById(id)
+    const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findById(id)
 
     if(!question){
         return response.status(404).json({error: "Question doesn't exist"})
@@ -33,6 +40,8 @@ const getQuestion = async (request, response) => {
 const createQuestion = async (request, response) => {
     const {questionAsked, options, answers} = request.body
     const {classID} = request.params
+    
+
 
     let emptyFields = []
 
@@ -64,8 +73,13 @@ const createQuestion = async (request, response) => {
                     options:optionsArray, 
                     answers:answersArray,
                     questionType:"MCQ"})
-                // const questionBank = await QuestionBank.findById(classID).select("questionArray").push(fullQuestion)
-                // questionBank.save(done)
+
+                const classroom = await Classroom.findById(classID)
+                const questionBank = await QuestionBank.findById(classroom.questions)
+                const questions = questionBank.questionArray.push(fullQuestion)
+                questionBank.markModified("questionArray")
+                questionBank.save()
+                
                 response.status(200).json(fullQuestion)
             }
         }
@@ -74,8 +88,8 @@ const createQuestion = async (request, response) => {
                 question: questionAsked, 
                 answers:answersArray,
                 questionType:"Wh-Question"})
-            // const questionBank = await QuestionBank.findById(classID).select("questionArray").push(fullQuestion)
-            // questionBank.save(done)
+            const questionBank = await ClassroomModel.findById(classID).select("questions").select("questionArray").push(fullQuestion)
+            questionBank.save(done)
             response.status(200).json(fullQuestion)
         }
         
@@ -96,8 +110,8 @@ const deleteQuestion = async (request, response) => {
         return response.status(404).json({error: "Question not Found"})
     }
 
-    //const question = await QuestionBank.findById(classID).select("questionArray").findOneAndDelete({_id:id})
-    const question = await Question.findOneAndDelete({_id:id})
+    const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findOneAndDelete({_id:id})
+    // const question = await Question.findOneAndDelete({_id:id})
 
     if(!question){
         return response.status(400).json({error: "Question not Found"})
@@ -128,8 +142,8 @@ const updateQuestion = async(request, response) =>{
     }
 
     const questionType = (options.length != 0) ? "Wh-Question" : "MCQ"
-    //const question = await QuestionBank.findById(classID).select("questionArray").findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
-    const question = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
+    const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
+    // const question = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
 
     if(!question){
         return response.status(400).json({error: "Question not Found"})

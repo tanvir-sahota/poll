@@ -1,5 +1,6 @@
 const ClassroomModel = require('../models/ClassroomModel');
-const questionBankModel = require('../models/questionBankModel');
+const QuestionBank = require('../models/questionBankModel');
+
 
 exports.getAllClassrooms = async (req, res) => {
     console.log("get classrooms")
@@ -27,9 +28,10 @@ exports.getClassroomById = async (req, res) => {
 
 exports.createClassroom = async (req, res) => {
     try {
-        const { questions } = questionBankModel.create()
+        const questions  = new QuestionBank({questionArray:[]})
+        await questions.save()
         const { owner, title } = req.body;
-        const classroom = new ClassroomModel({ owner, title, questions });
+        const classroom = new ClassroomModel({ owner:owner, title:title, questions:questions });
         await classroom.save();
         res.json(classroom);
     } catch (err) {
