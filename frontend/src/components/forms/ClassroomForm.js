@@ -97,8 +97,6 @@ const ClassroomForm = () => {
         <div>
             <IconButton className="add" icon={<Plus />} color="yellow" onClick={handleShow}
                 appearance="primary" 
-                style={{ top: 8,
-                         left: -750}}
             />
     
             <Modal show={show} onHide={handleClose}>

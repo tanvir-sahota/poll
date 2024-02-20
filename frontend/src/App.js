@@ -20,7 +20,6 @@ function App() {
               element = {<QuestionBankPage />}
             />
           </Routes>
-          </Routes>
         </div>
       </BrowserRouter>
     </div>

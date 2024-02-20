@@ -11,19 +11,26 @@ body {
   margin: 0;
   font-family: "Poppins";
 }
+
 header {
-  background: #fff;
+  background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
 }
+
 header .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 header a {
-  color: #333;
+  color: white;
   text-decoration: none;
 }
 .pages{
@@ -102,28 +109,6 @@ form button {
 }
 label, input {
   display: block;
-}
-.update input {
-
-header {
-  background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-}
-header .container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-header a {
-  color: white;
-  text-decoration: none;
 }
 
 .pages{
@@ -233,11 +218,7 @@ div.error {
   position:static;
   text-transform:uppercase;
  }
-  border: 1px solid crimson;
-  color: crimson;
-  border-radius: 4px;
-  margin: 20px 0;
-}
+  
 input.error {
   border: 1px solid crimson;
 }
