@@ -64,7 +64,7 @@ describe("quiz description tests", () => {
 describe("quiz submission tests", () => {
     test("Checks whether there is a button to submit the new quiz", () => {
         const quizForm = render(MockQuizForm()).container.firstChild
-        const submitButton = screen.getByRole("button", {name: /Add QuizDashboard/})
+        const submitButton = screen.getByRole("button", {name: /Add Quiz/})
         expect(submitButton).toBeInTheDocument()
     })
 
@@ -85,7 +85,7 @@ describe("quiz submission tests", () => {
             <QuizForm onSubmit={mockCallback()}/>
         </QuizzesContextProvider>)
 
-        fireEvent.click(screen.getByRole("button", {name: /Add QuizDashboard/}))
+        fireEvent.click(screen.getByRole("button", {name: /Add Quiz/}))
         expect(mockCallback).toHaveBeenCalled()
     })
 
