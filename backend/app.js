@@ -1,13 +1,13 @@
-const express = require('express');
-const mongoose = require('mongoose');
+require('dotenv').config()
+
+const express = require('express')
 const cors = require('cors')
-const path = require('path')
+const path = require("path")
+const app = express()
+const mongoose = require('mongoose')
 
-require('dotenv').config();
-
-const app = express();
-const URI = process.env.MONGO_URI;
 const allowEveryOrigin = true;
+const URI = process.env.MONGO_URI;
 
 
 if (!allowEveryOrigin)
@@ -24,6 +24,15 @@ else
   app.use(cors())
 }
 
+const questionRoutes = require("./routes/questions")
+
+// app.use(express.json())
+
+// app.use((req, res, next) => {
+//   //console.log(req,path, req.method)
+//   next()
+// })
+
 // MongoDB Connection
 mongoose.connect(URI, {
 
@@ -37,6 +46,7 @@ const buildPath = path.join(dirName, "../frontend/build");
 // Routes
 app.use(express.static(buildPath))
 app.use('/api/classrooms', require('./routes/Classroom'));
+app.use("/api/questions", questionRoutes)
 app.get("/*", function(req,res){
   res.sendFile(
     path.join(dirName,"../frontend/build/index.html"),

@@ -1,28 +1,6 @@
-/*import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}*/
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
+import QuestionBankPage from './pages/QuestionBankPage';
 import Navbar from './components/Navbar'
 
 function App() {
@@ -34,9 +12,14 @@ function App() {
         <div className="pages">
           <Routes>
             <Route 
-              path="/" 
+              path="/dashboard" 
               element={<Dashboard />} 
             />
+            <Route 
+              path="/:classID/question-bank"  //this will have to take a parameter of 
+              element = {<QuestionBankPage />}
+            />
+          </Routes>
           </Routes>
         </div>
       </BrowserRouter>
