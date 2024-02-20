@@ -8,7 +8,7 @@ const ClassroomObject = ({ classroom }) => {
     const handleClick = async () => {
       console.log(classroom._id)
 
-      const response = await fetch('http://localhost:4000/classrooms/' + classroom._id, {
+      const response = await fetch('http://localhost:4000/api/classrooms/' + classroom._id, {
         method: 'DELETE'
       })
 
@@ -26,7 +26,7 @@ const ClassroomObject = ({ classroom }) => {
       <div class="card-grid">
         <div class="card">
           <div className="classroom-object">
-            <Link to="http://localhost:4000/classrooms"><h4>{classroom.title}</h4></Link>
+            <Link to="http://localhost:4000/api/classrooms"><h4>{classroom.title}</h4></Link>
             <p><strong>Owner: </strong>Me</p>
             <p><strong>Number of quizzes: </strong>{classroom.quizzes.length}</p>
             <p>{formatDistanceToNow(new Date(classroom.createdAt), { addSuffix: true })}</p>
