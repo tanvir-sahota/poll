@@ -1,4 +1,5 @@
 import { useQuestionContext } from "../hooks/useQuestionContext"
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import UpdateQuestionForm from "./UpdateQuestionForm"
 import { useState } from "react"
 
@@ -29,6 +30,7 @@ const QuestionDetails = ({ question, classID }) => {
             <p><strong>Answer(s): </strong>{question?.answers?.toString()}</p>
             <span onClick={deleteQuestion}>delete</span>
             <p><strong>{question?.questionType}</strong></p>
+            <p>{formatDistanceToNow(new Date(question.createdAt), { addSuffix: true })}</p>
             <div>
             <input type="submit" className="edit" value= {showForm ? "Hide" : "Edit"} onClick={editQuestion} />
             { showForm ? <UpdateQuestionForm classID={classID} question = {question} setShowForm={setShowForm}/> : null }
