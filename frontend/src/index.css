@@ -94,17 +94,6 @@ form button {
   border-radius: 4px;
   cursor: pointer;
 }
-div.error {
-  padding: 10px;
-  background: #ffefef;
-  border: 1px solid var(--error);
-  color: var(--error);
-  border-radius: 4px;
-  margin: 20px 0;
-}
-input.error{
-  border: 1px solid var(--error)
-}
 
 
 /* update question form */
@@ -115,16 +104,74 @@ label, input {
   display: block;
 }
 .update input {
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
+
+header {
+  background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
 }
+header .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+.pages{
+  max-width: 1400px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 100px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 4px;
+  margin: 20px auto;
+  padding: 20px;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+  
+}
+
+.classroom-object h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  color: goldenrod;
+}
+
+.classroom-object p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+}
+.classroom-object span {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  background: #f1f1f1;
+  padding: 6px;
+  border-radius: 50%;
+  color: #333;
+}
+
 form button {
-  background: var(--primary);
+  background: goldenrod;
   border: 0;
   color: #fff;
   padding: 10px;
@@ -139,9 +186,6 @@ div.error {
   color: var(--error);
   border-radius: 4px;
   margin: 20px 0;
-}
-input.error{
-  border: 1px solid var(--error)
 }
 /* edit button */
 .edit{
@@ -189,3 +233,22 @@ input.error{
   position:static;
   text-transform:uppercase;
  }
+  border: 1px solid crimson;
+  color: crimson;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+input.error {
+  border: 1px solid crimson;
+}
+
+#add {
+  background: goldenrod;
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
+}
+

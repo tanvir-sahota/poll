@@ -7,6 +7,8 @@ const app = express()
 const mongoose = require('mongoose')
 
 const allowEveryOrigin = true;
+const URI = process.env.MONGO_URI;
+
 
 if (!allowEveryOrigin)
 {
@@ -24,24 +26,35 @@ else
 
 const questionRoutes = require("./routes/questions")
 
-app.use(express.json())
+// app.use(express.json())
 
-app.use((req, res, next) => {
-  //console.log(req,path, req.method)
-  next()
-})
+// app.use((req, res, next) => {
+//   //console.log(req,path, req.method)
+//   next()
+// })
 
-//routes
+// MongoDB Connection
+mongoose.connect(URI, {
+
+}).then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
+
+// connect frontend
+const dirName = path.dirname("")
+const buildPath = path.join(dirName, "../frontend/build");
+
+// Routes
+app.use(express.static(buildPath))
+app.use('/api/classrooms', require('./routes/Classroom'));
 app.use("/api/questions", questionRoutes)
-
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('Successfuly connected to database.')
-    
-
-  })
-  .catch((err) => {
-    console.log(err)
-  }) 
-
-  module.exports = app
+app.get("/*", function(req,res){
+  res.sendFile(
+    path.join(dirName,"../frontend/build/index.html"),
+    function(err){
+      if(err){
+        res.status(500).send(err);
+      }
+    }
+  )
+})
+module.exports = app

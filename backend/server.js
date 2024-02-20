@@ -1,8 +1,9 @@
-const app = require("./app.js")
-const port = 4000
+const app = require('./app.js')
+const PORT = 4000
 
-const server = app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+// Start Server
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 })
+module.exports=server
 
-module.exports = server
