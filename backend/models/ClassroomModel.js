@@ -12,8 +12,8 @@ const ClassroomSchema = new mongoose.Schema({
         type: String,
         // required: true
     },
-    students:[{
-        type: mongoose.Schema.Types.ObjectId
+    questions:[{
+        type: mongoose.Schema.Types.ObjectId, ref:"QuestionBank"
     }],
     quizzes:[{
         type: mongoose.Schema.Types.ObjectId
