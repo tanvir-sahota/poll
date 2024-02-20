@@ -10,6 +10,8 @@ const QuestionForm = (classID) => {
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
 
+    const [showForm, setShowForm] = useState(false)
+
     const handleSubmission = async (e) => {
         e.preventDefault()
 
@@ -39,40 +41,48 @@ const QuestionForm = (classID) => {
         }
     }
 
+    const toggleForm = () => {
+        setShowForm(!showForm)
+    }
+
     return(
-        <form className="create" onSubmit={handleSubmission}>
-            <h3>Add a new Question</h3>
+        <div>
+            <h3 onClick={toggleForm} className="form-heading">Add a new Question</h3>
+        {showForm ? 
+            <form className="create" onSubmit={handleSubmission}>
+                <label>Question</label>
+                <input
+                    type="text"
+                    onChange={(e) => setQuestion(e.target.value)}
+                    value={questionAsked}
+                    className={emptyFields.includes("questionAsked") ? "error" : ""}
+                />
 
-            <label>Question</label>
-            <input
-                type="text"
-                onChange={(e) => setQuestion(e.target.value)}
-                value={questionAsked}
-                className={emptyFields.includes("questionAsked") ? "error" : ""}
-            />
+                <label>Options</label>
+                <input
+                    type="text"
+                    onChange={(e) => setOptions(e.target.value)}
+                    value={options}
+                    className={""}
+                />
 
-            <label>Options</label>
-            <input
-                type="text"
-                onChange={(e) => setOptions(e.target.value)}
-                value={options}
-                className={""}
-            />
+                <label>Answers</label>
+                <input
+                    type="text"
+                    onChange={(e) => setAnswers(e.target.value)}
+                    value={answers}
+                    className={emptyFields.includes("answers") ? "error" : ""}
+                />
 
-            <label>Answers</label>
-            <input
-                type="text"
-                onChange={(e) => setAnswers(e.target.value)}
-                value={answers}
-                className={emptyFields.includes("answers") ? "error" : ""}
-            />
+                <p>Input as a comma seperated string for multiple answers and options</p>
 
-            <p>Input as a comma seperated string for multiple answers and options</p>
+                <button className = "create">Add Question</button>
+                {error && <div className="error">{error}</div>}
 
-            <button className = "create">Add Question</button>
-            {error && <div className="error">{error}</div>}
-
-        </form>
+            </form>
+        : null}
+        </div>
+        
     )
 
 }

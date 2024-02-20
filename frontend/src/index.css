@@ -68,6 +68,11 @@ header a {
 }
 
 /* new question form */
+.form-heading:hover{
+  color: #e7195a;
+  cursor: pointer;
+}
+
 label, input {
   display: block;
 }
@@ -148,3 +153,39 @@ input.error{
   border-radius: 2px;
   cursor: pointer;
 }
+
+.questions div .edit{
+  background-color:#c0392b;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+  border-bottom-left-radius:5px;
+  border-bottom-right-radius:5px;
+  padding-left:25px;
+  padding-right:25px;
+ }
+ 
+ /* Span Tag */
+ .questions .question-details span{
+  font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  text-transform:uppercase;
+  background-color:#d3d3d3;
+  border-top-left-radius:20px;
+  border-top-right-radius:20px;
+  border-bottom-left-radius:20px;
+  border-bottom-right-radius:20px;
+ }
+ 
+ /* Paragraph */
+ .questions .question-details p{
+  position:relative;
+  font-size:15px;
+  text-transform:none;
+  text-align:left;
+  height:35px;
+ }
+ 
+ /* Heading */
+ .questionBank div h3{
+  position:static;
+  text-transform:uppercase;
+ }
