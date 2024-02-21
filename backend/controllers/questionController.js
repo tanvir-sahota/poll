@@ -154,7 +154,7 @@ const updateQuestion = async(request, response) =>{
         }
     }
 
-    const questionType = (options.length != 0) ? "Wh-Question" : "MCQ"
+    const questionType = (options.length != 0) ? "MCQ" : "Wh-Question"
     //const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
     // const question = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
 
@@ -162,7 +162,7 @@ const updateQuestion = async(request, response) =>{
     const questionBank = await QuestionBank.findById(classroom.questions)
     const index = (questionBank.questionArray).indexOf(id)
     let questionCheck
-    if(questionType == "MCQ"){
+    if(questionType === "MCQ"){
         const newQuestion = await Question.create({
             question: questionAsked, 
             options:optionsArray, 
