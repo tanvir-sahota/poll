@@ -105,19 +105,24 @@ const createQuestion = async (request, response) => {
 //delete a question
 const deleteQuestion = async (request, response) => {
     const {id} = request.params
+    const {classID} = request.params
 
     if(!mongoose.isValidObjectId(id)){
         return response.status(404).json({error: "Question not Found"})
     }
 
-    const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findOneAndDelete({_id:id})
-    // const question = await Question.findOneAndDelete({_id:id})
+    const classroom = await Classroom.findById(classID)
+    const questionBank = await QuestionBank.findById(classroom.questions)
+    const index = (questionBank.questionArray).indexOf(id)
+    questionBank.questionArray.splice(index, 1)
+    questionBank.markModified("questionArray")
+    questionBank.save()
 
-    if(!question){
+    if(!(questionBank.questionArray[index])){
         return response.status(400).json({error: "Question not Found"})
     }
 
-    response.status(200).json(question)
+    response.status(200).json(questionBank.questionArray[index])
 }
 
 const updateQuestion = async(request, response) =>{
