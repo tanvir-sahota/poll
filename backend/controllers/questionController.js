@@ -27,9 +27,6 @@ const getQuestion = async (request, response) => {
         return response.status(404).json({error: "Question doesn't Exist"})
     }
 
-    // const question = await Question.findById(id)
-    //const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findById(id)
-
     const classroom = await Classroom.findById(classID)
     const questionBank = await QuestionBank.findById(classroom.questions)
     const index = (questionBank.questionArray).indexOf(id)
@@ -42,13 +39,11 @@ const getQuestion = async (request, response) => {
     response.status(200).json(question)
 }
 
-//Post request to create workout
+//Post request to create question
 const createQuestion = async (request, response) => {
     const {questionAsked, options, answers} = request.body
     const {classID} = request.params
     
-
-
     let emptyFields = []
 
     if(!questionAsked){
@@ -60,7 +55,6 @@ const createQuestion = async (request, response) => {
     if(emptyFields.length > 0){
         return response.status(400).json({ error: "Please fill in all the fields", emptyFields})
     }
-
 
     try {
         const answersArray = answers.split(/\s*,\s*/)
@@ -98,11 +92,7 @@ const createQuestion = async (request, response) => {
             questionBank.save(done)
             response.status(200).json(fullQuestion)
         }
-        
-
-        
-
-        
+         
     } catch (error) {
         response.status(400).json({error: error.message})
     }
@@ -155,9 +145,6 @@ const updateQuestion = async(request, response) =>{
     }
 
     const questionType = (options.length != 0) ? "MCQ" : "Wh-Question"
-    //const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
-    // const question = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
-
     const classroom = await Classroom.findById(classID)
     const questionBank = await QuestionBank.findById(classroom.questions)
     const index = (questionBank.questionArray).indexOf(id)
