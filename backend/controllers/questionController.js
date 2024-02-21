@@ -20,14 +20,20 @@ const getAllQuestions = async (request, response) => {
 
 //Get a question
 const getQuestion = async (request, response) => {
-    const {id, classID} = request.params
+    const {id} = request.params
+    const {classID} = request.params
 
     if(!mongoose.isValidObjectId(id)){
         return response.status(404).json({error: "Question doesn't Exist"})
     }
 
     // const question = await Question.findById(id)
-    const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findById(id)
+    //const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findById(id)
+
+    const classroom = await Classroom.findById(classID)
+    const questionBank = await QuestionBank.findById(classroom.questions)
+    const index = (questionBank.questionArray).indexOf(id)
+    const question = questionBank.questionArray[index]
 
     if(!question){
         return response.status(404).json({error: "Question doesn't exist"})
@@ -114,7 +120,8 @@ const deleteQuestion = async (request, response) => {
     const classroom = await Classroom.findById(classID)
     const questionBank = await QuestionBank.findById(classroom.questions)
     const index = (questionBank.questionArray).indexOf(id)
-    questionBank.questionArray.splice(index, 1)
+    const qGoneInArr = questionBank.questionArray.splice(index, 1)
+    const qGone = await Question.findById(id).deleteOne()
     questionBank.markModified("questionArray")
     questionBank.save()
 
@@ -127,6 +134,7 @@ const deleteQuestion = async (request, response) => {
 
 const updateQuestion = async(request, response) =>{
     const {id} = request.params
+    const {classID} = request.params
     const {questionAsked, options, answers} = request.body
     const answersArray = answers.split(/\s*,\s*/)
     const optionsArray = options.split(/\s*,\s*/)
@@ -147,15 +155,41 @@ const updateQuestion = async(request, response) =>{
     }
 
     const questionType = (options.length != 0) ? "Wh-Question" : "MCQ"
-    const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
+    //const question = await ClassroomModel.findById(classID).select("questions").select("questionArray").findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
     // const question = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
 
-    if(!question){
-        return response.status(400).json({error: "Question not Found"})
+    const classroom = await Classroom.findById(classID)
+    const questionBank = await QuestionBank.findById(classroom.questions)
+    const index = (questionBank.questionArray).indexOf(id)
+    let questionCheck
+    if(questionType == "MCQ"){
+        const newQuestion = await Question.create({
+            question: questionAsked, 
+            options:optionsArray, 
+            answers:answersArray,
+            questionType:"MCQ"})
+        questionCheck = newQuestion
+        const qGoneInArr = questionBank.questionArray.splice(index, 1, newQuestion)
+        const qGone = await Question.findById(id).deleteOne()
+        questionBank.markModified("questionArray")
+        questionBank.save()
+    }
+    else{
+        const newQuestion = await Question.create({
+            question: questionAsked, 
+            answers:answersArray,
+            questionType:"Wh-Question"})
+            questionCheck = newQuestion
+        const qGoneInArr = questionBank.questionArray.splice(index, 1, newQuestion)
+        const qGone = await Question.findById(id).deleteOne()
+        questionBank.markModified("questionArray")
+        questionBank.save()
     }
 
-    const newQuestion = await Question.findById(id)
-    response.status(200).json(newQuestion)
+    if(!questionCheck){
+        return response.status(400).json({error: "Question not Found"})
+    }
+    response.status(200).json(questionCheck)
 }
 
 module.exports = {
