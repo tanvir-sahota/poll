@@ -1,5 +1,4 @@
 require('dotenv').config()
-
 const express = require('express')
 const cors = require('cors')
 const path = require("path")
@@ -24,7 +23,9 @@ else
   app.use(cors())
 }
 
+const quizRoutes = require('./routes/quizzes')
 const questionRoutes = require("./routes/questions")
+const classroomRoutes = require('./routes/Classroom')
 
 app.use(express.json())
 
@@ -43,10 +44,12 @@ mongoose.connect(URI, {
 const dirName = path.dirname("")
 const buildPath = path.join(dirName, "../frontend/build");
 
+
 // Routes
 app.use(express.static(buildPath))
-app.use('/api/classrooms', require('./routes/Classroom'));
 app.use("/api/questions", questionRoutes)
+app.use('/api/classrooms', classroomRoutes);
+app.use('/api/quizzes', quizRoutes)
 app.get("/*", function(req,res){
   res.sendFile(
     path.join(dirName,"../frontend/build/index.html"),
