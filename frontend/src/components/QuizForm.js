@@ -1,17 +1,24 @@
 import {useState} from "react";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 
-const QuizForm = () => {
+const QuizForm = (classID) => {
+    
+    
     const {dispatch} = useQuizzesContext()
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
+    const [classroom, setClassroom] = useState(classID_value(classID))
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
+    
+    
 
+    
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const quiz = {title, description}
+        
+        const quiz = {title, description, classroom}
         const response = await fetch('/api/quizzes', {
             method: 'POST',
             body: JSON.stringify(quiz),
@@ -44,7 +51,7 @@ const QuizForm = () => {
                 value={title}
                 className={emptyFields.includes('title') ? 'error' : ''}
                 placeholder={"Input the new title"}
-            />
+                />
             <label>Description:</label>
             <input
                 type="text"
@@ -52,11 +59,21 @@ const QuizForm = () => {
                 value={description}
                 className={emptyFields.includes('description') ? 'error' : ''}
                 placeholder={"Input the new description"}
-            />
+                />
             <button> Add Quiz</button>
             {error && <div className={"error"}>{error}</div>}
         </form>
     )
 }
+
+const classID_value = (classID) => {
+    if(classID!=null && classID.classID!=null){
+        return classID.classID
+    }
+    else{
+        return ""
+    }
+}
+
 
 export default QuizForm
