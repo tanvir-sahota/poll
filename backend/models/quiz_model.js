@@ -22,6 +22,12 @@ const quizSchema = new Schema({
         type: [question],
         required: false,
     },
+    classroom: {
+        // classID
+        type: String,
+
+        required: false,
+    }
 }, {timestamps: true})
 
 
