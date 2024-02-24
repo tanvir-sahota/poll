@@ -2,6 +2,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import QuizDashboard from './pages/QuizDashboard'
 import Quiz from "./pages/Quiz";
 import Dashboard from './pages/Dashboard'
+import Classroom from './pages/Classroom'
 import QuestionBankPage from './pages/QuestionBankPage';
 import Navbar from './components/Navbar'
 
@@ -15,6 +16,10 @@ function App() {
             <Route 
               path="/dashboard" 
               element={<Dashboard />} 
+            />
+            <Route 
+              path="/:classID/classroom" 
+              element={<Classroom />} 
             />
             <Route 
               path="/:classID/question-bank"  //this will have to take a parameter of 
