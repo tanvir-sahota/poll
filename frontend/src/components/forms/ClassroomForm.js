@@ -47,6 +47,7 @@ const ClassroomForm = () => {
             setTitle('')
             setOwner('')
             dispatch({type: 'CREATE_CLASSROOM', payload: json})
+            handleClose()
           }
 
     }

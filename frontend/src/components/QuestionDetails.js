@@ -7,6 +7,7 @@ const QuestionDetails = ({ question, classID }) => {
     
     const { dispatch } = useQuestionContext()
     const [showForm, setShowForm] = useState(false)
+    const [showOptions, setShowOptions] = useState(question.options.length != 0 ? true : false)
 
     const deleteQuestion = async () => {
         const response = await fetch("http://localhost:4000/api/questions/" + classID + "/" + question._id, {
@@ -21,12 +22,13 @@ const QuestionDetails = ({ question, classID }) => {
     }
     const editQuestion = () => {
         setShowForm(!showForm)
+        setShowOptions(question.options.length != 0 ? true : false)
     }
     
     return (
         <div className="question-details">
             <h4>{question?.question}</h4>
-            <p><strong>Options: </strong>{question?.options?.toString()}</p>
+            {showOptions ? <p><strong>Options: </strong>{question?.options?.toString()}</p> : null}
             <p><strong>Answer(s): </strong>{question?.answers?.toString()}</p>
             <span onClick={deleteQuestion}>delete</span>
             <p><strong>{question?.questionType}</strong></p>
