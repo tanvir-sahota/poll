@@ -58,7 +58,11 @@ const assign_questions_to_quizzes = (quizzes, classID) => {
         const json = await response.json()
 
         if(response.ok){
-            quizzes.map((quiz) => assign_questions(quiz, json))
+            quizzes.map((quiz) => {
+                if(quiz.questions==null){
+                    assign_questions(quiz, json)
+                }
+            })
             console.log(quizzes)
         }
     }
