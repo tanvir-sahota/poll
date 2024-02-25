@@ -12,9 +12,7 @@ import QuizForm from '../components/QuizForm';
 
 const Classroom = () => {
     const classID = useLocation().pathname.split("/").at(1)
-    const {quizzes, dispatch: dispatch_quiz} = useQuizzesContext()
-    const {classrooms, dispatch: dispatch_classroom} = useClassroomContext()
-    
+    const {quizzes, dispatch: dispatch_quiz} = useQuizzesContext()    
 
     useEffect(() => {        
         const fetchQuizzes = async () => {
@@ -23,56 +21,13 @@ const Classroom = () => {
 
             if (response.ok) {
                 dispatch_quiz({type: 'SET_QUIZZES', payload: json})
+                const all_quizzes = json
+                const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom==classID)                
+                assign_questions_to_quizzes(classroom_quizzes, classID)
             }
         }
-        fetchQuizzes()
+        fetchQuizzes().then()
     }, [dispatch_quiz])
-
-    // useEffect(() => {
-    //     const fetchClassrooms = async () => {
-    //         // const response = await fetch('http://localhost:4000/api/classrooms/'+classID, {
-    //         const response = await fetch('http://localhost:4000/api/classrooms/')
-    //         const json = await response.json()
-    
-    //         if (response.ok) {
-    //             dispatch_classroom({type: 'SET_CLASSROOM', payload: json})
-    //         }
-    //     }
-    //     fetchClassrooms()   
-    // }, [dispatch_classroom])
-
-    console.log(classrooms)
-
-
-    
-    
-    
-    
-    
-    // let classroom_title
-    // const fetchClassroom = async () => {
-    //     const response = await fetch('http://localhost:4000/api/classrooms/'+classID, {
-    //     // const response = await fetch('http://localhost:4000/api/classrooms/', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     })
-    //     const json = await response.json()
-    //     return json
-    // }
-    // fetchClassroom().then(json => {
-    //     classroom_title = json
-    // })
-    // console.log(classroom_title)
-
-
-    
-    
-    
-
-
-
     return (
         <div className="dashboard">
             
@@ -89,12 +44,28 @@ const Classroom = () => {
 
             { <div className="classrooms">
                 <h3>Question Bank</h3>
-                <Link to={"http://localhost:3000/" + classID + "/question-bank"}><h4>lolololol</h4></Link>
+                <Link to={"http://localhost:3000/" + classID + "/question-bank"}><h4>click here for questions</h4></Link>
             </div> }
 
         </div>
          
     )
+}
+
+const assign_questions_to_quizzes = (quizzes, classID) => {
+    const fetchQuestions = async () =>{
+        const response = await fetch("http://localhost:4000/api/questions/" + classID)
+        const json = await response.json()
+
+        if(response.ok){
+            quizzes.map((quiz) => assign_questions(quiz, json))
+            console.log(quizzes)
+        }
+    }
+    fetchQuestions()
+    const assign_questions = (quiz, these_questions) => {
+        quiz.questions = these_questions
+    }
 }
 
 export default Classroom
