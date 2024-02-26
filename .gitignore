@@ -128,9 +128,6 @@ dist
 .vscode-test
 .vscode
 
-# Stores JetBrains IDE configuration
-.idea
-
 # yarn v2
 .yarn/cache
 .yarn/unplugged

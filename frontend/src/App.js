@@ -5,8 +5,6 @@ import Dashboard from './pages/Dashboard'
 import Classroom from './pages/Classroom'
 import QuestionBankPage from './pages/QuestionBankPage';
 import Navbar from './components/Navbar'
-import SignupForm from './components/SignupForm'
-
 
 function App() {
   return (
@@ -15,10 +13,6 @@ function App() {
         <Navbar />
         <div className="pages">
           <Routes>
-            <Route 
-              path="/sign_up" 
-              element={<SignupForm />}
-            />  
             <Route 
               path="/dashboard" 
               element={<Dashboard />} 
