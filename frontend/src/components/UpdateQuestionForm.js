@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useQuestionContext } from "../hooks/useQuestionContext"
 
-const UpdateQuestionForm = ({question, setShowForm, classID}) => {
+const UpdateQuestionForm = ({question, setShowForm, classID, setShowOptions}) => {
 
     const {dispatch} = useQuestionContext()
     const [questionAsked, setQuestion] = useState(question.question.toString())
@@ -31,6 +31,7 @@ const UpdateQuestionForm = ({question, setShowForm, classID}) => {
             console.log("Successful updated question")
             dispatch({type: "UPDATE_QUESTIONS", payload: json})
             setShowForm(false)
+            setShowOptions(options.length != 0 ? true : false)
         }
     }
 

@@ -22,7 +22,6 @@ const QuestionDetails = ({ question, classID }) => {
     }
     const editQuestion = () => {
         setShowForm(!showForm)
-        setShowOptions(question.options.length != 0 ? true : false)
     }
     
     return (
@@ -33,8 +32,8 @@ const QuestionDetails = ({ question, classID }) => {
             <span onClick={deleteQuestion}>delete</span>
             <p><strong>{question?.questionType}</strong></p>
             <div>
-            <input type="submit" className="edit" value= {showForm ? "Hide" : "Edit"} onClick={editQuestion} />
-            { showForm ? <UpdateQuestionForm classID={classID} question = {question} setShowForm={setShowForm}/> : null }
+            <input type="submit" className="edit" value= {showForm ? "Hide" : "Edit"} onClick={editQuestion}/>
+            { showForm ? <UpdateQuestionForm classID={classID} question = {question} setShowForm={setShowForm} setShowOptions={setShowOptions}/> : null }
             </div>
         </div>
     )
