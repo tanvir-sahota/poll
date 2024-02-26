@@ -1,27 +1,25 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
-
-import QuizDashboard from './pages/QuizDashboard'
-import Quiz from "./pages/Quiz";
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
-    return (
-        <div className="App">
-            <BrowserRouter>
-                <div className="pages">
-                    <Routes>
-                        <Route
-                            path="/api/quizzes/"
-                            element={<QuizDashboard/>}
-                        />
-                        <Route
-                            path="/api/quizzes/:id"
-                            element={<Quiz/>}
-                        />
-                    </Routes>
-                </div>
-            </BrowserRouter>
-        </div>
-    );
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
 }
 
 export default App;

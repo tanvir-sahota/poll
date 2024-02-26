@@ -1,13 +1,14 @@
 require('dotenv').config()
 
+const express = require('express')
+const cors = require('cors')
+const app = express()
+const port = 3000
 
 const mongoose = require('mongoose')
-const app = require('./app')
-const port = 4000
-const cors = require('cors')
-
 
 const allowEveryOrigin = true;
+
 if (!allowEveryOrigin)
 {
   //Only allows requests from one host for security, enable in production
@@ -22,17 +23,21 @@ else
   app.use(cors())
 }
 
-
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => {
-        console.log('Successfully connected to database in server.js')
-        app.listen(port, () => {
-            console.log(`Example app listening on port ${port}`)
-        })
+  .then(() => {
+    console.log('Successfuly connected to database.')
+
+    app.use(express.json())
+
+    app.get('/', (req, res) => {
+      res.send('Hello World!')
     })
-    .catch((err) => {
-        console.log(err)
+    
+    app.listen(port, () => {
+      console.log(`Example app listening on port ${port}`)
     })
 
-
-module.exports = app
+  })
+  .catch((err) => {
+    console.log(err)
+  }) 
