@@ -29,6 +29,21 @@ userSchema.statics.signUp = async function(username, password) {
   return user
 }
 
+// static login method
+userSchema.statics.login = async function(username, password) {
+  if (!(username && password)) {
+    throw Error("Need username and password details.");
+  }
+
+  const user =  await this.findOne({ username })
+
+  if (!user) {
+    throw Error("Incorrect username")
+  }
+
+  const match = await bcrypt.compare(password, user.password)
+}
+
 // Hash password before saving to database, via bcrypt
 userSchema.pre('save', function (next) {
   bcrypt.hash(this.password, 10, (err, hashedPassword) => {
