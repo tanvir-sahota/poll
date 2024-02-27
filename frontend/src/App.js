@@ -6,6 +6,7 @@ import Classroom from './pages/Classroom'
 import QuestionBankPage from './pages/QuestionBankPage';
 import Navbar from './components/Navbar'
 import SignupForm from './components/SignupForm'
+import LoginForm from './components/LoginForm'
 
 
 function App() {
@@ -18,7 +19,11 @@ function App() {
             <Route 
               path="/sign_up" 
               element={<SignupForm />}
-            />  
+            />
+            <Route
+                path="/log_in"
+                element={<LoginForm />}
+            />
             <Route 
               path="/dashboard" 
               element={<Dashboard />} 
