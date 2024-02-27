@@ -1,8 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation } from "react-router-dom"
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
-import { useClassroomContext } from '../hooks/useClassroomContext';
-import ClassroomObject from '../components/ClassroomObject'
 
 import { Link } from 'react-router-dom'
 

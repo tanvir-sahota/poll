@@ -1,0 +1,34 @@
+import { useEffect } from 'react'
+import { useQuestionContext } from '../hooks/useQuestionContext'
+
+const ClassroomDropdown = (classID) =>{
+    
+    const {questions, dispatch} = useQuestionContext()
+
+    useEffect(() => {
+        const fetchQuestions = async () =>{
+            const response = await fetch("http://localhost:4000/api/questions/" + classID)
+            const json = await response.json()
+
+            if(response.ok){
+                dispatch({type: "SET_QUESTIONS", payload:json})
+            }
+        }
+
+        fetchQuestions()
+
+    }, [])
+
+
+    return(
+        <div className="option">
+            <div className="questionName">
+                {questions && questions.map(question => (
+                    <option value={question.question}>{question.question}</option>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+export default ClassroomDropdown

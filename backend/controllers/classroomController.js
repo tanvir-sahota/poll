@@ -3,7 +3,6 @@ const QuestionBank = require('../models/questionBankModel');
 
 
 exports.getAllClassrooms = async (req, res) => {
-    console.log("get classrooms")
     try {
         const classrooms = await ClassroomModel.find();
         res.json(classrooms);

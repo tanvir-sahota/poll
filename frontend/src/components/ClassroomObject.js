@@ -21,8 +21,8 @@ const ClassroomObject = ({ classroom }) => {
     }
 
     return (
-      <div class="card-grid">
-        <div class="card">
+      <div className="card-grid">
+        <div className="card">
           <div className="classroom-object">
             <Link to={"http://localhost:3000/" + classroom._id + "/classroom"}><h4>{classroom.title}</h4></Link>
             <p><strong>Owner: </strong>Me</p>
