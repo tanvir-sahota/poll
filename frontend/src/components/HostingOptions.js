@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useClassroomContext } from '../hooks/useClassroomContext'
-import ClassroomObject from '../components/ClassroomObject'
 import ClassroomDropdown from './ClassroomDropdown'
 
 const HostingOptions = (userID) =>{
@@ -17,7 +16,6 @@ const HostingOptions = (userID) =>{
             if (response.ok) {
                 dispatch({type: 'SET_CLASSROOMS', payload: json})
             }
-            console.log(classrooms)
         }
 
         fetchClassrooms()
@@ -29,16 +27,15 @@ const HostingOptions = (userID) =>{
         <div className="hostingOptions">    
             <h4>Classrooms</h4>           
             <div className="classrooms">
-                {classrooms && classrooms.map(classroom => {
-                    <p>{classroom.title}</p>
-                    // <div>
-                    //     <label for="hostingDropdown">{classroom.title}</label>
+                {classrooms && classrooms.map(classroom => (
+                    <div key={classroom._id}>
+                        <label htmlFor="hostingDropdown">{classroom.title}</label>
 
-                    //     {/* <select name="hostingDropdown" id="hostingDropdown">
-                    //         <ClassroomDropdown classID={classroom._id}></ClassroomDropdown>
-                    //     </select> */}
-                    // </div>
-                    })
+                        <select name="hostingDropdown" id="hostingDropdown">
+                            <ClassroomDropdown classID={classroom._id}></ClassroomDropdown>
+                        </select>
+                    </div>
+                    ))
                 }
             </div>
         </div>

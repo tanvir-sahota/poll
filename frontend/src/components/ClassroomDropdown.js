@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import { useQuestionContext } from '../hooks/useQuestionContext'
+import QuestionDetails from './QuestionDetails'
 
 const ClassroomDropdown = (classID) =>{
     
     const {questions, dispatch} = useQuestionContext()
+    console.log(classID)
 
     useEffect(() => {
         const fetchQuestions = async () =>{
@@ -13,6 +15,7 @@ const ClassroomDropdown = (classID) =>{
             if(response.ok){
                 dispatch({type: "SET_QUESTIONS", payload:json})
             }
+            //console.log(questions)
         }
 
         fetchQuestions()
@@ -21,13 +24,11 @@ const ClassroomDropdown = (classID) =>{
 
 
     return(
-        <div className="option">
-            <div className="questionName">
-                {questions && questions.map(question => (
-                    <option value={question.question}>{question.question}</option>
-                ))}
-            </div>
-        </div>
+
+        <>{questions && questions.map(question => (
+            <option value={question.question}>{question.question}</option>
+        ))}</>
+
     )
 }
 
