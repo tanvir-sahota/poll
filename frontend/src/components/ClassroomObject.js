@@ -6,7 +6,7 @@ const ClassroomObject = ({ classroom }) => {
     const { dispatch } = useClassroomContext()
 
     const handleClick = async () => {
-      const response = await fetch('http://localhost:4000/api/classrooms/' + classroom._id, {
+      const response = await fetch(`${process.env.REACT_APP_URL}/classrooms/` + classroom._id, {
         method: 'DELETE'
       })
 

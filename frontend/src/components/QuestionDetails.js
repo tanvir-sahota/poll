@@ -10,7 +10,7 @@ const QuestionDetails = ({ question, classID }) => {
     const [showOptions, setShowOptions] = useState(question.options.length != 0 ? true : false)
 
     const deleteQuestion = async () => {
-        const response = await fetch("http://localhost:4000/api/questions/" + classID + "/" + question._id, {
+        const response = await fetch(`${process.env.REACT_APP_URL}/questions/` + classID + "/" + question._id, {
             method: "DELETE"
         })
         const json = await response.json()
