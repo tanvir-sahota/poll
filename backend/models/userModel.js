@@ -32,7 +32,7 @@ userSchema.statics.signUp = async function(username, password) {
 // static login method
 userSchema.statics.login = async function(username, password) {
   if (!(username && password)) {
-    throw Error("Need username and password details.");
+    throw Error("Need username and password details!");
   }
 
   const user =  await this.findOne({ username })
@@ -42,6 +42,12 @@ userSchema.statics.login = async function(username, password) {
   }
 
   const match = await bcrypt.compare(password, user.password)
+
+  if(!match) {
+    throw  Error('Password incorrect')
+  }
+
+  return user
 }
 
 // Hash password before saving to database, via bcrypt
