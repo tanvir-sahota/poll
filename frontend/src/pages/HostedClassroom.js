@@ -3,9 +3,12 @@ import { useLocation } from "react-router-dom";
 import HostingOptions from "../components/HostingOptions"
 
 const HostedClassroom = () =>{
-    const userID = useLocation().pathname.split("/").at(2)
+    const location = useLocation()
 
-
+    const userID = location.pathname.split("/").at(2)
+    const {currentClassID, currentQuestion} = location.state
+    const {classID} = currentClassID
+    const {question} = currentQuestion
 
     //should have some functionality where the userID has to be valid or becomes a anonymous user
     const [hostingOptions, setHostingOptions] = useState(userID == "0" ? false : true)
@@ -15,10 +18,9 @@ const HostedClassroom = () =>{
     return(
         <div className="home">    
             <div id="displayArea">
+                <div id="answerArea">
 
-            </div>
-            <div id="answerArea">
-
+                </div>
             </div>
             <div id="hostingOptions">
                 {hostingOptions ? 

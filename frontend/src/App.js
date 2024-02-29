@@ -51,8 +51,8 @@ function App() {
                 element={<Quiz/>}
             />
             <Route 
-              //path="/:username/:userid"
-              path = "/habram/:userid"
+              //path="/:username/admin"
+              path = "/habram/admin"
               element ={<HostedClassroom/>}
             />
             <Route 
