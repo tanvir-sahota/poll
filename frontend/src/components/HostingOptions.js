@@ -31,9 +31,9 @@ const HostingOptions = (userID) =>{
                     <div key={classroom._id}>
                         <label htmlFor="hostingDropdown">{classroom.title}</label>
 
-                        <select name="hostingDropdown" id="hostingDropdown">
+                        
                             <ClassroomDropdown classID={classroom._id}></ClassroomDropdown>
-                        </select>
+                        
                     </div>
                     ))
                 }

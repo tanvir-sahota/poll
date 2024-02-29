@@ -2,9 +2,11 @@ import { useEffect } from 'react'
 import { useQuestionContext } from '../hooks/useQuestionContext'
 import QuestionDetails from './QuestionDetails'
 
-const ClassroomDropdown = (classID) =>{
+const ClassroomDropdown = (newClassID) =>{
     
     const {questions, dispatch} = useQuestionContext()
+    
+    const {classID} = newClassID
     console.log(classID)
 
     useEffect(() => {
@@ -25,9 +27,15 @@ const ClassroomDropdown = (classID) =>{
 
     return(
 
-        <>{questions && questions.map(question => (
-            <option value={question.question}>{question.question}</option>
-        ))}</>
+        <div>
+            <select name="hostingDropdown" id="hostingDropdown">
+                {questions && questions.map((question, index) => (
+                <option key={index} value={question.question}>
+                    {question.question}
+                </option>
+                ))}
+            </select>
+        </div>
 
     )
 }
