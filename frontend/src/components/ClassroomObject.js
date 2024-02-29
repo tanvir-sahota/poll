@@ -13,7 +13,6 @@ const ClassroomObject = ({ classroom }) => {
       const json = await response.json()
 
       if (response.ok) {
-        console.log(json)
         dispatch({type: 'DELETE_CLASSROOM', payload: classroom._id})
         
       }

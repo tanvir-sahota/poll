@@ -36,7 +36,7 @@ function App() {
                 element={<QuizDashboard/>}
             />
             <Route
-                path="/api/quizzes/:id"
+                path="/api/quizzes/:quiz_id/:classroom_id?"
                 element={<Quiz/>}
             />
           </Routes>

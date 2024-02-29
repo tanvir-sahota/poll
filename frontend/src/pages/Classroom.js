@@ -63,7 +63,6 @@ const assign_questions_to_quizzes = (quizzes, classID) => {
                     assign_questions(quiz, json)
                 }
             })
-            console.log(quizzes)
         }
     }
     fetchQuestions()
