@@ -7,8 +7,9 @@ const HostedClassroom = () =>{
 
     const userID = location.pathname.split("/").at(2)
     const {currentClassID, currentQuestion} = location.state
-    const {classID} = currentClassID
-    const {question} = currentQuestion
+    
+    
+
 
     //should have some functionality where the userID has to be valid or becomes a anonymous user
     const [hostingOptions, setHostingOptions] = useState(userID == "0" ? false : true)
@@ -24,7 +25,7 @@ const HostedClassroom = () =>{
             </div>
             <div id="hostingOptions">
                 {hostingOptions ? 
-                    <HostingOptions userID = {userID}/>
+                    <HostingOptions userID = {userID} question = {currentQuestion}/>
                 : null}
             </div>    
         </div>

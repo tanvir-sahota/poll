@@ -3,6 +3,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import UpdateQuestionForm from "./UpdateQuestionForm"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { QuestionContext } from "../context/QuestionContext"
 
 const QuestionDetails = ({ question, classID }) => {
     
@@ -10,6 +11,7 @@ const QuestionDetails = ({ question, classID }) => {
     const navigate = useNavigate()
     const [showForm, setShowForm] = useState(false)
     const [showOptions, setShowOptions] = useState(question.options.length != 0 ? true : false)
+
 
     const deleteQuestion = async () => {
         const response = await fetch("http://localhost:4000/api/questions/" + classID + "/" + question._id, {
@@ -27,7 +29,7 @@ const QuestionDetails = ({ question, classID }) => {
     }
 
     const hostQuestion = () => {
-        navigate("/habram/5", {state:{currentClassID:{classID}, currentQuestion:{question}}})
+        navigate("/habram/admin", {state:{currentClassID: classID, currentQuestion: question}})
     } 
     
     return (
