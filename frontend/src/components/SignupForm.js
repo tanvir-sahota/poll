@@ -9,7 +9,7 @@ const SignupForm = () => {
   const { handleSubmit, control, setError, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
-    const response = await fetch("http://localhost:4000/api/users", {
+    const response = await fetch("http://localhost:4000/api/users/signup", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
