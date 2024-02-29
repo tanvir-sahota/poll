@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuestionContext } from '../hooks/useQuestionContext'
 import QuestionDetails from './QuestionDetails'
 
 const ClassroomDropdown = (newClassID) =>{
     
-    const {questions, dispatch} = useQuestionContext()
+    const [questions, setQuestion] = useState([])
     
     const {classID} = newClassID
     console.log(classID)
@@ -13,9 +13,8 @@ const ClassroomDropdown = (newClassID) =>{
         const fetchQuestions = async () =>{
             const response = await fetch("http://localhost:4000/api/questions/" + classID)
             const json = await response.json()
-
             if(response.ok){
-                dispatch({type: "SET_QUESTIONS", payload:json})
+            setQuestion(json)
             }
             //console.log(questions)
         }
