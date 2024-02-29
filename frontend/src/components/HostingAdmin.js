@@ -6,7 +6,7 @@ const HostingAdmin = (newClassID, currentQuestionID, currentQuestion) => {
     const {classID} = newClassID
     const {questionID} = currentQuestionID
     const {question} = currentQuestion
-    
+    const [questionFetched, getQuestion] = useState()
 
     useEffect(() => {
         
@@ -15,7 +15,7 @@ const HostingAdmin = (newClassID, currentQuestionID, currentQuestion) => {
         const json = await response.json()
         console.log(json)
         if (response.ok) {
-            // getQuestion(json)
+             getQuestion(json)
         }
     }
 
@@ -28,7 +28,7 @@ return(
 
     <div>
         <h1>
-            {question.question}
+            {questionFetched.question}
         </h1>
     </div>
 )
