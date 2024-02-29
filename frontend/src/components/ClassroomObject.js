@@ -24,7 +24,7 @@ const ClassroomObject = ({ classroom }) => {
       <div class="card-grid">
         <div class="card">
           <div className="classroom-object">
-            <Link to={"http://localhost:3000/" + classroom._id + "/classroom"}><h4>{classroom.title}</h4></Link>
+            <Link to={process.env.REACT_APP_URL + "/" + classroom._id + "/classroom"}><h4>{classroom.title}</h4></Link>
             <p><strong>Owner: </strong>Me</p>
             <p><strong>Number of quizzes: </strong>{classroom.quizzes.length}</p>
             <p>{formatDistanceToNow(new Date(classroom.createdAt), { addSuffix: true })}</p>
