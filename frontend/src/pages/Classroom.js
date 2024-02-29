@@ -44,7 +44,7 @@ const Classroom = () => {
 
             { <div className="classrooms">
                 <h3>Question Bank</h3>
-                <Link to={"http://localhost:3000/" + classID + "/question-bank"}><h4>click here for questions</h4></Link>
+                <Link to={process.env.REACT_APP_URL + "/" + classID + "/question-bank"}><h4>click here for questions</h4></Link>
             </div> }
 
         </div>
