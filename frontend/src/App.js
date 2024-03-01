@@ -7,6 +7,7 @@ import QuestionBankPage from './pages/QuestionBankPage'
 import Navbar from './components/Navbar'
 import SignupForm from './components/SignupForm'
 import HostedClassroom from "./pages/HostedClassroom"
+import ConnectionPage from './pages/ConnectionPage'
 import Home from "./pages/Home"
 
 import io from "socket.io-client"
@@ -58,6 +59,10 @@ function App() {
             <Route 
               path="/"
               element ={<Home/>}
+            />
+            <Route
+              path="/habram"
+              element={<ConnectionPage />}
             />
           </Routes>
         </div>
