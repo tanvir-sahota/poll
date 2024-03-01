@@ -3,25 +3,36 @@ import { useEffect } from "react"
 import { useState } from "react"
 
 const HostingAdmin = (newClassID, currentQuestion) => {
-    const classID = newClassID
-    const question = classID.currentQuestion
+    
+    let question = newClassID.currentQuestion
     // const question = currentQuestion
-    const [questionFetched, getQuestion] = useState({})
+    const classID = newClassID.newClassID
+    const [questions, setQuestion] = useState([])
+    
+    const [position, setPosition] = useState(0)
 
     useEffect(() => {
-        
-    // const fetchQuestion = async () => {
-    //     const response = await fetch(`http://localhost:4000/api/questions/${classID}/${questionID}`)
-    //     const json = await response.json()
-    //     console.log(json)
-    //     if (response.ok) {
-    //          getQuestion(json)
-    //     }
-    // }
-
-    // fetchQuestion()
+        const fetchQuestions = async () => {
+            const response = await fetch(`http://localhost:4000/api/questions/${classID}`)
+            const json = await response.json()
+            setQuestion(json)
+            if (response.ok) {
+                  setQuestion(json)
+            }
+        }
+        fetchQuestions()
+   
 
     }, [])
+
+
+    const handlePress = async () => {
+        // const position = questions.indexOf(question)
+        // question = questions.at(position + 1)
+        setPosition(position + 1)
+        // edge cases to be handed
+
+    }
 
 
 return(
@@ -34,6 +45,10 @@ return(
                 <br></br>
             {question.answers}
         </p>
+        <button onClick={handlePress}>
+            NEXT QUESTION
+        </button>
+            {/* <p>current: {questions[position].question}</p> */}
     </div>
 )
 

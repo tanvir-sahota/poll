@@ -26,7 +26,7 @@ const HostedClassroom = () =>{
             </div>
             <div id="hostingOptions">
                 {hostingOptions ? 
-                    <HostingOptions userIDPassed = {userID} question = {currentQ}/>
+                    <HostingOptions userIDPassed = {userID} question = {currentQ} classID = {currentClassID}/>
                 : null}
             </div>    
         </div>
