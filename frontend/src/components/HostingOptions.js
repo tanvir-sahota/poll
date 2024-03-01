@@ -3,13 +3,13 @@ import { useClassroomContext } from '../hooks/useClassroomContext'
 import ClassroomDropdown from './ClassroomDropdown'
 import HostingAdmin from './HostingAdmin'
 
-const HostingOptions = (userID, currentQuestion) =>{
+const HostingOptions = (userID, question) =>{
     
     //future change requires only users classrooms to be made 
 
     const { classrooms, dispatch } = useClassroomContext()
     const [ showButtons, setShowButtons ] = useState(true)
-    const question = currentQuestion
+    const questionReceived = userID.question
 
     useEffect(() => {
         const fetchClassrooms = async () => {
@@ -40,8 +40,10 @@ const HostingOptions = (userID, currentQuestion) =>{
                             <button onClick={handlePress}>{classroom.title}</button>
                         : 
                             // <ClassroomDropdown newClassID = {classroom._id}></ClassroomDropdown>
-                            <HostingAdmin newClassID = {classroom._id} currentQuestionID = {question._id} question = {currentQuestion}></HostingAdmin>
+                            null
+                            
                         }
+                        <HostingAdmin newClassID = {classroom._id} currentQuestion = {questionReceived}></HostingAdmin>
                     </div>
                 ))}
             </div>

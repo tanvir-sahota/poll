@@ -6,8 +6,9 @@ const HostedClassroom = () =>{
     const location = useLocation()
 
     const userID = location.pathname.split("/").at(2)
-    const {currentClassID, currentQuestion} = location.state
-    
+    const currentClassID = location.state.currentClassID
+    const currentQ = location.state.currentQuestion
+    // const id = currentQuestion._id
     
 
 
@@ -25,7 +26,7 @@ const HostedClassroom = () =>{
             </div>
             <div id="hostingOptions">
                 {hostingOptions ? 
-                    <HostingOptions userID = {userID} question = {currentQuestion}/>
+                    <HostingOptions userIDPassed = {userID} question = {currentQ}/>
                 : null}
             </div>    
         </div>
