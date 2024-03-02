@@ -16,7 +16,7 @@ const Classroom = () => {
 
     useEffect(() => {        
         const fetchQuizzes = async () => {
-            const response = await fetch('/api/quizzes')
+            const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes`)
             const json = await response.json()
 
             if (response.ok) {
@@ -44,7 +44,7 @@ const Classroom = () => {
 
             { <div className="classrooms">
                 <h3>Question Bank</h3>
-                <Link to={process.env.REACT_APP_URL + "/" + classID + "/question-bank"}><h4>click here for questions</h4></Link>
+                <Link to={`${process.env.REACT_APP_URL}` + classID + "/question-bank"}><h4>click here for questions</h4></Link>
             </div> }
 
         </div>
@@ -54,7 +54,7 @@ const Classroom = () => {
 
 const assign_questions_to_quizzes = (quizzes, classID) => {
     const fetchQuestions = async () =>{
-        const response = await fetch(`${process.env.REACT_APP_URL}/questions/` + classID)
+        const response = await fetch(`${process.env.REACT_APP_URL}api/questions/` + classID)
         const json = await response.json()
 
         if(response.ok){

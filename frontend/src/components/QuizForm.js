@@ -19,7 +19,7 @@ const QuizForm = (classID) => {
 
         
         const quiz = {title, description, classroom}
-        const response = await fetch('/api/quizzes', {
+        const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes`, {
             method: 'POST',
             body: JSON.stringify(quiz),
             headers: {

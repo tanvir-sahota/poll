@@ -9,7 +9,7 @@ const QuizDetails = ({quiz, classID}) => {
      * @returns {Promise<void>}
      */
     const handleClick = async () => {
-        const response = await fetch('/api/quizzes/' + quiz._id, {
+        const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes/` + quiz._id, {
             method: 'DELETE'
         })
 

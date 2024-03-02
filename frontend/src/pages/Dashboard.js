@@ -9,7 +9,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchClassrooms = async () => {
-            const response = await fetch(`${process.env.REACT_APP_URL}/classrooms`)
+            const response = await fetch(`${process.env.REACT_APP_URL}api/classrooms`)
             const json = await response.json()
 
             if (response.ok) {
