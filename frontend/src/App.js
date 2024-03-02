@@ -9,6 +9,8 @@ import SignupForm from './components/SignupForm'
 import HostedClassroom from "./pages/HostedClassroom"
 import ConnectionPage from './pages/ConnectionPage'
 import Home from "./pages/Home"
+import UserPage from './pages/UserPage'
+import WaitingPage from './pages/WaitingPage'
 
 import io from "socket.io-client"
 
@@ -63,6 +65,14 @@ function App() {
             <Route
               path="/habram"
               element={<ConnectionPage />}
+            />
+            <Route 
+              path="/habram/0"
+              element={<UserPage/>}
+            />
+            <Route 
+              path="/habram/waiting"
+              element={<WaitingPage/>}
             />
           </Routes>
         </div>
