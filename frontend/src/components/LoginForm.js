@@ -7,7 +7,7 @@ const LoginForm = () => {
   const { handleSubmit, control, setError, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
-    const response = await fetch("http://localhost:4000/api/users", {
+    const response = await fetch("http://localhost:4000/api/users/login", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
