@@ -1,3 +1,5 @@
+import { useAuthContext } from "../hooks/useAuthContext";
+
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useForm, Controller } from 'react-hook-form';
@@ -5,6 +7,7 @@ import { Form, Button } from "react-bootstrap";
 
 const LoginForm = () => {
   const { handleSubmit, control, setError, formState: { errors } } = useForm();
+  const { dispatch } = useAuthContext()
 
   const onSubmit = async (data) => {
     const response = await fetch("http://localhost:4000/api/users/login", {
@@ -22,6 +25,12 @@ const LoginForm = () => {
     }
     if (response.ok) {
       console.log("Logged in: ", json);
+
+      // save the user to local storage
+      localStorage.setItem('user', JSON.stringify(json))
+
+      // update the auth context
+      dispatch({type: 'LOGIN', payload: json})
     }
   };
 
