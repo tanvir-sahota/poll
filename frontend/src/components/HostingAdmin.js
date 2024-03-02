@@ -4,12 +4,11 @@ import { useState } from "react"
 import QuestionDisplay from "./QuestionDisplay"
 
 const HostingAdmin = (inputData) => {
-    //console.log(inputData)
     const {socket, newClassID, currentQuestion, userName} = inputData
     const classID = newClassID
     const [question, setQuestion] = useState(currentQuestion)
     const {questions, dispatch} = useQuestionContext()
-    const [position, setPosition] = useState(0)
+    const [position, setPosition] = useState(questions.findIndex((x) => x._id === question._id))
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -19,19 +18,15 @@ const HostingAdmin = (inputData) => {
             if (response.ok) {
                 dispatch({type: "SET_QUESTIONS", payload:json})
             }
-            // console.log(position)
         }
         fetchQuestions()
-
     }, [])
 
     socket.emit("update-question", question, userName)
 
 
-    const handlePress = async () => {
-        // console.log(question._id)
-        // console.log(questions)
-        const tempPosition = questions.findIndex((x) => x._id = question._id)
+    const handleNext = async () => {
+        const tempPosition = questions.findIndex((x) => x._id === question._id)
         if(position >= questions.length - 1){
             setQuestion(questions.at(0))
             setPosition(0)     
@@ -40,25 +35,37 @@ const HostingAdmin = (inputData) => {
             setQuestion(questions.at(tempPosition + 1))
             setPosition(tempPosition + 1)             
         }
-    
-
-        // edge cases to be handed
-
+    }
+    const handlePrev = async () => {
+        const tempPosition = questions.findIndex((x) => x._id === question._id)
+        if(position <= 0){
+            setQuestion(questions.at(-1))
+            setPosition(questions.length - 1)     
+        }
+        else{
+            setQuestion(questions.at(tempPosition - 1))
+            setPosition(tempPosition - 1)             
+        }
     }
 
-
-return(
-
-    <div>
-        <QuestionDisplay givenQuestion = {question} isAdmin = {true}/>
-
-        <button onClick={handlePress}>
-            NEXT QUESTION
-        </button>
-            {/* <p>current: {questions[position].question}</p> */}
-    </div>
-)
-
-}
-
-export default HostingAdmin
+    return(
+        <div>
+            <p>
+                {question.question}
+                    <br></br>
+                        {question.options}
+                    <br></br>
+                {question.answers}
+            </p>
+            <button onClick={handleNext}>
+                NEXT QUESTION
+            </button>
+            <button onClick={handlePrev}>
+                PREVIOUS QUESTION
+            </button>
+                
+        </div>
+    )
+    
+    }
+    export default HostingAdmin
