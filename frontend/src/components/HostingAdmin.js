@@ -1,13 +1,16 @@
 import { useQuestionContext } from "../hooks/useQuestionContext"
 import { useEffect } from "react"
 import { useState } from "react"
+import QuestionDisplay from "./QuestionDisplay"
 
-const HostingAdmin = (newClassID, currentQuestion) => {
-    const classID = newClassID.newClassID
-    const [question, setQuestion] = useState(newClassID.currentQuestion)
+const HostingAdmin = (inputData) => {
+    //console.log(inputData)
+    const {socket, newClassID, currentQuestion, userName} = inputData
+    const classID = newClassID
+    const [question, setQuestion] = useState(currentQuestion)
     const {questions, dispatch} = useQuestionContext()
-    const [position, setPosition] = useState(questions.findIndex((x) => x._id === question._id)) 
-    
+    const [position, setPosition] = useState(0)
+
     useEffect(() => {
         const fetchQuestions = async () => {
             const response = await fetch(`http://localhost:4000/api/questions/${classID}`)
@@ -16,12 +19,19 @@ const HostingAdmin = (newClassID, currentQuestion) => {
             if (response.ok) {
                 dispatch({type: "SET_QUESTIONS", payload:json})
             }
+            // console.log(position)
         }
         fetchQuestions()
+
     }, [])
 
+    socket.emit("update-question", question, userName)
+
+
     const handlePress = async () => {
-        const tempPosition = questions.findIndex((x) => x._id === question._id)
+        // console.log(question._id)
+        // console.log(questions)
+        const tempPosition = questions.findIndex((x) => x._id = question._id)
         if(position >= questions.length - 1){
             setQuestion(questions.at(0))
             setPosition(0)     
@@ -30,38 +40,25 @@ const HostingAdmin = (newClassID, currentQuestion) => {
             setQuestion(questions.at(tempPosition + 1))
             setPosition(tempPosition + 1)             
         }
+    
+
+        // edge cases to be handed
+
     }
-    const handlePrev = async () => {
-        const tempPosition = questions.findIndex((x) => x._id === question._id)
-        if(position <= 0){
-            setQuestion(questions.at(-1))
-            setPosition(questions.length - 1)     
-        }
-        else{
-            setQuestion(questions.at(tempPosition - 1))
-            setPosition(tempPosition - 1)             
-        }
-    }
+
 
 return(
 
     <div>
-        <p>
-            {question.question}
-                <br></br>
-                    {question.options}
-                <br></br>
-            {question.answers}
-        </p>
+        <QuestionDisplay givenQuestion = {question} isAdmin = {true}/>
+
         <button onClick={handlePress}>
             NEXT QUESTION
         </button>
-        <button onClick={handlePrev}>
-            PREVIOUS QUESTION
-        </button>
-            
+            {/* <p>current: {questions[position].question}</p> */}
     </div>
 )
 
 }
+
 export default HostingAdmin
