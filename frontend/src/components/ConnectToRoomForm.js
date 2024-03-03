@@ -1,7 +1,6 @@
 import {useState} from "react";
 import { useNavigate } from 'react-router-dom'
 
-
 const ConnectToRoomForm = () => {
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
@@ -11,7 +10,8 @@ const ConnectToRoomForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         
-        navigate("habram/0")
+        //navigate("habram/0")
+        window.location.href = `/${username}`
         //need to make sure user exists before you can connect to their page
         // const response = await fetch('/api/users/' + username, {
         //     method: 'GET',

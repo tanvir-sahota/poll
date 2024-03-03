@@ -67,12 +67,8 @@ function App() {
               element={<ConnectionPage />}
             />
             <Route 
-              path="/habram/0"
+              path="/:lecturer"
               element={<UserPage/>}
-            />
-            <Route 
-              path="/habram/waiting"
-              element={<WaitingPage/>}
             />
           </Routes>
         </div>
