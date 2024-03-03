@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 
 
-const EnterNameForm = () => {
+const EnterNameForm = (inputData) => {
+    const {socket} = inputData
     const navigate = useNavigate()
     const { lecturer } = useParams()
     const [username, setUsername] = useState('')
@@ -11,6 +12,13 @@ const EnterNameForm = () => {
     const [submitted, setSubmitted] = useState(false)
     const [emptyFields, setEmptyFields] = useState([])
     const [usedUsernames, setUsedUsernames] = useState([])
+
+    socket.emit("join-room", "habram")
+
+    socket.on("switch-pages", () => {
+        navigate("/habram")
+    })
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault()

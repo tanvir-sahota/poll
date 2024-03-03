@@ -8,7 +8,7 @@ const ConnectionPage = (inputData) =>{
 
 
     socket.on("display-question", question => {
-        setShowQuestion(<QuestionDisplay givenQuestion = {question} isAdmin={false}/>)
+        setShowQuestion(<QuestionDisplay givenQuestion = {question} isAdmin={false} socket={socket}/>)
     })
 
     return(

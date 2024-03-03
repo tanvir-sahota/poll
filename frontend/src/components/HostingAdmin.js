@@ -50,13 +50,7 @@ const HostingAdmin = (inputData) => {
 
     return(
         <div>
-            <p>
-                {question.question}
-                    <br></br>
-                        {question.options}
-                    <br></br>
-                {question.answers}
-            </p>
+            <QuestionDisplay givenQuestion = {question} isAdmin={false} socket={socket}/>
             <button onClick={handleNext}>
                 NEXT QUESTION
             </button>

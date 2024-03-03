@@ -15,6 +15,8 @@ io.of("habram").on("connection", (socket) => {
   console.log(`Socket ${socket.id} connected`)
   socket.on("update-question", (question,userName) =>{
     socket.to(userName).emit("display-question", question)
+    socket.to(socket.id).emit("display-question", question)
+    console.log("sent to socket as well", socket.id)
   })
   socket.on("host-question", (userName) => {
     socket.to(userName).emit("switch-pages")

@@ -1,9 +1,11 @@
 import EnterNameForm from "../components/EnterNameForm"
 
-const UserPage = () =>{
+const UserPage = (inputData) =>{
+    const {socket} = inputData
+
     return(
         <div className="user-page">    
-            <EnterNameForm/>
+            <EnterNameForm socket={socket}/>
         </div>
     )
 }

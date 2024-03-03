@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 const QuestionDisplay = (inputData) => {
-    const {givenQuestion, isAdmin} = inputData
+    const {givenQuestion, isAdmin, socket} = inputData
     const {question, options, answers} = givenQuestion
     // console.log(givenQuestion)
     // console.log("Question: ", question)
@@ -14,6 +14,11 @@ const QuestionDisplay = (inputData) => {
     const handleSubmission = () => {
         setShowAnswer(!showAnswer)
     }
+
+    socket.on("display-question", question => {
+        setMCQ(question.options.length > 1 ? true : false)
+        console.log(socket.id + " has re-rendered")
+    })
 
 
     return(

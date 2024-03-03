@@ -67,12 +67,12 @@ function App() {
             />
             <Route 
               path="/:lecturer"
-              element={<UserPage/>}
+              element={<UserPage socket={socket}/>}
             />
-            <Route 
+            {/* <Route 
               path="/habram/waiting"
               element={<WaitingPage socket={socket}/>}
-            />
+            /> */}
           </Routes>
         </div>
       </BrowserRouter>
