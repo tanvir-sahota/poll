@@ -38,7 +38,7 @@ const QuestionDetails = ({ question, classID }) => {
             {showOptions ? <p><strong>Options: </strong>{question?.options?.toString()}</p> : null}
             <p><strong>Answer(s): </strong>{question?.answers?.toString()}</p>
             <span onClick={deleteQuestion}>delete</span>
-            <input type="submit" classname="host" value="HOST" onClick={hostQuestion}/>
+            <input type="submit" className="host" value="HOST" onClick={hostQuestion}/>
             <p><strong>{question?.questionType}</strong></p>
             <div>
             <input type="submit" className="edit" value= {showForm ? "Hide" : "Edit"} onClick={editQuestion}/>

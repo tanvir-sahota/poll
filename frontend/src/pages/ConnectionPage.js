@@ -1,15 +1,21 @@
 import {useState} from "react";
-import { useLocation } from "react-router-dom";
+import QuestionDisplay from "../components/QuestionDisplay";
 
-const ConnectionPage = () =>{
+const ConnectionPage = (inputData) =>{
+    const {socket} = inputData
+
+    const [showQuestion, setShowQuestion] = useState(null)
+
+
+    socket.on("display-question", question => {
+        setShowQuestion(<QuestionDisplay givenQuestion = {question} isAdmin={false}/>)
+    })
+
     return(
         <div className="home">    
             <div id="mainArea">
                 <div id = "displayArea">
-                
-                </div>
-                <div id="answerArea">
-
+                    {showQuestion}
                 </div>
             </div>
         </div>

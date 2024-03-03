@@ -1,13 +1,15 @@
 import { useQuestionContext } from "../hooks/useQuestionContext"
 import { useEffect } from "react"
 import { useState } from "react"
+import QuestionDisplay from "./QuestionDisplay"
 
-const HostingAdmin = (newClassID, currentQuestion) => {
-    const classID = newClassID.newClassID
-    const [question, setQuestion] = useState(newClassID.currentQuestion)
+const HostingAdmin = (inputData) => {
+    const {socket, newClassID, currentQuestion, userName} = inputData
+    const classID = newClassID
+    const [question, setQuestion] = useState(currentQuestion)
     const {questions, dispatch} = useQuestionContext()
-    const [position, setPosition] = useState(questions.findIndex((x) => x._id === question._id)) 
-    
+    const [position, setPosition] = useState(questions.findIndex((x) => x._id === question._id))
+
     useEffect(() => {
         const fetchQuestions = async () => {
             const response = await fetch(`http://localhost:4000/api/questions/${classID}`)
@@ -20,7 +22,10 @@ const HostingAdmin = (newClassID, currentQuestion) => {
         fetchQuestions()
     }, [])
 
-    const handlePress = async () => {
+    socket.emit("update-question", question, userName)
+
+
+    const handleNext = async () => {
         const tempPosition = questions.findIndex((x) => x._id === question._id)
         if(position >= questions.length - 1){
             setQuestion(questions.at(0))
@@ -43,25 +48,24 @@ const HostingAdmin = (newClassID, currentQuestion) => {
         }
     }
 
-return(
-
-    <div>
-        <p>
-            {question.question}
-                <br></br>
-                    {question.options}
-                <br></br>
-            {question.answers}
-        </p>
-        <button onClick={handlePress}>
-            NEXT QUESTION
-        </button>
-        <button onClick={handlePrev}>
-            PREVIOUS QUESTION
-        </button>
-            
-    </div>
-)
-
-}
-export default HostingAdmin
+    return(
+        <div>
+            <p>
+                {question.question}
+                    <br></br>
+                        {question.options}
+                    <br></br>
+                {question.answers}
+            </p>
+            <button onClick={handleNext}>
+                NEXT QUESTION
+            </button>
+            <button onClick={handlePrev}>
+                PREVIOUS QUESTION
+            </button>
+                
+        </div>
+    )
+    
+    }
+    export default HostingAdmin

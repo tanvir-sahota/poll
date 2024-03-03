@@ -22,7 +22,6 @@ function App() {
     console.log(socket.id)
   })
 
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -56,7 +55,7 @@ function App() {
             <Route 
               //path="/:username/admin"
               path = "/habram/admin"
-              element ={<HostedClassroom/>}
+              element ={<HostedClassroom socket={socket}/>}
             />
             <Route 
               path="/"
@@ -64,11 +63,15 @@ function App() {
             />
             <Route
               path="/habram"
-              element={<ConnectionPage />}
+              element={<ConnectionPage socket={socket}/>}
             />
             <Route 
               path="/:lecturer"
               element={<UserPage/>}
+            />
+            <Route 
+              path="/habram/waiting"
+              element={<WaitingPage socket={socket}/>}
             />
           </Routes>
         </div>

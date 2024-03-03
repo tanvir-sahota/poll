@@ -3,14 +3,15 @@ import { useClassroomContext } from '../hooks/useClassroomContext'
 import ClassroomDropdown from './ClassroomDropdown'
 import HostingAdmin from './HostingAdmin'
 
-const HostingOptions = (userID, question, classID) =>{
-    
+const HostingOptions = (inputData) =>{
+    const {socket, userName, question, classID} = inputData    
     //future change requires only users classrooms to be made 
+
 
     const { classrooms, dispatch } = useClassroomContext()
     const [ showButtons, setShowButtons ] = useState(true)
-    const questionReceived = userID.question
-    const IDReceived = userID.classID
+    const questionReceived = question
+    const IDReceived = classID
     
 
     useEffect(() => {
@@ -30,6 +31,7 @@ const HostingOptions = (userID, question, classID) =>{
     const handlePress = () => {
         setShowButtons(false)
     }
+    //console.log(socket)
 
 
     return(
@@ -49,7 +51,7 @@ const HostingOptions = (userID, question, classID) =>{
                     </div>
                 ))}
             </div> */}
-            <HostingAdmin newClassID = {IDReceived} currentQuestion = {questionReceived}></HostingAdmin>
+            <HostingAdmin socket = {socket} newClassID = {IDReceived} currentQuestion = {questionReceived} userName={userName}/>
         </div>
     )
 }
