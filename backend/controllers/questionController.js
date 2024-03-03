@@ -68,6 +68,9 @@ const createQuestion = async (request, response) => {
                 return response.status(422).json({error: "All answers must be included in options", emptyFields})
             }
             else{
+                if(optionsArray.length < 2 || answersArray.length < 2 || optionsArray.length > 4 || answersArray.length > 4){
+                    return response.status(400).json({ error: "Please enter 2-4 options and answers for MCQ", emptyFields})
+                }
                 const fullQuestion = await Question.create({
                     question: questionAsked, 
                     options:optionsArray, 
