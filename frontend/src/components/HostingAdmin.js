@@ -24,13 +24,14 @@ const HostingAdmin = (inputData) => {
     }, [])
 
     useEffect(() => {
-        socket.on("recieve-answer-text", answer => {
+        socket.on("recieve-answer-text", function(answer) {
             //let list = answers
             //list.push(answer)
             //setAnswers(list)
             setAnswers(previousAnswers => [...previousAnswers, answer])
             console.log(answers)
         })
+        //return () => socket.close()
     }, [])
 
     socket.emit("set-question", question, userName)

@@ -9,7 +9,12 @@ const server = app.listen(PORT, () => {
 })
 
 //socket connection
-const io = socketio(server)
+const io = socketio(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 let currentQuestion = null
 //will be a list of current questions in the future
 

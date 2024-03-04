@@ -14,7 +14,7 @@ import WaitingPage from './pages/WaitingPage'
 
 import io from "socket.io-client"
 
-const socket = io.connect("http://localhost:3000/habram")
+const socket = io.connect("http://localhost:4000/habram")
 
 function App() {
 
