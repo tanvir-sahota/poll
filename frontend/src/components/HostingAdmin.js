@@ -23,14 +23,17 @@ const HostingAdmin = (inputData) => {
         fetchQuestions()
     }, [])
 
-    socket.emit("set-question", question, userName)
+    useEffect(() => {
+        socket.on("recieve-answer-text", answer => {
+            //let list = answers
+            //list.push(answer)
+            //setAnswers(list)
+            setAnswers(previousAnswers => [...previousAnswers, answer])
+            console.log(answers)
+        })
+    }, [])
 
-    socket.on("recieve-answer-text", answer => {
-        let list = answers
-        list.push(answer)
-        setAnswers(list)
-        console.log(answers)
-    })
+    socket.emit("set-question", question, userName)
 
     const handleNext = async () => {
         const tempPosition = questions.findIndex((x) => x._id === question._id)
@@ -42,6 +45,7 @@ const HostingAdmin = (inputData) => {
             setQuestion(questions.at(tempPosition + 1))
             setPosition(tempPosition + 1)             
         }
+        setAnswers([])
     }
     const handlePrev = async () => {
         const tempPosition = questions.findIndex((x) => x._id === question._id)
@@ -53,6 +57,7 @@ const HostingAdmin = (inputData) => {
             setQuestion(questions.at(tempPosition - 1))
             setPosition(tempPosition - 1)             
         }
+        setAnswers([])
     }
 
     return(

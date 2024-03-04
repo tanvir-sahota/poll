@@ -26,6 +26,7 @@ const QuestionDisplay = (inputData) => {
 
     const submitAnswer = () => {
         socket.emit("submit-answer-text", "habram" , textAnswer)
+        console.log("Submitted " + textAnswer)
     }
 
     socket.on("display-question", question => {

@@ -18,6 +18,7 @@ io.of("habram").on("connection", (socket) => {
   socket.on("set-question", (question,userName) =>{
     currentQuestion = question
     socket.to(userName).emit("display-question", currentQuestion)
+    console.log(`set-question display-question ${userName} ${currentQuestion}`)
   })
   socket.on("connect-to-room", (userName) => {
     // console.log("Current room", userName)
@@ -43,7 +44,7 @@ io.of("habram").on("connection", (socket) => {
     currentQuestion = null
   })
   socket.on("submit-answer-text", (userName, answer) => {
-    console.log(answer)
+    console.log(`Sent the answer (${answer}) to ${userName}`)
     socket.to(userName).emit("recieve-answer-text", answer)
   })
 })
