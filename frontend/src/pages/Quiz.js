@@ -50,7 +50,7 @@ const Quiz = () => {
             <br/>
 
 
-            <ShowSelectQuestion classroom_id={classroom_id} />
+            <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id} />
             
             
 
