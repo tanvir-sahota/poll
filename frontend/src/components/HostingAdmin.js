@@ -8,7 +8,7 @@ const HostingAdmin = (inputData) => {
     const classID = newClassID
     const [question, setQuestion] = useState(currentQuestion)
     const {questions, dispatch} = useQuestionContext()
-    const [position, setPosition] = useState(questions.findIndex((x) => x._id === question._id))
+    const [position, setPosition] = useState(0)
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -22,8 +22,7 @@ const HostingAdmin = (inputData) => {
         fetchQuestions()
     }, [])
 
-    socket.emit("update-question", question, userName)
-
+    socket.emit("set-question", question, userName)
 
     const handleNext = async () => {
         const tempPosition = questions.findIndex((x) => x._id === question._id)
@@ -50,7 +49,7 @@ const HostingAdmin = (inputData) => {
 
     return(
         <div>
-            <QuestionDisplay givenQuestion = {question} isAdmin={false} socket={socket}/>
+            <QuestionDisplay givenQuestion = {question} isAdmin={true} socket={socket}/>
             <button onClick={handleNext}>
                 NEXT QUESTION
             </button>

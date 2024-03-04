@@ -1,8 +1,11 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+
 
 const QuestionDisplay = (inputData) => {
     const {givenQuestion, isAdmin, socket} = inputData
     const {question, options, answers} = givenQuestion
+    const navigate = useNavigate()
     // console.log(givenQuestion)
     // console.log("Question: ", question)
     // console.log("Options: ", options)
@@ -13,6 +16,11 @@ const QuestionDisplay = (inputData) => {
 
     const handleSubmission = () => {
         setShowAnswer(!showAnswer)
+    }
+
+    const handleDisconnect = () => {
+        socket.emit("host-disconnect", "habram") //will change to userName
+        navigate("/dashboard")
     }
 
     socket.on("display-question", question => {
@@ -31,7 +39,7 @@ const QuestionDisplay = (inputData) => {
                 ))
             : 
                 <div>
-                    <label for="answerArea">Input Answer:</label>
+                    <label htmlFor="answerArea">Input Answer:</label>
                     <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea>
                 </div>
             }
@@ -46,6 +54,7 @@ const QuestionDisplay = (inputData) => {
                     : 
                         <button id="showAnswer" onClick={handleSubmission}>Show Answer</button>
                     }
+                    <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
                 </div>
             : null}
 

@@ -11,7 +11,7 @@ const ConnectToRoomForm = () => {
         e.preventDefault()
         
         //navigate("habram/0")
-        window.location.href = `/${username}`
+        window.location.href = `/${username}/waiting`
         //need to make sure user exists before you can connect to their page
         // const response = await fetch('/api/users/' + username, {
         //     method: 'GET',

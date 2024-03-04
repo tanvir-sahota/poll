@@ -12,11 +12,17 @@ const EnterNameForm = (inputData) => {
     const [submitted, setSubmitted] = useState(false)
     const [emptyFields, setEmptyFields] = useState([])
     const [usedUsernames, setUsedUsernames] = useState([])
+    const [isHosting, setHosted] = useState(false)
 
     socket.emit("join-room", "habram")
 
     socket.on("switch-pages", () => {
-        navigate("/habram")
+        if(submitted) {navigate("/habram")}
+        setHosted(true)
+    })
+
+    socket.on("disconnect-handler", () => {
+        setHosted(false)
     })
     
 
@@ -85,7 +91,11 @@ const EnterNameForm = (inputData) => {
                     {error && <div className={"error"}>{error}</div>}
                 </form>
             ) : (
-                <h3>Waiting for {lecturer + "'s"} poll to be activated, {username}!</h3>
+                <div>
+                    {isHosting ? navigate("/habram") :
+                        <h3>Waiting for {lecturer + "'s"} poll to be activated, {username}!</h3>
+                    }
+                </div>
             )}
         </div>
     )

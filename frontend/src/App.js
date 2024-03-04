@@ -66,7 +66,7 @@ function App() {
               element={<ConnectionPage socket={socket}/>}
             />
             <Route 
-              path="/:lecturer"
+              path="/:lecturer/waiting"
               element={<UserPage socket={socket}/>}
             />
             {/* <Route 
