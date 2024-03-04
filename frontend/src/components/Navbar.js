@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <header>
       <div className="container">
-        <Link to="/dashboard">
+        <Link to="/">
           <h1>Poll</h1>
         </Link>
       </div>
