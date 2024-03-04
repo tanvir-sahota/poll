@@ -13,6 +13,7 @@ const QuestionDisplay = (inputData) => {
 
     const [isMCQ, setMCQ] = useState(options.length > 1 ? true : false)
     const [showAnswer, setShowAnswer] = useState(false)
+    const [textAnswer, setTextAnswer] = useState(null)
 
     const handleSubmission = () => {
         setShowAnswer(!showAnswer)
@@ -23,9 +24,12 @@ const QuestionDisplay = (inputData) => {
         navigate("/dashboard")
     }
 
+    const submitAnswer = () => {
+        socket.emit("submit-answer-text", "habram" , textAnswer)
+    }
+
     socket.on("display-question", question => {
         setMCQ(question.options.length > 1 ? true : false)
-        console.log(socket.id + " has re-rendered")
     })
 
 
@@ -38,9 +42,18 @@ const QuestionDisplay = (inputData) => {
                     <button key={option} className="option">{option}</button>
                 ))
             : 
-                <div>
-                    <label htmlFor="answerArea">Input Answer:</label>
-                    <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea>
+                <div className="answerInput">
+                    {/* <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea> */}
+                    {!isAdmin ? 
+                    <div>
+                        <label htmlFor="answerArea">Input Answer:</label>
+                        <form onSubmit={submitAnswer}>
+                            <input name="answerArea" type="text" onChange={(e) => setTextAnswer(e.target.value)}/>
+                            <input type="submit" />
+                        </form>
+                    </div>
+                    :
+                    null}
                 </div>
             }
 

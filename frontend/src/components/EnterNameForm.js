@@ -71,12 +71,12 @@ const EnterNameForm = (inputData) => {
     return (
         <div>
             {!submitted ? (
-            <div class="container h-100 bg-dark text-white">
-                <div class="row h-100 justify-content-center align-items-center text-center">
-                    <div class="col-10 col-md-8 col-lg-6">
+            <div className="container h-100 bg-dark text-white">
+                <div className="row h-100 justify-content-center align-items-center text-center">
+                    <div className="col-10 col-md-8 col-lg-6">
                         <form className="form-group" onSubmit={handleSubmit}>
                             <label><h4>Introduce yourself</h4></label>
-                            <div class="input-group mb-3">
+                            <div className="input-group mb-3">
                                 <input
                                     type="text"
                                     onChange={(e) => setUsername(e.target.value)}
@@ -86,7 +86,7 @@ const EnterNameForm = (inputData) => {
                                     aria-describedby="basic-addon2"
                                 />
                             
-                                <div class="input-group-append">
+                                <div className="input-group-append">
                                     <button>Continue</button>
                                     {error && <div className={"error"}>{error}</div>}
                                 </div>

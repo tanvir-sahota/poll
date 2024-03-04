@@ -12,7 +12,7 @@ const ConnectionPage = (inputData) =>{
 
     socket.emit("join-room", userName)
     socket.emit("connect-to-room", userName)
-    console.log("Lets see")
+    //console.log("Lets see")
 
     socket.on("disconnect-handler", () => {
         navigate("/habram/waiting")

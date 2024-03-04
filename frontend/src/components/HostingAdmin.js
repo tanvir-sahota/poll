@@ -9,6 +9,7 @@ const HostingAdmin = (inputData) => {
     const [question, setQuestion] = useState(currentQuestion)
     const {questions, dispatch} = useQuestionContext()
     const [position, setPosition] = useState(0)
+    const [answers, setAnswers] = useState([])
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -23,6 +24,13 @@ const HostingAdmin = (inputData) => {
     }, [])
 
     socket.emit("set-question", question, userName)
+
+    socket.on("recieve-answer-text", answer => {
+        let list = answers
+        list.push(answer)
+        setAnswers(list)
+        console.log(answers)
+    })
 
     const handleNext = async () => {
         const tempPosition = questions.findIndex((x) => x._id === question._id)
@@ -56,7 +64,9 @@ const HostingAdmin = (inputData) => {
             <button onClick={handlePrev}>
                 PREVIOUS QUESTION
             </button>
-                
+            <div>{answers && answers.map(answer => (
+                <p>{answer}</p>
+            ))}</div>
         </div>
     )
     

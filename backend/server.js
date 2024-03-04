@@ -42,6 +42,10 @@ io.of("habram").on("connection", (socket) => {
     socket.to(userName).emit("disconnect-handler")
     currentQuestion = null
   })
+  socket.on("submit-answer-text", (userName, answer) => {
+    console.log(answer)
+    socket.to(userName).emit("recieve-answer-text", answer)
+  })
 })
 
 
