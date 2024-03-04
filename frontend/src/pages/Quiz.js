@@ -46,6 +46,8 @@ const Quiz = () => {
 
             <br/>
             <br/>
+            <br/>
+            <br/>
 
 
             <ShowSelectQuestion classroom_id={classroom_id} />

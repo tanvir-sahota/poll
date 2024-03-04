@@ -1,7 +1,67 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuestionContext } from "../hooks/useQuestionContext"
 
 const SelectQuestionForm = (classID) => {
+    
+
+
+
+
+
+
+
+
+
+    const [classroom_questions, setClassroomQuestions] = useState([])
+    useEffect(() => {
+        const fetchQuestions = async () =>{
+            try{
+                const response = await fetch("http://localhost:4000/api/questions/" + classID.classID)
+                const result = await response.json()
+                setClassroomQuestions(result)
+                console.log(result)
+            }
+            catch (error){
+                console.log("error: " + error)
+            }
+        }
+        
+        fetchQuestions()
+    }, [])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const get_class_questions = async () => {
+    //     const response = await fetch("http://localhost:4000/api/questions/", {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         }
+    //     })
+    //     console.log(response.body)
+    // }
+    // get_class_questions()
+    
+    
+    
+    
+    
+    
+    
+    
     
 
     const {dispatch} = useQuestionContext()
@@ -17,16 +77,14 @@ const SelectQuestionForm = (classID) => {
     const handleSubmission = async (e) => {
         e.preventDefault()
 
-        const question = {questionAsked, options, answers}
-
-        const response = await fetch("http://localhost:4000/api/questions/" + classID.classID, {
-            method: "POST",
-            body: JSON.stringify(question),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        const json = await response.json()
+        // const response = await fetch("http://localhost:4000/api/questions/" + classID.classID, {
+        //     method: "PATCH",
+        //     body: JSON.stringify(question),
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     }
+        // })
+        // const json = await response.json()
 
         if(!response.ok){
             setError(json.error)
@@ -46,46 +104,54 @@ const SelectQuestionForm = (classID) => {
         setShowForm(!showForm)
     }
 
-    return(
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+
+    return(        
         <div>
+            {classroom_questions ? (
+                <p>{classroom_questions[1].question}</p>
+            ) : (
+                <p>nodababy</p>
+            )}
+            
             <h3 onClick={toggleForm} className="form-heading">Select questions</h3>
-        {showForm ? 
-            <form className="create" onSubmit={handleSubmission}>
-                <label>Question</label>
-                <input
-                    type="text"
-                    onChange={(e) => setQuestion(e.target.value)}
-                    value={questionAsked}
-                    className={emptyFields.includes("questionAsked") ? "error" : ""}
-                />
+            {showForm ? 
+                <form className="create" onSubmit={handleSubmission}>
+                    <label>Questions</label>
+                    <input type="checkbox" id="a"/>
+                    <label for="a">2</label>
+                    <input type="checkbox" id="b"/>
+                    <label for="b">3</label>
+                    <input type="checkbox" id="c"/>
+                    <label for="c">4</label>
+                    <input type="checkbox" id="d"/>
+                    <label for="d">5</label>
 
-                <label>Options</label>
-                <input
-                    type="text"
-                    onChange={(e) => setOptions(e.target.value)}
-                    value={options}
-                    className={""}
-                />
+                    <button className = "create">Select Question</button>
+                    {error && <div className="error">{error}</div>}
 
-                <label>Answers</label>
-                <input
-                    type="text"
-                    onChange={(e) => setAnswers(e.target.value)}
-                    value={answers}
-                    className={emptyFields.includes("answers") ? "error" : ""}
-                />
-
-                <p>Input as a comma separated string for multiple answers and options</p>
-
-                <button className = "create">Add Question</button>
-                {error && <div className="error">{error}</div>}
-
-            </form>
-        : null}
+                </form>
+            : null}
         </div>
         
-    )
-
-}
-
-export default SelectQuestionForm
+        )
+        
+    }
+    
+    export default SelectQuestionForm
+    
+    
+    {/* // onChange={(e) => setQuestion(e.target.value)} */}
+    {/* // value={questionAsked} */}
+    // className={emptyFields.includes("questionAsked") ? "error" : ""}
