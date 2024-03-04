@@ -1,6 +1,7 @@
 import {useState} from "react";
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
+import "bootstrap/dist/css/bootstrap.css";
 
 
 const EnterNameForm = (inputData) => {
@@ -22,14 +23,6 @@ const EnterNameForm = (inputData) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
-        /*let generatedUsername = '';
-
-        if (username.trim() !== '') {
-          generatedUsername = username.trim()
-        } else {
-          generatedUsername = generateUsername()
-        }*/
 
         if (username === '')
         {
@@ -55,14 +48,14 @@ const EnterNameForm = (inputData) => {
     }*/
 
     const generateUsername = () => {
-        let count = sessionStorage.getItem('usernameCounter') || 1; // Get the counter from sessionStorage or initialize it to 1
+        let count = sessionStorage.getItem('usernameCounter') || 1
         let newUsername = '';
       
         while (true) {
           newUsername = `guest${count}`;
           if (!usedUsernames.includes(newUsername)) {
-            setUsedUsernames([...usedUsernames, newUsername]); // Update the list of used usernames
-            sessionStorage.setItem('usernameCounter', parseInt(count) + 1); // Update the counter in sessionStorage
+            setUsedUsernames([...usedUsernames, newUsername])
+            sessionStorage.setItem('usernameCounter', parseInt(count) + 1)
             return newUsername;
           }
           count++;
@@ -72,18 +65,30 @@ const EnterNameForm = (inputData) => {
     return (
         <div>
             {!submitted ? (
-                <form className="join" onSubmit={handleSubmit}>
-                    <label>Introduce yourself</label>
-                    <input
-                        type="text"
-                        onChange={(e) => setUsername(e.target.value)}
-                        value={username}
-                        className={emptyFields.includes('title') ? 'error' : ''}
-                        placeholder="Enter name"
-                        />
-                    <button>Continue</button>
-                    {error && <div className={"error"}>{error}</div>}
-                </form>
+            <div class="container h-100 bg-dark text-white">
+                <div class="row h-100 justify-content-center align-items-center text-center">
+                    <div class="col-10 col-md-8 col-lg-6">
+                        <form className="form-group" onSubmit={handleSubmit}>
+                            <label><h4>Introduce yourself</h4></label>
+                            <div class="input-group mb-3">
+                                <input
+                                    type="text"
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    value={username}
+                                    className="form-control"
+                                    placeholder="Enter name"
+                                    aria-describedby="basic-addon2"
+                                />
+                            
+                                <div class="input-group-append">
+                                    <button>Continue</button>
+                                    {error && <div className={"error"}>{error}</div>}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             ) : (
                 <h3>Waiting for {lecturer + "'s"} poll to be activated, {username}!</h3>
             )}
