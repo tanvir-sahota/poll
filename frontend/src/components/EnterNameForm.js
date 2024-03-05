@@ -77,34 +77,37 @@ const EnterNameForm = (inputData) => {
     return (
         <div>
             {!submitted ? (
-            <div class="container h-100 w-50 bg-dark text-white">
-                <div class="row h-100 justify-content-center align-items-center text-center">
-                    <div class="col-10 col-md-8 col-lg-6">
-                        <form className="form-group" onSubmit={handleSubmit}>
-                            <label><h4>Introduce yourself</h4></label>
-                            <div className="input-group mb-3">
-                                <input
-                                    type="text"
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    value={username}
-                                    className="form-control"
-                                    placeholder="Enter name"
-                                    aria-describedby="basic-addon2"
-                                />
-                            
-                                <div className="input-group-append">
-                                    <button>Continue</button>
-                                    {error && <div className={"error"}>{error}</div>}
+            <div class="justify-content-between align-items-center text-center">
+                <h3>Welcome to {lecturer + "'s"} poll!</h3>
+                <div class="container h-100 w-50">
+                    <div class="row h-100 justify-content-center align-items-center text-center">
+                        <div class="col-10 col-md-8 col-lg-6">
+                            <form className="form-group" onSubmit={handleSubmit}>
+                                <label className="mt-4"><h4>Introduce yourself</h4></label>
+                                <div className="input-group mb-3 mt-3">
+                                    <input
+                                        type="text"
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        value={username}
+                                        className="form-control"
+                                        placeholder="Enter name (optional)"
+                                        aria-describedby="basic-addon2"
+                                    />
+                                
+                                    <div className="input-group-append">
+                                        <button>Continue</button>
+                                        {error && <div className={"error"}>{error}</div>}
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
             ) : (
                 <div>
                     {isHosting ? switchPages() :
-                        <h3>Waiting for {lecturer + "'s"} poll to be activated, {username}!</h3>
+                        <h3 className="align-items-center text-center">Waiting for {lecturer + "'s"} poll to be activated, {username}!</h3>
                     }
                 </div>
             )}

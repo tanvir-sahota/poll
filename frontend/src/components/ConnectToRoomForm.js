@@ -11,7 +11,10 @@ const ConnectToRoomForm = () => {
         e.preventDefault()
         
         //navigate("habram/0")
-        window.location.href = `/${username}/waiting`
+        if (username !== '')
+        {   
+            window.location.href = `/${username}/waiting`
+        }
         //need to make sure user exists before you can connect to their page
         // const response = await fetch('/api/users/' + username, {
         //     method: 'GET',
@@ -32,7 +35,7 @@ const ConnectToRoomForm = () => {
         }
     
     return (
-        <form className="join" onSubmit={handleSubmit}>
+        /*<form className="join" onSubmit={handleSubmit}>
             <h3> Join Classroom</h3>
             <label>localhost:3000/</label>
             <input
@@ -44,7 +47,33 @@ const ConnectToRoomForm = () => {
                 />
             <button>Connect</button>
             {error && <div className={"error"}>{error}</div>}
-        </form>
+        </form>*/
+
+        <div class="container h-100 w-50">
+        <div class="row h-100 justify-content-center align-items-center text-center">
+            <div class="col-10 col-md-8 col-lg-6">
+                <form className="form-group" onSubmit={handleSubmit}>
+                    <label className="mt-4"><h2>Join Poll</h2></label>
+                    <div className="input-group mb-3 mt-3">
+                        <input
+                            type="text"
+                            onChange={(e) => setUsername(e.target.value)}
+                            value={username}
+                            className="form-control"
+                            placeholder="Enter username"
+                            aria-describedby="basic-addon2"
+                            btn-focus-outline="none"
+                        />
+                    
+                        <div className="input-group-append">
+                            <button>Connect</button>
+                            {error && <div className={"error"}>{error}</div>}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
     )
 }
 
