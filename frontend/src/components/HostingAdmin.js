@@ -10,7 +10,6 @@ const HostingAdmin = (inputData) => {
     const {questions, dispatch} = useQuestionContext()
     const [position, setPosition] = useState(0)
     const [answers, setAnswers] = useState([])
-    const [options, setOptions] = useState([])
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -35,18 +34,18 @@ const HostingAdmin = (inputData) => {
         //return () => socket.close()
     }, [])
 
-    useEffect(() => {
+    /*useEffect(() => {
         socket.on("initialise-option", function(option) {
-            setOptions(previousOptions => [...previousOptions, option])
-            setAnswers(answers => [...answers, 0])
-            console.log("Init option",option)
+            //setOptions(previousOptions => [...previousOptions, option])
+            //setAnswers(answers => [...answers, 0])
+            //console.log("Init option",option)
         })
         //return () => socket.close()
-    }, [])
+    }, [])*/
 
     useEffect(() => {
         socket.on("recieve-answer-mcq", function(option) {
-            const index = options.findIndex(comparisonOption => comparisonOption == option)
+            const index = question.options.findIndex(comparisonOption => comparisonOption === option)
             let list = answers
             list[index] += 1
             setAnswers(list)
@@ -57,7 +56,7 @@ const HostingAdmin = (inputData) => {
 
     useEffect(() => {
         socket.on("decline-answer-mcq", function(option) {
-            const index = options.findIndex(comparisonOption => comparisonOption == option)
+            const index = question.options.findIndex(comparisonOption => comparisonOption == option)
             let list = answers
             list.at(index) > 0 ? list[index] -= 1 : list[index] = 0
             setAnswers(list)
@@ -82,7 +81,7 @@ const HostingAdmin = (inputData) => {
             setPosition(tempPosition + 1)             
         }
         setAnswers([])
-        setOptions([])
+        //setOptions([])
     }
     const handlePrev = async () => {
         const tempPosition = questions.findIndex((x) => x._id === question._id)
@@ -95,7 +94,7 @@ const HostingAdmin = (inputData) => {
             setPosition(tempPosition - 1)             
         }
         setAnswers([])
-        setOptions([])
+        //setOptions([])
     }
 
     return(
@@ -114,11 +113,11 @@ const HostingAdmin = (inputData) => {
                 </button>
             </div>
             <div className="options">
-                {options ?
-                    options.map(option => (
+                {question.options ?
+                    question.options.map(option => (
                         <dl>
                             <dt>{option}</dt>
-                            <dd>{answers.at(options.indexOf(option))}</dd>
+                            <dd>{answers.at(question.options.indexOf(option))}</dd>
                         </dl>
                     ))
                 :

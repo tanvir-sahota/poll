@@ -25,65 +25,58 @@ const QuestionDisplay = (inputData) => {
     }
 
     const submitAnswer = () => {
-        socket.emit("submit-answer-text", "habram" , textAnswer)
+        socket.emit("submit-answer-text", "habram", textAnswer)
         console.log("Submitted " + textAnswer)
-    }
-
-    const initialiseOptions = () => {
-        options.map((option) => {
-            socket.emit("give-option", "habram", option)
-        })
     }
 
     socket.on("display-question", question => {
         setMCQ(question.options.length > 1 ? true : false)
-        if(isMCQ){
+        if (isMCQ) {
             console.log("Loaded buttons")
-            initialiseOptions()
         }
     })
 
 
-    return(
-        <div className = "display">
+    return (
+        <div className="display">
             <h1 id="displayedQuestion">{question}</h1>
 
-            {isMCQ && !isAdmin? 
+            {isMCQ && (!isAdmin) ?
                 options.map(option => (
                     <MCQButton option={option} socket={socket}/>
                 ))
-            : 
+                :
                 <div className="answerInput">
                     {/* <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea> */}
-                    {!isAdmin ? 
-                    <div>
-                        <label htmlFor="answerArea">Input Answer:</label>
-                        <form onSubmit={submitAnswer}>
-                            <input name="answerArea" type="text" onChange={(e) => setTextAnswer(e.target.value)}/>
-                            <input type="submit" />
-                        </form>
-                    </div>
-                    :
-                    null}
+                    {!isAdmin ?
+                        <div>
+                            <label htmlFor="answerArea">Input Answer:</label>
+                            <form onSubmit={submitAnswer}>
+                                <input name="answerArea" type="text" onChange={(e) => setTextAnswer(e.target.value)}/>
+                                <input type="submit"/>
+                            </form>
+                        </div>
+                        :
+                        null}
                 </div>
             }
 
-            {isAdmin ? 
+            {isAdmin ?
                 <div>
                     {showAnswer ?
-                    <div>
-                        <h3><strong>{answers}</strong></h3>
-                        <button id="showAnswer" onClick={handleSubmission}>Hide Answer</button>
-                    </div>
-                    : 
+                        <div>
+                            <h3><strong>{answers}</strong></h3>
+                            <button id="showAnswer" onClick={handleSubmission}>Hide Answer</button>
+                        </div>
+                        :
                         <button id="showAnswer" onClick={handleSubmission}>Show Answer</button>
                     }
                     <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
                 </div>
-            : null}
+                : null}
 
         </div>
-    ) 
+    )
 }
 
 export default QuestionDisplay
