@@ -9,7 +9,7 @@ const HostingAdmin = (inputData) => {
     const [question, setQuestion] = useState(currentQuestion)
     const {questions, dispatch} = useQuestionContext()
     const [position, setPosition] = useState(0)
-    const [answers, setAnswers] = useState([])
+    const [answers, setAnswers] = useState(question.options.map(o => 0))
 
     useEffect(() => {
         const fetchQuestions = async () => {
