@@ -42,6 +42,7 @@ io.of("habram").on("connection", (socket) => {
   })
   socket.on("join-room", (userName) => {
     socket.join(userName)
+    console.log(socket.rooms)
   })
   socket.on("host-disconnect", (userName) => {
     //will have to set current question to null for the map key of username
@@ -59,6 +60,11 @@ io.of("habram").on("connection", (socket) => {
   socket.on("unsubmit-answer-MCQ", (userName , option) => {
     console.log(`Rebuke the answer (${option}) to ${userName}`)
     socket.to(userName).emit("decline-answer-mcq", option)
+  })
+  socket.on("check-for-host", userName =>{
+    console.log("Is hosting", currentQuestion != null, "at room ", userName)
+    if(currentQuestion != null){
+      socket.to("habram").emit("switch-pages")} 
   })
 
 })
