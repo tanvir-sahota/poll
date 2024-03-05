@@ -14,7 +14,7 @@ import WaitingPage from './pages/WaitingPage'
 
 import io from "socket.io-client"
 
-const socket = io.connect("http://localhost:3000/habram")
+const socket = io.connect("http://localhost:4000/habram")
 
 function App() {
 
@@ -66,7 +66,7 @@ function App() {
               element={<ConnectionPage socket={socket}/>}
             />
             <Route 
-              path="/:lecturer"
+              path="/:lecturer/waiting"
               element={<UserPage socket={socket}/>}
             />
             {/* <Route 

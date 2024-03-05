@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.css";
@@ -13,11 +13,19 @@ const EnterNameForm = (inputData) => {
     const [submitted, setSubmitted] = useState(false)
     const [emptyFields, setEmptyFields] = useState([])
     const [usedUsernames, setUsedUsernames] = useState([])
+    const [isHosting, setHosted] = useState(false)
 
     socket.emit("join-room", "habram")
+    socket.emit("check-for-host", "habram")
 
     socket.on("switch-pages", () => {
-        navigate("/habram")
+        if(submitted) {navigate("/habram")}
+        setHosted(true)
+        console.log(socket.rooms)
+    })
+
+    socket.on("disconnect-handler", () => {
+        setHosted(false)
     })
     
 
@@ -32,6 +40,10 @@ const EnterNameForm = (inputData) => {
 
         setSubmitted(true)
         
+    }
+
+    const switchPages = () => {
+        navigate("/habram")
     }
 
     /*const generateUsername = () => {
@@ -70,7 +82,7 @@ const EnterNameForm = (inputData) => {
                     <div class="col-10 col-md-8 col-lg-6">
                         <form className="form-group" onSubmit={handleSubmit}>
                             <label><h4>Introduce yourself</h4></label>
-                            <div class="input-group mb-3">
+                            <div className="input-group mb-3">
                                 <input
                                     type="text"
                                     onChange={(e) => setUsername(e.target.value)}
@@ -80,7 +92,7 @@ const EnterNameForm = (inputData) => {
                                     aria-describedby="basic-addon2"
                                 />
                             
-                                <div class="input-group-append">
+                                <div className="input-group-append">
                                     <button>Continue</button>
                                     {error && <div className={"error"}>{error}</div>}
                                 </div>
@@ -90,7 +102,11 @@ const EnterNameForm = (inputData) => {
                 </div>
             </div>
             ) : (
-                <h3>Waiting for {lecturer + "'s"} poll to be activated, {username}!</h3>
+                <div>
+                    {isHosting ? switchPages() :
+                        <h3>Waiting for {lecturer + "'s"} poll to be activated, {username}!</h3>
+                    }
+                </div>
             )}
         </div>
     )
