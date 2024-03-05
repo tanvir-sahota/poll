@@ -10,7 +10,7 @@ const ClassroomDropdown = (newClassID) =>{
 
     useEffect(() => {
         const fetchQuestions = async () =>{
-            const response = await fetch("http://localhost:4000/api/questions/" + classID)
+            const response = await fetch(`${process.env.REACT_APP_URL}api/questions/` + classID)
             const json = await response.json()
             if(response.ok){
                 setQuestion(json)

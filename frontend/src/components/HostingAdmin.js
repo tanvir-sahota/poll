@@ -9,11 +9,11 @@ const HostingAdmin = (inputData) => {
     const [question, setQuestion] = useState(currentQuestion)
     const {questions, dispatch} = useQuestionContext()
     const [position, setPosition] = useState(0)
-    const [answers, setAnswers] = useState(question.options.map(o => 0))
+    const [answers, setAnswers] = useState(question.options.length > 1 ? question.options.map(o => 0) : [])
 
     useEffect(() => {
         const fetchQuestions = async () => {
-            const response = await fetch(`http://localhost:4000/api/questions/${classID}`)
+            const response = await fetch(`${process.env.REACT_APP_URL}api/questions/${classID}`)
             const json = await response.json()
 
             if (response.ok) {
@@ -28,8 +28,16 @@ const HostingAdmin = (inputData) => {
             //let list = answers
             //list.push(answer)
             //setAnswers(list)
-            setAnswers(previousAnswers => [...previousAnswers, answer])
-            console.log(answers)
+            //setAnswers(previousAnswers => [...previousAnswers, answer])
+            //etAnswers(previousAnswers => [...previousAnswers, answer])
+            setAnswers(prevAnswers => {
+                let list = [...prevAnswers]
+                list = [...list, answer]
+                console.log("NEW TEXT ANSWER ",answer)
+                console.log(`${list}`)
+                return list
+            })
+            //console.log(answers)
         })
         //return () => socket.close()
     }, [])
@@ -46,10 +54,28 @@ const HostingAdmin = (inputData) => {
     useEffect(() => {
         socket.on("recieve-answer-mcq", function(option) {
             const index = question.options.findIndex(comparisonOption => comparisonOption === option)
-            let list = answers
+            //let list = answers
+            //list[index] += 1
+            /*this.setState(prevAnswers => ({
+                let list = prevAnswers
+                list[index] += 1
+                return list
+            })*/
+            /*let list = [...answers]
             list[index] += 1
-            setAnswers(list)
             console.log("Option added count",option)
+            console.log(`${option} ${list}`)
+            setAnswers(list)*/
+            //return prevAnswers
+            setAnswers(prevAnswers => {
+                let list = [...prevAnswers]
+                list[index] += 1
+                console.log("Option added count",option)
+                console.log(`${option} ${list}`)
+                return list
+            })
+            //console.log("Option added count",option)
+            //console.log(`${option} ${list}`)
         })
         //return () => socket.close()
     }, [])
@@ -57,10 +83,18 @@ const HostingAdmin = (inputData) => {
     useEffect(() => {
         socket.on("decline-answer-mcq", function(option) {
             const index = question.options.findIndex(comparisonOption => comparisonOption == option)
-            let list = answers
+            /*let list = answers
             list.at(index) > 0 ? list[index] -= 1 : list[index] = 0
             setAnswers(list)
-            console.log("Option minus count",option)
+            console.log("Option minus count",option)*/
+
+            setAnswers(prevAnswers => {
+                let list = [...prevAnswers]
+                list.at(index) > 0 ? list[index] -= 1 : list[index] = 0
+                console.log("Option minus count",option)
+                console.log(`${option} ${list}`)
+                return list
+            })
         })
         //return () => socket.close()
     }, [])
@@ -71,29 +105,44 @@ const HostingAdmin = (inputData) => {
 
 
     const handleNext = async () => {
-        const tempPosition = questions.findIndex((x) => x._id === question._id)
+        let newQuestion;
         if(position >= questions.length - 1){
-            setQuestion(questions.at(0))
-            setPosition(0)     
+            newQuestion = questions.at(0)
+            setPosition(0)
         }
         else{
-            setQuestion(questions.at(tempPosition + 1))
-            setPosition(tempPosition + 1)             
+            const tempPosition = questions.findIndex((x) => x._id === question._id)
+            newQuestion = questions.at(tempPosition + 1)
+            setPosition(tempPosition + 1)
         }
-        setAnswers([])
+        setQuestion(newQuestion)
+        if (newQuestion.options.length > 1) {
+            setAnswers(newQuestion.options.map(o => 0))
+        }
+        else {
+            setAnswers([])
+        }
+
         //setOptions([])
     }
     const handlePrev = async () => {
-        const tempPosition = questions.findIndex((x) => x._id === question._id)
+        let newQuestion;
         if(position <= 0){
-            setQuestion(questions.at(-1))
-            setPosition(questions.length - 1)     
+            newQuestion = questions.at(-1)
+            setPosition(questions.length - 1)
         }
         else{
-            setQuestion(questions.at(tempPosition - 1))
-            setPosition(tempPosition - 1)             
+            const tempPosition = questions.findIndex((x) => x._id === question._id)
+            newQuestion = questions.at(tempPosition - 1)
+            setPosition(tempPosition - 1)
         }
-        setAnswers([])
+        setQuestion(newQuestion)
+        if (newQuestion.options.length > 1) {
+            setAnswers(newQuestion.options.map(o => 0))
+        }
+        else {
+            setAnswers([])
+        }
         //setOptions([])
     }
 
@@ -113,21 +162,23 @@ const HostingAdmin = (inputData) => {
                 </button>
             </div>
             <div className="options">
-                {question.options ?
-                    question.options.map(option => (
-                        <dl>
+                {question.options.length > 1 ?
+                    question.options.map(option => {
+                        const count = answers.at(question.options.indexOf(option))
+                        console.log(`${option}: ${count}`)
+                        console.log(`ANSWERS: ${answers}`)
+
+                        return <dl>
                             <dt>{option}</dt>
-                            <dd>{answers.at(question.options.indexOf(option))}</dd>
-                            {console.log(`${option}: ${answers.at(question.options.indexOf(option))}`)}
-                            {console.log(`ANSWERS: ${answers}`)}
+                            <dd>{count}</dd>
                         </dl>
-                    ))
-                :
+                    })
+                    :
                     answers && answers.map(answer => (<p>{answer}</p>))
                 }
             </div>
         </div>
     )
-    
-    }
-    export default HostingAdmin
+
+}
+export default HostingAdmin

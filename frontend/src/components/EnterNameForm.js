@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.css";
@@ -16,18 +16,16 @@ const EnterNameForm = (inputData) => {
     const [isHosting, setHosted] = useState(false)
 
     socket.emit("join-room", "habram")
-    socket.emit("check-for-host", "habram")
 
     socket.on("switch-pages", () => {
         if(submitted) {navigate("/habram")}
         setHosted(true)
-        console.log(socket.rooms)
     })
 
     socket.on("disconnect-handler", () => {
         setHosted(false)
     })
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -39,7 +37,7 @@ const EnterNameForm = (inputData) => {
 
 
         setSubmitted(true)
-        
+
     }
 
     const switchPages = () => {
@@ -62,18 +60,18 @@ const EnterNameForm = (inputData) => {
     const generateUsername = () => {
         let count = sessionStorage.getItem('usernameCounter') || 1
         let newUsername = '';
-      
+
         while (true) {
-          newUsername = `guest${count}`;
-          if (!usedUsernames.includes(newUsername)) {
-            setUsedUsernames([...usedUsernames, newUsername])
-            sessionStorage.setItem('usernameCounter', parseInt(count) + 1)
-            return newUsername;
-          }
-          count++;
+            newUsername = `guest${count}`;
+            if (!usedUsernames.includes(newUsername)) {
+                setUsedUsernames([...usedUsernames, newUsername])
+                sessionStorage.setItem('usernameCounter', parseInt(count) + 1)
+                return newUsername;
+            }
+            count++;
         }
     }
-    
+
     return (
         <div>
             {!submitted ? (
