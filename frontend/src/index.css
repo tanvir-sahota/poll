@@ -159,7 +159,7 @@ label, input {
   color: #333;
 }
 
-form button {
+form button, div button {
   background: goldenrod;
   border: 0;
   color: #fff;
@@ -244,4 +244,42 @@ input.error {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
+}
+
+/* HostingAdmin and QuestionDisplay */
+.questionDisplay {
+  grid-area: question;
+  
+}
+
+.nextButton {
+  grid-area: next;
+}
+
+.prevButton {
+  grid-area: prev;
+}
+
+.hostingDisplay {
+  display: grid;
+  grid-template-areas:
+  '. question question question question'
+  '. . . . .'
+  'prev . . . next';
+
+  grid-template-rows: 3fr 5fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.display {
+  display: flex;
+  flex-direction: column;
+}
+
+#disconnectButton {
+  float: right;
+}
+
+#showAnswer {
+  margin-top:50px ;
 }

@@ -62,17 +62,23 @@ const HostingAdmin = (inputData) => {
     }
 
     return(
-        <div>
-            <QuestionDisplay givenQuestion = {question} isAdmin={true} socket={socket}/>
-            <button onClick={handleNext}>
-                NEXT QUESTION
-            </button>
-            <button onClick={handlePrev}>
-                PREVIOUS QUESTION
-            </button>
-            <div>{answers && answers.map(answer => (
-                <p>{answer}</p>
-            ))}</div>
+        <div className="hostingDisplay">
+            <div className="questionDisplay">
+                <QuestionDisplay givenQuestion = {question} isAdmin = {true} socket = {socket}/>
+            </div>
+            <div className="nextButton">
+                <button onClick={handleNext}>
+                    NEXT QUESTION
+                </button>
+            </div>
+            <div className="prevButton">
+                <button onClick={handlePrev}>
+                    PREVIOUS QUESTION
+                </button>
+            </div>
+            <div>
+                {answers && answers.map(answer => (<p>{answer}</p>))}
+            </div>
         </div>
     )
     
