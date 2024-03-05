@@ -118,6 +118,8 @@ const HostingAdmin = (inputData) => {
                         <dl>
                             <dt>{option}</dt>
                             <dd>{answers.at(question.options.indexOf(option))}</dd>
+                            {console.log(`${option}: ${answers.at(question.options.indexOf(option))}`)}
+                            {console.log(`ANSWERS: ${answers}`)}
                         </dl>
                     ))
                 :
