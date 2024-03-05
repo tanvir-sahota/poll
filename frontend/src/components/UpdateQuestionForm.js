@@ -14,7 +14,7 @@ const UpdateQuestionForm = ({question, setShowForm, classID, setShowOptions}) =>
 
         const newQuestion = {questionAsked, options, answers}
         
-        const response = await fetch("http://localhost:4000/api/questions/" + classID + "/" + question._id, {
+        const response = await fetch(`${process.env.REACT_APP_URL}api/questions/` + classID + "/" + question._id, {
             method: "PATCH",
             body: JSON.stringify(newQuestion),
             headers: {

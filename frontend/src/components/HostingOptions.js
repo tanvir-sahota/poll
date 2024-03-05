@@ -16,7 +16,7 @@ const HostingOptions = (inputData) =>{
 
     useEffect(() => {
         const fetchClassrooms = async () => {
-            const response = await fetch('http://localhost:4000/api/classrooms')
+            const response = await fetch(`${process.env.REACT_APP_URL}api/classrooms`)
             const json = await response.json()
 
             if (response.ok) {
