@@ -28,8 +28,16 @@ const HostingAdmin = (inputData) => {
             //let list = answers
             //list.push(answer)
             //setAnswers(list)
-            setAnswers(previousAnswers => [...previousAnswers, answer])
-            console.log(answers)
+            //setAnswers(previousAnswers => [...previousAnswers, answer])
+            //etAnswers(previousAnswers => [...previousAnswers, answer])
+            setAnswers(prevAnswers => {
+                let list = [...prevAnswers]
+                list = [...list, answer]
+                console.log("NEW TEXT ANSWER ",answer)
+                console.log(`${list}`)
+                return list
+            })
+            //console.log(answers)
         })
         //return () => socket.close()
     }, [])
@@ -154,7 +162,7 @@ const HostingAdmin = (inputData) => {
                 </button>
             </div>
             <div className="options">
-                {question.options ?
+                {question.options.length > 1 ?
                     question.options.map(option => {
                         const count = answers.at(question.options.indexOf(option))
                         console.log(`${option}: ${count}`)
