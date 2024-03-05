@@ -65,7 +65,7 @@ const EnterNameForm = (inputData) => {
     return (
         <div>
             {!submitted ? (
-            <div class="container h-100 bg-dark text-white">
+            <div class="container h-100 w-50 bg-dark text-white">
                 <div class="row h-100 justify-content-center align-items-center text-center">
                     <div class="col-10 col-md-8 col-lg-6">
                         <form className="form-group" onSubmit={handleSubmit}>
