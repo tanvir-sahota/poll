@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.css";
@@ -16,10 +16,12 @@ const EnterNameForm = (inputData) => {
     const [isHosting, setHosted] = useState(false)
 
     socket.emit("join-room", "habram")
+    socket.emit("check-for-host", "habram")
 
     socket.on("switch-pages", () => {
         if(submitted) {navigate("/habram")}
         setHosted(true)
+        console.log(socket.rooms)
     })
 
     socket.on("disconnect-handler", () => {
