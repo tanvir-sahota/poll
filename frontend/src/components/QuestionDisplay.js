@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-
+import MCQButton from "./MCQButton"
 
 const QuestionDisplay = (inputData) => {
     const {givenQuestion, isAdmin, socket} = inputData
@@ -14,7 +14,6 @@ const QuestionDisplay = (inputData) => {
     const [isMCQ, setMCQ] = useState(options.length > 1 ? true : false)
     const [showAnswer, setShowAnswer] = useState(false)
     const [textAnswer, setTextAnswer] = useState(null)
-    const [pressed, setPressed] = useState(false)
 
     const handleSubmission = () => {
         setShowAnswer(!showAnswer)
@@ -28,22 +27,6 @@ const QuestionDisplay = (inputData) => {
     const submitAnswer = () => {
         socket.emit("submit-answer-text", "habram" , textAnswer)
         console.log("Submitted " + textAnswer)
-    }
-
-    const submitMCQAnswer = (option) => {
-        socket.emit("submit-answer-MCQ", "habram" , option)
-        setPressed(true)
-        console.log("Option is ", option)
-    }
-
-    const unSubmitMCQ = (option) => {
-        socket.emit("unsubmit-answer-MCQ", "habram" , option)
-        setPressed(false)
-        console.log("Option is ", option)
-    }
-
-    const handleMCQ = (option) => {
-        !pressed ? submitMCQAnswer(option) : unSubmitMCQ(option)
     }
 
     const initialiseOptions = () => {
@@ -67,7 +50,7 @@ const QuestionDisplay = (inputData) => {
 
             {isMCQ && !isAdmin? 
                 options.map(option => (
-                    <button key={option} className={pressed ? "pOption" : "unpOption"} onClick={() => handleMCQ(option)}>{option}</button>
+                    <MCQButton option={option} socket={socket}/>
                 ))
             : 
                 <div className="answerInput">
