@@ -61,7 +61,7 @@ io.of("habram").on("connection", (socket) => {
     socket.to(userName).emit("decline-answer-mcq", option)
   })
   socket.on("give-option", (userName , option) => {
-    console.log(`Initialise (${option}) to ${userName}`)
+    console.log(`Initialise (${option}) to ${userName} new`)
     socket.to(userName).emit("initialise-option", option)
   })
 })

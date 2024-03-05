@@ -115,8 +115,12 @@ const HostingAdmin = (inputData) => {
             </div>
             <div className="options">
                 {options ?
-                    options.map(option => (<label htmlFor="answers">{option}</label>)) &&
-                    answers && answers.map(answer => (<p name="answers">{answer}</p>))
+                    options.map(option => (
+                        <dl>
+                            <dt>{option}</dt>
+                            <dd>{answers.at(options.indexOf(option))}</dd>
+                        </dl>
+                    ))
                 :
                     answers && answers.map(answer => (<p>{answer}</p>))
                 }
