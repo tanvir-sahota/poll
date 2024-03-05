@@ -111,7 +111,7 @@ const HostingAdmin = (inputData) => {
                     PREVIOUS QUESTION
                 </button>
             </div>
-            <div>
+            <div className="options">
                 {options ?
                     options.map(option => (<label htmlFor="answers">{option}</label>)) &&
                     answers && answers.map(answer => (<p name="answers">{answer}</p>))

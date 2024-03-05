@@ -259,12 +259,15 @@ code {
 .prevButton {
   grid-area: prev;
 }
+.options { 
+  grid-area: options;
+}
 
 .hostingDisplay {
   display: grid;
   grid-template-areas:
-  '. question question question question'
-  '. . . . .'
+  '. question question question .'
+  '. options . . .'
   'prev . . . next';
 
   grid-template-rows: 3fr 3fr 1fr;
@@ -283,3 +286,17 @@ code {
 #showAnswer {
   margin-top:50px ;
 }
+
+input[name="answerArea"] {
+  min-width: 300px;
+  min-height: 45px;
+  background: rgba(23,184,237,1);
+}
+
+input:focus[name="answerArea"] {
+  outline: none !important;
+  border:1px solid black;
+  box-shadow: 0 0 10px #719ECE;
+}
+
+
