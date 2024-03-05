@@ -53,12 +53,18 @@ const HostingAdmin = (inputData) => {
                 list[index] += 1
                 return list
             })*/
+            /*let list = [...answers]
+            list[index] += 1
+            console.log("Option added count",option)
+            console.log(`${option} ${list}`)
+            setAnswers(list)*/
+            //return prevAnswers
             setAnswers(prevAnswers => {
-                //let list = prevAnswers
-                prevAnswers[index] += 1
+                let list = [...prevAnswers]
+                list[index] += 1
                 console.log("Option added count",option)
-                console.log(`${option} ${prevAnswers}`)
-                return prevAnswers
+                console.log(`${option} ${list}`)
+                return list
             })
             //console.log("Option added count",option)
             //console.log(`${option} ${list}`)
@@ -75,11 +81,11 @@ const HostingAdmin = (inputData) => {
             console.log("Option minus count",option)*/
 
             setAnswers(prevAnswers => {
-                //let list = prevAnswers
-                prevAnswers.at(index) > 0 ? prevAnswers[index] -= 1 : prevAnswers[index] = 0
+                let list = [...prevAnswers]
+                list.at(index) > 0 ? list[index] -= 1 : list[index] = 0
                 console.log("Option minus count",option)
-                console.log(`${option} ${prevAnswers}`)
-                return prevAnswers
+                console.log(`${option} ${list}`)
+                return list
             })
         })
         //return () => socket.close()
