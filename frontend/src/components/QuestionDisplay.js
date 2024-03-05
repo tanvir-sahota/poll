@@ -47,15 +47,15 @@ const QuestionDisplay = (inputData) => {
     }
 
     const initialiseOptions = () => {
-        console.log("Loaded buttons", options)
         options.map((option) => {
-            socket.emit("give-option", option)
+            socket.emit("give-option", "habram", option)
         })
     }
 
     socket.on("display-question", question => {
         setMCQ(question.options.length > 1 ? true : false)
         if(isMCQ){
+            console.log("Loaded buttons")
             initialiseOptions()
         }
     })
@@ -65,7 +65,7 @@ const QuestionDisplay = (inputData) => {
         <div className = "display">
             <h1 id="displayedQuestion">{question}</h1>
 
-            {isMCQ ? 
+            {isMCQ && !isAdmin? 
                 options.map(option => (
                     <button key={option} className={pressed ? "pOption" : "unpOption"} onClick={() => handleMCQ(option)}>{option}</button>
                 ))

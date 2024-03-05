@@ -66,8 +66,10 @@ const HostingAdmin = (inputData) => {
         //return () => socket.close()
     }, [])
 
+    useEffect(() => {
+        socket.emit("set-question", question, userName)
+    }, [position])
 
-    socket.emit("set-question", question, userName)
 
     const handleNext = async () => {
         const tempPosition = questions.findIndex((x) => x._id === question._id)

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import QuestionDisplay from "../components/QuestionDisplay";
 
@@ -10,8 +10,10 @@ const ConnectionPage = (inputData) =>{
     //const userName = location.state.room
     const [showQuestion, setShowQuestion] = useState(null)
 
-    socket.emit("join-room", userName)
-    socket.emit("connect-to-room", userName)
+    useEffect(() => {
+        socket.emit("join-room", userName)
+        socket.emit("connect-to-room", userName)
+    }, [])
     //console.log("Lets see")
 
     socket.on("disconnect-handler", () => {
