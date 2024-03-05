@@ -74,11 +74,11 @@ const HostingAdmin = (inputData) => {
         const tempPosition = questions.findIndex((x) => x._id === question._id)
         if(position >= questions.length - 1){
             setQuestion(questions.at(0))
-            setPosition(0)     
+            setPosition(0)
         }
         else{
             setQuestion(questions.at(tempPosition + 1))
-            setPosition(tempPosition + 1)             
+            setPosition(tempPosition + 1)
         }
         setAnswers([])
         //setOptions([])
@@ -87,11 +87,11 @@ const HostingAdmin = (inputData) => {
         const tempPosition = questions.findIndex((x) => x._id === question._id)
         if(position <= 0){
             setQuestion(questions.at(-1))
-            setPosition(questions.length - 1)     
+            setPosition(questions.length - 1)
         }
         else{
             setQuestion(questions.at(tempPosition - 1))
-            setPosition(tempPosition - 1)             
+            setPosition(tempPosition - 1)
         }
         setAnswers([])
         //setOptions([])
@@ -118,16 +118,14 @@ const HostingAdmin = (inputData) => {
                         <dl>
                             <dt>{option}</dt>
                             <dd>{answers.at(question.options.indexOf(option))}</dd>
-                            {console.log(`${option}: ${answers.at(question.options.indexOf(option))}`)}
-                            {console.log(`ANSWERS: ${answers}`)}
                         </dl>
                     ))
-                :
+                    :
                     answers && answers.map(answer => (<p>{answer}</p>))
                 }
             </div>
         </div>
     )
-    
-    }
-    export default HostingAdmin
+
+}
+export default HostingAdmin
