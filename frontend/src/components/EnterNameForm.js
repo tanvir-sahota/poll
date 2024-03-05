@@ -40,6 +40,10 @@ const EnterNameForm = (inputData) => {
         
     }
 
+    const switchPages = () => {
+        navigate("/habram")
+    }
+
     /*const generateUsername = () => {
         let uniqueUsername = ''
         let count = 1;
@@ -97,7 +101,7 @@ const EnterNameForm = (inputData) => {
             </div>
             ) : (
                 <div>
-                    {isHosting ? navigate("/habram") :
+                    {isHosting ? switchPages() :
                         <h3>Waiting for {lecturer + "'s"} poll to be activated, {username}!</h3>
                     }
                 </div>

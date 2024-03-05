@@ -23,7 +23,7 @@ io.of("habram").on("connection", (socket) => {
   socket.on("set-question", (question,userName) =>{
     currentQuestion = question
     socket.to(userName).emit("display-question", currentQuestion)
-    console.log(`set-question display-question ${userName} ${currentQuestion}`)
+    //console.log(`set-question display-question ${userName} ${currentQuestion}`)
   })
   socket.on("connect-to-room", (userName) => {
     // console.log("Current room", userName)
@@ -51,6 +51,18 @@ io.of("habram").on("connection", (socket) => {
   socket.on("submit-answer-text", (userName, answer) => {
     console.log(`Sent the answer (${answer}) to ${userName}`)
     socket.to(userName).emit("recieve-answer-text", answer)
+  })
+  socket.on("submit-answer-MCQ", (userName , option) => {
+    console.log(`Sent the answer (${option}) to ${userName}`)
+    socket.to(userName).emit("recieve-answer-mcq", option)
+  })
+  socket.on("unsubmit-answer-MCQ", (userName , option) => {
+    console.log(`Rebuke the answer (${option}) to ${userName}`)
+    socket.to(userName).emit("decline-answer-mcq", option)
+  })
+  socket.on("give-option", (userName , option) => {
+    console.log(`Initialise (${option}) to ${userName}`)
+    socket.to(userName).emit("initialise-option", option)
   })
 })
 

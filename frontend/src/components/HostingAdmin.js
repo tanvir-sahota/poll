@@ -10,6 +10,7 @@ const HostingAdmin = (inputData) => {
     const {questions, dispatch} = useQuestionContext()
     const [position, setPosition] = useState(0)
     const [answers, setAnswers] = useState([])
+    const [options, setOptions] = useState([])
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -34,6 +35,38 @@ const HostingAdmin = (inputData) => {
         //return () => socket.close()
     }, [])
 
+    useEffect(() => {
+        socket.on("initialise-option", function(option) {
+            setOptions(previousOptions => [...previousOptions, option])
+            setAnswers(answers => [...answers, 0])
+            console.log("Init option",option)
+        })
+        //return () => socket.close()
+    }, [])
+
+    useEffect(() => {
+        socket.on("recieve-answer-mcq", function(option) {
+            const index = options.findIndex(comparisonOption => comparisonOption == option)
+            let list = answers
+            list[index] += 1
+            setAnswers(list)
+            console.log("Option added count",option)
+        })
+        //return () => socket.close()
+    }, [])
+
+    useEffect(() => {
+        socket.on("decline-answer-mcq", function(option) {
+            const index = options.findIndex(comparisonOption => comparisonOption == option)
+            let list = answers
+            list.at(index) > 0 ? list[index] -= 1 : list[index] = 0
+            setAnswers(list)
+            console.log("Option minus count",option)
+        })
+        //return () => socket.close()
+    }, [])
+
+
     socket.emit("set-question", question, userName)
 
     const handleNext = async () => {
@@ -47,6 +80,7 @@ const HostingAdmin = (inputData) => {
             setPosition(tempPosition + 1)             
         }
         setAnswers([])
+        setOptions([])
     }
     const handlePrev = async () => {
         const tempPosition = questions.findIndex((x) => x._id === question._id)
@@ -59,6 +93,7 @@ const HostingAdmin = (inputData) => {
             setPosition(tempPosition - 1)             
         }
         setAnswers([])
+        setOptions([])
     }
 
     return(
@@ -77,7 +112,12 @@ const HostingAdmin = (inputData) => {
                 </button>
             </div>
             <div>
-                {answers && answers.map(answer => (<p>{answer}</p>))}
+                {options ?
+                    options.map(option => (<label htmlFor="answers">{option}</label>)) &&
+                    answers && answers.map(answer => (<p name="answers">{answer}</p>))
+                :
+                    answers && answers.map(answer => (<p>{answer}</p>))
+                }
             </div>
         </div>
     )

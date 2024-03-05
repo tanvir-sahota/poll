@@ -14,6 +14,7 @@ const QuestionDisplay = (inputData) => {
     const [isMCQ, setMCQ] = useState(options.length > 1 ? true : false)
     const [showAnswer, setShowAnswer] = useState(false)
     const [textAnswer, setTextAnswer] = useState(null)
+    const [pressed, setPressed] = useState(false)
 
     const handleSubmission = () => {
         setShowAnswer(!showAnswer)
@@ -29,8 +30,34 @@ const QuestionDisplay = (inputData) => {
         console.log("Submitted " + textAnswer)
     }
 
+    const submitMCQAnswer = (option) => {
+        socket.emit("submit-answer-MCQ", "habram" , option)
+        setPressed(true)
+        console.log("Option is ", option)
+    }
+
+    const unSubmitMCQ = (option) => {
+        socket.emit("unsubmit-answer-MCQ", "habram" , option)
+        setPressed(false)
+        console.log("Option is ", option)
+    }
+
+    const handleMCQ = (option) => {
+        !pressed ? submitMCQAnswer(option) : unSubmitMCQ(option)
+    }
+
+    const initialiseOptions = () => {
+        console.log("Loaded buttons", options)
+        options.map((option) => {
+            socket.emit("give-option", option)
+        })
+    }
+
     socket.on("display-question", question => {
         setMCQ(question.options.length > 1 ? true : false)
+        if(isMCQ){
+            initialiseOptions()
+        }
     })
 
 
@@ -40,7 +67,7 @@ const QuestionDisplay = (inputData) => {
 
             {isMCQ ? 
                 options.map(option => (
-                    <button key={option} className="option">{option}</button>
+                    <button key={option} className={pressed ? "pOption" : "unpOption"} onClick={() => handleMCQ(option)}>{option}</button>
                 ))
             : 
                 <div className="answerInput">
