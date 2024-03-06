@@ -7,6 +7,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const [classroom_questions, setClassroomQuestions] = useState([])
     const [loading, setLoading] = useState(true)
     const [quiz_questions, setQuizQuestions] = useState([])
+    const [tickboxes, setTickboxes] = useState(false)
 
 
     const handleSubmission = async (e) => {
@@ -27,7 +28,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
         if(response.ok){
             quiz.questions.push(quiz_questions)
             setQuizQuestions([])
-            console.log(quiz.questions)
+            make_tickboxes_false()
         }
     }
 
@@ -35,11 +36,19 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
         setShowForm(!showForm)
     }
 
-    const add_to_quiz_questions = (new_question) => {
+    const add_to_quiz_questions = (index_tickboxes, new_question) => {
         const new_qq = [...quiz_questions, new_question]
         setQuizQuestions(new_qq)
 
-        console.log(quiz_questions)
+        update_tickbox(index_tickboxes)
+    }
+
+    const update_tickbox = (index_tickboxes) => {
+        tickboxes[index_tickboxes] = !tickboxes[index_tickboxes]
+    }
+
+    const make_tickboxes_false = () => {
+        setTickboxes(tickboxes.map(() => false))
     }
     
     useEffect(() => {
@@ -47,11 +56,13 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
             try{
                 const response = await fetch("http://localhost:4000/api/questions/" + classID)
                 const result = await response.json()
+
+                const num_questions = result.length
+                setTickboxes(new Array(num_questions).fill(false))
+                                
                 setClassroomQuestions(result)
-
-
                 setLoading(false)
-                console.log(classroom_questions)
+
             }
             catch (error){
                 console.log("error: " + error)
@@ -67,18 +78,18 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     return(        
         <div>
             <div>
-                <h3 onClick={toggleForm} className="form-heading">Select questions</h3>
                 {loading ? (
-                <p>Loading questions...</p>
-                ) : (
-                    <div>
+                    <p>Loading questions...</p>
+                    ) : (
+                        <div>
+                        <h3 onClick={toggleForm} className="form-heading">Select questions</h3>
                         {classroom_questions ? (
                             <div>
                                 { showForm ? 
                                     <form className="create" onSubmit={handleSubmission}>
                                         {classroom_questions.map((cq, index) => (
                                             <div key={index}>
-                                                <input type="checkbox" id="question" onChange={() => add_to_quiz_questions(cq._id)} />
+                                                <input type="checkbox" id="question" checked={tickboxes[index]} onChange={() => add_to_quiz_questions(index, cq.question)} />
                                                 <label htmlFor="question">{cq.question}</label>
                                             </div>
                                         ))}
