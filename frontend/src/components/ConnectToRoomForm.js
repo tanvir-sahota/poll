@@ -50,9 +50,9 @@ const ConnectToRoomForm = () => {
             {error && <div className={"error"}>{error}</div>}
         </form>*/
 
-        <div class="container h-100 w-50">
-        <div class="row h-100 justify-content-center align-items-center text-center">
-            <div class="col-10 col-md-8 col-lg-6">
+        <div className="container h-100 w-50">
+        <div className="row h-100 justify-content-center align-items-center text-center">
+            <div className="col-10 col-md-8 col-lg-6">
                 <form className="form-group" onSubmit={handleSubmit}>
                     <label className="mt-4"><h2>Join Poll</h2></label>
                     <div className="input-group mb-3 mt-3">
