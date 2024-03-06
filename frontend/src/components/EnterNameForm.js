@@ -75,7 +75,7 @@ const EnterNameForm = (inputData) => {
     return (
         <div>
             {!submitted ? (
-            <div class="justify-content-between align-items-center text-center">
+            <div className="justify-content-between align-items-center text-center">
                 <h3>Welcome to {lecturer + "'s"} poll!</h3>
                 <div className="container h-100 w-50">
                     <div className="row h-100 justify-content-center align-items-center text-center">
