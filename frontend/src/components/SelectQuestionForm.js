@@ -26,7 +26,8 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
             setEmptyFields(json.emptyFields)
         }
         if(response.ok){
-            quiz.questions.push(quiz_questions)
+            update_quiz(quiz)
+            
             setQuizQuestions([])
             make_tickboxes_false()
         }
@@ -35,11 +36,27 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const toggleForm = () => {
         setShowForm(!showForm)
     }
+    
+    
+    const update_quiz = async (quiz) => {
+        const response = await fetch('/api/quizzes/' + quiz_id, {
+            method: "PATCH",
+            body: JSON.stringify({questions: quiz_questions}),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const json = await response.json()
 
-    const add_to_quiz_questions = (index_tickboxes, new_question) => {
-        const new_qq = [...quiz_questions, new_question]
+        if(!response.ok){
+            setError(json.error)
+        }
+    }
+
+
+    const add_to_quiz_questions = (index_tickboxes, new_question_id) => {
+        const new_qq = [...quiz_questions, new_question_id]
         setQuizQuestions(new_qq)
-
         update_tickbox(index_tickboxes)
     }
 
@@ -74,7 +91,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
 
 
 
-        
+
     return(        
         <div>
             <div>
@@ -89,7 +106,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
                                     <form className="create" onSubmit={handleSubmission}>
                                         {classroom_questions.map((cq, index) => (
                                             <div key={index}>
-                                                <input type="checkbox" id="question" checked={tickboxes[index]} onChange={() => add_to_quiz_questions(index, cq.question)} />
+                                                <input type="checkbox" id="question" checked={tickboxes[index]} onChange={() => add_to_quiz_questions(index, cq._id)} />
                                                 <label htmlFor="question">{cq.question}</label>
                                             </div>
                                         ))}
