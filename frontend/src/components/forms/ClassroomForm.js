@@ -26,7 +26,8 @@ const ClassroomForm = () => {
 
         const classroom = {title, owner}
 
-        const response = await fetch(`${process.env.REACT_APP_URL}/classrooms`, {
+
+        const response = await fetch(`${process.env.REACT_APP_URL}api/classrooms`, {
             method: 'POST',
             body: JSON.stringify(classroom),
             headers: {
