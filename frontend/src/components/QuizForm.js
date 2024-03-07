@@ -7,11 +7,11 @@ const QuizForm = (classID) => {
     const {dispatch} = useQuizzesContext()
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [classroom, setClassroom] = useState(classID_value(classID))
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
     
     
+    const classroom = classID_value(classID)
 
     
     const handleSubmit = async (e) => {

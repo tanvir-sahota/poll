@@ -65,7 +65,10 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     }
 
     const make_tickboxes_false = () => {
-        setTickboxes(tickboxes.map(() => false))
+        setTickboxes(tickboxes => {
+            const new_tickboxes = [...tickboxes]
+            return new_tickboxes.map(() => false)
+        })
     }
     
     useEffect(() => {
