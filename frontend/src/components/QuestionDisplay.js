@@ -4,7 +4,7 @@ import MCQButton from "./MCQButton"
 
 const QuestionDisplay = (inputData) => {
     const {givenQuestion, isAdmin, socket} = inputData
-    const {question, options, answers} = givenQuestion
+    const {question, options, answers, questionType} = givenQuestion
     const navigate = useNavigate()
     // console.log(givenQuestion)
     // console.log("Question: ", question)
@@ -12,6 +12,7 @@ const QuestionDisplay = (inputData) => {
     // console.log("Answers: ", answers)
 
     const [isMCQ, setMCQ] = useState(options.length > 1 ? true : false)
+    const [hasCode, setCode] = useState(questionType==='CodeMCQ' ? true : false)
     const [showAnswer, setShowAnswer] = useState(false)
     const [textAnswer, setTextAnswer] = useState(null)
 
@@ -31,17 +32,22 @@ const QuestionDisplay = (inputData) => {
 
     socket.on("display-question", question => {
         setMCQ(question.options.length > 1 ? true : false)
+        setCode(question.questionType == 'CodeMCQ' ? true : false)
         if (isMCQ) {
             console.log("Loaded buttons")
         }
     })
-
 
     return (
         <div className="display">
             <h1 id="displayedQuestion">{question}</h1>
 
             {isMCQ && (!isAdmin) ?
+                (hasCode) ?
+                options.map(option => (
+                    <MCQButton option={option[0]} socket={socket}/>
+                ))
+                :
                 options.map(option => (
                     <MCQButton option={option} socket={socket}/>
                 ))
