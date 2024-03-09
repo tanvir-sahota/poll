@@ -71,6 +71,34 @@ const createQuestion = async (request, response) => {
                 if(optionsArray.length < 2 || answersArray.length < 2 || optionsArray.length > 4 || answersArray.length > 4){
                     return response.status(400).json({ error: "Please enter 2-4 options and answers for MCQ", emptyFields})
                 }
+                
+
+                let hasCode = false
+                answersArray.forEach(sub => {
+                    if(sub.includes("<code>")){
+                        hasCode = true
+                    }
+                })
+                if(hasCode){
+                    const newOptions = optionsArray.map((option, i) => `${String.fromCharCode(65 + i)}:${option}`)
+
+                    const fullQuestion = await Question.create({
+                        question: questionAsked, 
+                        options:newOptions, 
+                        answers:answersArray,
+                        questionType:"CodeMCQ"})
+
+                    const classroom = await Classroom.findById(classID)
+                    const questionBank = await QuestionBank.findById(classroom.questions)
+                    const questions = questionBank.questionArray.push(fullQuestion)
+                    questionBank.markModified("questionArray")
+                    questionBank.save()
+                        
+                    response.status(200).json(fullQuestion)
+
+
+                }
+                else{
                 const fullQuestion = await Question.create({
                     question: questionAsked, 
                     options:optionsArray, 
@@ -84,6 +112,7 @@ const createQuestion = async (request, response) => {
                 questionBank.save()
                 
                 response.status(200).json(fullQuestion)
+                }
             }
         }
         else{
