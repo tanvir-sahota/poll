@@ -8,6 +8,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const [loading, setLoading] = useState(true)
     const [quiz_questions, setQuizQuestions] = useState([])
     const [tickboxes, setTickboxes] = useState(false)
+    const [emptyFields, setEmptyFields] = useState([])
 
 
     const handleSubmission = async (e) => {
@@ -21,9 +22,9 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
         })
         const quiz = await response.json()
 
-        if(!response.ok){
-            setError(json.error)
-            setEmptyFields(json.emptyFields)
+        if(!quiz.ok){
+            setError(quiz.error)
+            setEmptyFields(quiz.emptyFields)
         }
         if(response.ok){
             update_quiz(quiz)
