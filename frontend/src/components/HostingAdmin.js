@@ -4,7 +4,7 @@ import { useState } from "react"
 import QuestionDisplay from "./QuestionDisplay"
 
 const HostingAdmin = (inputData) => {
-    const {socket, newClassID, currentQuestion, userName} = inputData
+    const {socket, newClassID, currentQuestion, lecturer} = inputData
     const classID = newClassID
     const [question, setQuestion] = useState(currentQuestion)
     const {questions, dispatch} = useQuestionContext()
@@ -100,7 +100,7 @@ const HostingAdmin = (inputData) => {
     }, [])
 
     useEffect(() => {
-        socket.emit("set-question", question, userName)
+        socket.emit("set-question", question, lecturer)
     }, [position])
 
 
@@ -149,7 +149,7 @@ const HostingAdmin = (inputData) => {
     return(
         <div className="hostingDisplay">
             <div className="questionDisplay">
-                <QuestionDisplay givenQuestion = {question} isAdmin = {true} socket = {socket}/>
+                <QuestionDisplay givenQuestion = {question} isAdmin = {true} socket = {socket} lecturer={lecturer}/>
             </div>
             <div className="nextButton">
                 <button onClick={handleNext}>

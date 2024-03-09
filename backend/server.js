@@ -15,25 +15,29 @@ const io = socketio(server, {
     methods: ["GET", "POST"]
   }
 });
-let currentQuestion = null
+let currentQuestionMap = new Map()
 //will be a list of current questions in the future
 
 io.of("habram").on("connection", (socket) => {
   console.log(`Socket ${socket.id} connected`)
   socket.on("set-question", (question,userName) =>{
-    currentQuestion = question
-    socket.to(userName).emit("display-question", currentQuestion)
+    currentQuestionMap.set(userName, question)
+    socket.to(userName).emit("display-question", question)
     //console.log(`set-question display-question ${userName} ${currentQuestion}`)
   })
-  socket.on("connect-to-room", (userName) => {
-    // console.log("Current room", userName)
-    // console.log("Current Question", currentQuestion)
-    if(currentQuestion != null){
-      socket.emit("display-question", currentQuestion)
+  socket.on("connect-to-room", (userName, callback) => {
+    //console.log("Socket ",socket.id, " and rooms in ", socket.rooms)
+    const currentQuestion = currentQuestionMap.get(userName)
+    if(currentQuestion != undefined){
+      callback({
+        question: currentQuestion
+      })
     }
     else{
-      console.log("Empty")
-      socket.emit("disconnect-handler")
+      console.log("No question hosted")
+      callback({
+        question: null
+      })
     }
 
   })
@@ -45,8 +49,9 @@ io.of("habram").on("connection", (socket) => {
   })
   socket.on("host-disconnect", (userName) => {
     //will have to set current question to null for the map key of username
+    console.log("Socket ",socket.id, " and rooms to ", userName)
     socket.to(userName).emit("disconnect-handler")
-    currentQuestion = null
+    currentQuestionMap.delete(userName)
   })
   socket.on("submit-answer-text", (userName, answer) => {
     console.log(`Sent the answer (${answer}) to ${userName}`)

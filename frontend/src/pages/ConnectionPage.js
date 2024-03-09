@@ -1,27 +1,41 @@
 import {useEffect, useState} from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import QuestionDisplay from "../components/QuestionDisplay";
 
 const ConnectionPage = (inputData) =>{
     const {socket} = inputData
-
-    const userName = useLocation().pathname.split("/").at(1)
+    const { lecturer } = useParams()
     const navigate = useNavigate()
-    //const userName = location.state.room
     const [showQuestion, setShowQuestion] = useState(null)
 
+    const updateQuestion = (question) => {
+        setShowQuestion(<QuestionDisplay givenQuestion = {question} isAdmin={false} socket={socket} lecturer={lecturer}/>)
+    }
+
+    const navigateAway = () => {
+        console.log("Navigating away")
+        navigate("/"+ lecturer +" /waiting")
+    }
+
     useEffect(() => {
-        socket.emit("join-room", userName)
-        socket.emit("connect-to-room", userName)
+        socket.emit("join-room", lecturer)
+        socket.emit("connect-to-room", lecturer, (response) => {
+            console.log(response.question)
+            if(response.question != null){
+                updateQuestion(response.question)
+            }
+            else{
+                navigateAway()
+            }
+        })
     }, [])
-    //console.log("Lets see")
 
     socket.on("disconnect-handler", () => {
-        navigate("/habram/waiting")
+        navigateAway()
     })
 
     socket.on("display-question", question => {
-        setShowQuestion(<QuestionDisplay givenQuestion = {question} isAdmin={false} socket={socket}/>)
+        updateQuestion(question)
     })
 
     return(
