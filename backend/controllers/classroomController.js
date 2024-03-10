@@ -1,5 +1,6 @@
 const ClassroomModel = require('../models/ClassroomModel');
 const QuestionBank = require('../models/questionBankModel');
+const authMiddleware = require('../middlewares/authMiddleware.js')
 const jwt = require('jsonwebtoken');
 
 
@@ -25,6 +26,30 @@ exports.getClassroomById = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+exports.getAllClassroomsByToken = async (req, res) => {
+    try {
+        const userId = await authMiddleware.extractUserIdFromToken(req.params.token)
+        
+        try {
+          const classrooms = await ClassroomModel.find({ owner: userId })
+      
+          if (classrooms.length == 0) {
+            return res.status(404).json({ message: 'No virtual classrooms found' });
+          }
+      
+          res.status(200).json(classrooms);
+      
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Internal Server Error' });
+        }
+        
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error');
+    }
+}
 
 exports.getAllClassroomsOfOwner = async (req, res) => {
     try {
