@@ -25,7 +25,6 @@ const ClassroomForm = () => {
         e.preventDefault()
 
         const classroom = {owner, title}
-        console.log(owner)
 
         const response = await fetch('http://localhost:4000/api/classrooms', {
             method: 'POST',
