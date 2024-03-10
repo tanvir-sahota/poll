@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const User = require('../models/userModel')
+const authMiddleware = require('../middlewares/authMiddleware.js')
 const jwt = require('jsonwebtoken')
 
 const createToken = (_id) => {
@@ -7,36 +8,27 @@ const createToken = (_id) => {
 }
 
 const getUserByToken = async (req, res) => {
-  try {
-    const token = req.params.token
+    try {
+      const userId = await authMiddleware.extractUserIdFromToken(req.params.token)
+      
+      try {
+        const user = await User.findById(userId)
     
-    jwt.verify(token, process.env.SECRET, async (err, decoded) => {
-        if (err) {
-            console.error('Invalid token')
-            res.status(401).json({ error: 'Invalid token' })
-        } else {
-            const userId = decoded._id
-
-            try {
-              const user = await User.findById(userId)
-          
-              if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-              }
-          
-              res.status(200).json(user);
-          
-            } catch (error) {
-              console.error(error);
-              res.status(500).json({ message: 'Internal Server Error' });
-            }
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' });
         }
-    })
-
-  } catch (err) {
-      console.error(err.message);
+    
+        res.status(200).json(user);
+    
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
+      
+    } catch (err) {
+      console.error(err.message)
       res.status(500).send('Server Error');
-  }
+    }
 }
 
 const getUsers = async (req, res) => {
