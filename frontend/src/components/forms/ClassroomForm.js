@@ -13,7 +13,7 @@ const ClassroomForm = () => {
     const { dispatch } = useClassroomContext()
 
     const [title, setTitle] = useState('')
-    const [owner, setOwner] = useState('')
+    const [owner, setOwner] = useState(localStorage.getItem('user'))
     const [emptyFields, setEmptyFields] = useState([])
     const [error, setError] = useState(null)
 
@@ -24,7 +24,8 @@ const ClassroomForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const classroom = {title, owner}
+        const classroom = {owner, title}
+        console.log(owner)
 
         const response = await fetch('http://localhost:4000/api/classrooms', {
             method: 'POST',
