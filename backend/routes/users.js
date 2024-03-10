@@ -4,6 +4,7 @@ const { getUsers, createUser, loginUser } = require('../controllers/userControll
 
 router.use(express.json());
 
+router.get('/:token', getUserByToken)
 router.get('/', getUsers)
 router.post('/signup', createUser)
 router.post('/login', loginUser)
