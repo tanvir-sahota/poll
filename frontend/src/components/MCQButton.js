@@ -22,7 +22,8 @@ const MCQButton = (inputData) => {
     }
 
     return(
-        <button key={option} className={pressed ? "pOption" : "unpOption"} onClick={() => handleMCQ(option)}>{option}</button>
+        <button key={option} className={pressed ? "pOption" : "unpOption"} onClick={() => handleMCQ(option)}>
+            {option.includes("<code>") ? option[0]: option}</button>
     )
 }
 

@@ -45,7 +45,7 @@ const QuestionDisplay = (inputData) => {
             {isMCQ && (!isAdmin) ?
                 (hasCode) ?
                 options.map(option => (
-                    <MCQButton option={option[0]} socket={socket}/>
+                    <MCQButton option={option} socket={socket}/>
                 ))
                 :
                 options.map(option => (
