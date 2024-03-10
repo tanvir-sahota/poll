@@ -4,8 +4,8 @@ const { getUserByToken, getUsers, createUser, loginUser, getUserById } = require
 
 router.use(express.json());
 
-router.get('/:token', getUserByToken)
-router.get('/:id', getUserById)
+router.get('/token/:token', getUserByToken)
+router.get('/id/:id', getUserById)
 router.get('/', getUsers)
 router.post('/signup', createUser)
 router.post('/login', loginUser)
