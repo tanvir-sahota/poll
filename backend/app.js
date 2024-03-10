@@ -27,6 +27,7 @@ const quizRoutes = require('./routes/quizzes')
 const questionRoutes = require("./routes/questions")
 const classroomRoutes = require('./routes/Classroom')
 const userRoutes = require('./routes/users')
+const folderRoutes = require('./routes/folders')
 
 
 app.use(express.json())
@@ -53,6 +54,7 @@ const buildPath = path.join(__dirname, "../frontend/build");
 
 // Routes
 app.use(express.static(buildPath))
+app.use('/api/folders',folderRoutes)
 app.use("/api/questions", questionRoutes)
 app.use('/api/classrooms', classroomRoutes);
 app.use('/api/users', userRoutes)

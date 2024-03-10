@@ -6,15 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import { QuizzesContextProvider } from "./context/QuizContext";
 import { QuestionContextProvider } from './context/QuestionContext';
 import { ClassroomContextProvider } from './context/ClassroomContext';
+import { FoldersContextProvider } from './context/FolderContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <ClassroomContextProvider>
-        <QuizzesContextProvider>
-            <QuestionContextProvider>
-                <App/>
-            </QuestionContextProvider>
-        </QuizzesContextProvider>
+        <FoldersContextProvider>
+            <QuizzesContextProvider>
+                <QuestionContextProvider>
+                    <App/>
+                </QuestionContextProvider>
+            </QuizzesContextProvider>
+        </FoldersContextProvider>
     </ClassroomContextProvider>
 );
 
