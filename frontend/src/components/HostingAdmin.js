@@ -2,6 +2,7 @@ import { useQuestionContext } from "../hooks/useQuestionContext"
 import { useEffect } from "react"
 import { useState } from "react"
 import QuestionDisplay from "./QuestionDisplay"
+import parse from 'html-react-parser'
 
 const HostingAdmin = (inputData) => {
     const {socket, newClassID, currentQuestion, userName} = inputData
@@ -163,6 +164,18 @@ const HostingAdmin = (inputData) => {
             </div>
             <div className="options">
                 {question.options.length > 1 ?
+                    (question.questionType === "CodeMCQ") ?
+                    question.options.map(option => {
+                        const count = answers.at(question.options.indexOf(option))
+                        console.log(`${option}: ${count}`)
+                        console.log(`ANSWERS: ${answers}`)
+
+                        return <dl>
+                            <dt>{parse(option)}</dt>
+                            <dd>{count}</dd>
+                        </dl>
+                    })
+                    :
                     question.options.map(option => {
                         const count = answers.at(question.options.indexOf(option))
                         console.log(`${option}: ${count}`)
