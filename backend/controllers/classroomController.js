@@ -26,6 +26,19 @@ exports.getClassroomById = async (req, res) => {
     }
 };
 
+exports.getAllClassroomsOfOwner = async (req, res) => {
+    try {
+        const classrooms = await ClassroomModel.find({ owner : req.params.ownerid }); 
+        if (classrooms.length === 0) {
+            return res.status(404).json({ msg: 'Virtual classrooms not found for user' });
+        }       
+        res.json(classrooms)
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
 exports.createClassroom = async (req, res) => {
     try {
         const questions  = new QuestionBank({questionArray:[]})
