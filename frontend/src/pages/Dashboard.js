@@ -9,7 +9,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchClassrooms = async () => {
-            const response = await fetch('http://localhost:4000/api/classrooms')
+            const response = await fetch('http://localhost:4000/api/classrooms/' + JSON.parse(localStorage.getItem('user')).token)
             const json = await response.json()
 
             if (response.ok) {
