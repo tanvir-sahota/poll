@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getUsers, createUser, loginUser } = require('../controllers/userController')
+const { getUserByToken, getUsers, createUser, loginUser } = require('../controllers/userController')
 
 router.use(express.json());
 
