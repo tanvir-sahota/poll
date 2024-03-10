@@ -163,8 +163,13 @@ const updateQuestion = async(request, response) =>{
 
     if(options.length != 0)
     {
+        let tempArray = optionsArray
+        tempArray = optionsArray.map(sub => {if(sub.includes("<code>")){return sub.slice(2)} 
+            else{return sub}})
+
         const checkOptionsIncludeAnswer = answersArray.filter(x => {
-        return optionsArray.includes(x)
+        
+        return tempArray.includes(x)
         })
 
         if(checkOptionsIncludeAnswer.length != answersArray.length){
@@ -172,7 +177,12 @@ const updateQuestion = async(request, response) =>{
         }
     }
 
-    const questionType = (options.length != 0) ? "MCQ" : "Wh-Question"
+    
+    
+    let questionType = (options.length != 0) ? "MCQ" : "Wh-Question"
+    if(questionType==="MCQ"){
+        answersArray.forEach(sub => {if(sub.includes("<code>")){questionType = "CodeMCQ" }})
+    }
     const newQuestion = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
 
     if(!newQuestion){
