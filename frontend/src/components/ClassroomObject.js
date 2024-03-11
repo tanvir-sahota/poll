@@ -9,7 +9,7 @@ const ClassroomObject = ({ classroom }) => {
 
     const fetchOwnerUsername = async (ownerid) => {
       try {
-        const response = await fetch('http://localhost:4000/api/users/id/' + classroom.owner)
+        const response = await fetch(`${process.env.REACT_APP_URL}api/users/id/` + classroom.owner)
         const user = await response.json()
 
         if (response.ok) {

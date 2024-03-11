@@ -15,7 +15,7 @@ const Dashboard = () => {
                 return
             }
 
-            const response = await fetch('${process.env.REACT_APP_URL}api/classrooms/' + token)
+            const response = await fetch(`${process.env.REACT_APP_URL}api/classrooms/` + token)
             const json = await response.json()
 
             if (response.ok) {
