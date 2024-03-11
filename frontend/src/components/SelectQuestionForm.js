@@ -10,7 +10,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const [tickboxes, setTickboxes] = useState(false)
     const [emptyFields, setEmptyFields] = useState([])
 
-
+    
     const handleSubmission = async (e) => {
         e.preventDefault()
 
