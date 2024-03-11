@@ -1,15 +1,21 @@
+import { Link } from "react-router-dom";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 
 const QuizDetails = ({quiz, classID}) => {
     const {dispatch} = useQuizzesContext()
     const classID_or_emptystring = classID_value(classID)
+
+
+    
+    
+    
     
     /**
      * Handles quiz delete requests
      * @returns {Promise<void>}
      */
     const handleClick = async () => {
-        const response = await fetch('/api/quizzes/' + quiz._id, {
+        const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes/`+ quiz._id, {
             method: 'DELETE'
         })
 
@@ -26,10 +32,11 @@ const QuizDetails = ({quiz, classID}) => {
                 <h4>{quiz.title} </h4>
                 <p><strong>Description: </strong> {quiz.description}</p>
                 <span onClick={handleClick}>delete</span>
-                <p><a href={quiz._id}>"Go to this quizzes page"</a></p>
+                <Link to={"http://localhost:3000/api/quizzes/" + quiz._id + "/" + classID}><h4>"Go to this quizzes page"</h4></Link>
                 <br></br>
                 <br></br>
                 <br></br>
+
             </div>
         )
     }

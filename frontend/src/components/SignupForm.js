@@ -11,7 +11,7 @@ const SignupForm = () => {
   const { dispatch } = useAuthContext()
 
   const onSubmit = async (data) => {
-    const response = await fetch("http://localhost:4000/api/users/signup", {
+    const response = await fetch("${process.env.REACT_APP_URL}api/users/signup", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

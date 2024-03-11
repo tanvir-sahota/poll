@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard'
 import Classroom from './pages/Classroom'
 import QuestionBankPage from './pages/QuestionBankPage'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import SignupForm from './components/SignupForm'
 import LoginForm from './components/LoginForm'
 import HostedClassroom from "./pages/HostedClassroom"
@@ -15,7 +16,7 @@ import WaitingPage from './pages/WaitingPage'
 
 import io from "socket.io-client"
 
-const socket = io.connect("http://localhost:3000/habram")
+const socket = io.connect(`${process.env.REACT_APP_URL}habram`)
 
 function App() {
 
@@ -54,12 +55,11 @@ function App() {
                 element={<QuizDashboard/>}
             />
             <Route
-                path="/api/quizzes/:id"
+                path="/api/quizzes/:quiz_id/:classroom_id?"
                 element={<Quiz/>}
             />
             <Route 
-              //path="/:username/admin"
-              path = "/habram/admin"
+              path = "/:lecturer/admin"
               element ={<HostedClassroom socket={socket}/>}
             />
             <Route 
@@ -67,19 +67,16 @@ function App() {
               element ={<Home/>}
             />
             <Route
-              path="/habram"
+              path="/:lecturer"
               element={<ConnectionPage socket={socket}/>}
             />
             <Route 
-              path="/:lecturer"
+              path="/:lecturer/waiting"
               element={<UserPage socket={socket}/>}
             />
-            {/* <Route 
-              path="/habram/waiting"
-              element={<WaitingPage socket={socket}/>}
-            /> */}
           </Routes>
         </div>
+        <Footer />
       </BrowserRouter>
     </div>
   );

@@ -4,7 +4,7 @@ import ClassroomDropdown from './ClassroomDropdown'
 import HostingAdmin from './HostingAdmin'
 
 const HostingOptions = (inputData) =>{
-    const {socket, userName, question, classID} = inputData    
+    const {socket, lecturer, question, classID} = inputData    
     //future change requires only users classrooms to be made 
 
 
@@ -16,7 +16,7 @@ const HostingOptions = (inputData) =>{
 
     useEffect(() => {
         const fetchClassrooms = async () => {
-            const response = await fetch('http://localhost:4000/api/classrooms')
+            const response = await fetch(`${process.env.REACT_APP_URL}api/classrooms`)
             const json = await response.json()
 
             if (response.ok) {
@@ -51,7 +51,7 @@ const HostingOptions = (inputData) =>{
                     </div>
                 ))}
             </div> */}
-            <HostingAdmin socket = {socket} newClassID = {IDReceived} currentQuestion = {questionReceived} userName={userName}/>
+            <HostingAdmin socket = {socket} newClassID = {IDReceived} currentQuestion = {questionReceived} lecturer={lecturer}/>
         </div>
     )
 }

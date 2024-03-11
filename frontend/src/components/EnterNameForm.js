@@ -13,13 +13,19 @@ const EnterNameForm = (inputData) => {
     const [submitted, setSubmitted] = useState(false)
     const [emptyFields, setEmptyFields] = useState([])
     const [usedUsernames, setUsedUsernames] = useState([])
+    const [isHosting, setHosted] = useState(false)
 
-    socket.emit("join-room", "habram")
+    socket.emit("join-room", lecturer)
 
     socket.on("switch-pages", () => {
-        navigate("/habram")
+        if(submitted) {switchPages()}
+        setHosted(true)
     })
-    
+
+    socket.on("disconnect-handler", () => {
+        setHosted(false)
+    })
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -31,7 +37,11 @@ const EnterNameForm = (inputData) => {
 
 
         setSubmitted(true)
-        
+
+    }
+
+    const switchPages = () => {
+        navigate("/" + lecturer)
     }
 
     /*const generateUsername = () => {
@@ -50,47 +60,54 @@ const EnterNameForm = (inputData) => {
     const generateUsername = () => {
         let count = sessionStorage.getItem('usernameCounter') || 1
         let newUsername = '';
-      
+
         while (true) {
-          newUsername = `guest${count}`;
-          if (!usedUsernames.includes(newUsername)) {
-            setUsedUsernames([...usedUsernames, newUsername])
-            sessionStorage.setItem('usernameCounter', parseInt(count) + 1)
-            return newUsername;
-          }
-          count++;
+            newUsername = `guest${count}`;
+            if (!usedUsernames.includes(newUsername)) {
+                setUsedUsernames([...usedUsernames, newUsername])
+                sessionStorage.setItem('usernameCounter', parseInt(count) + 1)
+                return newUsername;
+            }
+            count++;
         }
     }
-    
+
     return (
         <div>
             {!submitted ? (
-            <div class="container h-100 bg-dark text-white">
-                <div class="row h-100 justify-content-center align-items-center text-center">
-                    <div class="col-10 col-md-8 col-lg-6">
-                        <form className="form-group" onSubmit={handleSubmit}>
-                            <label><h4>Introduce yourself</h4></label>
-                            <div class="input-group mb-3">
-                                <input
-                                    type="text"
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    value={username}
-                                    className="form-control"
-                                    placeholder="Enter name"
-                                    aria-describedby="basic-addon2"
-                                />
-                            
-                                <div class="input-group-append">
-                                    <button>Continue</button>
-                                    {error && <div className={"error"}>{error}</div>}
+            <div className="justify-content-between align-items-center text-center">
+                <h3>Welcome to {lecturer + "'s"} poll!</h3>
+                <div className="container h-100 w-50">
+                    <div className="row h-100 justify-content-center align-items-center text-center">
+                        <div className="col-10 col-md-8 col-lg-6">
+                            <form className="form-group" onSubmit={handleSubmit}>
+                                <label className="mt-4"><h4>Introduce yourself</h4></label>
+                                <div className="input-group mb-3 mt-3">
+                                    <input
+                                        type="text"
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        value={username}
+                                        className="form-control"
+                                        placeholder="Enter name (optional)"
+                                        aria-describedby="basic-addon2"
+                                    />
+                                
+                                    <div className="input-group-append">
+                                        <button>Continue</button>
+                                        {error && <div className={"error"}>{error}</div>}
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
             ) : (
-                <h3>Waiting for {lecturer + "'s"} poll to be activated, {username}!</h3>
+                <div>
+                    {isHosting ? switchPages() :
+                        <h3 className="align-items-center text-center">Waiting for {lecturer + "'s"} poll to be activated, {username}!</h3>
+                    }
+                </div>
             )}
         </div>
     )

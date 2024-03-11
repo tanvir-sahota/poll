@@ -11,7 +11,7 @@ const QuizDashboard = () => {
     // Fires once when the component first renders
     useEffect(() => {
         const fetchQuizzes = async () => {
-            const response = await fetch('/api/quizzes')
+            const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes`)
             const json = await response.json()
 
             if (response.ok) {
