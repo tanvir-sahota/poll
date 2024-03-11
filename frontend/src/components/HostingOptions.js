@@ -4,7 +4,7 @@ import ClassroomDropdown from './ClassroomDropdown'
 import HostingAdmin from './HostingAdmin'
 
 const HostingOptions = (inputData) =>{
-    const {socket, userName, question, classID} = inputData    
+    const {socket, lecturer, question, classID} = inputData    
     //future change requires only users classrooms to be made 
 
 
@@ -51,7 +51,7 @@ const HostingOptions = (inputData) =>{
                     </div>
                 ))}
             </div> */}
-            <HostingAdmin socket = {socket} newClassID = {IDReceived} currentQuestion = {questionReceived} userName={userName}/>
+            <HostingAdmin socket = {socket} newClassID = {IDReceived} currentQuestion = {questionReceived} lecturer={lecturer}/>
         </div>
     )
 }

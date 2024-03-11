@@ -54,8 +54,7 @@ function App() {
                 element={<Quiz/>}
             />
             <Route 
-              //path="/:username/admin"
-              path = "/habram/admin"
+              path = "/:lecturer/admin"
               element ={<HostedClassroom socket={socket}/>}
             />
             <Route 
@@ -63,17 +62,13 @@ function App() {
               element ={<Home/>}
             />
             <Route
-              path="/habram"
+              path="/:lecturer"
               element={<ConnectionPage socket={socket}/>}
             />
             <Route 
               path="/:lecturer/waiting"
               element={<UserPage socket={socket}/>}
             />
-            {/* <Route 
-              path="/habram/waiting"
-              element={<WaitingPage socket={socket}/>}
-            /> */}
           </Routes>
         </div>
         <Footer />

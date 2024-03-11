@@ -15,10 +15,10 @@ const EnterNameForm = (inputData) => {
     const [usedUsernames, setUsedUsernames] = useState([])
     const [isHosting, setHosted] = useState(false)
 
-    socket.emit("join-room", "habram")
+    socket.emit("join-room", lecturer)
 
     socket.on("switch-pages", () => {
-        if(submitted) {navigate("/habram")}
+        if(submitted) {switchPages()}
         setHosted(true)
     })
 
@@ -41,7 +41,7 @@ const EnterNameForm = (inputData) => {
     }
 
     const switchPages = () => {
-        navigate("/habram")
+        navigate("/" + lecturer)
     }
 
     /*const generateUsername = () => {

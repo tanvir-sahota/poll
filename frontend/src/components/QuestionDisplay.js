@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import MCQButton from "./MCQButton"
 
 const QuestionDisplay = (inputData) => {
-    const {givenQuestion, isAdmin, socket} = inputData
+    const {givenQuestion, isAdmin, socket, lecturer} = inputData
     const {question, options, answers, questionType} = givenQuestion
     const navigate = useNavigate()
     // console.log(givenQuestion)
@@ -21,12 +21,12 @@ const QuestionDisplay = (inputData) => {
     }
 
     const handleDisconnect = () => {
-        socket.emit("host-disconnect", "habram") //will change to userName
+        socket.emit("host-disconnect", lecturer) 
         navigate("/dashboard")
     }
 
     const submitAnswer = () => {
-        socket.emit("submit-answer-text", "habram", textAnswer)
+        socket.emit("submit-answer-text", lecturer, textAnswer)
         console.log("Submitted " + textAnswer)
     }
 
@@ -49,7 +49,7 @@ const QuestionDisplay = (inputData) => {
                 ))
                 :
                 options.map(option => (
-                    <MCQButton option={option} socket={socket}/>
+                    <MCQButton option={option} socket={socket} lecturer={lecturer}/>
                 ))
                 :
                 <div className="answerInput">
