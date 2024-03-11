@@ -8,6 +8,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const [loading, setLoading] = useState(true)
     const [quiz_questions, setQuizQuestions] = useState([])
     const [tickboxes, setTickboxes] = useState(false)
+    const [no_questions, setNoQuestions] = useState(true)
 
 
     const handleSubmission = async (e) => {
@@ -79,9 +80,13 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
 
                 const num_questions = result.length
                 setTickboxes(new Array(num_questions).fill(false))
-                                
+                
                 setClassroomQuestions(result)
                 setLoading(false)
+
+                if(num_questions>0){
+                    setNoQuestions(false)
+                }
 
             }
             catch (error){
@@ -102,28 +107,49 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
                     <p>Loading questions...</p>
                     ) : (
                         <div>
-                        <h3 onClick={toggleForm} className="form-heading">Select questions</h3>
-                        {classroom_questions ? (
-                            <div>
-                                { showForm ? 
-                                    <form className="create" onSubmit={handleSubmission}>
-                                        {classroom_questions.map((cq, index) => (
-                                            <div key={index}>
-                                                <input type="checkbox" id="question" checked={tickboxes[index]} onChange={() => add_to_quiz_questions(index, cq._id)} />
-                                                <label htmlFor="question">{cq.question}</label>
+                            {classroom_questions ? (
+                                <div>
+                                    
+                                    {no_questions ? (
+                                        <h3>No questions available</h3>
+                                    ) : (
+                                        <div>
+
+
+
+
+
+
+
+
+                                        <h3 onClick={toggleForm} className="form-heading">Select Questions Below</h3>
+                                        {classroom_questions ? (
+                                            <div>
+                                                { showForm ? (
+                                                    <form className="create" onSubmit={handleSubmission}>
+                                                        {classroom_questions.map((cq, index) => (
+                                                            <div key={index}>
+                                                                <input type="checkbox" id="question" checked={tickboxes[index]} onChange={() => add_to_quiz_questions(index, cq._id)} />
+                                                                <label htmlFor="question">{cq.question}</label>
+                                                            </div>
+                                                        ))}
+    
+                                                        <button className = "create">Select Questions</button>
+                                                        {error && <div className="error">{error}</div>}
+    
+                                                    </form>
+                                                ) : null }
                                             </div>
-                                        ))}
+                                        ) : (
+                                            <p>Loading questions...</p>
+                                            )}
 
-                                        <button className = "create">Select Questions</button>
-                                        {error && <div className="error">{error}</div>}
-
-                                    </form>
-                                : null }
-                            </div>
-                        ) : (
-                            <p>Loading questions...</p>
-                        )}
-                    </div>
+                                        </div>
+                                    )}
+                                    
+                                </div>
+                            ) : null }
+                        </div>
                 )}
 
             </div>
