@@ -45,7 +45,7 @@ const ClassroomForm = () => {
             setEmptyFields([])
             setError(null)
             setTitle('')
-            setOwner('')
+            setOwner(localStorage.getItem('user'))
             dispatch({type: 'CREATE_CLASSROOM', payload: json})
             handleClose()
           }
