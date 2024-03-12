@@ -102,26 +102,16 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
 
     return(        
         <div>
-            <div>
-                {loading ? (
-                    <p>Loading questions...</p>
-                    ) : (
-                        <div>
-                            {classroom_questions ? (
-                                <div>
-                                    
-                                    {no_questions ? (
-                                        <h3>No questions available</h3>
-                                    ) : (
-                                        <div>
-
-
-
-
-
-
-
-
+            {loading ? (
+                <p>Loading questions...</p>
+                ) : (
+                    <div>
+                        {classroom_questions ? (
+                            <div>
+                                {no_questions ? (
+                                    <h3>No questions available</h3>
+                                ) : (
+                                    <div>
                                         <h3 onClick={toggleForm} className="form-heading">Select Questions Below</h3>
                                         {classroom_questions ? (
                                             <div>
@@ -133,26 +123,25 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
                                                                 <label htmlFor="question">{cq.question}</label>
                                                             </div>
                                                         ))}
-    
+
                                                         <button className = "create">Select Questions</button>
                                                         {error && <div className="error">{error}</div>}
-    
+
                                                     </form>
                                                 ) : null }
-                                            </div>
-                                        ) : (
-                                            <p>Loading questions...</p>
-                                            )}
-
                                         </div>
-                                    )}
-                                    
-                                </div>
-                            ) : null }
-                        </div>
-                )}
+                                    ) : (
+                                        <p>Loading questions...</p>
+                                        )}
 
-            </div>
+                                    </div>
+                                )}
+                                
+                            </div>
+                        ) : null }
+                    </div>
+            )}
+
         </div>
         
         )
