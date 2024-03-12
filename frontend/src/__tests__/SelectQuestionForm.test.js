@@ -1,69 +1,62 @@
 import {render, screen, waitFor, fireEvent} from '@testing-library/react';
 
-import SelectQuestionForm from "../components/SelectQuestionForm";
+import ShowSelectQuestion from "../components/ShowSelectQuestion";
 
-// import ClassroomForm from "../components/forms/ClassroomForm";
 // import QuizForm from "../components/QuizForm";
-// import  from "../components/Q";
-// import SelectQuestionForm from "../components/SelectQuestionForm";
 
-// import {QuizzesContextProvider} from "../context/QuizContext";
-// import {useQuizzesContext} from "../hooks/useQuizzesContext";
-// import QuizDashboard from "../pages/QuizDashboard";
 
 import userEvent from "@testing-library/user-event";
 import {useState} from "react";
 
-// const MockClassroom = () => {
-//     return (
-//         <ClassroomForm/>
-//     )
-// }
-// const MockQuestions = () => {
-//     return (
-//         <SelectQuestionForm/>
-//     )
-// }
 
+const mockClassroom = {
+    _id: "classroom_id",
+    title: "mclassroom",
+    questions: "question_bank_id",
+    quizzes: ["quiz_id"],
+}
 
-// const MockQuiz_with_questions = () => {
-//     return (
-//         <SelectQuestionForm/>
-//     )
-// }
-// const MockSQForm_with_questions = () => {
-//     return (
-//         <SelectQuestionForm/>
-//     )
-// }
+const mockQuiz = {
+    _id: "quiz_id",
+    title: "mquiz",
+}
 
+const mockQuestionBank = {
+    _id: "question_bank_id",
+    questionArray: ["question_id"],
+}
 
-// const MockQuiz_no_questions = () => {
-//     return (
-//         <SelectQuestionForm/>
-//     )
-// }
-const MockSQForm_no_questions = () => {
-    return (
-        <SelectQuestionForm/>
-    )
+const mockQuestion = {
+    _id: "question_id",
+    question: "question",
+    answers: [""],
+    questionType: "mockType",
 }
 
 
+
+
+const MockSQForm_with_questions = () => {
+    return (
+        <ShowSelectQuestion classroom_id={mockClassroom._id} quiz_id={mockQuiz._id} />
+
+    )
+}
 test("Ensures there is loading text for question fetching", () => {
-    render(MockSQForm_no_questions())
+    render(MockSQForm_with_questions())
 
     const loading_text = screen.getByText("Loading questions...")
     expect(loading_text).toBeInTheDocument()
 })
 
 
-// describe("Fetched question tests (empty questionBank)", () => {
-    // test("Ensures toggle button shows for selecting questions", async () => {
-    //     render(MockSQForm_no_questions).container.firstChild
 
-    //     await wait_for_fetch_questions()
-    // })
+
+// describe("Fetched question tests (empty questionBank)", () => {
+//     test("Ensures toggle button shows for selecting questions", async () => {
+    //         render(MockSQForm_no_questions())
+    //         await wait_for_fetch_questions()
+    //     })
     // test("Ensures submit button shows for selecting questions", async () => {
     //     render(MockSQForm_no_questions).container.firstChild
 
@@ -78,12 +71,48 @@ test("Ensures there is loading text for question fetching", () => {
     //     const available = screen.getByText(/No questions available/)
     //     expect(available).toBeInTheDocument()
     // })
-
+    
     // const wait_for_fetch_questions = async () => {
     //     await waitFor(() => {
-    //         expect(screen.getByText("No questions available")).toBeInTheDocument()
-    //     })
-    // }
+        //         expect(screen.getByText("Loading questions...")).toBeInTheDocument()
+        //     })
+        // }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //     test("Ensures there is a input for quiz title", () => {
 //         const quizForm = render(MockQuizForm()).container.firstChild
@@ -97,7 +126,21 @@ test("Ensures there is loading text for question fetching", () => {
 //         fireEvent.change(titleInput, {target: {value: "test title"}})
 //         expect(titleInput.value).toBe("test title")
 //     })
+
+
+
 // })
+
+
+
+
+
+
+
+
+
+
+
 
 // describe("quiz description tests", () => {
 //     test("Ensures there is a label for quiz description", () => {
@@ -151,5 +194,31 @@ test("Ensures there is loading text for question fetching", () => {
 // })
 
 
+
+
+
+
+
+        // const MockSQForm_no_questions = () => {
+        //     return (
+        //         <ShowSelectQuestion/>
+        //     )
+        // }
+
+
+
+
+
+MockSQForm_no_classroom = () => {
+    return (
+        <ShowSelectQuestion/>
+    )
+}
+test("Ensures correct text is shown when no classroom_id is given", () => {
+    render(MockSQForm_no_classroom())
+
+    const text_no_classroom_linked = screen.getByText("No classroom linked to this quiz.")
+    expect(text_no_classroom_linked).toBeInTheDocument()
+})
 
 
