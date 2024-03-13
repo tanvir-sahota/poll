@@ -13,7 +13,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const handleSubmission = async (e) => {
         e.preventDefault()
 
-        const response = await fetch('/api/quizzes/' + quiz_id, {
+        const response = await fetch('http://localhost:4000/api/quizzes/' + quiz_id, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -26,7 +26,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
             setEmptyFields(json.emptyFields)
         }
         if(response.ok){
-            update_quiz(quiz)
+            update_quiz()
             
             setQuizQuestions([])
             make_tickboxes_false()
@@ -38,8 +38,8 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     }
     
     
-    const update_quiz = async (quiz) => {
-        const response = await fetch('/api/quizzes/' + quiz_id, {
+    const update_quiz = async () => {
+        const response = await fetch('http://localhost:4000/api/quizzes/' + quiz_id, {
             method: "PATCH",
             body: JSON.stringify({questions: quiz_questions}),
             headers: {
