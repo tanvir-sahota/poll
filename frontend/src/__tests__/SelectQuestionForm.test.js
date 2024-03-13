@@ -66,9 +66,7 @@ describe("Appearance test after questions are fetched (questions and classroom p
         })
     }
 
-    test("Ensures toggle button shows for selecting questions", async () => {              
-
-        
+    test("Ensures toggle button shows for selecting questions", async () => {
         fetchMock.mock(url, JSON.stringify([mockQuestion]))
         await act(async () => {    
             render(MockSQForm_with_questions())
@@ -78,7 +76,6 @@ describe("Appearance test after questions are fetched (questions and classroom p
     test("Ensures submit button shows for selecting questions", async () => {
         const submit_button = "Select Questions"
         const user = userEvent.setup()
-                
 
         fetchMock.mock(url, JSON.stringify([mockQuestion]))
         await act(async () => {
@@ -86,6 +83,31 @@ describe("Appearance test after questions are fetched (questions and classroom p
         })
         await user.click(screen.getByText(select_questions_toggle))
         await wait_for_fetch_questions(submit_button)        
+    })
+    test("Ensures checkbox text shows for selecting one question", async () => {
+        const question_checkbox = "question"
+        const user = userEvent.setup()
+                
+        fetchMock.mock(url, JSON.stringify([mockQuestion]))
+        await act(async () => {
+            render(MockSQForm_with_questions())
+        })
+        await user.click(screen.getByText(select_questions_toggle))
+        await wait_for_fetch_questions(question_checkbox)
+    })
+    test("Ensures checkbox itself shows for selecting one question", async () => {
+        const question_checkbox = "question"
+        const user = userEvent.setup()
+                
+        fetchMock.mock(url, JSON.stringify([mockQuestion]))
+        await act(async () => {
+            render(MockSQForm_with_questions())
+        })
+        await user.click(screen.getByText(select_questions_toggle))
+        await wait_for_fetch_questions(question_checkbox)
+        await waitFor(() => {
+            expect(screen.queryByRole('checkbox')).toBeInTheDocument()
+        })
     })
 })
     
