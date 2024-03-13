@@ -41,6 +41,11 @@ io.of("habram").on("connection", (socket) => {
     }
 
   })
+  socket.on("check-hosting-status", (userName, callback) => {
+    callback({
+      isHosting: (currentQuestionMap.get(userName) != undefined)
+    })
+  })
   socket.on("host", (userName) => {
     socket.to(userName).emit("switch-pages")
   })
