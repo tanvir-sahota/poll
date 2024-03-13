@@ -159,7 +159,7 @@ label, input {
   color: #333;
 }
 
-form button {
+form button, div button {
   background: goldenrod;
   border: 0;
   color: #fff;
@@ -237,7 +237,10 @@ input.error {
   cursor: pointer;
 }
 
-
+.form-control:focus {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6) !important;
+  outline: none !important;
+}
 
 
 
@@ -245,3 +248,58 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
 }
+
+/* HostingAdmin and QuestionDisplay *//*
+.questionDisplay {
+  grid-area: question;
+  
+}
+
+.nextButton {
+  grid-area: next;
+}
+
+.prevButton {
+  grid-area: prev;
+}
+.options { 
+  grid-area: options;
+}
+
+.hostingDisplay {
+  display: grid;
+  grid-template-areas:
+  '. question question question .'
+  '. options . . .'
+  'prev . . . next';
+
+  grid-template-rows: 3fr 3fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.display {
+  display: flex;
+  flex-direction: column;
+}
+
+#disconnectButton {
+  float: right;
+}
+
+#showAnswer {
+  margin-top:50px ;
+}
+
+input[name="answerArea"] {
+  min-width: 300px;
+  min-height: 45px;
+  background: rgba(23,184,237,1);
+}
+
+input:focus[name="answerArea"] {
+  outline: none !important;
+  border:1px solid black;
+  box-shadow: 0 0 10px #719ECE;
+}*/
+
+

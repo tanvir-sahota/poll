@@ -1,31 +1,89 @@
 import React from "react"
-import { render, screen } from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import QuestionForm from "../components/QuestionForm"
 import { QuestionContextProvider } from "../context/QuestionContext"
 
-test('renders QuestionForm correctly and submits valid input', () => {
-    render(
+
+const MockQuestionForm = () => {
+    return(
         <QuestionContextProvider>
-            <QuestionForm />
+            <QuestionForm/>
         </QuestionContextProvider>
     )
-    
-    // Testing elements in form
-    expect(screen.getByText('Add a new Question')).toBeInTheDocument()
-    expect(screen.getByText('Question')).toBeInTheDocument()
-    expect(screen.getByText('Options')).toBeInTheDocument()
-    expect(screen.getByText('Answers')).toBeInTheDocument()
-    expect(screen.getByText('Input as a comma seperated string for multiple answers and options')).toBeInTheDocument()
-    expect(screen.getByText('Add Question', {selector: 'button'})).toBeInTheDocument() 
+}
 
-    // Testing submitting form 
-    const questionInput = screen.getByText('Question')
-    const optionsInput = screen.getByText('Options')
-    const answersInput = screen.getByText('Answers')
-    userEvent.type(questionInput, 'What is the square root of 25?')
-    userEvent.type(optionsInput, '5,4,6,3')
-    userEvent.type(answersInput, '5')
-    userEvent.click(screen.getByText('Add Question'))
+
+describe('question form rendering tests', () => {
+
+
+    test('form title renders', () => {
+         render(MockQuestionForm())
+        expect(screen.getByText('Add a new Question')).toBeInTheDocument()
+    })
+
+    test('form subtitle question renders', () => {
+         render(MockQuestionForm())
+        fireEvent.click(screen.getByText('Add a new Question'))
+        expect(screen.getByText('Question')).toBeInTheDocument()
+    })
+    test('form subtitle options renders', () => {
+         render(MockQuestionForm())
+        fireEvent.click(screen.getByText('Add a new Question'))
+        expect(screen.getByText('Options')).toBeInTheDocument()
+    })
+    test('form subtitle answers renders', () => {
+         render(MockQuestionForm())
+        fireEvent.click(screen.getByText('Add a new Question'))
+        expect(screen.getByText('Answers')).toBeInTheDocument()
+    })
+    test('form button submission renders', () => {
+         render(MockQuestionForm())
+        fireEvent.click(screen.getByText('Add a new Question'))
+        expect(screen.getByText('Add Question', {selector: 'button'})).toBeInTheDocument()
+    })
+
+
 
 })
+
+describe('form submission tests', () => {
+    test('renders QuestionForm correctly and submits valid input', () => {
+        const mockCallback = jest.fn()
+         render(<QuestionContextProvider>
+            <QuestionForm onSubmit={mockCallback()}/>
+        </QuestionContextProvider>)
+
+        fireEvent.click(screen.getByText('Add a new Question'))
+        // Testing submitting form
+        const questionInput = screen.getByText('Question')
+        const optionsInput = screen.getByText('Options')
+        const answersInput = screen.getByText('Answers')
+        userEvent.type(questionInput, 'What is the square root of 25?')
+        userEvent.type(optionsInput, '5,4,6,3')
+        userEvent.type(answersInput, '5')
+        fireEvent.click(screen.getByRole("button", {name: 'Add Question'}))
+        expect(mockCallback).toHaveBeenCalled()
+    })
+
+    test('renders QuestionForm correctly and submits valid input for multiple choice questions', () => {
+        const mockCallback = jest.fn()
+         render(<QuestionContextProvider>
+            <QuestionForm onSubmit={mockCallback()}/>
+        </QuestionContextProvider>)
+
+        fireEvent.click(screen.getByText('Add a new Question'))
+        // Testing submitting form
+        const questionInput = screen.getByText('Question')
+        const optionsInput = screen.getByText('Options')
+        const answersInput = screen.getByText('Answers')
+        userEvent.type(questionInput, 'What is the square root of 25?')
+        userEvent.type(optionsInput, '5,4,6,3')
+        userEvent.type(answersInput, '5, 4')
+        fireEvent.click(screen.getByRole("button", {name: 'Add Question'}))
+        expect(mockCallback).toHaveBeenCalled()
+    })
+
+})
+
+

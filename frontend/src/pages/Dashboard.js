@@ -6,10 +6,16 @@ import ClassroomForm from '../components/forms/ClassroomForm'
 const Dashboard = () => {
 
     const { classrooms, dispatch } = useClassroomContext()
+    const token = JSON.parse(localStorage.getItem('user'))?.token
 
     useEffect(() => {
         const fetchClassrooms = async () => {
-            const response = await fetch('http://localhost:4000/api/classrooms')
+            if (!token) {
+                console.warn('No user is signed in. Token is null.')
+                return
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_URL}api/classrooms/` + token)
             const json = await response.json()
 
             if (response.ok) {

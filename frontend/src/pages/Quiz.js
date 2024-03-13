@@ -17,7 +17,7 @@ const Quiz = () => {
     useEffect(() => {
 
         const fetchQuiz = async () => {
-            const response = await fetch('/api/quizzes/' + quiz_id, {method: 'GET'})
+            const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes/` + quiz_id, {method: 'GET'})
             const json = await response.json()
 
             if (response.ok) {

@@ -46,8 +46,8 @@ mongoose.connect(process.env.MONGO_URI)
   }) 
 
 // connect frontend
-const dirName = path.dirname("")
-const buildPath = path.join(dirName, "../frontend/build");
+// const dirName = path.dirname("")
+const buildPath = path.join(__dirname, "../frontend/build");
 
 
 
@@ -59,7 +59,7 @@ app.use('/api/users', userRoutes)
 app.use('/api/quizzes', quizRoutes)
 app.get("/*", function(req,res){
   res.sendFile(
-    path.join(dirName,"../frontend/build/index.html"),
+    path.join(buildPath,"index.html"),
     function(err){
       if(err){
         res.status(500).send(err);

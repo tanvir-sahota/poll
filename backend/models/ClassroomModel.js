@@ -8,9 +8,8 @@ const ClassroomSchema = new mongoose.Schema({
         required: true
     },
     owner:{
-        // type: mongoose.Schema.Types.ObjectId,
-        type: String,
-        // required: true
+        type: mongoose.Schema.Types.ObjectId, ref:"User",
+        required: true
     },
     questions:{
         type: mongoose.Schema.Types.ObjectId, ref:"QuestionBank",

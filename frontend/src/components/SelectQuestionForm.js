@@ -9,7 +9,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const [tickboxes, setTickboxes] = useState(false)
     const [no_questions, setNoQuestions] = useState(true)
 
-
+    
     const handleSubmission = async (e) => {
         e.preventDefault()
 
@@ -21,9 +21,9 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
         })
         const quiz = await response.json()
 
-        if(!response.ok){
-            setError(json.error)
-            setEmptyFields(json.emptyFields)
+        if(!quiz.ok){
+            setError(quiz.error)
+            setEmptyFields(quiz.emptyFields)
         }
         if(response.ok){
             update_quiz()
@@ -74,7 +74,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     useEffect(() => {
         const fetchQuestions = async () =>{
             try{
-                const response = await fetch("http://localhost:4000/api/questions/" + classID)
+                const response = await fetch(`${process.env.REACT_APP_URL}api/questions/` + classID)
                 const result = await response.json()
 
                 const num_questions = result.length

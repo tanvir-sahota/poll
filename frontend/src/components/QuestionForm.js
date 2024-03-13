@@ -17,7 +17,7 @@ const QuestionForm = (classID) => {
 
         const question = {questionAsked, options, answers}
 
-        const response = await fetch("http://localhost:4000/api/questions/" + classID.classID, {
+        const response = await fetch(`${process.env.REACT_APP_URL}api/questions/` + classID.classID, {
             method: "POST",
             body: JSON.stringify(question),
             headers: {
@@ -76,7 +76,7 @@ const QuestionForm = (classID) => {
 
                 <p>Input as a comma seperated string for multiple answers and options</p>
 
-                <button className = "create">Add Question</button>
+                <button>Add Question</button>
                 {error && <div className="error">{error}</div>}
 
             </form>
