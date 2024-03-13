@@ -14,7 +14,7 @@ const ConnectionPage = (inputData) =>{
 
     const navigateAway = () => {
         console.log("Navigating away")
-        navigate("/"+ lecturer +" /waiting")
+        navigate("/"+ lecturer +"/waiting")
     }
 
     useEffect(() => {
