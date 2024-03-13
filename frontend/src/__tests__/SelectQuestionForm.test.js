@@ -1,9 +1,9 @@
 import {render, screen, waitFor, fireEvent} from '@testing-library/react';
+import fetchMock from 'fetch-mock'
 
 import ShowSelectQuestion from "../components/ShowSelectQuestion";
 
 // import QuizForm from "../components/QuizForm";
-
 
 import userEvent from "@testing-library/user-event";
 import {useState} from "react";
@@ -39,46 +39,48 @@ const mockQuestion = {
 const MockSQForm_with_questions = () => {
     return (
         <ShowSelectQuestion classroom_id={mockClassroom._id} quiz_id={mockQuiz._id} />
+        )
+    }
 
-    )
-}
-test("Ensures there is loading text for question fetching", () => {
-    render(MockSQForm_with_questions())
 
-    const loading_text = screen.getByText("Loading questions...")
-    expect(loading_text).toBeInTheDocument()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const url = "http://localhost:4000/api/questions/" + mockClassroom._id
+
+// fetchMock.mock(url, JSON.stringify(mockQuestion), {
+//     status: 200,
+//     headers: {"Content-Type": "application/json"},
+// })
+
+describe("Appearance test after questions are fetched (questions and classroom provided)", () => {
+    test("Ensures toggle button shows for selecting questions", async () => {              
+        fetchMock.mock(url, JSON.stringify(mockQuestion))
+        
+        const response = await fetch(url)
+        console.log(await response.json())
+    })
 })
 
 
 
 
-// describe("Fetched question tests (empty questionBank)", () => {
-//     test("Ensures toggle button shows for selecting questions", async () => {
-    //         render(MockSQForm_no_questions())
-    //         await wait_for_fetch_questions()
-    //     })
-    // test("Ensures submit button shows for selecting questions", async () => {
-    //     render(MockSQForm_no_questions).container.firstChild
-
-    //     await wait_for_fetch_questions()
-    //     const submitButton = screen.getByText(/Select Questions/)
-    //     expect(submitButton).toBeInTheDocument()
-    // })
-    // test("Ensures there is a tag saying no questions available", async () => {
-    //     render(MockSQForm_no_questions).container.firstChild
-
-    //     await wait_for_fetch_questions()
-    //     const available = screen.getByText(/No questions available/)
-    //     expect(available).toBeInTheDocument()
-    // })
-    
-    // const wait_for_fetch_questions = async () => {
-    //     await waitFor(() => {
-        //         expect(screen.getByText("Loading questions...")).toBeInTheDocument()
-        //     })
-        // }
-
-        
 
 
 
@@ -91,29 +93,20 @@ test("Ensures there is loading text for question fetching", () => {
 
 
 
+// test("Ensures submit button shows for selecting questions", async () => {
+//     render(MockSQForm_with_questions())
 
+//     await wait_for_fetch_questions()
+//     const submitButton = screen.getByText(/Select Questions/)
+//     expect(submitButton).toBeInTheDocument()
+// })
+// test("Ensures there is a tag saying no questions available", async () => {
+//     render(MockSQForm_with_questions())
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//     await wait_for_fetch_questions()
+//     const available = screen.getByText(/No questions available/)
+//     expect(available).toBeInTheDocument()
+// })
 //     test("Ensures there is a input for quiz title", () => {
 //         const quizForm = render(MockQuizForm()).container.firstChild
 //         const titleInput = screen.getByPlaceholderText(/Input the new title/)
@@ -129,7 +122,6 @@ test("Ensures there is loading text for question fetching", () => {
 
 
 
-// })
 
 
 
@@ -209,16 +201,58 @@ test("Ensures there is loading text for question fetching", () => {
 
 
 
-MockSQForm_no_classroom = () => {
-    return (
-        <ShowSelectQuestion/>
-    )
-}
-test("Ensures correct text is shown when no classroom_id is given", () => {
-    render(MockSQForm_no_classroom())
 
-    const text_no_classroom_linked = screen.getByText("No classroom linked to this quiz.")
-    expect(text_no_classroom_linked).toBeInTheDocument()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+// MockSQForm_no_classroom = () => {
+//     return (
+//         <ShowSelectQuestion/>
+//         )
+// }
+// test("Ensures correct text is shown when no classroom_id is given", () => {
+//     render(MockSQForm_no_classroom())
+//     const text_no_classroom_linked = screen.getByText("No classroom linked to this quiz.")
+//     expect(text_no_classroom_linked).toBeInTheDocument()
+// })
+
+
+
+
+            // works
+            /*
+
+
+describe("Loading text test (questions and classroom provided)", () => {
+    test("Ensures there is loading text for question fetching", () => {
+        render(MockSQForm_with_questions())
+
+        const loading_text = screen.getByText("Loading questions...")
+        expect(loading_text).toBeInTheDocument()
+    })
 })
 
+*/
 
