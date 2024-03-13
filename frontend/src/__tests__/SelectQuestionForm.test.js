@@ -7,6 +7,7 @@ import ShowSelectQuestion from "../components/ShowSelectQuestion";
 
 import userEvent from "@testing-library/user-event";
 import {useState} from "react";
+import { act } from 'react-dom/test-utils';
 
 
 const mockClassroom = {
@@ -43,62 +44,36 @@ const MockSQForm_with_questions = () => {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const url = "http://localhost:4000/api/questions/" + mockClassroom._id
 
-// fetchMock.mock(url, JSON.stringify(mockQuestion), {
-//     status: 200,
-//     headers: {"Content-Type": "application/json"},
-// })
+
 
 describe("Appearance test after questions are fetched (questions and classroom provided)", () => {
+    // const wait_for_fetch_questions = async () => {
+    //     await waitFor((check_this_string) => {
+    //         expect(screen.getByText(check_this_string)).toBeInTheDocument()
+    //     })
+    // }
     test("Ensures toggle button shows for selecting questions", async () => {              
         fetchMock.mock(url, JSON.stringify(mockQuestion))
         
-        const response = await fetch(url)
-        console.log(await response.json())
+        await act(async () => {
+            render(MockSQForm_with_questions())
+        })
+
+
+
+        console.log(fetchMock.done())
+        
     })
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// test("Ensures submit button shows for selecting questions", async () => {
-//     render(MockSQForm_with_questions())
-
-//     await wait_for_fetch_questions()
-//     const submitButton = screen.getByText(/Select Questions/)
-//     expect(submitButton).toBeInTheDocument()
+    
+//     test("Ensures submit button shows for selecting questions", async () => {
+//         render(MockSQForm_with_questions())
+    
+//         await wait_for_fetch_questions()
+//         const submitButton = screen.getByText(/Select Questions/)
+//         expect(submitButton).toBeInTheDocument()
 // })
 // test("Ensures there is a tag saying no questions available", async () => {
 //     render(MockSQForm_with_questions())
