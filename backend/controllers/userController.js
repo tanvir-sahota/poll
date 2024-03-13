@@ -47,6 +47,22 @@ const getUserById = async (req, res) => {
   }
 }
 
+const getUserByUsername = async (req, res) => {
+  try {
+    const user = await User.find({username:req.params.username})
+
+    if (user.length == 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(user);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}
+
 const getUsers = async (req, res) => {
     const users = await User.find({})
     res.status(200).json(users)
@@ -87,6 +103,7 @@ const loginUser = async (req, res) => {
 module.exports = {
     getUserByToken,
     getUserById,
+    getUserByUsername,
     getUsers,
     createUser,
     loginUser

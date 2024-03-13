@@ -8,32 +8,36 @@ const ConnectToRoomForm = () => {
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
 
+    const isUser = async (username) =>{
+        const response = await fetch(`${process.env.REACT_APP_URL}api/users/${username}`)
+
+        if(response.ok){
+            return true
+        }
+        else{
+            return false
+        }
+        
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         
-        //navigate("habram/0")
         if (username !== '')
         {   
-            window.location.href = `/${username}/waiting`
+            const foundUser = await isUser(username)
+            if(foundUser){
+                setError(null)
+                navigate(`/${username}/waiting`)
+            }
+            else{
+                setError("Lecturer doesn't exist")
+            }
         }
-        //need to make sure user exists before you can connect to their page
-        // const response = await fetch('/api/users/' + username, {
-        //     method: 'GET',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        // const json = await response.json()
-
-        // if (!response.ok) {
-        //     setError(json.error)
-        //     setEmptyFields(json.emptyFields)
-        // }
-        // if (response.ok) {
-        //     navigate("" + username)
-        //     console.log('User exists', json)
-        //}
+        else{
+            setError("Lecturer username not inputted")
         }
+    }
     
     return (
         /*<form className="join" onSubmit={handleSubmit}>
