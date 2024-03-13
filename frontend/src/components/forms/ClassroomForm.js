@@ -13,7 +13,7 @@ const ClassroomForm = () => {
     const { dispatch } = useClassroomContext()
 
     const [title, setTitle] = useState('')
-    const [owner, setOwner] = useState('')
+    const [owner, setOwner] = useState(localStorage.getItem('user'))
     const [emptyFields, setEmptyFields] = useState([])
     const [error, setError] = useState(null)
 
@@ -24,7 +24,7 @@ const ClassroomForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const classroom = {title, owner}
+        const classroom = {owner, title}
 
         const response = await fetch(`${process.env.REACT_APP_URL}api/classrooms`, {
             method: 'POST',
@@ -45,7 +45,7 @@ const ClassroomForm = () => {
             setEmptyFields([])
             setError(null)
             setTitle('')
-            setOwner('')
+            setOwner(localStorage.getItem('user'))
             dispatch({type: 'CREATE_CLASSROOM', payload: json})
             handleClose()
           }

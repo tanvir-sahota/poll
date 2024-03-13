@@ -6,16 +6,22 @@ import reportWebVitals from './reportWebVitals';
 import { QuizzesContextProvider } from "./context/QuizContext";
 import { QuestionContextProvider } from './context/QuestionContext';
 import { ClassroomContextProvider } from './context/ClassroomContext';
+import { AuthContextProvider } from './context/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <ClassroomContextProvider>
+  <React.StrictMode>
+    <AuthContextProvider>
+      <ClassroomContextProvider>
         <QuizzesContextProvider>
-            <QuestionContextProvider>
-                <App/>
-            </QuestionContextProvider>
+          <QuestionContextProvider>
+            <App/>
+          </QuestionContextProvider>
         </QuizzesContextProvider>
-    </ClassroomContextProvider>
+      </ClassroomContextProvider>
+    </AuthContextProvider>
+  </React.StrictMode>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

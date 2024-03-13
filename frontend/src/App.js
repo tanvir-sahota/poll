@@ -7,6 +7,7 @@ import QuestionBankPage from './pages/QuestionBankPage'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import SignupForm from './components/SignupForm'
+import LoginForm from './components/LoginForm'
 import HostedClassroom from "./pages/HostedClassroom"
 import ConnectionPage from './pages/ConnectionPage'
 import Home from "./pages/Home"
@@ -32,7 +33,11 @@ function App() {
             <Route 
               path="/sign_up" 
               element={<SignupForm />}
-            />  
+            />
+            <Route
+                path="/log_in"
+                element={<LoginForm />}
+            />
             <Route 
               path="/dashboard" 
               element={<Dashboard />} 

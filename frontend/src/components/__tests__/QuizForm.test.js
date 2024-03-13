@@ -2,7 +2,6 @@ import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import QuizForm from "../QuizForm";
 import {QuizzesContextProvider} from "../../context/QuizContext";
 import QuizDashboard from "../../pages/QuizDashboard";
-import {wait} from "@testing-library/user-event/dist/utils";
 import userEvent from "@testing-library/user-event";
 import {useQuizzesContext} from "../../hooks/useQuizzesContext";
 import {useState} from "react";
