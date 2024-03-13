@@ -76,7 +76,7 @@ const QuestionForm = (classID) => {
 
                 <p>Input as a comma seperated string for multiple answers and options</p>
 
-                <button className = "create">Add Question</button>
+                <button>Add Question</button>
                 {error && <div className="error">{error}</div>}
 
             </form>
