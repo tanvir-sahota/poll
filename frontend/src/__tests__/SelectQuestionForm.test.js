@@ -59,6 +59,7 @@ beforeEach(() => {
 describe("Appearance test after questions are fetched (questions and classroom provided)", () => {
     const url = "http://localhost:4000/api/questions/" + mockClassroom._id
     const select_questions_toggle = "Select Questions Below"
+    const user = userEvent.setup()
 
     const wait_for_fetch_questions = async (check_this_string) => {
         await waitFor(() => {
@@ -66,43 +67,32 @@ describe("Appearance test after questions are fetched (questions and classroom p
         })
     }
 
-    test("Ensures toggle button shows for selecting questions", async () => {
+
+    beforeEach(async () => {
         fetchMock.mock(url, JSON.stringify([mockQuestion]))
         await act(async () => {    
             render(MockSQForm_with_questions())
         })
+    })
+
+    test("Ensures toggle button shows for selecting questions", async () => {
         await wait_for_fetch_questions(select_questions_toggle)        
     })
     test("Ensures submit button shows for selecting questions", async () => {
         const submit_button = "Select Questions"
-        const user = userEvent.setup()
-
-        fetchMock.mock(url, JSON.stringify([mockQuestion]))
-        await act(async () => {
-            render(MockSQForm_with_questions())
-        })
+        
         await user.click(screen.getByText(select_questions_toggle))
         await wait_for_fetch_questions(submit_button)        
     })
     test("Ensures checkbox text shows for selecting one question", async () => {
         const question_checkbox = "question"
-        const user = userEvent.setup()
-                
-        fetchMock.mock(url, JSON.stringify([mockQuestion]))
-        await act(async () => {
-            render(MockSQForm_with_questions())
-        })
+        
         await user.click(screen.getByText(select_questions_toggle))
         await wait_for_fetch_questions(question_checkbox)
     })
     test("Ensures checkbox itself shows for selecting one question", async () => {
         const question_checkbox = "question"
-        const user = userEvent.setup()
-                
-        fetchMock.mock(url, JSON.stringify([mockQuestion]))
-        await act(async () => {
-            render(MockSQForm_with_questions())
-        })
+        
         await user.click(screen.getByText(select_questions_toggle))
         await wait_for_fetch_questions(question_checkbox)
         await waitFor(() => {
