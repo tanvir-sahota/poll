@@ -44,27 +44,25 @@ const MockSQForm_with_questions = () => {
     }
 
 
-const url = "http://localhost:4000/api/questions/" + mockClassroom._id
-
-
-
+    
+    
+    
 describe("Appearance test after questions are fetched (questions and classroom provided)", () => {
-    // const wait_for_fetch_questions = async () => {
-    //     await waitFor((check_this_string) => {
-    //         expect(screen.getByText(check_this_string)).toBeInTheDocument()
-    //     })
-    // }
+    const url = "http://localhost:4000/api/questions/" + mockClassroom._id
+    const wait_for_fetch_questions = async (check_this_string) => {
+        await waitFor(() => {
+            expect(screen.getByText(check_this_string)).toBeInTheDocument()
+        })
+    }
     test("Ensures toggle button shows for selecting questions", async () => {              
-        fetchMock.mock(url, JSON.stringify(mockQuestion))
+        const select_questions_toggle = "Select Questions Below"
+
         
-        await act(async () => {
+        fetchMock.mock(url, JSON.stringify([mockQuestion]))
+        await act(async () => {    
             render(MockSQForm_with_questions())
         })
-
-
-
-        console.log(fetchMock.done())
-        
+        await wait_for_fetch_questions(select_questions_toggle)        
     })
 })
     
