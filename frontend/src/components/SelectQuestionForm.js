@@ -23,7 +23,6 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
 
         if(!quiz.ok){
             setError(quiz.error)
-            setEmptyFields(quiz.emptyFields)
         }
         if(response.ok){
             update_quiz()
