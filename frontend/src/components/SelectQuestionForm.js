@@ -125,6 +125,10 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
                                                         <button className = "create">Select Questions</button>
                                                         {error && <div className="error">{error}</div>}
 
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+
                                                     </form>
                                                 ) : null }
                                         </div>

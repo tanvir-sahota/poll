@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import SelectQuestionForm from "../components/SelectQuestionForm";
 
 import ShowSelectQuestion from "../components/ShowSelectQuestion"
+import ShowQuestionsInQuiz from "../components/ShowQuestionsInQuiz"
 
 const Quiz = () => {
 
@@ -49,8 +50,10 @@ const Quiz = () => {
             <br/>
             <br/>
 
-
+            
             <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id} />
+
+            <ShowQuestionsInQuiz classID={classroom_id} />
             
             
 
