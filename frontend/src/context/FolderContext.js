@@ -25,6 +25,10 @@ export const foldersReducer = (state, action) => {
             return {
                 folders: state.folders.filter((f) => f._id !== action.payload._id)
             }
+        case 'UPDATE_QUIZZES': // New action type to update quizzes
+            return {
+                folder: { ...state.folder, quizzes: action.payload }
+        };
         default:
             return state
     }

@@ -18,7 +18,7 @@ const FolderForm = (classID) => {
         e.preventDefault()
 
         
-        const folder = {title, quizzes}
+        const folder = {title, quizzes,classroom}
         const response = await fetch('/api/folders', {
             method: 'POST',
             body: JSON.stringify(folder),

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-// import { useQuizContext } from "../hooks/useQuizzesContext"
+import { useQuizContext } from "../hooks/useQuizzesContext"
 
 const SelectQuizForm = ({classID, folder_id}) => {    
     const [error, setError] = useState(null)
@@ -75,7 +75,7 @@ const SelectQuizForm = ({classID, folder_id}) => {
     useEffect(() => {
         const fetchQuizzes = async () =>{
             try{
-                const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes/` + classID)
+                const response = await fetch(`${process.env.REACT_APP_URL}api/folders/`+ folder_id + '/quizzes')
                 const result = await response.json()
 
                 const num_quizzes = result.length

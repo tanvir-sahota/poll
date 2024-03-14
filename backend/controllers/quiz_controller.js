@@ -30,7 +30,7 @@ const get_one_quiz = async (request, response) => {
 
 // Post a new quiz
 const create_quiz = async (request, response) => {
-    const {title, description, num_questions, questions, classroom} = request.body
+    const {title, description, folder,num_questions, questions, classroom} = request.body
 
     let emptyFields = []
 
@@ -46,7 +46,7 @@ const create_quiz = async (request, response) => {
     }
 
     try {
-        const quiz = await Quiz.create({title, description, num_questions, questions, classroom})
+        const quiz = await Quiz.create({title, description, folder,num_questions, questions, classroom})
         response.status(201).json(quiz)
     } catch (error) {
         response.status(400).json({error: error.message})

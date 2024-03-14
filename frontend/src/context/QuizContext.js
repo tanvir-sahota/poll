@@ -2,12 +2,18 @@ import {createContext, useReducer} from "react";
 
 export const QuizzesContext = createContext()
 
+
+
 /**
  * Performs changes to states based on actions
  * @param state the previous state before the change is made
  * @param action corresponds to the action performed on a quiz
  */
+
 export const quizzesReducer = (state, action) => {
+    state = {
+            quizzes: [],
+    }
     switch (action.type) {
         case 'SET_QUIZZES':
             return {
