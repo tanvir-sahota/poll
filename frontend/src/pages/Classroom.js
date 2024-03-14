@@ -14,8 +14,8 @@ import FolderForm from '../components/FolderForm';
 const Classroom = () => {
     const classID = useLocation().pathname.split("/").at(1)
     const {quizzes, dispatch: dispatch_quiz} = useQuizzesContext() 
-    const {folders, dispatch: dispatch_folder} = useFoldersContext() 
-    const quizzesArray = quizzes || [];   
+    const {folders, dispatch: dispatch_folder} = useFoldersContext()
+     
 
     useEffect(() => {        
         const fetchQuizzes = async () => {
@@ -25,7 +25,7 @@ const Classroom = () => {
             if (response.ok) {
                 dispatch_quiz({type: 'SET_QUIZZES', payload: json})
                 const all_quizzes = json
-                const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom==classID)              
+                const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom==classID)             
                 assign_questions_to_quizzes(classroom_quizzes, classID)
             }
         }
@@ -48,17 +48,14 @@ const Classroom = () => {
         fetchFolders().then()
     }, [dispatch_folder])
 
-    const quizzesWithFolder = quizzesArray.filter(quiz => quiz.folder !== null);
-    const quizzesWithoutFolder = quizzesArray.filter(quiz => quiz.folder === null);
-
     return (
         <div className="dashboard">
             
             <h2>Classroom</h2>
             <QuizForm classID={classID} />
             <div className="quizzes">
-                {quizzesWithoutFolder.map((quiz) => (
-                    <QuizDetails key={quiz._id} quiz={quiz} classID={classID}/>
+                {quizzes && quizzes.map((quiz) => (
+                    <QuizDetails key={quiz._id} quiz={quiz} classID={classID} hasFolder = {quiz.folder}/>
                 ))}
             </div>
 

@@ -48,20 +48,8 @@ const Folder = () => {
         };
 
         fetchQuizzes();
-    }, [classroom_id, folder_id,dispatch_quiz]); 
+    }, [classroom_id, folder_id]); 
 
-    const deleteQuiz = async (quizId) => {
-        try {
-            const response = await fetch(`/api/quizzes/${quizId}`, { method: 'DELETE' });
-            if (!response.ok) {
-                throw new Error('Failed to delete quiz');
-            }
-            // Update quizzes state after deleting the quiz
-            dispatch_quiz({ type: 'DELETE_QUIZ', payload: { _id: quizId } });
-        } catch (error) {
-            setError(error.message);
-        }
-    };
 
 
     if (folder==null) {
@@ -76,7 +64,7 @@ const Folder = () => {
             </div>
                  <div className="quizzes">
                 {quizzes.map((quiz) => (
-                    <QuizDetails key={quiz._id} quiz={quiz} classID={classroom_id} onDelete = {deleteQuiz}/>
+                    <QuizDetails key={quiz._id} quiz={quiz} classID={classroom_id}/>
                 ))}
             </div>
 
