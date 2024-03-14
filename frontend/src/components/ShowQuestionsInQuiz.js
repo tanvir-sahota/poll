@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import QuestionDetails from "./QuestionDetails"
 
 const SelectQuestionForm = ({classID}) => {    
     const [classroom_questions, setClassroomQuestions] = useState([])
@@ -31,6 +32,24 @@ const SelectQuestionForm = ({classID}) => {
         fetchQuestions()
     }, [])
 
+
+
+    /*
+
+    const hostQuiz = () => {
+        const data = JSON.parse(localStorage.getItem("user"))
+        const {username} = data
+        navigate(`/${username}/admin`, {state:{currentClassID: classID, currentQuestion: question}})
+    } 
+    <input type="submit" className="host" value="HOST" onClick={hostQuiz}/>
+
+
+    */
+    
+    
+    
+    
+    
     return(        
         <div>
             {loading ? (
@@ -43,17 +62,15 @@ const SelectQuestionForm = ({classID}) => {
                                     <h3>No questions available</h3>
                                 ) : (
                                     <div>
-
-
-
-
-                                        <h1>QUESTIONS ARE LOADED</h1>
-                                        {/* THIS IS WHERE THE QUESTION CARDS GO */}
-
-
-
-
-
+                                        
+                                        <h1>Current Questions:</h1>
+                                        <div className="questionBank">
+                                            <div className="questions">
+                                                {classroom_questions && classroom_questions.map(question => (
+                                                    <QuestionDetails question={question} classID={classID} onlyDisplayQuestions={true}/>
+                                                ))}
+                                            </div>
+                                        </div>
 
                                     </div>
                                 )}

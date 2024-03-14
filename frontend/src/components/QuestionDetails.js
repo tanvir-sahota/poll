@@ -5,8 +5,11 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { QuestionContext } from "../context/QuestionContext"
 
-const QuestionDetails = ({ question, classID }) => {
-    
+const QuestionDetails = ({ question, classID, onlyDisplayQuestions }) => {
+    if(onlyDisplayQuestions==undefined || onlyDisplayQuestions=="undefined"){
+        onlyDisplayQuestions = false
+    }
+
     const { dispatch } = useQuestionContext()
     const navigate = useNavigate()
     const [showForm, setShowForm] = useState(false)
@@ -40,10 +43,17 @@ const QuestionDetails = ({ question, classID }) => {
             {showOptions ? <p><strong>Options: </strong>{question?.options?.toString()}</p> : null}
             <p><strong>Answer(s): </strong>{question?.answers?.toString()}</p>
             <span onClick={deleteQuestion}>delete</span>
-            <input type="submit" className="host" value="HOST" onClick={hostQuestion}/>
+
+            {onlyDisplayQuestions ? null : (
+                <div>
+                    <input type="submit" className="host" value="HOST" onClick={hostQuestion}/>
+                    <input type="submit" className="edit" value= {showForm ? "Hide" : "Edit"} onClick={editQuestion}/>
+                </div>
+            )}
+
+
             <p><strong>{question?.questionType}</strong></p>
             <div>
-            <input type="submit" className="edit" value= {showForm ? "Hide" : "Edit"} onClick={editQuestion}/>
             { showForm ? <UpdateQuestionForm classID={classID} question = {question} setShowForm={setShowForm} setShowOptions={setShowOptions}/> : null }
             </div>
         </div>
