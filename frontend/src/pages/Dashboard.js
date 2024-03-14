@@ -13,16 +13,18 @@ const Dashboard = () => {
     const [filteredClassrooms, setFilteredClassrooms] = useState(classrooms || [])
 
     const filterBySearch = (event) => {
-        const inputValue = event.target.value.toLowerCase()
-        const filtered = classrooms.filter(classroom =>
-            classroom.title.toLowerCase().includes(inputValue)
+        const inputValue = event.target.value.toLowerCase();
+        const filtered = (classrooms || []).filter(classroom =>
+            classroom.title && classroom.title.toLowerCase().includes(inputValue)
         );
-        setFilteredClassrooms(filtered)
-    }
+        setFilteredClassrooms(filtered);
+    };
 
     const filterByTime = (type) => {
-        const sortedClassrooms = [...(classrooms || [])].sort((a, b) => {
-            return type === 'mostRecent' ? new Date(b.createdAt) - new Date(a.createdAt) : new Date(a.createdAt) - new Date(b.createdAt);
+        const sortedClassrooms = [...(filteredClassrooms || [])].sort((a, b) => {
+            const timeA = a.createdAt ? new Date(a.createdAt) : 0;
+            const timeB = b.createdAt ? new Date(b.createdAt) : 0;
+            return type === 'mostRecent' ? timeB - timeA : timeA - timeB;
         });
         setFilteredClassrooms(sortedClassrooms);
     }
