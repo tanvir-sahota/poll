@@ -41,6 +41,11 @@ io.of("habram").on("connection", (socket) => {
     }
 
   })
+  socket.on("check-hosting-status", (userName, callback) => {
+    callback({
+      isHosting: (currentQuestionMap.get(userName) != undefined)
+    })
+  })
   socket.on("host", (userName) => {
     socket.to(userName).emit("switch-pages")
   })
@@ -54,15 +59,15 @@ io.of("habram").on("connection", (socket) => {
     currentQuestionMap.delete(userName)
   })
   socket.on("submit-answer-text", (userName, answer) => {
-    console.log(`Sent the answer (${answer}) to ${userName}`)
+    console.log(`Sent the answer (${answer}) to ${userName} ${io.engine.clientsCount} clients.`)
     socket.to(userName).emit("recieve-answer-text", answer)
   })
   socket.on("submit-answer-MCQ", (userName , option) => {
-    console.log(`Sent the answer (${option}) to ${userName}`)
+    console.log(`Sent the answer (${option}) to ${userName} ${io.engine.clientsCount} clients.`)
     socket.to(userName).emit("recieve-answer-mcq", option)
   })
   socket.on("unsubmit-answer-MCQ", (userName , option) => {
-    console.log(`Rebuke the answer (${option}) to ${userName}`)
+    console.log(`Rebuke the answer (${option}) to ${userName} ${io.engine.clientsCount} clients.`)
     socket.to(userName).emit("decline-answer-mcq", option)
   })
 

@@ -1,156 +1,109 @@
-import { useQuestionContext } from "../hooks/useQuestionContext"
-import { useEffect } from "react"
-import { useState } from "react"
+import {useQuestionContext} from "../hooks/useQuestionContext"
+import {useEffect, useState} from "react"
 import QuestionDisplay from "./QuestionDisplay"
 import parse from 'html-react-parser'
 
 const HostingAdmin = (inputData) => {
-    const {socket, newClassID, currentQuestion, lecturer} = inputData
-    const classID = newClassID
-    const [question, setQuestion] = useState(currentQuestion)
-    const {questions, dispatch} = useQuestionContext()
-    const [position, setPosition] = useState(0)
-    const [answers, setAnswers] = useState(question.options.length > 1 ? question.options.map(o => 0) : [])
+    const {socket, currentQuestion, lecturer} = inputData
+    const {questions} = useQuestionContext()
+    const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
+    const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
 
     useEffect(() => {
-        const fetchQuestions = async () => {
-            const response = await fetch(`${process.env.REACT_APP_URL}api/questions/${classID}`)
-            const json = await response.json()
-
-            if (response.ok) {
-                dispatch({type: "SET_QUESTIONS", payload:json})
+        let receiveTextHandler = null
+        receiveTextHandler = answer => {
+            setAnswers(prevAnswers => {
+                const allAnswers = [...prevAnswers]
+                allAnswers[position] = [...prevAnswers[position], answer]
+                return allAnswers
+            })
+        }
+        socket.addEventListener("recieve-answer-text", receiveTextHandler)
+        console.log("Added text event handler")
+        return () => {
+            if (receiveTextHandler) {
+                socket.removeEventListener("recieve-answer-text", receiveTextHandler)
+                console.log("Removed text event handler")
             }
         }
-        fetchQuestions()
-    }, [])
-
-    useEffect(() => {
-        socket.on("recieve-answer-text", function(answer) {
-            //let list = answers
-            //list.push(answer)
-            //setAnswers(list)
-            //setAnswers(previousAnswers => [...previousAnswers, answer])
-            //etAnswers(previousAnswers => [...previousAnswers, answer])
-            setAnswers(prevAnswers => {
-                let list = [...prevAnswers]
-                list = [...list, answer]
-                console.log("NEW TEXT ANSWER ",answer)
-                console.log(`${list}`)
-                return list
-            })
-            //console.log(answers)
-        })
-        //return () => socket.close()
-    }, [])
-
-    /*useEffect(() => {
-        socket.on("initialise-option", function(option) {
-            //setOptions(previousOptions => [...previousOptions, option])
-            //setAnswers(answers => [...answers, 0])
-            //console.log("Init option",option)
-        })
-        //return () => socket.close()
-    }, [])*/
-
-    useEffect(() => {
-        socket.on("recieve-answer-mcq", function(option) {
-            const index = question.options.findIndex(comparisonOption => comparisonOption === option)
-            //let list = answers
-            //list[index] += 1
-            /*this.setState(prevAnswers => ({
-                let list = prevAnswers
-                list[index] += 1
-                return list
-            })*/
-            /*let list = [...answers]
-            list[index] += 1
-            console.log("Option added count",option)
-            console.log(`${option} ${list}`)
-            setAnswers(list)*/
-            //return prevAnswers
-            setAnswers(prevAnswers => {
-                let list = [...prevAnswers]
-                list[index] += 1
-                console.log("Option added count",option)
-                console.log(`${option} ${list}`)
-                return list
-            })
-            //console.log("Option added count",option)
-            //console.log(`${option} ${list}`)
-        })
-        //return () => socket.close()
-    }, [])
-
-    useEffect(() => {
-        socket.on("decline-answer-mcq", function(option) {
-            const index = question.options.findIndex(comparisonOption => comparisonOption == option)
-            /*let list = answers
-            list.at(index) > 0 ? list[index] -= 1 : list[index] = 0
-            setAnswers(list)
-            console.log("Option minus count",option)*/
-
-            setAnswers(prevAnswers => {
-                let list = [...prevAnswers]
-                list.at(index) > 0 ? list[index] -= 1 : list[index] = 0
-                console.log("Option minus count",option)
-                console.log(`${option} ${list}`)
-                return list
-            })
-        })
-        //return () => socket.close()
-    }, [])
-
-    useEffect(() => {
-        socket.emit("set-question", question, lecturer)
     }, [position])
 
+    useEffect(() => {
+        console.log("useEffect receiveMultipleChoice effect running")
+        let receiveMultipleChoiceHandler = null
+        receiveMultipleChoiceHandler = option => {
+            const index = questions[position].options.findIndex(comparisonOption => comparisonOption === option)
+            if (index === -1) {
+                console.log("Empty answers")
+            }
+            setAnswers(prevAnswers => {
+                const allAnswers = [...prevAnswers]
+                const questionAnswers = [...prevAnswers[position]]
+                questionAnswers[index] += 1
+                allAnswers[position] = questionAnswers
+                console.log("Option added count", option)
+                console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
+                return allAnswers
+            })
+        }
+        socket.addEventListener("recieve-answer-mcq", receiveMultipleChoiceHandler)
+        console.log("Added MCQ event handler")
+        return () => {
+            if (receiveMultipleChoiceHandler) {
+                socket.removeEventListener("recieve-answer-mcq", receiveMultipleChoiceHandler)
+                console.log("Removed MCQ event handler")
+            }
+        }
+    }, [position])
+
+    useEffect(() => {
+        let declineMultipleChoiceHandler = null
+        declineMultipleChoiceHandler = option => {
+            const index = questions[position].options.findIndex(comparisonOption => comparisonOption == option)
+            setAnswers(prevAnswers => {
+                const allAnswers = [...prevAnswers]
+                const questionAnswers = [...prevAnswers[position]]
+                questionAnswers.at(index) > 0 ? prevAnswers[position][index] -= 1 : prevAnswers[position][index] = 0
+                allAnswers[position] = questionAnswers
+                console.log("Option minus count", option)
+                console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
+                return allAnswers
+            })
+        }
+        socket.addEventListener("decline-answer-mcq", declineMultipleChoiceHandler)
+        return () => {
+            if (declineMultipleChoiceHandler) {
+                socket.removeEventListener("decline-answer-mcq", declineMultipleChoiceHandler)
+            }
+        }
+    }, [position])
+
+    useEffect(() => {
+        socket.emit("set-question", questions[position], lecturer)
+    }, [position])
 
     const handleNext = async () => {
-        let newQuestion;
-        if(position >= questions.length - 1){
-            newQuestion = questions.at(0)
+        if (position >= questions.length - 1) {
             setPosition(0)
-        }
-        else{
-            const tempPosition = questions.findIndex((x) => x._id === question._id)
-            newQuestion = questions.at(tempPosition + 1)
+        } else {
+            const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition + 1)
         }
-        setQuestion(newQuestion)
-        if (newQuestion.options.length > 1) {
-            setAnswers(newQuestion.options.map(o => 0))
-        }
-        else {
-            setAnswers([])
-        }
-
-        //setOptions([])
     }
     const handlePrev = async () => {
-        let newQuestion;
-        if(position <= 0){
-            newQuestion = questions.at(-1)
+        if (position <= 0) {
             setPosition(questions.length - 1)
-        }
-        else{
-            const tempPosition = questions.findIndex((x) => x._id === question._id)
-            newQuestion = questions.at(tempPosition - 1)
+        } else {
+            const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition - 1)
         }
-        setQuestion(newQuestion)
-        if (newQuestion.options.length > 1) {
-            setAnswers(newQuestion.options.map(o => 0))
-        }
-        else {
-            setAnswers([])
-        }
-        //setOptions([])
     }
 
-    return(
+    return (
         <div className="hostingDisplay">
             <div className="questionDisplay">
-                <QuestionDisplay givenQuestion = {question} isAdmin = {true} socket = {socket} lecturer={lecturer}/>
+                <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket}
+                                 lecturer={lecturer}/>
             </div>
             <div className="nextButton">
                 <button onClick={handleNext}>
@@ -163,35 +116,33 @@ const HostingAdmin = (inputData) => {
                 </button>
             </div>
             <div className="options">
-                {question.options.length > 1 ?
-                    (question.questionType === "CodeMCQ") ?
-                    question.options.map(option => {
-                        const count = answers.at(question.options.indexOf(option))
-                        console.log(`${option}: ${count}`)
-                        console.log(`ANSWERS: ${answers}`)
+                {questions[position].options.length > 1 ?
+                    (questions[position].questionType === "CodeMCQ") ?
+                        questions[position].options.map(option => {
+                            const count = answers[position].at(questions[position].options.indexOf(option))
+                            //console.log(`${option}: ${count}`)
+                            //console.log(`ANSWERS: ${answers}`)
 
-                        return <dl>
-                            <dt>{parse(option)}</dt>
-                            <dd>{count}</dd>
-                        </dl>
-                    })
+                            return <dl>
+                                <dt>{parse(option)}</dt>
+                                <dd>{count}</dd>
+                            </dl>
+                        })
+                        :
+                        questions[position].options.map(option => {
+                            const count = answers[position].at(questions[position].options.indexOf(option))
+                            //console.log(`${option}: ${count}`)
+                            //console.log(`ANSWERS: ${answers}`)
+                            return <dl>
+                                <dt>{option}</dt>
+                                <dd>{count}</dd>
+                            </dl>
+                        })
                     :
-                    question.options.map(option => {
-                        const count = answers.at(question.options.indexOf(option))
-                        console.log(`${option}: ${count}`)
-                        console.log(`ANSWERS: ${answers}`)
-
-                        return <dl>
-                            <dt>{option}</dt>
-                            <dd>{count}</dd>
-                        </dl>
-                    })
-                    :
-                    answers && answers.map(answer => (<p>{answer}</p>))
+                    answers[position] && answers[position].map(answer => (<p>{answer}</p>))
                 }
             </div>
         </div>
     )
-
 }
 export default HostingAdmin
