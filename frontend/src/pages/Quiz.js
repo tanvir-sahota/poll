@@ -39,7 +39,7 @@ const Quiz = () => {
             }
         }
         fetchQuiz()
-    }, [])
+    }, [quiz])
 
     if (quiz==null) {
         return <h2>"Still loading..."</h2>
@@ -66,7 +66,7 @@ const Quiz = () => {
             <br/>
 
 
-            <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id} />
+            <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id} setQuiz={setQuiz}/>
             
             
 

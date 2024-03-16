@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const SelectQuestionForm = ({classID, quiz_id}) => {    
+const SelectQuestionForm = ({classID, quiz_id, setQuiz}) => {    
     const [error, setError] = useState(null)
     const [showForm, setShowForm] = useState(false)
     const [classroom_questions, setClassroomQuestions] = useState([])
@@ -49,6 +49,8 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
 
         if(!response.ok){
             setError(json.error)
+        }else{
+            setQuiz(json)
         }
     }
 
