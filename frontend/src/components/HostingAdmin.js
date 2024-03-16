@@ -6,6 +6,7 @@ import parse from 'html-react-parser'
 const HostingAdmin = (inputData) => {
     const {socket, currentQuestion, lecturer} = inputData
     const {questions} = useQuestionContext()
+    console.log("Questions", questions)
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
 
