@@ -2,6 +2,7 @@ import {useQuestionContext} from "../hooks/useQuestionContext"
 import {useEffect, useState} from "react"
 import QuestionDisplay from "./QuestionDisplay"
 import parse from 'html-react-parser'
+import ReactDOM from "react-dom/client";
 
 const HostingAdmin = (inputData) => {
     const {socket, currentQuestion, lecturer} = inputData
@@ -81,22 +82,67 @@ const HostingAdmin = (inputData) => {
 
     useEffect(() => {
         socket.emit("set-question", questions[position], lecturer)
+        shouldRenderPrevious(position)
+        shouldRenderNext(position)
     }, [position])
 
-    const handleNext = async () => {
-        if (position >= questions.length - 1) {
-            setPosition(0)
-        } else {
+    const handleNext =  () => {
+        // if (position >= questions.length - 1) {
+        //     setPosition(0)
+        // } else {
+        //     const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
+        //     setPosition(tempPosition + 1)
+        // }
+
+        if (position < questions.length - 1) {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition + 1)
+
+            shouldRenderPrevious(tempPosition + 1)
+            shouldRenderNext(tempPosition + 1)
+
         }
+
+
     }
-    const handlePrev = async () => {
-        if (position <= 0) {
-            setPosition(questions.length - 1)
+
+    const shouldRenderNext = async (newPos = 0) => {
+       // const nextButton = document.getElementById("nextButton");
+        const nextButton = document.getElementById("nextButton");
+        if (newPos === questions.length - 1) {
+            nextButton.hidden = true
         } else {
+            nextButton.hidden = false
+        }
+
+    }
+
+
+    const handlePrev = async () => {
+        // if (position <= 0) {
+        //     setPosition(questions.length - 1)
+        // } else {
+        //     const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
+        //     setPosition(tempPosition - 1)
+        // }
+
+        if (position > 0) {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition - 1)
+
+            shouldRenderPrevious(tempPosition -1)
+            shouldRenderNext(tempPosition -1)
+        }
+    }
+
+    const shouldRenderPrevious = async (newPos = 0) => {
+       // const nextButton = document.getElementById("nextButton");
+        const prevButton = document.getElementById("prevButton");
+        console.log(position)
+        if (newPos === 0) {
+            prevButton.hidden = true
+        } else {
+           prevButton.hidden = false
         }
     }
 
@@ -106,16 +152,19 @@ const HostingAdmin = (inputData) => {
                 <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket}
                                  lecturer={lecturer}/>
             </div>
-            <div className="nextButton">
-                <button onClick={handleNext}>
+
+            <div className="nextButton" id={"nextButton"} onLoad={shouldRenderNext} >
+                <button onClick={handleNext}   >
                     NEXT QUESTION
                 </button>
             </div>
-            <div className="prevButton">
-                <button onClick={handlePrev}>
+            <div className="prevButton" id={"prevButton"}  onLoad="shouldRenderPrevious">
+                <button onClick={handlePrev} o>
                     PREVIOUS QUESTION
                 </button>
             </div>
+
+
             <div className="options">
                 {questions[position].options.length > 1 ?
                     (questions[position].questionType === "CodeMCQ") ?
@@ -143,6 +192,13 @@ const HostingAdmin = (inputData) => {
                     answers[position] && answers[position].map(answer => (<p>{answer}</p>))
                 }
             </div>
+
+            <div className="endQuizButton">
+                <button  >
+                    END QUIZ
+                </button>
+            </div>
+
         </div>
     )
 }
