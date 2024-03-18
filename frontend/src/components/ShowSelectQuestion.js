@@ -1,7 +1,7 @@
 import React from 'react'
 import SelectQuestionForm from './SelectQuestionForm'
 
-const show_form = ({classroom_id, quiz_id, setQuiz}) => {
+const show_form = ({classroom_id, quiz_id}) => {
     if(classroom_id==undefined || classroom_id=="undefined"){
         return (
             <div>
@@ -19,7 +19,7 @@ const show_form = ({classroom_id, quiz_id, setQuiz}) => {
     else{
         return (
             <div>
-                <SelectQuestionForm classID={classroom_id} quiz_id={quiz_id} setQuiz={setQuiz}/>
+                <SelectQuestionForm classID={classroom_id} quiz_id={quiz_id}/>
             </div>
         )
     }
