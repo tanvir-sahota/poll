@@ -107,11 +107,11 @@ const HostingAdmin = (inputData) => {
         console.log("Handling save quiz")
         socket.emit("host-disconnect", lecturer)
         console.log("About to send fetch")
-        //questions answers
-        const questionResults = {questions, answers}
-        const response = await fetch(`${process.env.REACT_APP_URL}api/question-results/`, {
+        //quiz answers
+        const quizResults = {quiz, answers}
+        const response = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/`, {
             method: "POST",
-            body: JSON.stringify(questionResults),
+            body: JSON.stringify(quizResults),
             headers: {
                 "Content-Type": "application/json",
             },
@@ -121,10 +121,10 @@ const HostingAdmin = (inputData) => {
         console.log("Got JSON")
 
         if (!response.ok) {
-            console.log("Failed to save question results", json);
+            console.log("Failed to save quiz results", json);
         }
         else {
-            console.log("Saved question results")
+            console.log("Saved quiz results")
         }
         navigate("/dashboard")
     }

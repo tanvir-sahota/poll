@@ -1,8 +1,8 @@
 const express = require('express');
-const {createQuestionResults} = require("../controllers/questionResultsController");
+const {createQuizResults} = require("../controllers/quizResultsController");
 const User = require("../models/userModel");
 const router = express.Router();
 
-router.post('/', createQuestionResults)
+router.post('/', createQuizResults)
 
 module.exports = router;
