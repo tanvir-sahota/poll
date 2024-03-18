@@ -16,7 +16,7 @@ import WaitingPage from './pages/WaitingPage'
 
 import io from "socket.io-client"
 
-const socket = io.connect(`${process.env.REACT_APP_URL}habram`)
+const socket = io.connect(`${process.env.REACT_APP_URL}`)
 
 function App() {
 

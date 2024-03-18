@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
+import { useQuizzesContext } from "../hooks/useQuizzesContext"
 
-const SelectQuestionForm = ({classID, quiz_id, setQuiz}) => {    
+const SelectQuestionForm = ({classID, quiz_id}) => {    
     const [error, setError] = useState(null)
     const [showForm, setShowForm] = useState(false)
     const [classroom_questions, setClassroomQuestions] = useState([])
@@ -8,6 +9,7 @@ const SelectQuestionForm = ({classID, quiz_id, setQuiz}) => {
     const [quiz_questions, setQuizQuestions] = useState([])
     const [tickboxes, setTickboxes] = useState(false)
     const [no_questions, setNoQuestions] = useState(true)
+    const {quiz, dispatch} = useQuizzesContext()
 
     
     const handleSubmission = async (e) => {
@@ -50,7 +52,7 @@ const SelectQuestionForm = ({classID, quiz_id, setQuiz}) => {
         if(!response.ok){
             setError(json.error)
         }else{
-            setQuiz(json)
+            dispatch({type:"SET_QUIZ", payload: json})
         }
     }
 

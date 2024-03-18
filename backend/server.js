@@ -18,7 +18,7 @@ const io = socketio(server, {
 let currentQuestionMap = new Map()
 //will be a list of current questions in the future
 
-io.of("habram").on("connection", (socket) => {
+io.on("connection", (socket) => {
   console.log(`Socket ${socket.id} connected. ${io.engine.clientsCount} clients.`)
   socket.on("set-question", (question,userName) =>{
     currentQuestionMap.set(userName, question)
