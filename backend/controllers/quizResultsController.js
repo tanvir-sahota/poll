@@ -1,14 +1,104 @@
-const createQuizResults = async (req, res) => {
-    const { quiz, questions, answers } = req.body;
+const Quiz = require("../models/quiz_model")
+const QuizResult = require("../models/quizResultsModel")
 
-    try {
-        console.log(`Saved Quiz!\n${JSON.stringify(req.body)}`)
-        res.status(201).send({quiz, questions, answers})
-    } catch (err) {
-        console.error(err.message);
-        res.status(400).send( {error: err.message} );
-    }
+// used to sanitise :id input
+const mongoose = require('mongoose')
+const Classroom = require("../models/ClassroomModel");
 
+// Paths are relative to /api/quizzes, e.g. the below is /api/quizzes/
+
+// Retrieves all of the quizzes
+const getAllQuizResults = async (request, response) => {
+    const quizzes = await Quiz.find({})
+    response.status(200).json(quizzes)
 }
 
-module.exports = { createQuizResults }
+// Retrieves a single quiz
+const getOneQuizResult = async (request, response) => {
+    const {id} = request.params
+
+    const is_id_sanitised = mongoose.Types.ObjectId.isValid(id)
+    if (!is_id_sanitised) {
+        return response.status(404).json({error: "Quiz result does not exist. ID not in correct format."})
+    }
+
+    const quiz = await Quiz.findById(id)
+    if (!quiz) {
+        return response.status(404).json({error: "Quiz result does not exist."})
+    }
+
+    response.status(200).json(quiz)
+}
+
+// Post a new quiz
+const createQuizResult = async (request, response) => {
+    try {
+
+        const quizResult = await QuizResult.create({})
+
+        console.log("Created quiz result")
+
+        const {quiz} = request.body
+        Classroom.findByIdAndUpdate(quiz.classID, { $push: {quizResultArray: quizResult}})
+        // const test = classroom.quizResultArray.push(quizResult)
+
+        response.status(201).json(quizResult)
+
+
+
+    } catch (error) {
+        response.status(400).json({error: error.message})
+    }
+}
+
+// Delete a quiz
+const deleteQuizResult = async (request, response) => {
+    const {id} = request.params
+
+    const is_id_sanitised = mongoose.Types.ObjectId.isValid(id)
+    if (!is_id_sanitised) {
+        return response.status(404).json({error: "Quiz result does not exist. ID not in correct format."})
+    }
+
+    const deleted_quiz_result = await QuizResult.findOneAndDelete({_id: id})
+    if (!deleted_quiz_result) {
+        return response.status(404).json({error: "Quiz result does not exist."})
+    }
+
+    response.status(200).json(deleted_quiz_result)
+}
+
+// Delete a quiz
+const deleteAllQuizResults = async (request, response) => {
+    const deleted_quiz_result = await QuizResult.deleteMany({})
+    if (!deleted_quiz_result) {
+        return response.status(404).json({error: "Quiz result does not exist."})
+    }
+    response.status(200).json(deleted_quiz_result)
+}
+
+// Update a quiz
+const patchQuizResult = async (request, response) => {
+    const {id} = request.params
+
+    const is_id_sanitised = mongoose.Types.ObjectId.isValid(id)
+    if (!is_id_sanitised) {
+        return response.status(404).json({error: "Quiz result does not exist. ID not in correct format."})
+    }
+
+    const updated_quiz_result = await QuizResult.findOneAndUpdate({_id: id}, {...request.body})
+    if (!updated_quiz_result) {
+        return response.status(404).json({error: "Quiz Result does not exist."})
+    }
+
+    response.status(200).json(updated_quiz_result)
+}
+
+module.exports = {
+    getAllQuizResults,
+    getOneQuizResult,
+    createQuizResult,
+    deleteQuizResult,
+    patchQuizResult,
+    deleteAllQuizResults,
+}

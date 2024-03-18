@@ -15,6 +15,7 @@ import UserPage from './pages/UserPage'
 import WaitingPage from './pages/WaitingPage'
 
 import io from "socket.io-client"
+import QuizResult from "./pages/QuizResults";
 
 const socket = io.connect(`${process.env.REACT_APP_URL}`)
 
@@ -57,6 +58,10 @@ function App() {
             <Route
                 path="/api/quizzes/:quiz_id/:classroom_id?"
                 element={<Quiz/>}
+            />
+            <Route
+                path="/api/quizResults/:quiz_id/:classroom_id?"
+                element={<QuizResult/>}
             />
             <Route 
               path = "/:lecturer/admin"

@@ -149,10 +149,14 @@ const HostingAdmin = (inputData) => {
         }
     }
 
+
     const handleSaveQuiz = async () => {
         console.log("Handling save quiz")
         socket.emit("host-disconnect", lecturer)
         console.log("About to send fetch")
+
+
+
         const quizResults = {quiz, questions, answers}
         const response = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/`, {
             method: "POST",
@@ -161,6 +165,24 @@ const HostingAdmin = (inputData) => {
                 "Content-Type": "application/json",
             },
         });
+
+
+
+        for (let index = 0; index < questions.length; index++) {
+            const currentQuestion = questions.at(index)
+            const currentAnswer = answers.at(index)
+            console.log(currentQuestion)
+
+            const questionAnswerBody = {currentQuestion, currentAnswer}
+            const response =  fetch(`${process.env.REACT_APP_URL}api/question-results/`, {
+            method: "POST",
+            body: JSON.stringify(questionAnswerBody),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            });
+        }
+
         console.log("Sent fetch")
         const json = await response.json();
         console.log("Got JSON")
@@ -186,7 +208,7 @@ const HostingAdmin = (inputData) => {
                     NEXT QUESTION
                 </button>
             </div>
-            <div className="prevButton" id={"prevButton"}  onLoad="shouldRenderPrevious">
+            <div className="prevButton" id={"prevButton"}  onLoad={shouldRenderPrevious}>
                 <button onClick={handlePrev} o>
                     PREVIOUS QUESTION
                 </button>
@@ -226,11 +248,6 @@ const HostingAdmin = (inputData) => {
                 }
             </div>
 
-            <div className="endQuizButton">
-                <button  >
-                    END QUIZ
-                </button>
-            </div>
 
         </div>
     )

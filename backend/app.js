@@ -25,6 +25,7 @@ app.use(cors())
 
 const quizRoutes = require('./routes/quizzes')
 const questionRoutes = require("./routes/questions")
+const questionResultRoutes = require("./routes/questionResults")
 const classroomRoutes = require('./routes/Classroom')
 const userRoutes = require('./routes/users')
 const quizResultsRoutes = require('./routes/quizResults')
@@ -55,6 +56,7 @@ const buildPath = path.join(__dirname, "../frontend/build");
 // Routes
 app.use(express.static(buildPath))
 app.use("/api/questions", questionRoutes)
+app.use("/api/question-results", questionResultRoutes)
 app.use('/api/classrooms', classroomRoutes);
 app.use('/api/users', userRoutes)
 app.use('/api/quizzes', quizRoutes)

@@ -2,11 +2,15 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const questionResultsSchema = new Schema({
-    questionResultsMap: {
-        type: Map,
+    question: {
+        type: mongoose.Schema.Types.ObjectId, ref: "Question",
+        required: true
+    },
+    questionResultsArray: {
+        type: Array,
         of: Number,
         required: true
-      }
-}, {timestamps: true}) 
+    }
+}, {timestamps: true})
 
 module.exports = mongoose.model("QuestionResults", questionResultsSchema)
