@@ -107,8 +107,7 @@ const HostingAdmin = (inputData) => {
         console.log("Handling save quiz")
         socket.emit("host-disconnect", lecturer)
         console.log("About to send fetch")
-        //quiz answers
-        const quizResults = {quiz, answers}
+        const quizResults = {quiz, questions, answers}
         const response = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/`, {
             method: "POST",
             body: JSON.stringify(quizResults),
