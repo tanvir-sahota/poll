@@ -27,6 +27,7 @@ const quizRoutes = require('./routes/quizzes')
 const questionRoutes = require("./routes/questions")
 const classroomRoutes = require('./routes/Classroom')
 const userRoutes = require('./routes/users')
+const questionResultsRoutes = require('./routes/questionResults')
 
 
 app.use(express.json())
@@ -57,6 +58,8 @@ app.use("/api/questions", questionRoutes)
 app.use('/api/classrooms', classroomRoutes);
 app.use('/api/users', userRoutes)
 app.use('/api/quizzes', quizRoutes)
+app.use('/api/question-results', questionResultsRoutes)
+
 app.get("/*", function(req,res){
   res.sendFile(
     path.join(buildPath,"index.html"),

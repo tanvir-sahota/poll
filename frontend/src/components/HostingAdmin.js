@@ -2,6 +2,7 @@ import {useQuestionContext} from "../hooks/useQuestionContext"
 import {useEffect, useState} from "react"
 import QuestionDisplay from "./QuestionDisplay"
 import parse from 'html-react-parser'
+import {useNavigate} from "react-router-dom";
 
 const HostingAdmin = (inputData) => {
     const {socket, currentQuestion, lecturer} = inputData
@@ -9,6 +10,7 @@ const HostingAdmin = (inputData) => {
     console.log("Questions", questions)
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
+    const navigate = useNavigate()
 
     useEffect(() => {
         let receiveTextHandler = null
@@ -100,6 +102,32 @@ const HostingAdmin = (inputData) => {
         }
     }
 
+    const handleSaveQuiz = async () => {
+        console.log("Handling save quiz")
+        socket.emit("host-disconnect", lecturer)
+        console.log("About to send fetch")
+        //questions answers
+        const questionResults = {questions, answers}
+        const response = await fetch(`${process.env.REACT_APP_URL}api/question-results/`, {
+            method: "POST",
+            body: JSON.stringify(questionResults),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        console.log("Sent fetch")
+        const json = await response.json();
+        console.log("Got JSON")
+
+        if (!response.ok) {
+            console.log("Failed to save question results", json);
+        }
+        else {
+            console.log("Saved question results")
+        }
+        navigate("/dashboard")
+    }
+
     return (
         <div className="hostingDisplay">
             <div className="questionDisplay">
@@ -114,6 +142,11 @@ const HostingAdmin = (inputData) => {
             <div className="prevButton">
                 <button onClick={handlePrev}>
                     PREVIOUS QUESTION
+                </button>
+            </div>
+            <div className="saveQuizButton">
+                <button id="disconnectButton" onClick={handleSaveQuiz}>
+                    Save Quiz
                 </button>
             </div>
             <div className="options">
