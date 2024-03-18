@@ -39,18 +39,14 @@ const QuestionDisplay = (inputData) => {
     })
 
     return (
-        <div className="display">
+        <div className="container-fluid">
             <h1 id="displayedQuestion">{question}</h1>
-
+        <div className="options">
             {isMCQ && (!isAdmin) ?
-                (hasCode) ?
                 options.map(option => (
                     <MCQButton option={option} socket={socket} lecturer={lecturer}/>
                 ))
-                :
-                options.map(option => (
-                    <MCQButton option={option} socket={socket} lecturer={lecturer}/>
-                ))
+                
                 :
                 <div className="answerInput">
                     {/* <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea> */}
@@ -66,6 +62,7 @@ const QuestionDisplay = (inputData) => {
                         null}
                 </div>
             }
+            </div>
 
             {isAdmin ?
                 <div>
