@@ -51,12 +51,20 @@ const QuestionDisplay = (inputData) => {
                 <div className="answerInput">
                     {/* <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea> */}
                     {!isAdmin ?
-                        <div>
-                            <label htmlFor="answerArea">Input Answer:</label>
-                            <form onSubmit={submitAnswer}>
-                                <input name="answerArea" type="text" onChange={(e) => setTextAnswer(e.target.value)}/>
-                                <input type="submit"/>
-                            </form>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row-sm-2">
+                                    <label htmlFor="answerArea">Input Answer:</label>
+                                </div>
+                                <div class="row-sm-6"></div>
+                                <div class="row-sm-4">
+                                    <form onSubmit={submitAnswer}>
+                                        <input name="answerArea" type="text" onChange={(e) => setTextAnswer(e.target.value)}/>
+                                        <br/>
+                                        <input type="submit" class="text-black"/>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         :
                         null}

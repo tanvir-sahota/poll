@@ -249,11 +249,33 @@ code {
   monospace;
 }
 
+input[type="text"] {
+  color: black;
+}
+
 .container-fluid {
   text-align: center;
   border-style: solid;
   padding-bottom: 200px;
-  background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%);
+  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
+}
+
+/* .dashboard { */
+  /* text-align: left;
+  border-style: none;
+  padding-bottom: 0px;
+  padding-left: 10%;
+  padding-right: 20%; */
+  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
+/* } */
+
+.classroom {
+  text-align: left;
+  border-style: none;
+  padding-bottom: 200px;
+  padding-left: 0%;
+  padding-right: 0%;
+  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
 }
 
 #displayedQuestion {

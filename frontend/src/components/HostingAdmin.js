@@ -102,46 +102,58 @@ const HostingAdmin = (inputData) => {
 
     return (
         <div className="hostingDisplay">
-            <div className="questionDisplay">
-                <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket}
-                                 lecturer={lecturer}/>
-            </div>
-            <div className="nextButton">
-                <button onClick={handleNext}>
-                    NEXT QUESTION
-                </button>
-            </div>
-            <div className="prevButton">
-                <button onClick={handlePrev}>
-                    PREVIOUS QUESTION
-                </button>
-            </div>
-            <div className="options">
-                {questions[position].options.length > 1 ?
-                    (questions[position].questionType === "CodeMCQ") ?
-                        questions[position].options.map(option => {
-                            const count = answers[position].at(questions[position].options.indexOf(option))
-                            //console.log(`${option}: ${count}`)
-                            //console.log(`ANSWERS: ${answers}`)
+            <div class="row">
+                <div class="col-sm-8">
+                    <div className="questionDisplay">
+                        <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket}
+                                        lecturer={lecturer}/>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row-sm-6">
+                        <div className="nextButton">
+                            <button onClick={handleNext}>
+                                NEXT QUESTION
+                            </button>
+                        </div>
+                        <br/>
+                        <div className="prevButton">
+                            <button onClick={handlePrev}>
+                                PREVIOUS QUESTION
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row-sm-6">
+                        <div className="options">
+                            {questions[position].options.length > 1 ?
+                                (questions[position].questionType === "CodeMCQ") ?
+                                    questions[position].options.map(option => {
+                                        const count = answers[position].at(questions[position].options.indexOf(option))
+                                        //console.log(`${option}: ${count}`)
+                                        //console.log(`ANSWERS: ${answers}`)
 
-                            return <dl>
-                                <dt>{parse(option)}</dt>
-                                <dd>{count}</dd>
-                            </dl>
-                        })
-                        :
-                        questions[position].options.map(option => {
-                            const count = answers[position].at(questions[position].options.indexOf(option))
-                            //console.log(`${option}: ${count}`)
-                            //console.log(`ANSWERS: ${answers}`)
-                            return <dl>
-                                <dt>{option}</dt>
-                                <dd>{count}</dd>
-                            </dl>
-                        })
-                    :
-                    answers[position] && answers[position].map(answer => (<p>{answer}</p>))
-                }
+                                        return <dl>
+                                            <dt>{parse(option)}</dt>
+                                            <dd>{count}</dd>
+                                        </dl>
+                                    })
+                                    :
+                                    questions[position].options.map(option => {
+                                        const count = answers[position].at(questions[position].options.indexOf(option))
+                                        //console.log(`${option}: ${count}`)
+                                        //console.log(`ANSWERS: ${answers}`)
+                                        return <dl>
+                                            <dt>{option}</dt>
+                                            <dd>{count}</dd>
+                                        </dl>
+                                    })
+                                :
+                                answers[position] && answers[position].map(answer => (<p>{answer}</p>))
+                            }
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     )
