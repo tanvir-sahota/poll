@@ -16,7 +16,6 @@ socket.emit = function() {
 }
 const emitSpy = jest.spyOn(socket, "emit")
 const onSpy = jest.spyOn(socket, "on")
-const navSpy = jest.spyOn(global, "useNavigate")
 const user = userEvent.setup()
 const mockLecturer = "SM"
 
