@@ -60,7 +60,11 @@ describe('Functionality', () => {
             expect(screen.getByText("Waiting for " + mockLecturer + "'s poll to be activated, " + name + "!").toBeInTheDocument)
         })
     })
-    // test('ensures random username is generated if client submits empty name', () => {
-
-    // })
+    test('ensures username is generated if client submits empty name', async () => {
+        const expectedname = "guest1"
+        await user.click(screen.queryByRole('button'))        
+        await waitFor(() => {
+            expect(screen.getByText("Waiting for " + mockLecturer + "'s poll to be activated, " + expectedname + "!").toBeInTheDocument)
+        })
+    })
 })
