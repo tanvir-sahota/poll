@@ -14,15 +14,14 @@ const getQuestionResults = async (request, response) => {
         return response.status(404).json({error: "QuestionResult doesn't Exist"})
     }
 
-    const classroom = await Classroom.findById(classID)
-    const quizResult = await QuizResult.findById(classroom.quizResults)
-    const questionResult = quizResult.quizResultArray.get(id)
+    const quizResult = QuizResult.findById(id).exec()
+    const questionResults = quizResult.quizResultArray
 
-    if (!questionResult) {
+    if (!questionResults) {
         return response.status(404).json({error: "QuestionResult doesn't exist"})
     }
 
-    response.status(200).json(questionResult)
+    response.status(200).json(questionResults)
 }
 
 //Post request to create question result

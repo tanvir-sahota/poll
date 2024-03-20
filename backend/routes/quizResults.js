@@ -10,10 +10,10 @@ const router = express.Router()
 // Paths are relative to /api/quizzes, e.g. the below is /api/quizzes/
 
 // Retrieves all of the quizzes
-router.get('/', getAllQuizResults)
+router.get('/:classID', getAllQuizResults)
 
 // Retrieves a single quiz
-router.get('/:id', getOneQuizResult)
+router.get('/:classID/:id', getOneQuizResult)
 
 // Post a new quiz
 router.post('/', createQuizResult)
