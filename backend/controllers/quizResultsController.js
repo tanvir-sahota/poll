@@ -39,7 +39,8 @@ const createQuizResult = async (request, response) => {
         console.log("Created quiz result")
 
         const {quiz} = request.body
-        Classroom.findByIdAndUpdate(quiz.classID, { $push: {quizResultArray: quizResult}})
+        await Classroom.findByIdAndUpdate(quiz.classroom, { $push: {quizResultArray: quizResult}})
+
         // const test = classroom.quizResultArray.push(quizResult)
 
         response.status(201).json(quizResult)
