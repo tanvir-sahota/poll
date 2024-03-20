@@ -2,19 +2,16 @@ import {useFoldersContext} from "../hooks/useFoldersContext";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 import {useParams, useRouteError} from "react-router-dom";
 import {useEffect, useState} from "react";
-import SelectQuizzesForm from "../components/SelectQuizForm";
 import QuizDetails from "../components/QuizDetails"
-
-import ShowSelectQuiz from "../components/ShowSelectQuiz"
 
 const Folder = () => {
     const {folder,dispatch:dispatch_folder} = useFoldersContext()
     const {quizzes,dispatch:dispatch_quiz} = useQuizzesContext()
      const [error, setError] = useState(null)
-    //  const [quizzes, setQuizzes] = useState([]);
     const {folder_id, classroom_id} = useParams()
     
-
+    console.log(folder)
+    console.log(quizzes)
     // Fires once when the component first renders
     useEffect(() => {
 
@@ -23,6 +20,7 @@ const Folder = () => {
             const json = await response.json()
 
             if (response.ok) {
+                console.log(json)
                 dispatch_folder({type: 'SET_FOLDER', payload: json})
             }
             else{
@@ -40,15 +38,16 @@ const Folder = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
+                console.log(data)
                 dispatch_quiz({type: 'SET_QUIZZES', payload: data})
-                // setQuizzes(data);
             } catch (error) {
                 setError(error.message);
             }
+            
         };
 
         fetchQuizzes();
-    }, [classroom_id, folder_id]); 
+    }, [dispatch_quiz]); 
 
 
 
@@ -63,18 +62,13 @@ const Folder = () => {
                 <h2>{folder.title}</h2>
             </div>
                  <div className="quizzes">
-                {quizzes.map((quiz) => (
+                {quizzes&&quizzes.map((quiz) => (
                     <QuizDetails key={quiz._id} quiz={quiz} classID={classroom_id}/>
                 ))}
             </div>
 
             <br/>
             <br/>
-            <br/>
-            <br/>
-
-
-            <ShowSelectQuiz classroom_id={classroom_id} folder_id={folder_id} />
             
             
 

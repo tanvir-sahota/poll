@@ -73,7 +73,7 @@ exports.patchFolder = async (request, response) => {
       return response.status(404).json({error: "Folder does not exist. ID not in correct format."})
   }
 
-  const updated_folder = await Quiz.findOneAndUpdate({_id: id}, {...request.body})
+  const updated_folder = await Folder.findOneAndUpdate({_id: id}, {...request.body})
   if (!updated_folder) {
       return response.status(404).json({error: "Folder does not exist."})
   }
@@ -84,7 +84,7 @@ exports.patchFolder = async (request, response) => {
 exports.getQuizzesByFolder = async (req, res) => {
   try {
       const folderId = req.params.id;
-      const quizzes = await Quiz.find({ folder: folderId });
+      const quizzes = await Quiz.find({folder: folderId});
       res.json(quizzes);
   } catch (error) {
       res.status(500).send({ message: "Error fetching quizzes" });

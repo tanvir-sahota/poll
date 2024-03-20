@@ -8,7 +8,7 @@ const FolderForm = (classID) => {
     const [title, setTitle] = useState('')
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
-    const [quizzes, setQuizzes] = useState(null)
+    const [quizzes, setQuizzes] = useState([])
     
     
     const classroom = classID_value(classID)
@@ -34,7 +34,7 @@ const FolderForm = (classID) => {
         }
         if (response.ok) {
             setTitle('')
-            setQuizzes(null)
+            setQuizzes('')
             setError(null)
             setEmptyFields([])
             console.log('new folder added', json)

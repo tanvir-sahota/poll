@@ -1,37 +1,22 @@
 import {useState} from "react";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
+import {useFoldersContext} from "../hooks/useFoldersContext";
 import { useEffect } from 'react'
 
 const QuizForm = (classID) => {
     
     
     const {dispatch} = useQuizzesContext()
+    const {folders} = useFoldersContext();
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [folderName, setFolderName] = useState('')
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
-    const [folders, setFolders] = useState([]);
     
     
     const classroom = classID_value(classID)
 
-    useEffect(() => {
-        const fetchFolders = async () => {
-            try {
-                const response = await fetch('/api/folders'); 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch folders');
-                }
-                const data = await response.json();
-                setFolders(data);
-            } catch (error) {
-                setError(error.message);
-            }
-        };
-
-        fetchFolders();
-    }, []);
 
     const findFolderId = (folderName) => {
         const folder = folders.find(folder => folder.title === folderName);
@@ -52,6 +37,7 @@ const QuizForm = (classID) => {
                 'Content-Type': 'application/json'
             }
         })
+        console.log(response)
         const json = await response.json()
 
         if (!response.ok) {

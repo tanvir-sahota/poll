@@ -11,9 +11,7 @@ export const QuizzesContext = createContext()
  */
 
 export const quizzesReducer = (state, action) => {
-    state = {
-            quizzes: [],
-    }
+    console.log(action.payload)
     switch (action.type) {
         case 'SET_QUIZZES':
             return {
@@ -31,6 +29,12 @@ export const quizzesReducer = (state, action) => {
             return {
                 quizzes: state.quizzes.filter((q) => q._id !== action.payload._id)
             }
+        case 'UPDATE_QUIZ':
+            return {
+                quizzes: state.quizzes.map(quiz =>
+                    quiz._id === action.payload._id ? { ...quiz, folder: action.payload.folder } : quiz
+                )
+            };
         default:
             return state
     }
@@ -43,10 +47,11 @@ export const quizzesReducer = (state, action) => {
  * @constructor
  */
 export const QuizzesContextProvider = ({children}) => {
+    
     const [state, dispatch] = useReducer(quizzesReducer, {
         quizzes: null
     })
-
+    console.log(state)
 
     return (
         <QuizzesContext.Provider value={{...state, dispatch}}>

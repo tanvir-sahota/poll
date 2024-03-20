@@ -8,6 +8,7 @@ export const FoldersContext = createContext()
  * @param action corresponds to the action performed on a folder
  */
 export const foldersReducer = (state, action) => {
+    console.log(state)
     switch (action.type) {
         case 'SET_FOLDERS':
             return {
@@ -25,6 +26,12 @@ export const foldersReducer = (state, action) => {
             return {
                 folders: state.folders.filter((f) => f._id !== action.payload._id)
             }
+        case 'UPDATE_FOLDER':
+            return {
+                folders: state.folders.map(folder =>
+                    folder._id === action.payload._id ? { ...folder, quiz: action.payload } : folder
+                )
+            };
         default:
             return state
     }

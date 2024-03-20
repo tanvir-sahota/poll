@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
+import { useState } from "react";
 
-const QuizDetails = ({quiz, classID,hasFolder}) => {
+const QuizDetails = ({quiz, classID}) => {
     const {dispatch} = useQuizzesContext()
     const classID_or_emptystring = classID_value(classID)
 
@@ -25,10 +26,19 @@ const QuizDetails = ({quiz, classID,hasFolder}) => {
             dispatch({type: 'DELETE_QUIZ', payload: json})
         }
     }
-    if(!hasFolder){
+
+
+    const handleDragStart = (e) => {
+        console.log(quiz._id)
+        e.dataTransfer.setData('quizId', quiz._id)
+    }
+
         if(classID_or_emptystring=="" || classID_or_emptystring==quiz.classroom){
             return (
-                <div className="quiz-details">
+                <div className="quiz-details" 
+                     draggable = "true" 
+                     onDragStart = {e => handleDragStart(e)}
+                     style={{ border: '1px solid black', margin: '5px', padding: '5px' }}>
                     <h4>{quiz.title} </h4>
                     <p><strong>Description: </strong> {quiz.description}</p>
                     <span onClick={handleClick}>delete</span>
@@ -41,7 +51,6 @@ const QuizDetails = ({quiz, classID,hasFolder}) => {
             )
         }
     }
-}
 
 const classID_value = (classID) => {
     if(classID!=null){

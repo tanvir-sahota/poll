@@ -60,6 +60,10 @@ function App() {
                 element={<Folder/>}
             />
             <Route
+                path="/api/folders/:folder_id/quizzes"
+                element={<Folder/>}
+            />
+            <Route
                 path="/api/quizzes/:quiz_id/:classroom_id?"
                 element={<Quiz/>}
             />
