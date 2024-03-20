@@ -23,8 +23,12 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
         })
         const quiz = await response.json()
 
+
         if(!quiz.ok){
             setError(quiz.error)
+        if(!response.ok){
+            setError(quiz.error)
+            setEmptyFields(quiz.emptyFields)
         }
         if(response.ok){
             update_quiz()
@@ -148,6 +152,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
         
         )
         
+    }
 }
     
 export default SelectQuestionForm

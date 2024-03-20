@@ -15,6 +15,10 @@ const ClassroomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref:"QuestionBank",
         required : true
     },
+    folders:[{
+        type: mongoose.Schema.Types.ObjectId
+    }]
+    ,
     quizzes:[{
         type: mongoose.Schema.Types.ObjectId
     }]

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
+import { useState } from "react";
 
 const QuizDetails = ({quiz, classID}) => {
     const {dispatch} = useQuizzesContext()
@@ -26,21 +27,30 @@ const QuizDetails = ({quiz, classID}) => {
         }
     }
 
-    if(classID_or_emptystring=="" || classID_or_emptystring==quiz.classroom){
-        return (
-            <div className="quiz-details">
-                <h4>{quiz.title} </h4>
-                <p><strong>Description: </strong> {quiz.description}</p>
-                <span onClick={handleClick}>delete</span>
-                <Link to={"http://localhost:3000/api/quizzes/" + quiz._id + "/" + classID}><h4>"Go to this quizzes page"</h4></Link>
-                <br></br>
-                <br></br>
-                <br></br>
 
-            </div>
-        )
+    const handleDragStart = (e) => {
+        console.log(quiz._id)
+        e.dataTransfer.setData('quizId', quiz._id)
     }
-}
+
+        if(classID_or_emptystring=="" || classID_or_emptystring==quiz.classroom){
+            return (
+                <div className="quiz-details" 
+                     draggable = "true" 
+                     onDragStart = {e => handleDragStart(e)}
+                     style={{ border: '1px solid black', margin: '5px', padding: '5px' }}>
+                    <h4>{quiz.title} </h4>
+                    <p><strong>Description: </strong> {quiz.description}</p>
+                    <span onClick={handleClick}>delete</span>
+                    <Link to={"http://localhost:3000/api/quizzes/" + quiz._id + "/" + classID}><h4>"Go to this quizzes page"</h4></Link>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+    
+                </div>
+            )
+        }
+    }
 
 const classID_value = (classID) => {
     if(classID!=null){

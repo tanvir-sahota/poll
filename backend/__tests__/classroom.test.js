@@ -7,8 +7,8 @@ const Classroom = require("../models/ClassroomModel");
 const classroomController = require("../controllers/classroomController");
 const defaultClassroom = require("./fixtures/default_classroom.json");
 
-const app = require("../app.js");
-const server = require("../server.js");
+const app = require("../app");
+const server = require("../server");
 let classroomID
 
 beforeAll(async () => {
@@ -18,7 +18,8 @@ beforeAll(async () => {
     .post("/api/classrooms")
     .send({
       title : defaultClassroom.title,
-      owner : defaultClassroom.owner
+      owner : defaultClassroom.owner,
+      questions : defaultClassroom.questions
     })
     .set({
       "Content-Type": "application/json"
@@ -54,12 +55,14 @@ describe("POST /api/classrooms", () => {
   it("should post a classroom", async () => {
     const title = "Math Classroom";
     const owner = "Math Teacher";
+    const questions = "614a1fb0347d4e75f6d6b034";
 
     const oldNumberOfClassrooms = (await request(app).get("/api/classrooms/")).body.length;
 
     const response = await request(app).post("/api/classrooms").send({
       title: title,
       owner: owner,
+      questions: questions
     });
     expect(response.statusCode).toBe(200);
     expect(response.body.title).toBe(title);
