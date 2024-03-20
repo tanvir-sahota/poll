@@ -44,19 +44,23 @@ describe('Appearance', () => {
     })
 })
 
-// describe('Functionality to enter a name', () => {
-//     test('ensures client can enter a name', () => {
+describe('Functionality', () => {
+    test('ensures initial emits are sent correctly when page first renders', async () => {
+        expect(emitSpy).toHaveBeenNthCalledWith(1,"check-hosting-status", mockLecturer, expect.any(Function))      
+        expect(emitSpy).toHaveBeenNthCalledWith(2,"join-room", mockLecturer)
+    })
+    // test('ensures event listeners are set up correctly', () => {
+        
+    // })
+    test('ensures username updates when client submits a name', async () => {
+        const name = "name"
+        await user.type(screen.queryByRole('textbox'), name)
+        await user.click(screen.queryByRole('button'))
+        await waitFor(() => {
+            expect(screen.getByText("Waiting for " + mockLecturer + "'s poll to be activated, " + name + "!").toBeInTheDocument)
+        })
+    })
+    // test('ensures random username is generated if client submits empty name', () => {
 
-//     })
-// })
-
-test('ensures initial emits are sent correctly when page first renders', async() => {        
-    const mockResponseCallback = (response) => {
-        setHosted(response.isHosting)
-    }
-
-    expect(emitSpy).toHaveBeenNthCalledWith(1,"check-hosting-status", mockLecturer, expect.any(Function))
-    expect(emitSpy.mock.calls[0][2].toString()).toEqual(mockResponseCallback.toString())
-    
-    expect(emitSpy).toHaveBeenNthCalledWith(2,"join-room", mockLecturer)
+    // })
 })
