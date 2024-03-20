@@ -11,12 +11,27 @@ let classID
 beforeAll(async () => {
   await mongoose.connect(process.env.MONGO_URI)
 
+  //create sample user
+  const userResponse = await request(app)
+    .post("/api/users/signup")
+    .send({
+      username: "testUser",
+      password: "testPassword"
+    })
+    .set({
+      "Content-Type": "application/json"
+    })
+
+    console.log("5")
+    console.log(userResponse.body)
+    console.log("5")
   //create sample class
   const classResponse = await request(app)
     .post("/api/classrooms")
     .send({
+      owner : JSON.stringify({token: userResponse.body.token}),
       title : "title",
-      owner : "owner"
+      questions: []
     })
     .set({
       "Content-Type": "application/json"
@@ -29,8 +44,7 @@ beforeAll(async () => {
     .send({
       questionAsked: "question",
       options: "5,6,7",
-      answers: "6,7",
-      questionType: "MCQ"
+      answers: "6,7"
     })
     .set({
       "Content-Type": "application/json"
@@ -39,6 +53,7 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
+    //find way to delete sample user
     await mongoose.connection.close()
     server.close()
 }) 
