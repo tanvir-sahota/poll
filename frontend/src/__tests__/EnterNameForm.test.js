@@ -2,6 +2,7 @@ import {render, screen, waitFor} from '@testing-library/react'
 import EnterNameForm from '../components/EnterNameForm';
 import {WS} from 'jest-websocket-mock'
 import userEvent from "@testing-library/user-event";
+import { useNavigate } from 'react-router-dom';
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
@@ -14,6 +15,8 @@ socket.emit = function() {
     jest.fn()
 }
 const emitSpy = jest.spyOn(socket, "emit")
+const onSpy = jest.spyOn(socket, "on")
+const navSpy = jest.spyOn(global, "useNavigate")
 const user = userEvent.setup()
 const mockLecturer = "SM"
 
@@ -49,9 +52,13 @@ describe('Functionality', () => {
         expect(emitSpy).toHaveBeenNthCalledWith(1,"check-hosting-status", mockLecturer, expect.any(Function))      
         expect(emitSpy).toHaveBeenNthCalledWith(2,"join-room", mockLecturer)
     })
-    // test('ensures event listeners are set up correctly', () => {
-        
-    // })
+    test('ensures event listeners are set up with correct parameters when page first renders', () => {
+        expect(onSpy).toHaveBeenNthCalledWith(1, "switch-pages", expect.any(Function))
+        expect(onSpy).toHaveBeenNthCalledWith(2, "disconnect-handler", expect.any(Function))
+    })
+})
+
+describe('Functionality/appearance mixed tests', () => {
     test('ensures username updates when client submits a name', async () => {
         const name = "name"
         await user.type(screen.queryByRole('textbox'), name)
