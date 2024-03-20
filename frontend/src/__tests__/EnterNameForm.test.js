@@ -31,23 +31,22 @@ afterAll(() => {
     socket.close()
 })
 
-// describe('Appearance', () => {
-//     test('ensures text area is present', async () => {
-//         await waitFor(() => {
-//             expect(screen.queryByRole('textbox')).toBeInTheDocument()
-//         })
-//     })
-//     test('ensures submit button is present', async () => {
-//         // render(MockEnterNameForm())
-//         await waitFor(() => {
-//             expect(screen.queryByRole('button')).toBeInTheDocument()
-//         })
-//     })
-// })
+describe('Appearance', () => {
+    test('ensures text area is present', async () => {
+        await waitFor(() => {
+            expect(screen.queryByRole('textbox')).toBeInTheDocument()
+        })
+    })
+    test('ensures submit button is present', async () => {
+        await waitFor(() => {
+            expect(screen.queryByRole('button')).toBeInTheDocument()
+        })
+    })
+})
 
 // describe('Functionality to enter a name', () => {
 //     test('ensures client can enter a name', () => {
-//         // render(MockEnterNameForm())
+
 //     })
 // })
 
