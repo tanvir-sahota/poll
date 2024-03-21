@@ -193,6 +193,7 @@ const HostingAdmin = (inputData) => {
             console.log("Saved quiz results")
         }
       //  navigate("/dashboard")
+        navigate(`/api/quizzes/${quiz._id}/${quiz.classroom}`)
     }
 
     return (
