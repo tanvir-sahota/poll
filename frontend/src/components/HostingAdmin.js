@@ -167,13 +167,12 @@ const HostingAdmin = (inputData) => {
         });
 
 
-
         for (let index = 0; index < questions.length; index++) {
             const currentQuestion = questions.at(index)
             const currentAnswer = answers.at(index)
             console.log(currentQuestion)
 
-            const questionAnswerBody = {currentQuestion, currentAnswer}
+            const questionAnswerBody = {currentQuestion, currentAnswer, quiz}
             const response =  fetch(`${process.env.REACT_APP_URL}api/question-results/`, {
             method: "POST",
             body: JSON.stringify(questionAnswerBody),
@@ -193,7 +192,7 @@ const HostingAdmin = (inputData) => {
         else {
             console.log("Saved quiz results")
         }
-        navigate("/dashboard")
+      //  navigate("/dashboard")
     }
 
     return (

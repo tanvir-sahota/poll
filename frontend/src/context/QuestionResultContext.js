@@ -1,24 +1,24 @@
 import { createContext, useReducer } from "react";
 
-export const QuestionContext = createContext()
+export const QuestionResultContext = createContext()
 
-export const questionsReducer = (state, action) => {
+export const questionResultsReducer = (state, action) => {
     switch(action.type) {
         case "SET_QUESTION_RESULTS":
             return{
-                questions: action.payload
+                question_results: action.payload
             }
         case "CREATE_QUESTION_RESULTS":
             return{
-                questions: [action.payload, ...state.questions]
+                question_results: [action.payload, ...state.question_results]
             }
         case "DELETE_QUESTION_RESULTS":
             return{
-                questions: state.questions.filter(question => question._id != action.payload._id)
+                question_results: state.question_results.filter(question => question._id != action.payload._id)
             }
         case "UPDATE_QUESTION_RESULTS":
             return{
-                questions: [action.payload, ...state.questions.filter(question => question._id != action.payload._id)]
+                question_results: [action.payload, ...state.question_results.filter(question => question._id != action.payload._id)]
             }
         default:
             return state
@@ -26,14 +26,14 @@ export const questionsReducer = (state, action) => {
 } 
 
 
-export const QuestionContextProvider = ({children}) => {
-    const [state, dispatch] = useReducer(questionsReducer, {
-        questions: null
+export const QuestionResultsContextProvider = ({children}) => {
+    const [state, dispatch] = useReducer(QuestionResultContext, {
+        question_results: null
     })
 
     return(
-        <QuestionContext.Provider value = {{...state, dispatch}}>
+        <QuestionResultContext.Provider value = {{...state, dispatch}}>
             {children}
-        </QuestionContext.Provider>
+        </QuestionResultContext.Provider>
     )
 }

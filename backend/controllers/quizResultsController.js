@@ -9,8 +9,10 @@ const Classroom = require("../models/ClassroomModel");
 
 // Retrieves all of the quizzes
 const getAllQuizResults = async (request, response) => {
-    const quizzes = await Quiz.find({})
-    response.status(200).json(quizzes)
+    const {classID} = request.params
+    const classroom = await Classroom.findById(classID).exec()
+    const quizResults = classroom.quizResultArray
+    response.status(200).json(quizResults)
 }
 
 // Retrieves a single quiz
@@ -22,24 +24,27 @@ const getOneQuizResult = async (request, response) => {
         return response.status(404).json({error: "Quiz result does not exist. ID not in correct format."})
     }
 
-    const quiz = await Quiz.findById(id)
-    if (!quiz) {
+    const quizResult = await QuizResult.findById(id)
+    if (!quizResult) {
         return response.status(404).json({error: "Quiz result does not exist."})
     }
 
-    response.status(200).json(quiz)
+    response.status(200).json(quizResult)
 }
 
 // Post a new quiz
 const createQuizResult = async (request, response) => {
     try {
+        const {quiz} = request.body
 
-        const quizResult = await QuizResult.create({})
+        const quizResult = await QuizResult.create({
+            quiz: quiz
+        })
 
         console.log("Created quiz result")
 
-        const {quiz} = request.body
-        Classroom.findByIdAndUpdate(quiz.classID, { $push: {quizResultArray: quizResult}})
+        await Classroom.findByIdAndUpdate(quiz.classroom, { $push: {quizResultArray: quizResult}})
+
         // const test = classroom.quizResultArray.push(quizResult)
 
         response.status(201).json(quizResult)

@@ -5,11 +5,6 @@ const QuizDetails = ({quiz, classID}) => {
     const {dispatch} = useQuizzesContext()
     const classID_or_emptystring = classID_value(classID)
 
-
-    
-    
-    
-    
     /**
      * Handles quiz delete requests
      * @returns {Promise<void>}

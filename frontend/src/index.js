@@ -7,6 +7,8 @@ import { QuizzesContextProvider } from "./context/QuizContext";
 import { QuestionContextProvider } from './context/QuestionContext';
 import { ClassroomContextProvider } from './context/ClassroomContext';
 import { AuthContextProvider } from './context/AuthContext';
+import {QuizResultsContextProvider} from "./context/QuizResultContext";
+import {QuestionResultsContextProvider} from "./context/QuestionResultContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,7 +17,11 @@ root.render(
       <ClassroomContextProvider>
         <QuizzesContextProvider>
           <QuestionContextProvider>
-            <App/>
+              <QuizResultsContextProvider>
+                  <QuestionResultsContextProvider>
+                      <App/>
+                  </QuestionResultsContextProvider>
+              </QuizResultsContextProvider>
           </QuestionContextProvider>
         </QuizzesContextProvider>
       </ClassroomContextProvider>
