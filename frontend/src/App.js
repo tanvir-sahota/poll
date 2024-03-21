@@ -25,7 +25,7 @@ function App() {
   })
 
   return (
-    <div class="p-3 bg-info text-white container-fluid">
+    <div class="p-3 bg-white text-black container-fluid">
       <BrowserRouter>
         <Navbar />
         <div className="pages">

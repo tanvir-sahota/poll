@@ -1,7 +1,7 @@
 const Footer = () => {
-
+// class="p-3 mb-2 bg-dark text-white"
   return (
-    <footer className="bg-body-tertiary text-center fixed-bottom" class="p-3 mb-2 bg-dark text-white">
+    <footer className=" bg-black text-white text-center fixed-bottom" >
         <div className="text-center p-3">
           Developed by Marshall & Co, 2024
         </div>

@@ -20,7 +20,7 @@ header {
   background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   justify-content: center;
   font-size: calc(10px + 2vmin);
 }
@@ -159,7 +159,7 @@ label, input {
   color: #333;
 }
 
-form button, div button {
+form button, div button, #answerSubmit {
   background: goldenrod;
   border: 0;
   color: #fff;
@@ -255,9 +255,31 @@ input[type="text"] {
 
 .container-fluid {
   text-align: center;
-  border-style: solid;
   padding-bottom: 200px;
   /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
+}
+
+.menuNav {
+  /* padding-right: 75%; */
+  background: goldenrod;
+  max-width: max-content;
+  max-height: max-content;
+}
+
+#mainMenu {
+  color: white;
+  }
+
+.questionDisplay {
+  text-align: center;
+  padding-bottom: 20px;
+  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
+}
+
+.questionContainer {
+  border-style: solid;
+  padding-bottom: 200px;
+  background-color: rgba(211, 211, 211, 0.222);
 }
 
 /* .dashboard { */
@@ -275,19 +297,38 @@ input[type="text"] {
   padding-bottom: 200px;
   padding-left: 0%;
   padding-right: 0%;
-  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
 }
 
 #displayedQuestion {
   font-size: 50px;
-  padding-top: 40px;
-  color: white;
+  padding-top: 20px;
+  color: black;
   margin-left: auto;
   margin-right: auto;
   width: auto;
   border-bottom-style: solid;
   border-bottom-left-radius: 100px;
   border-bottom-right-radius: 100px;
+  padding-bottom: 20px;
+}
+
+.answerOptions {
+  color: black;
+  width: auto;
+}
+
+#answerBox {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 200%;
+  text-align: center;
+  height: 100px;
+  width: 800px;
+}
+#answerSubmit {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100px;
 }
 
 .options {
