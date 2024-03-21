@@ -12,6 +12,25 @@ const HostingAdmin = (inputData) => {
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
     const navigate = useNavigate()
+    const [attendees, setAttendees] = useState(0)
+    const [submission, setSubmission] = useState(0)
+
+    useEffect(() => {
+
+        const attendeeChecker = () => {
+            console.log("Got message")
+            socket.emit("update-attendees", lecturer, (response) => {
+                console.log(response.count)
+                setAttendees(response.count)
+            })
+        }
+
+        socket.on("new-attendees", attendeeChecker)
+        return () => {
+            socket.off("new-attendees", attendeeChecker)
+        }
+    }, [])
+    
 
     useEffect(() => {
         let receiveTextHandler = null
@@ -20,6 +39,9 @@ const HostingAdmin = (inputData) => {
                 const allAnswers = [...prevAnswers]
                 allAnswers[position] = [...prevAnswers[position], answer]
                 return allAnswers
+            })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
             })
         }
         socket.addEventListener("recieve-answer-text", receiveTextHandler)
@@ -49,6 +71,9 @@ const HostingAdmin = (inputData) => {
                 console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
+            })
         }
         socket.addEventListener("recieve-answer-mcq", receiveMultipleChoiceHandler)
         console.log("Added MCQ event handler")
@@ -73,6 +98,9 @@ const HostingAdmin = (inputData) => {
                 console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
+            })
         }
         socket.addEventListener("decline-answer-mcq", declineMultipleChoiceHandler)
         return () => {
@@ -93,6 +121,7 @@ const HostingAdmin = (inputData) => {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition + 1)
         }
+        setSubmission(0)
     }
     const handlePrev = async () => {
         if (position <= 0) {
@@ -101,6 +130,7 @@ const HostingAdmin = (inputData) => {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition - 1)
         }
+        setSubmission(0)
     }
 
     const handleSaveQuiz = async () => {
@@ -148,6 +178,12 @@ const HostingAdmin = (inputData) => {
                 <button id="disconnectButton" onClick={handleSaveQuiz}>
                     Save Quiz
                 </button>
+            </div>
+            <div className="attendeeNumber">
+                <p>Number of attendees: {attendees}</p>
+            </div>
+            <div className="submissionNumber">
+                <p>Number of attendee submissions: {submission}</p>
             </div>
             <div className="options">
                 {questions[position].options.length > 1 ?

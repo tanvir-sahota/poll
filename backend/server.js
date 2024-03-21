@@ -16,6 +16,7 @@ const io = socketio(server, {
   }
 });
 let currentQuestionMap = new Map()
+let hostedSession = new Map()
 //will be a list of current questions in the future
 
 io.on("connection", (socket) => {
@@ -29,6 +30,9 @@ io.on("connection", (socket) => {
     //console.log("Socket ",socket.id, " and rooms in ", socket.rooms)
     const currentQuestion = currentQuestionMap.get(userName)
     if(currentQuestion != undefined){
+      hostedSession.get(userName).set(socket.id, {value : 0})
+      console.log("Message")
+      socket.to(userName).emit("new-attendees")
       callback({
         question: currentQuestion
       })
@@ -47,6 +51,7 @@ io.on("connection", (socket) => {
     })
   })
   socket.on("host", (userName) => {
+    hostedSession.set(userName, new Map([]))
     socket.to(userName).emit("switch-pages")
   })
   socket.on("join-room", (userName) => {
@@ -57,21 +62,55 @@ io.on("connection", (socket) => {
     console.log("Socket ",socket.id, " and rooms to ", userName)
     socket.to(userName).emit("disconnect-handler")
     currentQuestionMap.delete(userName)
+    hostedSession.delete(userName)
   })
   socket.on("submit-answer-text", (userName, answer) => {
     console.log(`Sent the answer (${answer}) to ${userName} ${io.engine.clientsCount} clients.`)
+    hostedSession.get(userName).get(socket.id).value++
     socket.to(userName).emit("recieve-answer-text", answer)
   })
   socket.on("submit-answer-MCQ", (userName , option) => {
     console.log(`Sent the answer (${option}) to ${userName} ${io.engine.clientsCount} clients.`)
+    hostedSession.get(userName).get(socket.id).value++
     socket.to(userName).emit("recieve-answer-mcq", option)
   })
   socket.on("unsubmit-answer-MCQ", (userName , option) => {
     console.log(`Rebuke the answer (${option}) to ${userName} ${io.engine.clientsCount} clients.`)
+    hostedSession.get(userName).get(socket.id).value--
     socket.to(userName).emit("decline-answer-mcq", option)
+  })
+  socket.on("update-attendees", (userName, callback) => {
+    if(io.sockets.adapter.rooms.get(userName)){
+      //console.log(`The number of attendees ${io.sockets.adapter.rooms.get(userName).size}`)
+      const size = io.sockets.adapter.rooms.get(userName).size
+      callback({
+        count: size > 0 ? (size - 1) : 0  
+      })
+    }
+    else{
+      callback({
+        count: 0
+      })
+    }
+  })
+  socket.on("get-number-of-submissions", (userName, callback) => {
+    const roomMap = hostedSession.get(userName)
+    const iterator = roomMap.values()
+    let count = 0;
+    for(let i = 0; i < roomMap.size; i++){
+      const value = iterator.next().value.value
+      if(value > 0){
+        count++
+      }
+    }
+    //console.log(`The number of students that answered is ${count}`)
+    callback({
+      count: count
+    })
   })
 
 })
+
 
 
 module.exports=server
