@@ -302,4 +302,14 @@ input:focus[name="answerArea"] {
   box-shadow: 0 0 10px #719ECE;
 }*/
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qr-code-container {
+  margin-left: auto; 
+  margin-right: 10px; 
+}
 
