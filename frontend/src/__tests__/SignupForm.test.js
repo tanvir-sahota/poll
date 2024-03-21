@@ -2,9 +2,10 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SignupForm from '../../src/components/SignupForm'
+import { AuthContextProvider } from '../context/AuthContext'
 
 test('renders SignupForm correctly', () => {
-  render(<SignupForm />)
+  render(<AuthContextProvider><SignupForm /></AuthContextProvider>)
   
   // Testing elements in form
   expect(screen.getAllByText('Sign Up')[0]).toBeInTheDocument()
