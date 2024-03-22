@@ -105,28 +105,25 @@ const HostingAdmin = (inputData) => {
 
             
             
-            <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
-                    <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket}
-                                    lecturer={lecturer}/>
+            <div class="row" id="rowQuestionDisplay">
+                <div id="prevButtonContainer">
+                    <button id="prevButton" onClick={handlePrev}>
+                        PREVIOUS QUESTION
+                    </button>
                 </div>
-                <div class="col-sm-2"></div>
+                <div id="questionDisplayContainer">
+                    <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket} lecturer={lecturer}/>
+                </div>
+                <div id="nextButtonContainer">
+                    <button id="nextButton" onClick={handleNext}>
+                        NEXT QUESTION
+                    </button>
+                </div>
             </div>
 
 
             <div class="row">
-                <div className="nextButton">
-                    <button onClick={handleNext}>
-                        NEXT QUESTION
-                    </button>
-                </div>
                 <br/>
-                <div className="prevButton">
-                    <button onClick={handlePrev}>
-                        PREVIOUS QUESTION
-                    </button>
-                </div>
                 <div className="options">
                     {questions[position].options.length > 1 ?
                         (questions[position].questionType === "CodeMCQ") ?

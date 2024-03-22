@@ -268,18 +268,22 @@ input[type="text"] {
 
 #mainMenu {
   color: white;
-  }
+}
 
-.questionDisplay {
-  text-align: center;
-  padding-bottom: 20px;
-  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
+#disconnectButton {
+  margin-left: 10px;
+} */
+
+#showAnswer {
+  margin-right: 10px;
 }
 
 .questionContainer {
   border-style: solid;
   padding-bottom: 200px;
   background-color: rgba(211, 211, 211, 0.222);
+  height: 100%;
+  width: 100%;
 }
 
 /* .dashboard { */
@@ -297,6 +301,42 @@ input[type="text"] {
   padding-bottom: 200px;
   padding-left: 0%;
   padding-right: 0%;
+}
+
+#hostingDisplay {
+  display: flex;
+}
+#rowQuestionDisplay {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+#prevButtonContainer {
+  flex: 1;
+}
+#nextButtonContainer {
+  flex: 1;
+}
+#questionDisplayContainer {
+  flex: 1;
+  flex-basis: 35%;
+}
+
+#prevButton {
+  width: 50%;
+  height: 100%;
+  flex-basis: 30%;
+} 
+#nextButton {
+  width: 50%;
+  height: 100%;
+  flex-basis: 20%;
+}
+#questionDisplay {
+  width: 100%;
+  height: 100%;
+  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
 }
 
 #displayedQuestion {
@@ -348,18 +388,6 @@ input[type="text"] {
   font-size: 35px;
 }
 /* HostingAdmin and QuestionDisplay *//*
-.questionDisplay {
-  grid-area: question;
-  
-}
-
-.nextButton {
-  grid-area: next;
-}
-
-.prevButton {
-  grid-area: prev;
-}
 .options { 
   grid-area: options;
 }
@@ -378,14 +406,6 @@ input[type="text"] {
 .display {
   display: flex;
   flex-direction: column;
-}
-
-#disconnectButton {
-  float: right;
-}
-
-#showAnswer {
-  margin-top:50px ;
 }
 
 input[name="answerArea"] {

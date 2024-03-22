@@ -39,51 +39,49 @@ const QuestionDisplay = (inputData) => {
     })
 
     return (
-        <div className="questionDisplay">
-            <div className="questionContainer">
-                <h1 id="displayedQuestion">{question}</h1>
-                <div className="options">
-                    {isMCQ && (!isAdmin) ?
-                        options.map(option => (
-                            <MCQButton option={option} socket={socket} lecturer={lecturer}/>
-                        ))
-                        
-                        :
-                        <div className="answerInput">
-                            {/* <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea> */}
-                            {!isAdmin ?
-                                <div class="row">
-                                    <div class="col">
-                                        <div className="answerOptions">
-                                            <form onSubmit={submitAnswer}>
-                                                <input id="answerBox" name="answerArea" type="text" onChange={(e) => setTextAnswer(e.target.value)}/>
-                                                <br/>
-                                                <input id="answerSubmit" type="submit" />
-                                            </form>
-                                        </div>
+        <div className="questionContainer">
+            <h1 id="displayedQuestion">{question}</h1>
+            <div className="options">
+                {isMCQ && (!isAdmin) ?
+                    options.map(option => (
+                        <MCQButton option={option} socket={socket} lecturer={lecturer}/>
+                    ))
+                    
+                    :
+                    <div className="answerInput">
+                        {/* <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea> */}
+                        {!isAdmin ?
+                            <div class="row">
+                                <div class="col">
+                                    <div className="answerOptions">
+                                        <form onSubmit={submitAnswer}>
+                                            <input id="answerBox" name="answerArea" type="text" onChange={(e) => setTextAnswer(e.target.value)}/>
+                                            <br/>
+                                            <input id="answerSubmit" type="submit" />
+                                        </form>
                                     </div>
                                 </div>
-                                :
-                                null}
-                        </div>
-                    }
-                </div>
-
-                {isAdmin ?
-                    <div>
-                        {showAnswer ?
-                            <div>
-                                <h3><strong>{answers}</strong></h3>
-                                <button id="showAnswer" onClick={handleSubmission}>Hide Answer</button>
                             </div>
                             :
-                            <button id="showAnswer" onClick={handleSubmission}>Show Answer</button>
-                        }
-                        <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
+                            null}
                     </div>
-                : null}
+                }
+            </div>
 
-            </div>            
+            {isAdmin ?
+                <div id="questionDisplayButtons">
+                    {showAnswer ?
+                        <div>
+                            <h3><strong>{answers}</strong></h3>
+                            <button id="showAnswer" onClick={handleSubmission}>Hide Answer</button>
+                        </div>
+                        :
+                        <button id="showAnswer" onClick={handleSubmission}>Show Answer</button>
+                    }
+                    <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
+                </div>
+            : null}
+
         </div>
     )
 }
