@@ -31,7 +31,6 @@ io.on("connection", (socket) => {
     const currentQuestion = currentQuestionMap.get(userName)
     if(currentQuestion != undefined){
       hostedSession.get(userName).set(socket.id, {value : 0})
-      console.log("Message")
       socket.to(userName).emit("new-attendees")
       callback({
         question: currentQuestion
@@ -108,7 +107,10 @@ io.on("connection", (socket) => {
       count: count
     })
   })
-
+  socket.on("disconnect", ()=> {
+    console.log("disconnected host")
+    socket.broadcast.emit("new-attendees")
+  })
 })
 
 
