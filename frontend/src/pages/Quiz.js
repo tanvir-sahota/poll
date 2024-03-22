@@ -44,42 +44,54 @@ const Quiz = () => {
     if (quiz==null) {
         return <h2>"Still loading..."</h2>
     }
+
+    
+
     return (
-        <div className="quiz" style={{ display: 'flex', alignItems: 'left' }}>
-            <div class="container">
-                <div class="row">
+        <div className="quiz">
+            <div class="row">
 
-                    <div class="col-sm-5">
-                        <div class="row-sm-4">
-                            <div class="col-sm-2">
-                                <h2>Quiz:</h2>
+                <div class="col-sm-5">
+                    <div class="row-sm-6" id="quizDetails">
+                        <div class="card">
+                            <h3 class="card-title">
+                                Quiz
+                            </h3>
+                            <div class="card-body">
+                                Title: {quiz.title}
                             </div>
-                            <div class="col-sm-6"></div>
-                            <div class="col-sm-4">
-                                <div className="quizzes">
-                                    <h3>{quiz.title}</h3>
-                                    <h3>{quiz.description}</h3>
-                                </div>
+                            <div class="card-body">
+                                Description: {quiz.description}
                             </div>
-                        </div>
-                        <div class="row-sm-6"></div>
-                        <div class="row-sm-2">
-                            <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id} setQuiz={setQuiz}/>
                         </div>
                     </div>
-                    <div class="col-sm-7">
-                        <div className="questions">
-                            {questions.length > 0 && questions.map(question => (
-                                <QuizQuestionDetails question = {question} key={question._id} classID = {classroom_id} />
-                            ))}
-                        </div>
-                    </div>
-
+                    {/* <div class="row-sm-6" id="showSelectQuestionsForm"> */}
+                        {/* <div class="card"> */}
+                            {/* <h3 class="card-title"> */}
+                                <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id} setQuiz={setQuiz}/>
+                            {/* </h3> */}
+                        {/* </div> */}
+                    {/* </div> */}
+                    
+                    
+                    {/* <div class="row-sm-2">
+                    </div> */}
                 </div>
-                
 
-                {error && <div className={"error"}>{error}</div>}
+
+
+                <div class="col-sm-7">
+                    <div className="questions">
+                        {questions.length > 0 && questions.map(question => (
+                            <QuizQuestionDetails question = {question} key={question._id} classID = {classroom_id} />
+                        ))}
+                    </div>
+                </div>
+
             </div>
+            
+
+            {error && <div className={"error"}>{error}</div>}
         </div>
     )
 }

@@ -21,9 +21,8 @@ const MCQButton = (inputData) => {
         !pressed ? submitMCQAnswer(option) : unSubmitMCQ(option)
     }
 
-    const buttonColour = pressed ? {backgroundColor: "red"} : {backgroundColor: "goldenrod"}
     return(
-        <button style={buttonColour} key={option} className={pressed ? "pOption" : "unpOption"} onClick={() => handleMCQ(option)}>
+        <button id="MCQButton" key={option} className={pressed ? "pOption" : "unpOption"} onClick={() => handleMCQ(option)}>
             {option.includes("<code>") ? option[0]: option}</button>
     )
 }

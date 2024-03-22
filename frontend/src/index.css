@@ -78,10 +78,36 @@ header a {
   color: #333;
 }
 
+#quizDetails {
+  text-align: center;
+  height: 300px;
+}
+
+#showSelectQuestionsForm {
+  text-align: center;
+  height: 300px;
+}
+
+
+
 /* new question form */
 .form-heading:hover{
   color: #e7195a;
   cursor: pointer;
+}
+.form-heading{
+  padding: 10px;
+  margin-bottom: 15px;
+  background: goldenrod;
+  border: 0;
+  color: white;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#questionsToSelect {
+  align-items: center;
 }
 
 label, input {
@@ -284,6 +310,10 @@ input[type="text"] {
   background-color: rgba(211, 211, 211, 0.222);
   height: 100%;
   width: 100%;
+}
+
+#MCQButton {
+  background-color: goldenrod;
 }
 
 /* .dashboard { */
