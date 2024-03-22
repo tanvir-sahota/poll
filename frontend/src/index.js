@@ -9,12 +9,14 @@ import { ClassroomContextProvider } from './context/ClassroomContext';
 import { AuthContextProvider } from './context/AuthContext';
 import {QuizResultsContextProvider} from "./context/QuizResultContext";
 import {QuestionResultsContextProvider} from "./context/QuestionResultContext";
+import { FoldersContextProvider } from './context/FolderContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <ClassroomContextProvider>
+          <FoldersContextProvider>
         <QuizzesContextProvider>
           <QuestionContextProvider>
               <QuizResultsContextProvider>
@@ -24,6 +26,7 @@ root.render(
               </QuizResultsContextProvider>
           </QuestionContextProvider>
         </QuizzesContextProvider>
+              </FoldersContextProvider>
       </ClassroomContextProvider>
     </AuthContextProvider>
   </React.StrictMode>

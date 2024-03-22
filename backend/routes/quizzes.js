@@ -6,6 +6,7 @@ const {
     delete_quiz,
     delete_all_quizzes,
     patch_quiz,
+    drag_quiz_to_folder
 } = require('../controllers/quiz_controller')
 const Quiz = require("../models/quiz_model")
 

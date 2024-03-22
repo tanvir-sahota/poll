@@ -11,6 +11,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const [no_questions, setNoQuestions] = useState(true)
     const {quiz, dispatch} = useQuizzesContext()
 
+
     
     const handleSubmission = async (e) => {
         e.preventDefault()
@@ -23,9 +24,10 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
         })
         const quiz = await response.json()
 
+
         if(!quiz.ok){
             setError(quiz.error)
-        }
+            }
         if(response.ok){
             update_quiz()
             
@@ -147,7 +149,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
         </div>
         
         )
-        
+    
 }
     
 export default SelectQuestionForm
