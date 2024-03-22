@@ -1,27 +1,53 @@
 const QuizResult = require("../models/quizResultsModel")
 const QuestionResult = require("../models/questionResultsModel")
 const Classroom = require("../models/ClassroomModel")
-const Question = require("../models/questionModel")
 const mongoose = require("mongoose")
 
 
-//Get a question result
+//Get all question results belonging to a quiz
 const getQuestionResults = async (request, response) => {
-    const {id} = request.params
-    const {classID} = request.params
+    const {quizResultID} = request.params
 
-    if (!mongoose.isValidObjectId(id)) {
-        return response.status(404).json({error: "QuestionResult doesn't Exist"})
+    if (!mongoose.isValidObjectId(quizResultID)) {
+        return response.status(404).json({error: "Quiz result containing question result doesn't Exist"})
     }
 
-    const quizResult = QuizResult.findById(id).exec()
-    const questionResults = quizResult.quizResultArray
+    const quizResult = await QuizResult.findById(quizResultID)
+    const quiz_results_array = quizResult.quizResultsArray
 
-    if (!questionResults) {
+    if (!quiz_results_array) {
+        return response.status(404).json({error: "There are no question results available for this quiz result"})
+    }
+
+    const all_question_results = await QuestionResult.find({})
+    const question_results = await all_question_results.filter(result => {
+         return quiz_results_array.includes(result._id)
+    })
+
+
+    response.status(200).json(question_results)
+}
+
+const getQuestionResult = async (request, response) => {
+    const {quizResultID} = request.params
+    const {id} = request.params
+
+    if (!mongoose.isValidObjectId(quizResultID)) {
+        return response.status(404).json({error: "Quiz result containing question result doesn't Exist"})
+    }
+
+    const quizResult = await QuizResult.findById(quizResultID)
+    const questionResults = quizResult.quizResultsArray
+
+    const question_result = questionResults.find(result => {
+        return result._id = id;
+    })
+
+    if (!question_result) {
         return response.status(404).json({error: "QuestionResult doesn't exist"})
     }
 
-    response.status(200).json(questionResults)
+    response.status(200).json(question_result)
 }
 
 //Post request to create question result
@@ -71,5 +97,5 @@ const deleteQuestionResults = async (request, response) => {
 
 
 module.exports = {
-    createQuestionResults, getQuestionResults, deleteQuestionResults
+    createQuestionResults, getQuestionResults, deleteQuestionResults, getQuestionResult
 }

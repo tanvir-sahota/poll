@@ -11,7 +11,7 @@ export const quizResultReducer = (state, action) => {
     switch (action.type) {
         case 'SET_QUIZ_RESULTS':
             return {
-                quiz_result: action.payload
+                quiz_results: action.payload
             }
         case 'SET_QUIZ_RESULT':
             return{
@@ -38,7 +38,7 @@ export const quizResultReducer = (state, action) => {
  */
 export const QuizResultsContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(quizResultReducer, {
-        quiz_result: null
+        quiz_results: null
     })
 
     return (

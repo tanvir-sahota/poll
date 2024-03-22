@@ -10,13 +10,17 @@ const Classroom = require("../models/ClassroomModel");
 // Retrieves all of the quizzes
 const getAllQuizResults = async (request, response) => {
     const {classID} = request.params
-    const classroom = await Classroom.findById(classID).exec()
-    const quizResults = classroom.quizResultArray
-    response.status(200).json(quizResults)
+    const classroom = await Classroom.findById(classID)
+    const all_quiz_results = await QuizResult.find({})
+    const quiz_results = all_quiz_results.filter(result => {
+         return classroom.quizResultArray.includes(result._id)
+    })
+    response.status(200).json(quiz_results)
 }
 
 // Retrieves a single quiz
 const getOneQuizResult = async (request, response) => {
+    const {classID} = request.params
     const {id} = request.params
 
     const is_id_sanitised = mongoose.Types.ObjectId.isValid(id)
@@ -24,12 +28,24 @@ const getOneQuizResult = async (request, response) => {
         return response.status(404).json({error: "Quiz result does not exist. ID not in correct format."})
     }
 
-    const quizResult = await QuizResult.findById(id)
-    if (!quizResult) {
+
+    const classroom = await Classroom.findById(classID)
+    // console.log(classroom)
+    const quiz_results = classroom.quizResultArray
+
+    const quiz_result = quiz_results.find(result => {
+        return result._id = id;
+    })
+
+    if (!quiz_result) {
         return response.status(404).json({error: "Quiz result does not exist."})
     }
-
-    response.status(200).json(quizResult)
+    // if (Array.isArray(quizResult)) {
+    //     response.status(200).json(quizResult[0])
+    // }
+    // else {
+    response.status(200).json(quiz_result)
+    // }
 }
 
 // Post a new quiz

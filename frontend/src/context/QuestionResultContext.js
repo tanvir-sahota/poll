@@ -8,6 +8,10 @@ export const questionResultsReducer = (state, action) => {
             return{
                 question_results: action.payload
             }
+        case "SET_QUESTION_RESULT":
+            return{
+                question_result: action.payload
+            }
         case "CREATE_QUESTION_RESULTS":
             return{
                 question_results: [action.payload, ...state.question_results]
@@ -27,7 +31,7 @@ export const questionResultsReducer = (state, action) => {
 
 
 export const QuestionResultsContextProvider = ({children}) => {
-    const [state, dispatch] = useReducer(QuestionResultContext, {
+    const [state, dispatch] = useReducer(questionResultsReducer, {
         question_results: null
     })
 

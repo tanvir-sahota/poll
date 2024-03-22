@@ -45,6 +45,10 @@ const Classroom = () => {
                 <Link to={`/` + classID + "/question-bank"}><h4>click here for questions</h4></Link>
             </div> }
 
+            { <div className="quiz-results">
+                <h3>Quiz results</h3>
+                <Link to={`/` + classID + "/quiz-results"}><h4>click here for quiz results</h4></Link>
+            </div> }
         </div>
          
     )
