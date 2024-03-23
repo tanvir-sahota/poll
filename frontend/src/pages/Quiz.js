@@ -44,6 +44,7 @@ const Quiz = () => {
         fetchQuiz()
     }, [quiz])
 
+
     if (quiz==null) {
         return <h2>"Still loading..."</h2>
     }

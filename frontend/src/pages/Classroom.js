@@ -18,14 +18,14 @@ import Button from 'react-bootstrap/Button'
 const Classroom = () => {
     const classID = useLocation().pathname.split("/").at(1)
     const [quizzes_without_folder,set_qwf] = useState([]);
-    const {quizzes, dispatch: dispatch_quiz} = useQuizzesContext() 
+    const {quizzes, dispatch: dispatch_quiz} = useQuizzesContext()
     const {folders, dispatch: dispatch_folder} = useFoldersContext()
-    
+
 
     const [showQWF, setShowQWF] = useState(false)
     const handleCloseQWF = () => setShowQWF(false)
     const handleShowQWF = () => setShowQWF(true)
-    
+
     const [showFolders, setShowFolders] = useState(false)
     const handleCloseFolders = () => setShowFolders(false)
     const handleShowFolders = () => setShowFolders(true)
@@ -35,16 +35,16 @@ const Classroom = () => {
         const fetchQuizzes = async () => {
             const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes`)
             const json = await response.json()
-            
+
 
             if (response.ok) {
                 dispatch_quiz({type: 'SET_QUIZZES', payload: json})
                 console.log(json)
                 const all_quizzes = json
-                const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom==classID)          
+                const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom==classID)
                 assign_questions_to_quizzes(classroom_quizzes, classID)
             }
-            
+
         }
         fetchQuizzes()
     }, [dispatch_quiz,classID])
@@ -56,7 +56,7 @@ const Classroom = () => {
         assign_questions_to_quizzes(classroom_quizzes_without_folder,classID)
     }, [quizzes]);
 
-    useEffect(() => {        
+    useEffect(() => {
         const fetchFolders = async () => {
             const response = await fetch(`${process.env.REACT_APP_URL}api/folders`)
             const json = await response.json()
@@ -64,7 +64,7 @@ const Classroom = () => {
             if (response.ok) {
                 dispatch_folder({type: 'SET_FOLDERS', payload: json})
                 const all_folders = json
-                const classroom_folders = all_folders.filter((folder) => folder.classroom==classID)                
+                const classroom_folders = all_folders.filter((folder) => folder.classroom==classID)
                 assign_quizzes_to_folders(classroom_folders, classID)
             }
         }
@@ -76,7 +76,7 @@ const Classroom = () => {
     };
 
     const handleDrop = async (quizId, folderId) => {
-       
+
         try {
             const response = await fetch(`/api/quizzes/${quizId}`, {
                 method: 'PATCH',
@@ -87,19 +87,19 @@ const Classroom = () => {
             });
             const json = await response.json()
             json.folder = folderId
-    
+
             if (!response.ok) {
                 throw new Error('Failed to move quiz to folder');
             }else{
                 console.log(json)
                 dispatch_quiz({ type: 'UPDATE_QUIZ', payload: json });
             }
-    
+
         } catch (error) {
             console.error('Error moving quiz to folder:', error);
         }
-        
-        
+
+
     };
 
     const handleDragOver = (e) => {
@@ -157,12 +157,17 @@ const Classroom = () => {
                 <Modal.Body>
                     <div className="folders">
                         {folders && folders.map((folder) => (
-                            <FolderDetails key={folder._id} folder={folder} classID={classID} 
+                            <FolderDetails key={folder._id} folder={folder} classID={classID}
                             onDragOver={handleDragOver} onDrop={handleDrop}/>
                         ))}
                     </div>
                 </Modal.Body>
             </Modal>
+
+            { <div className="quiz-results">
+                <h3>Quiz results</h3>
+                <Link to={`/` + classID + "/quiz-results"}><h4>click here for quiz results</h4></Link>
+            </div> }
         </div>
          
     )

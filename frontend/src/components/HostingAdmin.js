@@ -8,6 +8,7 @@ import Chart from 'chart.js/auto'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import {useNavigate} from "react-router-dom";
+import ReactDOM from "react-dom/client";
 
 const HostingAdmin = (inputData) => {
     const {socket, currentQuestion, lecturer} = inputData
@@ -133,31 +134,77 @@ const HostingAdmin = (inputData) => {
 
     useEffect(() => {
         socket.emit("set-question", questions[position], lecturer)
+        shouldRenderPrevious(position)
+        shouldRenderNext(position)
     }, [position])
 
-    const handleNext = async () => {
-        if (position >= questions.length - 1) {
-            setPosition(0)
-        } else {
+    const handleNext =  () => {
+        // if (position >= questions.length - 1) {
+        //     setPosition(0)
+        // } else {
+        //     const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
+        //     setPosition(tempPosition + 1)
+        // }
+
+        if (position < questions.length - 1) {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition + 1)
+
+            shouldRenderPrevious(tempPosition + 1)
+            shouldRenderNext(tempPosition + 1)
+
         }
-        setSubmission(0)
     }
-    const handlePrev = async () => {
-        if (position <= 0) {
-            setPosition(questions.length - 1)
+
+    const shouldRenderNext = async (newPos = 0) => {
+       // const nextButton = document.getElementById("nextButton");
+        const nextButton = document.getElementById("nextButton");
+        if (newPos === questions.length - 1) {
+            nextButton.hidden = true
         } else {
+            nextButton.hidden = false
+        }
+
+    }
+
+
+    const handlePrev = async () => {
+        // if (position <= 0) {
+        //     setPosition(questions.length - 1)
+        // } else {
+        //     const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
+        //     setPosition(tempPosition - 1)
+        // }
+
+        if (position > 0) {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition - 1)
+
+            shouldRenderPrevious(tempPosition -1)
+            shouldRenderNext(tempPosition -1)
         }
         setSubmission(0)
     }
+
+    const shouldRenderPrevious = async (newPos = 0) => {
+       // const nextButton = document.getElementById("nextButton");
+        const prevButton = document.getElementById("prevButton");
+        console.log(position)
+        if (newPos === 0) {
+            prevButton.hidden = true
+        } else {
+           prevButton.hidden = false
+        }
+    }
+
 
     const handleSaveQuiz = async () => {
         console.log("Handling save quiz")
         socket.emit("host-disconnect", lecturer)
         console.log("About to send fetch")
+
+
+
         const quizResults = {quiz, questions, answers}
         const response = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/`, {
             method: "POST",
@@ -166,6 +213,23 @@ const HostingAdmin = (inputData) => {
                 "Content-Type": "application/json",
             },
         });
+
+
+        for (let index = 0; index < questions.length; index++) {
+            const currentQuestion = questions.at(index)
+            const currentAnswer = answers.at(index)
+            console.log(currentQuestion)
+
+            const questionAnswerBody = {currentQuestion, currentAnswer, quiz}
+            const response =  fetch(`${process.env.REACT_APP_URL}api/question-results/`, {
+            method: "POST",
+            body: JSON.stringify(questionAnswerBody),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            });
+        }
+
         console.log("Sent fetch")
         const json = await response.json();
         console.log("Got JSON")
@@ -176,14 +240,15 @@ const HostingAdmin = (inputData) => {
         else {
             console.log("Saved quiz results")
         }
-        navigate("/dashboard")
+      //  navigate("/dashboard")
+        navigate(`/api/quizzes/${quiz._id}/${quiz.classroom}`)
     }
 
     return (
         <div className="hostingDisplay">
             <div class="row" id="rowQuestionDisplay">
                 <div id="prevButtonContainer">
-                    <button id="prevButton" onClick={handlePrev}>
+                    <button id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>>
                         PREVIOUS QUESTION
                     </button>
                 </div>
@@ -191,7 +256,7 @@ const HostingAdmin = (inputData) => {
                     <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket} lecturer={lecturer}/>
                 </div>
                 <div id="nextButtonContainer">
-                    <button id="nextButton" onClick={handleNext}>
+                    <button id="nextButton" onClick={handleNext} onLoad={shouldRenderNext}>
                         NEXT QUESTION
                     </button>
                 </div>
@@ -229,7 +294,7 @@ const HostingAdmin = (inputData) => {
                                 return <dl>
                                     <dt>{parse(option)}</dt>
                                     <dd>{count}</dd>
-           
+
                                 </dl>
                             })
                             :
@@ -248,7 +313,7 @@ const HostingAdmin = (inputData) => {
                 </div>
             </div> */}
 
-                
+
         </div>
     )
 }

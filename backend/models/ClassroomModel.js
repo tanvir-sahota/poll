@@ -21,7 +21,12 @@ const ClassroomSchema = new mongoose.Schema({
     ,
     quizzes:[{
         type: mongoose.Schema.Types.ObjectId
-    }]
+    }],
+    quizResultArray:{
+        type: Array,
+        of: mongoose.Schema.Types.ObjectId, ref:"QuizResults",
+        required : true
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Classroom',ClassroomSchema);
