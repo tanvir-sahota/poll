@@ -316,15 +316,6 @@ input[type="text"] {
   background-color: goldenrod;
 }
 
-/* .dashboard { */
-  /* text-align: left;
-  border-style: none;
-  padding-bottom: 0px;
-  padding-left: 10%;
-  padding-right: 20%; */
-  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
-/* } */
-
 .classroom {
   text-align: left;
   border-style: none;
@@ -366,7 +357,6 @@ input[type="text"] {
 #questionDisplay {
   width: 100%;
   height: 100%;
-  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
 }
 
 #displayedQuestion {
@@ -417,37 +407,5 @@ input[type="text"] {
   border-radius: 50px;
   font-size: 35px;
 }
-/* HostingAdmin and QuestionDisplay *//*
-.options { 
-  grid-area: options;
-}
-
-.hostingDisplay {
-  display: grid;
-  grid-template-areas:
-  '. question question question .'
-  '. options . . .'
-  'prev . . . next';
-
-  grid-template-rows: 3fr 3fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-.display {
-  display: flex;
-  flex-direction: column;
-}
-
-input[name="answerArea"] {
-  min-width: 300px;
-  min-height: 45px;
-  background: rgba(23,184,237,1);
-}
-
-input:focus[name="answerArea"] {
-  outline: none !important;
-  border:1px solid black;
-  box-shadow: 0 0 10px #719ECE;
-}*/
 
 

@@ -13,6 +13,12 @@ const Navbar = () => {
     navigate("/log_in")
   }
 
+  const handleDashboard = () => {
+    navigate("/dashboard")
+  }
+
+
+
   return (
     <header>
       <div className='row-sm-6'>
@@ -34,6 +40,7 @@ const Navbar = () => {
 
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={handleClick}>Log out</Dropdown.Item>
+                        <Dropdown.Item onClick={handleDashboard}>Dashboard</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
               </div>

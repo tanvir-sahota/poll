@@ -2,6 +2,8 @@ import {useQuestionContext} from "../hooks/useQuestionContext"
 import {useEffect, useState} from "react"
 import QuestionDisplay from "./QuestionDisplay"
 import parse from 'html-react-parser'
+import { Bar } from 'react-chartjs-2'
+import Chart from 'chart.js/auto'
 
 const HostingAdmin = (inputData) => {
     const {socket, currentQuestion, lecturer} = inputData
@@ -9,6 +11,34 @@ const HostingAdmin = (inputData) => {
     console.log("Questions", questions)
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
+    const [chartData, setChart] = useState({
+        labels: questions[position].options,
+        datasets: [{
+            label: "Selections",
+            data: questions[position].options.map(option => {
+                answers[position].at(questions[position].options.indexOf(option))
+            }),
+            backgroundColor: 'white',
+            borderColor: 'black',
+
+        }],
+    })
+
+    useEffect(() => {
+        setChart({
+            labels: questions[position].options,
+            datasets: [{
+                label: "Selections",
+                data: questions[position].options.map(option => {
+                    answers[position].at(questions[position].options.indexOf(option))
+                }),
+                backgroundColor: 'whtie',
+                borderColor: 'black',
+          }],
+        });
+      }, [questions[position].options.map(option => {
+        answers[position].at(questions[position].options.indexOf(option))
+    }), questions[position].options])
 
     useEffect(() => {
         let receiveTextHandler = null
@@ -135,6 +165,7 @@ const HostingAdmin = (inputData) => {
                                 return <dl>
                                     <dt>{parse(option)}</dt>
                                     <dd>{count}</dd>
+           
                                 </dl>
                             })
                             :
@@ -152,6 +183,7 @@ const HostingAdmin = (inputData) => {
                     }
                 </div>
             </div>
+            <Bar data={chartData} />
 
                 
         </div>
