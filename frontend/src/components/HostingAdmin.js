@@ -4,6 +4,8 @@ import QuestionDisplay from "./QuestionDisplay"
 import parse from 'html-react-parser'
 import { Bar } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 
 const HostingAdmin = (inputData) => {
     const {socket, currentQuestion, lecturer} = inputData
@@ -11,6 +13,10 @@ const HostingAdmin = (inputData) => {
     console.log("Questions", questions)
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
+    
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
 
     const getChart = () => ({
         labels: questions[position].options,
@@ -117,9 +123,6 @@ const HostingAdmin = (inputData) => {
 
     return (
         <div className="hostingDisplay">
-
-            
-            
             <div class="row" id="rowQuestionDisplay">
                 <div id="prevButtonContainer">
                     <button id="prevButton" onClick={handlePrev}>
@@ -135,9 +138,15 @@ const HostingAdmin = (inputData) => {
                     </button>
                 </div>
             </div>
+           
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Body>
+                    <Bar data={chartData} />                
+                </Modal.Body>
+            </Modal>
+            <Button id="graphButton" onClick={handleShow}>Student Responses</Button>
 
-
-            <div class="row">
+            {/* <div class="row">
                 <br/>
                 <div className="options">
                     {questions[position].options.length > 1 ?
@@ -167,8 +176,7 @@ const HostingAdmin = (inputData) => {
                         answers[position] && answers[position].map(answer => (<p>{answer}</p>))
                     }
                 </div>
-            </div>
-            <Bar data={chartData} />
+            </div> */}
 
                 
         </div>

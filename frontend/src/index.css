@@ -420,4 +420,9 @@ input[type="text"] {
   font-size: 35px;
 }
 
+#graphButton {
+  margin-top: 10px;
+  width: 60%;
+}
+
 
