@@ -98,8 +98,8 @@ const ClassroomForm = () => {
 
         <div>
             <IconButton className="add" icon={<Plus />} color="yellow" onClick={handleShow}
-                appearance="primary" 
-            />
+                appearance="primary">Create Classroom</IconButton> 
+            
     
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header>

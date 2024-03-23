@@ -248,7 +248,7 @@ const HostingAdmin = (inputData) => {
         <div className="hostingDisplay">
             <div class="row" id="rowQuestionDisplay">
                 <div id="prevButtonContainer">
-                    <button id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>>
+                    <button id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>
                         PREVIOUS QUESTION
                     </button>
                 </div>

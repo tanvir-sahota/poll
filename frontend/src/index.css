@@ -3,7 +3,7 @@
 
 /* layout */
 :root {
-  --primary: #1aac83;
+  --primary: #20DA48;
   --error: #e7195a;
 }
 
@@ -44,6 +44,9 @@ header a {
 }
 
 /* homepage */
+.split{
+  border: 1px solid black;
+}
 .questionBank {
   display: grid;
   grid-template-columns: 3fr 1fr;
@@ -52,12 +55,13 @@ header a {
 .question-details {
   background: #fff;
   border-radius: 4px;
+  border: 1px solid darkgrey;
   margin: 20px auto;
   padding: 20px;
   position: relative;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
 }
-.question-details h4 {
+.question-details h4, #otherHeading {
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
@@ -67,7 +71,7 @@ header a {
   font-size: 0.9em;
   color: #555;
 }
-.question-details span {
+.question-details span, #otherSpan {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -186,7 +190,7 @@ label, input {
 }
 
 #folderForm {
-  margin-top: 30px;
+  margin-top: 0px;
   
 }
 
@@ -218,8 +222,8 @@ div.error {
   cursor: pointer;
 }
 
-.questions div .edit{
-  background-color:#c0392b;
+.questions div .edit ,#folderButton{
+  background-color:goldenrod;
   border-top-left-radius:5px;
   border-top-right-radius:5px;
   border-bottom-left-radius:5px;
@@ -434,6 +438,11 @@ input[type="text"] {
   width: 60%;
 }
 
+#createButton {
+  margin-top: 10px;
+  width: 40%;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -445,3 +454,21 @@ input[type="text"] {
   margin-right: 10px; 
 }
 
+.update{
+  align-content: left;
+  text-align: left;
+}
+
+.update label{
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+
+#disclaimer{
+  text-align: left;
+  padding-bottom: 5px;
+}
+
+#folderButton{
+  max-width: 80px;
+}

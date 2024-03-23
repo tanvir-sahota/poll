@@ -1,10 +1,8 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 import {useFoldersContext} from "../hooks/useFoldersContext";
-
-import { Link } from 'react-router-dom'
 
 
 import QuizDetails from "../components/QuizDetails"
@@ -29,6 +27,16 @@ const Classroom = () => {
     const [showFolders, setShowFolders] = useState(false)
     const handleCloseFolders = () => setShowFolders(false)
     const handleShowFolders = () => setShowFolders(true)
+
+    const [showQuizForm, setShowQuizForm] = useState(false)
+    const handleCloseQuizForm = () => setShowQuizForm(false)
+    const handleShowQuizForm = () => setShowQuizForm(true)
+
+    const [showFolderForm, setShowFolderForm] = useState(false)
+    const handleCloseFolderForm = () => setShowFolderForm(false)
+    const handleShowFolderForm = () => setShowFolderForm(true)
+
+    const navigate = useNavigate()
 
 
     useEffect(() => {        
@@ -106,39 +114,61 @@ const Classroom = () => {
         e.preventDefault()
     }
 
+    const handleQuestionBankNavigation = () => {
+        navigate(`/${classID}/question-bank`)
+    }
+
+    const handleQuizResultNavigation = () => {
+        navigate(`/${classID}/quiz-results`)
+    }
     return (
         <div className="classroom" style={{ display: 'flex', alignItems: 'center' }}>
             <div class="container">
                 <div class="row">
-                    <div class= "col-sm-5 mb-3">
+                    <div class= "row-sm-6 mb-3">
                         <div className="row-sm-6">
                             <h2>Classroom</h2>
                         </div>
+                        <hr className='split'></hr>
+                    </div>
+                    <div class= "col-sm-5 mb-3">
+                        {/* <div className="row-sm-6">
+                            <h2>Classroom</h2>
+                        </div> */}
                         <div className="row-sm-6">
                             <div class="card">
                                 <h3 class="card-title">Question Bank</h3>
-                                <Link to={`/` + classID + "/question-bank"} class="card-title" className="classrooms"><h4>click here for questions</h4></Link>
+                                <Button id="graphButton" onClick={handleQuestionBankNavigation}>Access</Button>
                             </div>
                         </div>
                         <div className="row-sm-6">
                             <div class="card">
                                 <h3 class="card-title">Quizzes and Folders</h3>
-                                <Button id="graphButton" onClick={handleShowQWF}>Quizzes without folders</Button>
+                                <Button id="graphButton" onClick={handleShowQWF}>Quizzes</Button>
                                 <Button id="graphButton" onClick={handleShowFolders}>Folders</Button>
-                            </div>
+                            </div> 
                         </div>
                     </div>
-                    <div class="col-sm-3 mb=3"></div>
-                    <div class="col-sm-3 mb-3">
-                        <QuizForm classID={classID} />
-                        <FolderForm classID={classID} />
+                    <div class= "col-sm-5 mb-3">
+                        {/* <div className="row-sm-6">
+                            <h2>Classroom</h2>
+                        </div> */}
+                        <div className="row-sm-6">
+                            <div class="card">
+                                <h3 class="card-title">Quiz Results</h3>
+                                <Button id="graphButton" onClick={handleQuizResultNavigation}>Access</Button>
+                            </div>
+                        </div>
+                        <div className="row-sm-6">
+                            <div class="card">
+                                <h3 class="card-title">Creation</h3>
+                                <Button id="createButton" onClick={handleShowQuizForm}>Create Quiz</Button>
+                                <Button id="createButton" onClick={handleShowFolderForm}>Create Folder</Button>    
+                            </div> 
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 mb-3">
-                    <div class="col-sm-3 mb=3">
-                    </div>
-                </div>
             </div>
 
 
@@ -164,10 +194,17 @@ const Classroom = () => {
                 </Modal.Body>
             </Modal>
 
-            { <div className="quiz-results">
-                <h3>Quiz results</h3>
-                <Link to={`/` + classID + "/quiz-results"}><h4>click here for quiz results</h4></Link>
-            </div> }
+            <Modal show={showQuizForm} onHide={handleCloseQuizForm}>
+                <Modal.Body>
+                    <QuizForm classID={classID}/>
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={showFolderForm} onHide={handleCloseFolderForm}>
+                <Modal.Body>
+                    <FolderForm classID={classID}/>
+                </Modal.Body>
+            </Modal>
         </div>
          
     )

@@ -10,8 +10,6 @@ const QuestionForm = (classID) => {
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
 
-    const [showForm, setShowForm] = useState(false)
-
     const handleSubmission = async (e) => {
         e.preventDefault()
 
@@ -41,14 +39,10 @@ const QuestionForm = (classID) => {
         }
     }
 
-    const toggleForm = () => {
-        setShowForm(!showForm)
-    }
-
     return(
         <div>
-            <h3 onClick={toggleForm} className="form-heading">Add a new Question</h3>
-        {showForm ? 
+            <h2>Create Question</h2>
+            <br></br>
             <form className="create" onSubmit={handleSubmission}>
                 <label>Question</label>
                 <input
@@ -80,7 +74,6 @@ const QuestionForm = (classID) => {
                 {error && <div className="error">{error}</div>}
 
             </form>
-        : null}
         </div>
         
     )
