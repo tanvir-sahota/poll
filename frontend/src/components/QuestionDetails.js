@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom"
 const QuestionDetails = ({ question, classID }) => {
     
     const { dispatch } = useQuestionContext()
-    const navigate = useNavigate()
     const [showForm, setShowForm] = useState(false)
     const [showOptions, setShowOptions] = useState(question.options.length != 0 ? true : false)
     //const {username} = localStorage.getItem("user")

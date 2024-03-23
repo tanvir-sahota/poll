@@ -1,7 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom"
 
 const WaitingPage = (inputData) =>{
-    const navigate = useNavigate()
     const {socket} = inputData
     
     const location = useLocation()
@@ -10,7 +9,7 @@ const WaitingPage = (inputData) =>{
     socket.emit("join-room", userName)
 
     socket.on("switch-pages", () => {
-        navigate("/habram")
+        window.location.href = "/habram"
     })
 
     return(

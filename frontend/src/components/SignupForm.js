@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 const SignupForm = () => {
   const { handleSubmit, control, setError, formState: { errors } } = useForm();
   const { dispatch } = useAuthContext()
-  const navigate = useNavigate()
 
   const onSubmit = async (data) => {
     const response = await fetch(`${process.env.REACT_APP_URL}api/users/signup`, {
@@ -34,7 +33,7 @@ const SignupForm = () => {
 
       // update the auth context
       dispatch({type: 'LOGIN', payload: json})
-      navigate("/dashboard")
+      window.location.href = "/dashboard"
     }
   };
 

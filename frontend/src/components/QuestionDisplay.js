@@ -5,7 +5,6 @@ import MCQButton from "./MCQButton"
 const QuestionDisplay = (inputData) => {
     const {givenQuestion, isAdmin, socket, lecturer} = inputData
     const {question, options, answers, questionType} = givenQuestion
-    const navigate = useNavigate()
     // console.log(givenQuestion)
     // console.log("Question: ", question)
     // console.log("Options: ", options)
@@ -22,7 +21,7 @@ const QuestionDisplay = (inputData) => {
 
     const handleDisconnect = () => {
         socket.emit("host-disconnect", lecturer) 
-        navigate("/dashboard")
+        window.location.href = "/dashboard"
     }
 
     const submitAnswer = () => {

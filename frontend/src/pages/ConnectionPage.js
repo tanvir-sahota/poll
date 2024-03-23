@@ -5,7 +5,6 @@ import QuestionDisplay from "../components/QuestionDisplay";
 const ConnectionPage = (inputData) =>{
     const {socket} = inputData
     const { lecturer } = useParams()
-    const navigate = useNavigate()
     const [showQuestion, setShowQuestion] = useState(null)
 
     const updateQuestion = (question) => {
@@ -14,7 +13,7 @@ const ConnectionPage = (inputData) =>{
 
     const navigateAway = () => {
         console.log("Navigating away")
-        navigate("/"+ lecturer +"/waiting")
+        window.location.href = "/"+ lecturer +"/waiting"
     }
 
     useEffect(() => {

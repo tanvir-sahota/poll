@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.css";
 
 const EnterNameForm = (inputData) => {
     const {socket} = inputData
-    const navigate = useNavigate()
     const { lecturer } = useParams()
     const [username, setUsername] = useState('')
     const [error, setError] = useState(null)
@@ -47,7 +46,7 @@ const EnterNameForm = (inputData) => {
     }
 
     const switchPages = () => {
-        navigate("/" + lecturer)
+        window.location.href = "/" + lecturer
     }
 
     /*const generateUsername = () => {

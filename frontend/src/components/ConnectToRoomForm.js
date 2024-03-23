@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.css"
 
 const ConnectToRoomForm = () => {
-    const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
@@ -28,7 +27,7 @@ const ConnectToRoomForm = () => {
             const foundUser = await isUser(username)
             if(foundUser){
                 setError(null)
-                navigate(`/${username}/waiting`)
+                window.location.href = `/${username}/waiting`
             }
             else{
                 setError("Lecturer doesn't exist")

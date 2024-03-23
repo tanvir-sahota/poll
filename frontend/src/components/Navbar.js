@@ -5,11 +5,10 @@ import { useAuthContext } from '../hooks/useAuthContext'
 const Navbar = () => {
   const { logout } = useLogout()
   const { user } = useAuthContext()
-  const navigate = useNavigate()
 
   const handleClick = () => {
     logout()
-    navigate("/log_in")
+    window.location.href = "/log_in"
   }
 
   return (

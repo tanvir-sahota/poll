@@ -11,7 +11,6 @@ const HostingAdmin = (inputData) => {
     const {quiz} = useQuizzesContext()
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
-    const navigate = useNavigate()
 
     useEffect(() => {
         let receiveTextHandler = null
@@ -125,7 +124,7 @@ const HostingAdmin = (inputData) => {
         else {
             console.log("Saved quiz results")
         }
-        navigate("/dashboard")
+        window.location.href = "/dashboard"
     }
 
     return (
