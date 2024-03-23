@@ -4,14 +4,16 @@ import {useEffect, useState} from "react";
 import QuizQuestionDetails from "../components/QuizQuestionDetails";
 
 import ShowSelectQuestion from "../components/ShowSelectQuestion"
+import { useQuizzesContext } from "../hooks/useQuizzesContext";
 
 const Quiz = () => {
 
-    const [quiz, setQuiz] = useState(null)
+    //const [quiz, setQuiz] = useState(null)
     const [error, setError] = useState(null)
 
     const {quiz_id, classroom_id} = useParams()
     const {questions, dispatch} = useQuestionContext()
+    const {quiz, dispatch: dispatch_quiz} = useQuizzesContext()
 
 
     useEffect(() => {
@@ -25,7 +27,8 @@ const Quiz = () => {
                 const json2 = await response2.json()
 
                 if (response2.ok) {
-                    setQuiz(json2)
+                    //setQuiz(json2)
+                    dispatch_quiz({type:"SET_QUIZ", payload: json2})
                     const {questions} = json2
                     const filteredQuestions = json.filter(x => questions.includes(x._id))
                     dispatch({type: "SET_QUESTIONS", payload:filteredQuestions})

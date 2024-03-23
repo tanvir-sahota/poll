@@ -1,8 +1,10 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import QuizDashboard from './pages/QuizDashboard'
+import FolderDashboard from './pages/FolderDashboard'
 import Quiz from "./pages/Quiz"
 import Dashboard from './pages/Dashboard'
 import Classroom from './pages/Classroom'
+import Folder from './pages/Folder'
 import QuestionBankPage from './pages/QuestionBankPage'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -16,7 +18,7 @@ import WaitingPage from './pages/WaitingPage'
 
 import io from "socket.io-client"
 
-const socket = io.connect(`${process.env.REACT_APP_URL}habram`)
+const socket = io.connect(`${process.env.REACT_APP_URL}`)
 
 function App() {
 
@@ -53,6 +55,18 @@ function App() {
             <Route
                 path="/api/quizzes/"
                 element={<QuizDashboard/>}
+            />
+            <Route
+                path="/api/folders/"
+                element={<FolderDashboard/>}
+            />
+            <Route
+                path="/api/folders/:folder_id/:classroom_id?"
+                element={<Folder/>}
+            />
+            <Route
+                path="/api/folders/:folder_id/quizzes"
+                element={<Folder/>}
             />
             <Route
                 path="/api/quizzes/:quiz_id/:classroom_id?"

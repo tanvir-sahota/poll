@@ -1,4 +1,5 @@
 import {useQuestionContext} from "../hooks/useQuestionContext"
+import {useQuizzesContext} from "../hooks/useQuizzesContext"
 import {useEffect, useState} from "react"
 import QuestionDisplay from "./QuestionDisplay"
 import parse from 'html-react-parser'
@@ -6,11 +7,12 @@ import { Bar } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import {useNavigate} from "react-router-dom";
 
 const HostingAdmin = (inputData) => {
     const {socket, currentQuestion, lecturer} = inputData
     const {questions} = useQuestionContext()
-    console.log("Questions", questions)
+    const {quiz} = useQuizzesContext()
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
     
@@ -30,6 +32,26 @@ const HostingAdmin = (inputData) => {
     useEffect(() => {setChart(getChart())}, [questions, answers, position])
 
       
+    const navigate = useNavigate()
+    const [attendees, setAttendees] = useState(0)
+    const [submission, setSubmission] = useState(0)
+
+    useEffect(() => {
+
+        const attendeeChecker = () => {
+            console.log("Got message")
+            socket.emit("update-attendees", lecturer, (response) => {
+                console.log(response.count)
+                setAttendees(response.count)
+            })
+        }
+
+        socket.on("new-attendees", attendeeChecker)
+        return () => {
+            socket.off("new-attendees", attendeeChecker)
+        }
+    }, [])
+    
 
     useEffect(() => {
         let receiveTextHandler = null
@@ -38,6 +60,9 @@ const HostingAdmin = (inputData) => {
                 const allAnswers = [...prevAnswers]
                 allAnswers[position] = [...prevAnswers[position], answer]
                 return allAnswers
+            })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
             })
         }
         socket.addEventListener("recieve-answer-text", receiveTextHandler)
@@ -67,6 +92,9 @@ const HostingAdmin = (inputData) => {
                 console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
+            })
         }
         socket.addEventListener("recieve-answer-mcq", receiveMultipleChoiceHandler)
         console.log("Added MCQ event handler")
@@ -91,6 +119,9 @@ const HostingAdmin = (inputData) => {
                 console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
+            })
         }
         socket.addEventListener("decline-answer-mcq", declineMultipleChoiceHandler)
         return () => {
@@ -111,6 +142,7 @@ const HostingAdmin = (inputData) => {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition + 1)
         }
+        setSubmission(0)
     }
     const handlePrev = async () => {
         if (position <= 0) {
@@ -119,6 +151,32 @@ const HostingAdmin = (inputData) => {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition - 1)
         }
+        setSubmission(0)
+    }
+
+    const handleSaveQuiz = async () => {
+        console.log("Handling save quiz")
+        socket.emit("host-disconnect", lecturer)
+        console.log("About to send fetch")
+        const quizResults = {quiz, questions, answers}
+        const response = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/`, {
+            method: "POST",
+            body: JSON.stringify(quizResults),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        console.log("Sent fetch")
+        const json = await response.json();
+        console.log("Got JSON")
+
+        if (!response.ok) {
+            console.log("Failed to save quiz results", json);
+        }
+        else {
+            console.log("Saved quiz results")
+        }
+        navigate("/dashboard")
     }
 
     return (
@@ -145,6 +203,17 @@ const HostingAdmin = (inputData) => {
                 </Modal.Body>
             </Modal>
             <Button id="graphButton" onClick={handleShow}>Student Responses</Button>
+            <div className="saveQuizButton">
+                <button id="disconnectButton" onClick={handleSaveQuiz}>
+                    Save Quiz
+                </button>
+            </div>
+            <div className="attendeeNumber">
+                <p>Number of attendees: {attendees}</p>
+            </div>
+            <div className="submissionNumber">
+                <p>Number of attendee submissions: {submission}</p>
+            </div>
 
             {/* <div class="row">
                 <br/>
