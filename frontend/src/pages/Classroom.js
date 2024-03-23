@@ -11,6 +11,8 @@ import QuizDetails from "../components/QuizDetails"
 import QuizForm from '../components/QuizForm';
 import FolderDetails from "../components/FolderDetails"
 import FolderForm from '../components/FolderForm';
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 
 
 const Classroom = () => {
@@ -18,6 +20,15 @@ const Classroom = () => {
     const [quizzes_without_folder,set_qwf] = useState([]);
     const {quizzes, dispatch: dispatch_quiz} = useQuizzesContext() 
     const {folders, dispatch: dispatch_folder} = useFoldersContext()
+    
+
+    const [showQWF, setShowQWF] = useState(false)
+    const handleCloseQWF = () => setShowQWF(false)
+    const handleShowQWF = () => setShowQWF(true)
+    
+    const [showFolders, setShowFolders] = useState(false)
+    const handleCloseFolders = () => setShowFolders(false)
+    const handleShowFolders = () => setShowFolders(true)
 
 
     useEffect(() => {        
@@ -104,10 +115,17 @@ const Classroom = () => {
                             <h2>Classroom</h2>
                         </div>
                         <div className="row-sm-6">
-                            { <div className="classrooms">
-                                <h3>Question Bank</h3>
-                                <Link to={`/` + classID + "/question-bank"}><h4>click here for questions</h4></Link>
-                            </div> }
+                            <div class="card">
+                                <h3 class="card-title">Question Bank</h3>
+                                <Link to={`/` + classID + "/question-bank"} class="card-title" className="classrooms"><h4>click here for questions</h4></Link>
+                            </div>
+                        </div>
+                        <div className="row-sm-6">
+                            <div class="card">
+                                <h3 class="card-title">Quizzes and Folders</h3>
+                                <Button id="graphButton" onClick={handleShowQWF}>Quizzes without folders</Button>
+                                <Button id="graphButton" onClick={handleShowFolders}>Folders</Button>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-3 mb=3"></div>
@@ -118,29 +136,33 @@ const Classroom = () => {
                 </div>
                 <div class="row">
                     <div class="col-sm-5 mb-3">
-                        <div className="quizzes">
-                            {quizzes_without_folder && quizzes_without_folder.map((quiz) => (
-                                <QuizDetails key={quiz._id} quiz={quiz} classID={classID} onDragStart={handleDragStart}/>
-                                ))}
-                        </div>
+                    <div class="col-sm-3 mb=3">
                     </div>
+                </div>
+            </div>
 
+
+
+            <Modal show={showQWF} onHide={handleCloseQWF}>
+                <Modal.Body>
+                    <div className="quizzes">
+                        {quizzes_without_folder && quizzes_without_folder.map((quiz) => (
+                            <QuizDetails key={quiz._id} quiz={quiz} classID={classID} onDragStart={handleDragStart}/>
+                            ))}
+                    </div>
+                </Modal.Body>
+            </Modal>
+            </div>
+            <Modal show={showFolders} onHide={handleCloseFolders}>
+                <Modal.Body>
                     <div className="folders">
                         {folders && folders.map((folder) => (
                             <FolderDetails key={folder._id} folder={folder} classID={classID} 
                             onDragOver={handleDragOver} onDrop={handleDrop}/>
                         ))}
                     </div>
-
-                    <div class="col-sm-3 mb=3"></div>
-                    <div class="col-sm-3 mb-3">
-                    </div>
-                </div>
-
-                
-
-            </div>
-
+                </Modal.Body>
+            </Modal>
         </div>
          
     )
