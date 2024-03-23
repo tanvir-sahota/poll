@@ -106,50 +106,48 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
 
     return(        
         <div>
-            {loading ? (
-                <p>Loading questions...</p>
-                ) : (
-                    <div>
-                        {classroom_questions ? (
-                            <div>
-                                {no_questions ? (
-                                    <h3>No questions available</h3>
-                                ) : (
-                                    <div>
-                                        <h3 onClick={toggleForm} className="form-heading">Select Questions Below</h3>
-                                        {classroom_questions ? (
-                                            <div>
-                                                { showForm ? (
-                                                    <form className="create" onSubmit={handleSubmission}>
-                                                        {classroom_questions.map((cq, index) => (
-                                                            <div key={index}>
-                                                                <input type="checkbox" id="question" checked={tickboxes[index]} onChange={() => add_to_quiz_questions(index, cq._id)} />
-                                                                <label htmlFor="question">{cq.question}</label>
-                                                            </div>
-                                                        ))}
+            {loading ? (<p>Loading questions...</p>) : (
+                <div>
+                    {classroom_questions ? (<div>{no_questions ? (<h3>No questions available</h3>) : (
+                        <div>
+                            <h3 onClick={toggleForm} className="form-heading">Click to select questions</h3>
+                            {classroom_questions ? (
+                                <div>
+                                    { showForm ? (
+                                        <form className="create" onSubmit={handleSubmission}>
+                                            {classroom_questions.map((cq, index) => (
+                                                <div key={index}>
+                                                    <div class="row" id="questionsToSelect">
+                                                        <div class="col-sm-5"></div>
+                                                        <div class="col-sm-1">
+                                                            <input type="checkbox" id="question" checked={tickboxes[index]} onChange={() => add_to_quiz_questions(index, cq._id)}/>
+                                                        </div>
+                                                        <div class="col-sm-1">
+                                                            <label htmlFor="question">{cq.question}</label>
+                                                        </div>
+                                                        <div class="col-sm-5"></div>
+                                                            
+                                                    </div>
+                                                        
+                                                </div>
+                                            ))}
 
-                                                        <button className = "create">Select Questions</button>
-                                                        {error && <div className="error">{error}</div>}
+                                            <button className = "create">Select Questions</button>
+                                            {error && <div className="error">{error}</div>}
 
-                                                    </form>
-                                                ) : null }
-                                        </div>
-                                    ) : (
-                                        <p>Loading questions...</p>
-                                        )}
-
-                                    </div>
-                                )}
-                                
+                                        </form>
+                                    ) : null }
                             </div>
-                        ) : null }
-                    </div>
+                            ) : (
+                                <p>Loading questions...</p>
+                            )}
+                        </div>
+                    )}  </div>) : null }
+                </div>
             )}
-
         </div>
+    )
         
-        )
-    
 }
     
 export default SelectQuestionForm

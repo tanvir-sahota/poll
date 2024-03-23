@@ -39,47 +39,60 @@ const QuestionDisplay = (inputData) => {
     })
 
     return (
-        <div className="display">
+        <div className="questionContainer">
             <h1 id="displayedQuestion">{question}</h1>
-
-            {isMCQ && (!isAdmin) ?
-                (hasCode) ?
-                options.map(option => (
-                    <MCQButton option={option} socket={socket} lecturer={lecturer}/>
-                ))
-                :
-                options.map(option => (
-                    <MCQButton option={option} socket={socket} lecturer={lecturer}/>
-                ))
-                :
-                <div className="answerInput">
-                    {/* <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea> */}
-                    {!isAdmin ?
-                        <div>
-                            <label htmlFor="answerArea">Input Answer:</label>
-                            <form onSubmit={submitAnswer}>
-                                <input name="answerArea" type="text" onChange={(e) => setTextAnswer(e.target.value)}/>
-                                <input type="submit"/>
-                            </form>
-                        </div>
-                        :
-                        null}
-                </div>
-            }
+            <div className="options">
+                {isMCQ && (!isAdmin) ?
+                    options.map(option => (
+                        <MCQButton option={option} socket={socket} lecturer={lecturer}/>
+                    ))
+                    
+                    :
+                    <div className="answerInput">
+                        {/* <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea> */}
+                        {!isAdmin ?
+                            <div class="row">
+                                <div class="col">
+                                    <div className="answerOptions">
+                                        <form onSubmit={submitAnswer}>
+                                            <input id="answerBox" name="answerArea" type="text" onChange={(e) => setTextAnswer(e.target.value)}/>
+                                            <br/>
+                                            <input id="answerSubmit" type="submit" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            :
+                            null}
+                    </div>
+                }
+            </div>
 
             {isAdmin ?
-                <div>
+                <div id="questionDisplayButtons">
                     {showAnswer ?
                         <div>
-                            <h3><strong>{answers}</strong></h3>
-                            <button id="showAnswer" onClick={handleSubmission}>Hide Answer</button>
+                            <button className="showAnswer" onClick={handleSubmission}>Hide Answers</button>
+                            <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
                         </div>
-                        :
-                        <button id="showAnswer" onClick={handleSubmission}>Show Answer</button>
+                    : 
+                        <div>
+                            <button className="showAnswer" onClick={handleSubmission}>Show Answers</button>
+                            <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
+                        </div>
                     }
-                    <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
+                    <div className="card" id="answerBox">
+                        {showAnswer ?
+                            <div id="answers">
+                                {answers.map((answer) => (
+                                    // <div className="card-text">{answer}</div>
+                                    <button className="answer">{answer}</button>
+                                ))}
+                            </div>
+                        : null}
+                    </div>
                 </div>
-                : null}
+            : null}
 
         </div>
     )
