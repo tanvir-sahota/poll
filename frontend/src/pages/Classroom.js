@@ -163,6 +163,11 @@ const Classroom = () => {
                     </div>
                 </Modal.Body>
             </Modal>
+
+            { <div className="quiz-results">
+                <h3>Quiz results</h3>
+                <Link to={`/` + classID + "/quiz-results"}><h4>click here for quiz results</h4></Link>
+            </div> }
         </div>
          
     )
