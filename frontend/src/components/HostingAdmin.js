@@ -11,34 +11,19 @@ const HostingAdmin = (inputData) => {
     console.log("Questions", questions)
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
-    const [chartData, setChart] = useState({
+
+    const getChart = () => ({
         labels: questions[position].options,
         datasets: [{
             label: "Selections",
-            data: questions[position].options.map(option => {
-                answers[position].at(questions[position].options.indexOf(option))
-            }),
-            backgroundColor: 'white',
-            borderColor: 'black',
-
+            data: questions[position].options.map(option => answers[position].at(questions[position].options.indexOf(option))),
+            backgroundColor: 'goldenrod',
         }],
-    })
+      })
+    const [chartData, setChart] = useState(getChart())
+    useEffect(() => {setChart(getChart())}, [questions, answers, position])
 
-    useEffect(() => {
-        setChart({
-            labels: questions[position].options,
-            datasets: [{
-                label: "Selections",
-                data: questions[position].options.map(option => {
-                    answers[position].at(questions[position].options.indexOf(option))
-                }),
-                backgroundColor: 'whtie',
-                borderColor: 'black',
-          }],
-        });
-      }, [questions[position].options.map(option => {
-        answers[position].at(questions[position].options.indexOf(option))
-    }), questions[position].options])
+      
 
     useEffect(() => {
         let receiveTextHandler = null
