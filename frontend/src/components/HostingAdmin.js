@@ -267,7 +267,9 @@ const HostingAdmin = (inputData) => {
                     <Bar data={chartData} />                
                 </Modal.Body>
             </Modal>
+            {questions[position].options.length > 0 ?
             <Button id="graphButton" onClick={handleShow}>Student Responses</Button>
+            : null}
             
             <div className="saveQuizButton">
                 <button id="saveQuiz" onClick={handleSaveQuiz}>
