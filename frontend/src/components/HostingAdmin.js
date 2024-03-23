@@ -203,8 +203,9 @@ const HostingAdmin = (inputData) => {
                 </Modal.Body>
             </Modal>
             <Button id="graphButton" onClick={handleShow}>Student Responses</Button>
+            
             <div className="saveQuizButton">
-                <button id="disconnectButton" onClick={handleSaveQuiz}>
+                <button id="saveQuiz" onClick={handleSaveQuiz}>
                     Save Quiz
                 </button>
             </div>

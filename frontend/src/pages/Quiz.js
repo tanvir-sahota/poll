@@ -68,7 +68,7 @@ const Quiz = () => {
                             </div>
                         </div>
                     </div>
-                    <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id} setQuiz={setQuiz}/>
+                    <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id}/>
                 </div>
 
 

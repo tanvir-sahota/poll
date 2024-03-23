@@ -185,6 +185,11 @@ label, input {
   color: #333;
 }
 
+#folderForm {
+  margin-top: 30px;
+  
+}
+
 form button, div button, #answerSubmit {
   background: goldenrod;
   border: 0;
@@ -302,6 +307,10 @@ input[type="text"] {
 
 .showAnswer {
   margin-right: 10px;
+}
+
+#saveQuiz {
+  margin-top: 10px;
 }
 
 #answers {

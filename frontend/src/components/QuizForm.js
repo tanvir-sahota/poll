@@ -55,29 +55,35 @@ const QuizForm = (classID) => {
         }
     }
     return (
-        <div>
-            <form className="create" onSubmit={handleSubmit} title="quiz form">
-                <h3> Add a new quiz</h3>
-                <label>Quiz title:</label>
-                <input
-                    type="text"
-                    onChange={(e) => setTitle(e.target.value)}
-                    value={title}
-                    className={emptyFields.includes('title') ? 'error' : ''}
-                    placeholder={"Input the new title"}
-                    />
-                <label>Description:</label>
-                <input
-                    type="text"
-                    onChange={(e) => setDescription(e.target.value)}
-                    value={description}
-                    className={emptyFields.includes('description') ? 'error' : ''}
-                    placeholder={"Input the new description"}
-                    />
-                <button> Add Quiz</button>
-                {error && <div className={"error"}>{error}</div>}
-            </form>
-        </div>
+        <form className="create" onSubmit={handleSubmit} title="quiz form">
+            <h3> Add a new quiz</h3>
+            <label>Quiz title:</label>
+            <input
+                type="text"
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
+                className={emptyFields.includes('title') ? 'error' : ''}
+                placeholder={"Input the new title"}
+                />
+            <label>Description:</label>
+            <input
+                type="text"
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
+                className={emptyFields.includes('description') ? 'error' : ''}
+                placeholder={"Input the new description"}
+                />
+            <label>Folder:</label>
+            <input
+                type="text"
+                onChange={(e) => setFolderName(e.target.value)}
+                value={folderName}
+                className={emptyFields.includes('folder') ? 'error' : ''}
+                placeholder={"Input the new folder"}
+                />
+            <button> Add Quiz</button>
+            {error && <div className={"error"}>{error}</div>}
+        </form>
     )
 }
 

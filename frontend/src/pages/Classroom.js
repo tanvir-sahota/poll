@@ -99,28 +99,41 @@ const Classroom = () => {
         <div className="classroom" style={{ display: 'flex', alignItems: 'center' }}>
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-5 mb-3">
-                        <h2>Classroom</h2>
-                    </div>
-                    <div class="col-sm-3 mb=3"></div>
-                    <div class="col-sm-3 mb-3">
-                        <QuizForm classID={classID} />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-5 mb-3">
-                        <div className="quizzes_without_folder">
-                            {quizzes && quizzes.map((quiz) => (
-                                <QuizDetails key={quiz._id} quiz={quiz} classID={classID}/>
-                                ))}
+                    <div class= "col-sm-5 mb-3">
+                        <div className="row-sm-6">
+                            <h2>Classroom</h2>
+                        </div>
+                        <div className="row-sm-6">
+                            { <div className="classrooms">
+                                <h3>Question Bank</h3>
+                                <Link to={`/` + classID + "/question-bank"}><h4>click here for questions</h4></Link>
+                            </div> }
                         </div>
                     </div>
                     <div class="col-sm-3 mb=3"></div>
                     <div class="col-sm-3 mb-3">
-                        { <div className="classrooms">
-                            <h3>Question Bank</h3>
-                            <Link to={`/` + classID + "/question-bank"}><h4>click here for questions</h4></Link>
-                        </div> }
+                        <QuizForm classID={classID} />
+                        <FolderForm classID={classID} />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 mb-3">
+                        <div className="quizzes">
+                            {quizzes_without_folder && quizzes_without_folder.map((quiz) => (
+                                <QuizDetails key={quiz._id} quiz={quiz} classID={classID} onDragStart={handleDragStart}/>
+                                ))}
+                        </div>
+                    </div>
+
+                    <div className="folders">
+                        {folders && folders.map((folder) => (
+                            <FolderDetails key={folder._id} folder={folder} classID={classID} 
+                            onDragOver={handleDragOver} onDrop={handleDrop}/>
+                        ))}
+                    </div>
+
+                    <div class="col-sm-3 mb=3"></div>
+                    <div class="col-sm-3 mb-3">
                     </div>
                 </div>
 

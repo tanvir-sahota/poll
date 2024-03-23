@@ -42,7 +42,7 @@ const FolderForm = (classID) => {
         }
     }
     return (
-        <form className="create" onSubmit={handleSubmit} title="folder form">
+        <form className="create" onSubmit={handleSubmit} title="folder form" id="folderForm">
             <h3> Add a new folder</h3>
             <label>Folder title:</label>
             <input
