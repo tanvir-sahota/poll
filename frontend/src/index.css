@@ -300,20 +300,29 @@ input[type="text"] {
   margin-left: 10px;
 } */
 
-#showAnswer {
+.showAnswer {
   margin-right: 10px;
+}
+
+#answers {
+  text-align: center;
+}
+
+.answer {
+  background-color: white;
+  color: black;
+}
+
+#answerBox {
+  width: 10%;
+  min-height: 150px;
 }
 
 .questionContainer {
   border-style: solid;
-  padding-bottom: 200px;
   background-color: rgba(211, 211, 211, 0.222);
   height: 100%;
   width: 100%;
-}
-
-#MCQButton {
-  background-color: goldenrod;
 }
 
 .classroom {
@@ -402,8 +411,11 @@ input[type="text"] {
 .pOption, .unpOption {
   width: 190px;
   height: 150px;
-  margin-left: 60px;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+   margin-right: 10px;
+
   border-radius: 50px;
   font-size: 35px;
 }

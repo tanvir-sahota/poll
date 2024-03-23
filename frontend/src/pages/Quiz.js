@@ -65,17 +65,7 @@ const Quiz = () => {
                             </div>
                         </div>
                     </div>
-                    {/* <div class="row-sm-6" id="showSelectQuestionsForm"> */}
-                        {/* <div class="card"> */}
-                            {/* <h3 class="card-title"> */}
-                                <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id} setQuiz={setQuiz}/>
-                            {/* </h3> */}
-                        {/* </div> */}
-                    {/* </div> */}
-                    
-                    
-                    {/* <div class="row-sm-2">
-                    </div> */}
+                    <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id} setQuiz={setQuiz}/>
                 </div>
 
 

@@ -72,13 +72,25 @@ const QuestionDisplay = (inputData) => {
                 <div id="questionDisplayButtons">
                     {showAnswer ?
                         <div>
-                            <h3><strong>{answers}</strong></h3>
-                            <button id="showAnswer" onClick={handleSubmission}>Hide Answer</button>
+                            <button className="showAnswer" onClick={handleSubmission}>Hide Answers</button>
+                            <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
                         </div>
-                        :
-                        <button id="showAnswer" onClick={handleSubmission}>Show Answer</button>
+                    : 
+                        <div>
+                            <button className="showAnswer" onClick={handleSubmission}>Show Answers</button>
+                            <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
+                        </div>
                     }
-                    <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
+                    <div className="card" id="answerBox">
+                        {showAnswer ?
+                            <div id="answers">
+                                {answers.map((answer) => (
+                                    // <div className="card-text">{answer}</div>
+                                    <button className="answer">{answer}</button>
+                                ))}
+                            </div>
+                        : null}
+                    </div>
                 </div>
             : null}
 
