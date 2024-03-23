@@ -13,6 +13,10 @@ const quizSchema = new Schema({
         type: String,
         required: false,
     },
+    folder : {
+        type: mongoose.Schema.Types.ObjectId,
+        required : false,
+    },
     num_questions: {
         type: Number,
         required: false,

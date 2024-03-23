@@ -3,6 +3,10 @@ import {useQuizzesContext} from "../hooks/useQuizzesContext"
 import {useEffect, useState} from "react"
 import QuestionDisplay from "./QuestionDisplay"
 import parse from 'html-react-parser'
+import { Bar } from 'react-chartjs-2'
+import Chart from 'chart.js/auto'
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 import {useNavigate} from "react-router-dom";
 import ReactDOM from "react-dom/client";
 
@@ -12,7 +16,43 @@ const HostingAdmin = (inputData) => {
     const {quiz} = useQuizzesContext()
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
+    
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
+
+    const getChart = () => ({
+        labels: questions[position].options,
+        datasets: [{
+            label: "Selections",
+            data: questions[position].options.map(option => answers[position].at(questions[position].options.indexOf(option))),
+            backgroundColor: 'goldenrod',
+        }],
+      })
+    const [chartData, setChart] = useState(getChart())
+    useEffect(() => {setChart(getChart())}, [questions, answers, position])
+
+      
     const navigate = useNavigate()
+    const [attendees, setAttendees] = useState(0)
+    const [submission, setSubmission] = useState(0)
+
+    useEffect(() => {
+
+        const attendeeChecker = () => {
+            console.log("Got message")
+            socket.emit("update-attendees", lecturer, (response) => {
+                console.log(response.count)
+                setAttendees(response.count)
+            })
+        }
+
+        socket.on("new-attendees", attendeeChecker)
+        return () => {
+            socket.off("new-attendees", attendeeChecker)
+        }
+    }, [])
+    
 
     useEffect(() => {
         let receiveTextHandler = null
@@ -21,6 +61,9 @@ const HostingAdmin = (inputData) => {
                 const allAnswers = [...prevAnswers]
                 allAnswers[position] = [...prevAnswers[position], answer]
                 return allAnswers
+            })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
             })
         }
         socket.addEventListener("recieve-answer-text", receiveTextHandler)
@@ -50,6 +93,9 @@ const HostingAdmin = (inputData) => {
                 console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
+            })
         }
         socket.addEventListener("recieve-answer-mcq", receiveMultipleChoiceHandler)
         console.log("Added MCQ event handler")
@@ -73,6 +119,9 @@ const HostingAdmin = (inputData) => {
                 console.log("Option minus count", option)
                 console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
+            })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
             })
         }
         socket.addEventListener("decline-answer-mcq", declineMultipleChoiceHandler)
@@ -105,8 +154,6 @@ const HostingAdmin = (inputData) => {
             shouldRenderNext(tempPosition + 1)
 
         }
-
-
     }
 
     const shouldRenderNext = async (newPos = 0) => {
@@ -136,6 +183,7 @@ const HostingAdmin = (inputData) => {
             shouldRenderPrevious(tempPosition -1)
             shouldRenderNext(tempPosition -1)
         }
+        setSubmission(0)
     }
 
     const shouldRenderPrevious = async (newPos = 0) => {
@@ -198,55 +246,72 @@ const HostingAdmin = (inputData) => {
 
     return (
         <div className="hostingDisplay">
-            <div className="questionDisplay">
-                <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket}
-                                 lecturer={lecturer}/>
+            <div class="row" id="rowQuestionDisplay">
+                <div id="prevButtonContainer">
+                    <button id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>>
+                        PREVIOUS QUESTION
+                    </button>
+                </div>
+                <div id="questionDisplayContainer">
+                    <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket} lecturer={lecturer}/>
+                </div>
+                <div id="nextButtonContainer">
+                    <button id="nextButton" onClick={handleNext} onLoad={shouldRenderNext}>
+                        NEXT QUESTION
+                    </button>
+                </div>
             </div>
-
-            <div className="nextButton" id={"nextButton"} onLoad={shouldRenderNext} >
-                <button onClick={handleNext}   >
-                    NEXT QUESTION
-                </button>
-            </div>
-            <div className="prevButton" id={"prevButton"}  onLoad={shouldRenderPrevious}>
-                <button onClick={handlePrev} o>
-                    PREVIOUS QUESTION
-                </button>
-            </div>
+           
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Body>
+                    <Bar data={chartData} />                
+                </Modal.Body>
+            </Modal>
+            <Button id="graphButton" onClick={handleShow}>Student Responses</Button>
+            
             <div className="saveQuizButton">
-                <button id="disconnectButton" onClick={handleSaveQuiz}>
+                <button id="saveQuiz" onClick={handleSaveQuiz}>
                     Save Quiz
                 </button>
             </div>
-
-
-            <div className="options">
-                {questions[position].options.length > 1 ?
-                    (questions[position].questionType === "CodeMCQ") ?
-                        questions[position].options.map(option => {
-                            const count = answers[position].at(questions[position].options.indexOf(option))
-                            //console.log(`${option}: ${count}`)
-                            //console.log(`ANSWERS: ${answers}`)
-
-                            return <dl>
-                                <dt>{parse(option)}</dt>
-                                <dd>{count}</dd>
-                            </dl>
-                        })
-                        :
-                        questions[position].options.map(option => {
-                            const count = answers[position].at(questions[position].options.indexOf(option))
-                            //console.log(`${option}: ${count}`)
-                            //console.log(`ANSWERS: ${answers}`)
-                            return <dl>
-                                <dt>{option}</dt>
-                                <dd>{count}</dd>
-                            </dl>
-                        })
-                    :
-                    answers[position] && answers[position].map(answer => (<p>{answer}</p>))
-                }
+            <div className="attendeeNumber">
+                <p>Number of attendees: {attendees}</p>
             </div>
+            <div className="submissionNumber">
+                <p>Number of attendee submissions: {submission}</p>
+            </div>
+
+            {/* <div class="row">
+                <br/>
+                <div className="options">
+                    {questions[position].options.length > 1 ?
+                        (questions[position].questionType === "CodeMCQ") ?
+                            questions[position].options.map(option => {
+                                const count = answers[position].at(questions[position].options.indexOf(option))
+                                //console.log(`${option}: ${count}`)
+                                //console.log(`ANSWERS: ${answers}`)
+
+                                return <dl>
+                                    <dt>{parse(option)}</dt>
+                                    <dd>{count}</dd>
+
+                                </dl>
+                            })
+                            :
+                            questions[position].options.map(option => {
+                                const count = answers[position].at(questions[position].options.indexOf(option))
+                                //console.log(`${option}: ${count}`)
+                                //console.log(`ANSWERS: ${answers}`)
+                                return <dl>
+                                    <dt>{option}</dt>
+                                    <dd>{count}</dd>
+                                </dl>
+                            })
+                        :
+                        answers[position] && answers[position].map(answer => (<p>{answer}</p>))
+                    }
+                </div>
+            </div> */}
 
 
         </div>

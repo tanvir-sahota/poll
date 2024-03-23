@@ -20,7 +20,7 @@ header {
   background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   justify-content: center;
   font-size: calc(10px + 2vmin);
 }
@@ -78,10 +78,36 @@ header a {
   color: #333;
 }
 
+#quizDetails {
+  text-align: center;
+  height: 300px;
+}
+
+#showSelectQuestionsForm {
+  text-align: center;
+  height: 300px;
+}
+
+
+
 /* new question form */
 .form-heading:hover{
   color: #e7195a;
   cursor: pointer;
+}
+.form-heading{
+  padding: 10px;
+  margin-bottom: 15px;
+  background: goldenrod;
+  border: 0;
+  color: white;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#questionsToSelect {
+  align-items: center;
 }
 
 label, input {
@@ -159,7 +185,12 @@ label, input {
   color: #333;
 }
 
-form button, div button {
+#folderForm {
+  margin-top: 30px;
+  
+}
+
+form button, div button, #answerSubmit {
   background: goldenrod;
   border: 0;
   color: #fff;
@@ -249,58 +280,159 @@ code {
   monospace;
 }
 
-/* HostingAdmin and QuestionDisplay *//*
-.questionDisplay {
-  grid-area: question;
-  
+input[type="text"] {
+  color: black;
 }
 
-.nextButton {
-  grid-area: next;
+.container-fluid {
+  text-align: center;
+  padding-bottom: 200px;
+  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
 }
 
-.prevButton {
-  grid-area: prev;
-}
-.options { 
-  grid-area: options;
-}
-
-.hostingDisplay {
-  display: grid;
-  grid-template-areas:
-  '. question question question .'
-  '. options . . .'
-  'prev . . . next';
-
-  grid-template-rows: 3fr 3fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
+.menuNav {
+  /* padding-right: 75%; */
+  background: goldenrod;
+  max-width: max-content;
+  max-height: max-content;
 }
 
-.display {
-  display: flex;
-  flex-direction: column;
+#mainMenu {
+  color: white;
 }
 
 #disconnectButton {
-  float: right;
+  margin-left: 10px;
+} */
+
+.showAnswer {
+  margin-right: 10px;
 }
 
-#showAnswer {
-  margin-top:50px ;
+#saveQuiz {
+  margin-top: 10px;
 }
 
-input[name="answerArea"] {
-  min-width: 300px;
-  min-height: 45px;
-  background: rgba(23,184,237,1);
+#answers {
+  text-align: center;
 }
 
-input:focus[name="answerArea"] {
-  outline: none !important;
-  border:1px solid black;
-  box-shadow: 0 0 10px #719ECE;
-}*/
+.answer {
+  background-color: white;
+  color: black;
+}
+
+#answerBox {
+  width: 10%;
+  min-height: 150px;
+}
+
+.questionContainer {
+  border-style: solid;
+  background-color: rgba(211, 211, 211, 0.222);
+  height: 100%;
+  width: 100%;
+}
+
+.classroom {
+  text-align: left;
+  border-style: none;
+  padding-bottom: 200px;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+
+#hostingDisplay {
+  display: flex;
+}
+#rowQuestionDisplay {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+#prevButtonContainer {
+  flex: 1;
+}
+#nextButtonContainer {
+  flex: 1;
+}
+#questionDisplayContainer {
+  flex: 1;
+  flex-basis: 35%;
+}
+
+#prevButton {
+  width: 50%;
+  height: 100%;
+  flex-basis: 30%;
+} 
+#nextButton {
+  width: 50%;
+  height: 100%;
+  flex-basis: 20%;
+}
+#questionDisplay {
+  width: 100%;
+  height: 100%;
+}
+
+#displayedQuestion {
+  font-size: 50px;
+  padding-top: 20px;
+  color: black;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  border-bottom-style: solid;
+  border-bottom-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+  padding-bottom: 20px;
+}
+
+.answerOptions {
+  color: black;
+  width: auto;
+}
+
+#answerBox {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 200%;
+  text-align: center;
+  height: 100px;
+  width: 800px;
+}
+#answerSubmit {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100px;
+}
+
+.options {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  width: auto;
+  height: auto;
+}
+
+.pOption, .unpOption {
+  width: 190px;
+  height: 150px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+   margin-right: 10px;
+
+  border-radius: 50px;
+  font-size: 35px;
+}
+
+#graphButton {
+  margin-top: 10px;
+  width: 60%;
+}
 
 .navbar {
   display: flex;

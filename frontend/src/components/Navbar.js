@@ -1,8 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
 import { useAuthContext } from '../hooks/useAuthContext'
-import React from "react";
-import QRCode from "react-qr-code"
+import Dropdown from 'react-bootstrap/Dropdown'
 
 const Navbar = () => {
   const { logout } = useLogout()
@@ -14,35 +13,48 @@ const Navbar = () => {
     navigate("/log_in")
   }
 
+  const handleDashboard = () => {
+    navigate("/dashboard")
+  }
+
+
+
   return (
     <header>
-      <div className="container navbar">
-        <Link to="/">
-          <h1>Poll</h1>
-        </Link>
-        <div className="qr-code-container">
-          {user && (
-            <div style={{ background: 'white', padding: '8px'}}>
-              <QRCode value={`http://localhost:3000/` + user.username + "/waiting"} size={128}/>
-            </div>
-          )}
+      <div className='row-sm-6'>
+        <div className="container">
+          <Link to="/">
+            <h1>Poll</h1>
+          </Link>
         </div>
       </div>
-      <nav>
-        {user && (
-          <div>
-            <span>{user.username}</span>
-            <button onClick={handleClick}>Log out</button>
-          </div>
-        )}
-        {!user && (
-          <div>
-            <Link to ="/log_in">Login</Link>
-            <Link to ="/sign_up">Signup</Link>
-          </div>
-        )
-        }
-      </nav>
+      <div className='row-sm-6'>
+        <div className='col-sm-3'>
+          <nav className='menuNav'>
+            {user && (
+              <div>
+                <Dropdown>
+                    <Dropdown.Toggle id="mainMenu" variant="btn filter-by dropdown-toggle">
+                        Menu
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={handleClick}>Log out</Dropdown.Item>
+                        <Dropdown.Item onClick={handleDashboard}>Dashboard</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+              </div>
+            )}
+            {!user && (
+              <div>
+                <Link to ="/log_in">Login</Link>
+                <Link to ="/sign_up">Signup</Link>
+              </div>
+            )
+            }
+          </nav>
+        </div>
+      </div>
     </header>
   )
 }
