@@ -47,7 +47,7 @@ const ClassroomObject = ({ classroom }) => {
             <Link to={`/` + classroom._id + "/classroom"}><h4>{classroom.title}</h4></Link>
             <p><strong>Owner: </strong>{ownerUsername}</p>
             <p><strong>Number of quizzes: </strong>{classroom.quizzes.length}</p>
-            <p>{formatDistanceToNow(new Date(classroom.createdAt), { addSuffix: true })}</p>
+            {classroom.createdAt && (<p>{formatDistanceToNow(new Date(classroom.createdAt), { addSuffix: true })}</p>)}
             <span className="material-symbols-outlined" onClick={handleClick}>Delete</span>
           </div>
         </div>
@@ -55,6 +55,5 @@ const ClassroomObject = ({ classroom }) => {
     )
   }
   
-  //<p>{formatDistanceToNow(new Date(classroom.createdAt), { addSuffix: true })}</p>
   
   export default ClassroomObject

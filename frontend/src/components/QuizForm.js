@@ -19,8 +19,11 @@ const QuizForm = (classID) => {
 
 
     const findFolderId = (folderName) => {
-        const folder = folders.find(folder => folder.title === folderName);
+        if(folders!== null){
+            const folder = folders.find(folder => folder.title === folderName);
         return folder ? folder._id : null;
+        }
+        return null
     };
     
     const handleSubmit = async (e) => {
