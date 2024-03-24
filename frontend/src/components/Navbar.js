@@ -39,8 +39,8 @@ const Navbar = () => {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={handleClick}>Log out</Dropdown.Item>
                         <Dropdown.Item onClick={handleDashboard}>Dashboard</Dropdown.Item>
+                        <Dropdown.Item onClick={handleClick}>Log out</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
               </div>
