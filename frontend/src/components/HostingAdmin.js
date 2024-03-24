@@ -244,6 +244,9 @@ const HostingAdmin = (inputData) => {
         navigate(`/api/quizzes/${quiz._id}/${quiz.classroom}`)
     }
 
+    const chartOptions = {scales: {y: {ticks: {stepSize: 1,},},},}
+      
+
     return (
         <div className="hostingDisplay">
             <div class="row" id="rowQuestionDisplay">
@@ -267,7 +270,7 @@ const HostingAdmin = (inputData) => {
                     <Modal.Title>Responses</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Bar data={chartData} />                
+                    <Bar data={chartData} options={chartOptions} />                
                 </Modal.Body>
             </Modal>
             {questions[position].options.length > 0 ?
