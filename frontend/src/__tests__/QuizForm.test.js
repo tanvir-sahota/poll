@@ -1,6 +1,7 @@
 import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import QuizForm from "../components/QuizForm";
 import {QuizzesContextProvider} from "../context/QuizContext";
+import { FoldersContextProvider } from '../context/FolderContext';
 import QuizDashboard from "../pages/QuizDashboard";
 // import {wait} from "@testing-library/user-event/dist/utils";
 import userEvent from "@testing-library/user-event";
@@ -8,9 +9,11 @@ import {useQuizzesContext} from "../hooks/useQuizzesContext";
 import {useState} from "react";
 
 const MockQuizForm = () => {
-    return (<QuizzesContextProvider>
-        <QuizForm/>
-    </QuizzesContextProvider>)
+    return (<FoldersContextProvider>
+        <QuizzesContextProvider>
+            <QuizForm/>
+        </QuizzesContextProvider>
+    </FoldersContextProvider>)
 }
 
 test("Ensures there is a header for quiz creation", () => {
@@ -70,9 +73,9 @@ describe("quiz submission tests", () => {
 
     test("tests whether a callback is fired when the form is submitted",  () => {
         const mockCallback = jest.fn()
-        const quizFormMock = render(<QuizzesContextProvider>
+        const quizFormMock = render(<FoldersContextProvider><QuizzesContextProvider>
             <QuizForm onSubmit={mockCallback()}/>
-        </QuizzesContextProvider>)
+        </QuizzesContextProvider></FoldersContextProvider>)
 
         const quizForm = quizFormMock.container.firstChild
         fireEvent.submit(quizForm)
@@ -81,9 +84,9 @@ describe("quiz submission tests", () => {
 
     test("tests whether a callback is fired when the submission button is pressed",  () => {
         const mockCallback = jest.fn()
-        const quizFormMock = render(<QuizzesContextProvider>
+        const quizFormMock = render(<FoldersContextProvider><QuizzesContextProvider>
             <QuizForm onSubmit={mockCallback()}/>
-        </QuizzesContextProvider>)
+        </QuizzesContextProvider></FoldersContextProvider>)
 
         fireEvent.click(screen.getByRole("button", {name: /Add Quiz/}))
         expect(mockCallback).toHaveBeenCalled()
