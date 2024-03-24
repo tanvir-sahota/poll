@@ -39,7 +39,7 @@ const FolderDetails = ({folder, classID,onDrop,onDragOver}) => {
         // e.target.appendChild(document.getElementById(quizId))
     }
 
-    const navigateAway = () => {
+    const navigateAway = async () => {
         navigate(`/api/folders/${folder._id}/${classID}`)
     }
 
@@ -52,8 +52,8 @@ const FolderDetails = ({folder, classID,onDrop,onDragOver}) => {
                     <span id="otherSpan" onClick={handleClick}>delete</span>
                     <br></br>
                     <br></br>
-                    <Button id="folderButton" onSubmit={navigateAway}>Go</Button>
-                    <Link to={"http://localhost:3000/api/folders/" + folder._id + "/" + classID}><h4>"Go to this folder"</h4></Link>
+                    <Button id="folderButton" onClick={navigateAway}>Go</Button>
+                    {/*<Link to={"http://localhost:3000/api/folders/" + folder._id + "/" + classID}><h4>"Go to this folder"</h4></Link>*/}
                 </div>
         )
     }
