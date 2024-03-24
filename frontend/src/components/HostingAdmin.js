@@ -262,7 +262,10 @@ const HostingAdmin = (inputData) => {
                 </div>
             </div>
            
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} fullscreen={true}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Responses</Modal.Title>
+                </Modal.Header>
                 <Modal.Body>
                     <Bar data={chartData} />                
                 </Modal.Body>
