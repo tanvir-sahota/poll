@@ -1,38 +1,66 @@
-import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import ClassroomForm from '../../src/components/forms/ClassroomForm'
-import { ClassroomContextProvider } from '../context/ClassroomContext'
+import {render, screen, fireEvent, waitFor} from '@testing-library/react';
+import ClassroomForm from "../components/ClassroomObject";
+import {ClassroomContextProvider} from "../context/ClassroomContext";
 
-describe('ClassroomForm component', () => {
-  test('renders ClassroomForm correctly', () => {
-      render(<ClassroomContextProvider><ClassroomForm /></ClassroomContextProvider>)
-      fireEvent.click(screen.getByRole('button'))   // need to click yellow button to show the modal
+const MockClassroomForm = () => {
+    return (<ClassroomContextProvider>
+        <ClassroomForm/>
+    </ClassroomContextProvider>)
+}
 
-      expect(screen.getByText('Create new classroom')).toBeInTheDocument()
-      expect(screen.getByPlaceholderText('Enter name')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Create classroom' })).toBeInTheDocument()
-    
+test("Ensures there is a header for classroom creation", () => {
+    const classroomForm = render(MockClassroomForm()).container.firstChild
+    const createHeader = screen.getByText(/new classroom/)
+    expect(createHeader).toBeInTheDocument()
+})
+
+describe("classroom title tests", () => {
+    test("Ensures there is a label for classroom title", () => {
+        const folderForm = render(MockClassroomForm()).container.firstChild
+        const titleLabel = screen.getByText(/title/)
+        expect(titleLabel).toBeInTheDocument()
     })
 
-  describe("Ensure form submits with correct data", () => {
-    test("Ensure POST request sent after submit (with correct info) is clicked", async () => {
-      const mockCallback = jest.fn()
-      render(<ClassroomContextProvider><ClassroomForm onSubmit={mockCallback()}/></ClassroomContextProvider>);
-      fireEvent.click(screen.getByRole('button'))   // need to click yellow button to show the modal
+    test("Ensures there is a input for classroom title", () => {
+        const folderForm = render(MockClassroomForm()).container.firstChild
+        const titleInput = screen.getByPlaceholderText(/Input the new title/)
+        expect(titleInput).toBeInTheDocument()
+    })
 
-      const nameInput = screen.getByPlaceholderText('Enter name')
-      const createButton = screen.getByRole('button', { name: 'Create classroom' });
+    test("Ensures we can type in the input for classroom title", () => {
+        const folderForm = render(MockClassroomForm()).container.firstChild
+        const titleInput = screen.getByPlaceholderText(/Input the new title/)
+        fireEvent.change(titleInput, {target: {value: "test title"}})
+        expect(titleInput.value).toBe("test title")
+    })
+})
 
-      // Simulate user input
-      userEvent.type(nameInput, 'Test Classroom');
+describe("classroom submission tests", () => {
+    test("Checks whether there is a button to submit the new classroom", () => {
+        const folderForm = render(MockClassroomForm()).container.firstChild
+        const submitButton = screen.getByRole("button", {name: /Add Classroom/})
+        expect(submitButton).toBeInTheDocument()
+    })
 
-      // Simulate form submission
-      fireEvent.click(createButton)
+    test("tests whether a callback is fired when the form is submitted",  () => {
+        const mockCallback = jest.fn()
+        const classroomFormMock = render(<ClassroomContextProvider>
+            <ClassroomForm onSubmit={mockCallback()}/>
+        </ClassroomContextProvider>)
 
-      // Wait for the POST request to be made
-      expect(mockCallback).toHaveBeenCalled()
-    });
-  });
+        const classroomForm = classroomFormMock.container.firstChild
+        fireEvent.submit(classroomForm)
+        expect(mockCallback).toHaveBeenCalled()
+    })
+
+    test("tests whether a callback is fired when the submission button is pressed",  () => {
+        const mockCallback = jest.fn()
+        const calssroomFormMock = render(<ClassroomContextProvider>
+            <ClassroomForm onSubmit={mockCallback()}/>
+        </ClassroomContextProvider>)
+
+        fireEvent.click(screen.getByRole("button", {name: /Add Classroom/}))
+        expect(mockCallback).toHaveBeenCalled()
+    })
+
 })
