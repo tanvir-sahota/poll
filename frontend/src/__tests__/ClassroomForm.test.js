@@ -1,23 +1,66 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-//import userEvent from '@testing-library/user-event'
-import ClassroomForm from '../../src/components/forms/ClassroomForm'
-import { ClassroomContextProvider } from '../context/ClassroomContext'
+import {render, screen, fireEvent, waitFor} from '@testing-library/react';
+import ClassroomForm from "../components/ClassroomObject";
+import {ClassroomContextProvider} from "../context/ClassroomContext";
 
-test('renders ClassroomForm correctly', () => {
-    render(<ClassroomContextProvider><ClassroomForm /></ClassroomContextProvider>)
-    
-    // Testing elements in form
-    expect(screen.getByRole('button')).toBeInTheDocument()
-    //userEvent.click(screen.getByRole('button'))
-   
-    /*expect(screen.getAllByText('Create new classroom')[0]).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('Enter name')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Create classroom' })).toBeInTheDocument()
-  
-    // Testing submitting form
-    const usernameInput = screen.getByPlaceholderText('Enter name')
-    userEvent.type(usernameInput, 'testclassroom')
-    userEvent.click(screen.getByRole('button', { name: 'Create classroom' }))*/
-  })
+const MockClassroomForm = () => {
+    return (<ClassroomContextProvider>
+        <ClassroomForm/>
+    </ClassroomContextProvider>)
+}
+
+test("Ensures there is a header for classroom creation", () => {
+    const classroomForm = render(MockClassroomForm()).container.firstChild
+    const createHeader = screen.getByText(/new classroom/)
+    expect(createHeader).toBeInTheDocument()
+})
+
+describe("classroom title tests", () => {
+    test("Ensures there is a label for classroom title", () => {
+        const folderForm = render(MockClassroomForm()).container.firstChild
+        const titleLabel = screen.getByText(/title/)
+        expect(titleLabel).toBeInTheDocument()
+    })
+
+    test("Ensures there is a input for classroom title", () => {
+        const folderForm = render(MockClassroomForm()).container.firstChild
+        const titleInput = screen.getByPlaceholderText(/Input the new title/)
+        expect(titleInput).toBeInTheDocument()
+    })
+
+    test("Ensures we can type in the input for classroom title", () => {
+        const folderForm = render(MockClassroomForm()).container.firstChild
+        const titleInput = screen.getByPlaceholderText(/Input the new title/)
+        fireEvent.change(titleInput, {target: {value: "test title"}})
+        expect(titleInput.value).toBe("test title")
+    })
+})
+
+describe("classroom submission tests", () => {
+    test("Checks whether there is a button to submit the new classroom", () => {
+        const folderForm = render(MockClassroomForm()).container.firstChild
+        const submitButton = screen.getByRole("button", {name: /Add Classroom/})
+        expect(submitButton).toBeInTheDocument()
+    })
+
+    test("tests whether a callback is fired when the form is submitted",  () => {
+        const mockCallback = jest.fn()
+        const classroomFormMock = render(<ClassroomContextProvider>
+            <ClassroomForm onSubmit={mockCallback()}/>
+        </ClassroomContextProvider>)
+
+        const classroomForm = classroomFormMock.container.firstChild
+        fireEvent.submit(classroomForm)
+        expect(mockCallback).toHaveBeenCalled()
+    })
+
+    test("tests whether a callback is fired when the submission button is pressed",  () => {
+        const mockCallback = jest.fn()
+        const calssroomFormMock = render(<ClassroomContextProvider>
+            <ClassroomForm onSubmit={mockCallback()}/>
+        </ClassroomContextProvider>)
+
+        fireEvent.click(screen.getByRole("button", {name: /Add Classroom/}))
+        expect(mockCallback).toHaveBeenCalled()
+    })
+
+})
