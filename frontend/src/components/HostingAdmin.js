@@ -246,7 +246,9 @@ const HostingAdmin = (inputData) => {
         navigate(`/api/quizzes/${quiz._id}/${quiz.classroom}`)
     }
 
-    const chartOptions = {scales: {y: {ticks: {stepSize: 1,},},},}
+    const chartOptions = {scales: {
+        x: {ticks: {font: {size : 25},},},
+        y: {ticks: {stepSize: 1,},},},}
       
 
     return (
