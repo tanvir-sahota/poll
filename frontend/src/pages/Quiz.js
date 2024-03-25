@@ -54,22 +54,18 @@ const Quiz = () => {
     return (
         <div className="quiz">
             <div class="row">
-
                 <div class="col-sm-5">
-                    <div class="row-sm-6" id="quizDetails">
+                    <div class="row-sm-2" id="quizDetails">
                         <div class="card">
                             <h3 class="card-title">
-                                Quiz
+                                {quiz.title}
                             </h3>
                             <div class="card-body">
-                                Title: {quiz.title}
-                            </div>
-                            <div class="card-body">
-                                Description: {quiz.description}
+                                <i>{quiz.description}</i>
                             </div>
                         </div>
+                        <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id}/>
                     </div>
-                    <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id}/>
                 </div>
 
 

@@ -126,8 +126,8 @@ const ClassroomForm = () => {
                     </Button>
                     <Button variant="primary" onClick={handleSubmit}>
                         Create classroom
-                        {error && <div className="error">{error}</div>}
                     </Button>
+                    {error && <div className="error">{error}</div>}
                 </Modal.Footer>
             </Modal>
         </div>

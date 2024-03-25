@@ -183,8 +183,8 @@ const Classroom = () => {
                         <div className="row-sm-6">
                             <div class="card">
                                 <h3 class="card-title">Creation</h3>
-                                <Button id="createButton" onClick={handleShowQuizForm}>Create Quiz</Button>
-                                <Button id="createButton" onClick={handleShowFolderForm}>Create Folder</Button>    
+                                <Button id="graphButton" onClick={handleShowQuizForm}>Create Quiz</Button>
+                                <Button id="graphButton" onClick={handleShowFolderForm}>Create Folder</Button>    
                             </div> 
                         </div>
                     </div>

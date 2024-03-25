@@ -12,6 +12,7 @@ const QuizForm = (classID) => {
     const [description, setDescription] = useState('')
     const [folderName, setFolderName] = useState('')
     const [error, setError] = useState(null)
+    const [success, setSuccess] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
     
     
@@ -42,6 +43,7 @@ const QuizForm = (classID) => {
 
         if (!response.ok) {
             setError(json.error)
+            setSuccess(null)
             setEmptyFields(json.emptyFields)
         }
         if (response.ok) {
@@ -49,6 +51,7 @@ const QuizForm = (classID) => {
             setDescription('')
             setFolderName('')
             setError(null)
+            setSuccess("Successful Creation!")
             setEmptyFields([])
             console.log('new quiz added', json)
             dispatch({type: 'CREATE_QUIZ', payload: json})
@@ -83,6 +86,7 @@ const QuizForm = (classID) => {
                 />
             <button> Add Quiz</button>
             {error && <div className={"error"}>{error}</div>}
+            {success && <div className="success">{success}</div>}
         </form>
     )
 }

@@ -8,6 +8,7 @@ const QuestionForm = (classID) => {
     const [options, setOptions] = useState("")
     const [answers, setAnswers] = useState("")
     const [error, setError] = useState(null)
+    const [success, setSuccess] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
 
     const handleSubmission = async (e) => {
@@ -26,6 +27,7 @@ const QuestionForm = (classID) => {
 
         if(!response.ok){
             setError(json.error)
+            setSuccess(null)
             setEmptyFields(json.emptyFields)
         }
         if(response.ok){
@@ -33,6 +35,7 @@ const QuestionForm = (classID) => {
             setOptions("")
             setAnswers("")
             setError(null)
+            setSuccess("Successful Creation!")
             setEmptyFields([])
             console.log("Successful added question")
             dispatch({type: "CREATE_QUESTIONS", payload: json})
@@ -72,7 +75,7 @@ const QuestionForm = (classID) => {
 
                 <button>Add Question</button>
                 {error && <div className="error">{error}</div>}
-
+                {success && <div className="success">{success}</div>}
             </form>
         </div>
         

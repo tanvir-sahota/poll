@@ -57,6 +57,9 @@ const QuestionBank = () => {
             
             <Modal show={showQuestionForm} onHide={handleCloseQuestionForm}>
                 <Modal.Body>
+                    <div className="closeIcon">
+                        <span className="material-symbols-outlined" onClick={handleCloseQuestionForm}>Close</span>
+                    </div>
                     <QuestionForm classID = {classID}/>
                 </Modal.Body>
             </Modal>

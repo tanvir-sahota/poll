@@ -86,18 +86,19 @@ header a {
 
 /* new question form */
 .form-heading:hover{
-  color: #e7195a;
+  color: rgb(112, 111, 111);
   cursor: pointer;
 }
 .form-heading{
   padding: 10px;
   margin-bottom: 15px;
-  background: goldenrod;
+  background: lightgrey;
   border: 0;
-  color: white;
+  color: black;
   font-family: "Poppins";
   border-radius: 4px;
   cursor: pointer;
+  font-weight: normal;
 }
 
 #questionsToSelect {
@@ -107,15 +108,7 @@ header a {
 label, input {
   display: block;
 }
-.create input {
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
+
 form button {
   background: var(--primary);
   border: 0;
@@ -190,7 +183,18 @@ div.error {
   color: var(--error);
   border-radius: 4px;
   margin: 20px 0;
+  text-align: center;
 }
+div.success {
+  padding: 10px;
+  background: #e1f5e0;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: 4px;
+  margin: 20px 0;
+  text-align: center;
+}
+
 /* edit button */
 .edit{
   background: var(--primary);
@@ -241,6 +245,10 @@ div.error {
   
 input.error {
   border: 1px solid crimson;
+}
+
+input.success {
+  border: 1px solid greenyellow;
 }
 
 #add {
@@ -484,5 +492,27 @@ input[type="text"] {
   align-self: left;
 }
 
+#questionCheckbox{
+  padding: 10px;
+  margin-top: 25px;
+  margin-bottom: 22px;
+  width: 100%;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  box-sizing: border-box;
+  vertical-align: top;
+  cursor: pointer;
+  height: 20px;
+}
 
+#questionsLabel{
+  vertical-align: top;
+  text-align: center;
+  font-size: 20px;
+  width: 100%;
+}
 
+#questionSelection{
+  border: black 1px solid;
+  padding: 10px;
+}

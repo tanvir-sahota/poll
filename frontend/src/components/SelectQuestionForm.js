@@ -114,21 +114,20 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
                             {classroom_questions ? (
                                 <div>
                                     { showForm ? (
-                                        <form className="create" onSubmit={handleSubmission}>
+                                        <form id="questionSelection" onSubmit={handleSubmission}>
                                             {classroom_questions.map((cq, index) => (
                                                 <div key={index}>
                                                     <div class="row" id="questionsToSelect">
-                                                        <div class="col-sm-5"></div>
-                                                        <div class="col-sm-1">
-                                                            <input type="checkbox" id="question" checked={tickboxes[index]} onChange={() => add_to_quiz_questions(index, cq._id)}/>
+                                                        <div class="col-sm-1"></div>
+                                                        <div class="col-sm-2">
+                                                            <input type="checkbox" id="questionCheckbox" checked={tickboxes[index]} onChange={() => add_to_quiz_questions(index, cq._id)}/>
                                                         </div>
-                                                        <div class="col-sm-1">
-                                                            <label htmlFor="question">{cq.question}</label>
+                                                        <div class="col-sm-8">
+                                                            <label for="questionCheckbox" id="questionsLabel">{cq.question}</label>
                                                         </div>
-                                                        <div class="col-sm-5"></div>
-                                                            
+                                                        <div class="col-sm-1"></div>
                                                     </div>
-                                                        
+                                                    <hr className="split"></hr>
                                                 </div>
                                             ))}
 
