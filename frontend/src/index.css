@@ -355,6 +355,14 @@ input[type="text"] {
   padding-right: 0%;
 }
 
+#deleteClassroomButton {
+  width: 100%;
+}
+
+#notDeleteClassroomButton {
+  width: 100%;
+}
+
 #hostingDisplay {
   display: flex;
 }
