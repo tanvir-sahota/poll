@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
 import { useAuthContext } from '../hooks/useAuthContext'
 import Dropdown from 'react-bootstrap/Dropdown'
+import QRCode from "react-qr-code"
 
 const Navbar = () => {
   const { logout } = useLogout()
@@ -20,12 +21,21 @@ const Navbar = () => {
 
 
   return (
-    <header>
+    <header className="justify-content-space-between">
       <div className='row-sm-6'>
-        <div className="container">
+        <div className='container'>
           <Link to="/">
             <h1>Poll</h1>
           </Link>
+        </div>
+        <div className='navbar'>
+          <div className="qr-code-container">
+              {user && (
+                <div style={{ background: 'white', padding: '8px'}}>
+                  <QRCode value={`${window.location.origin}/` + user.username + "/waiting"} size={128}/>
+                </div>
+              )}  
+          </div>
         </div>
       </div>
       <div className='row-sm-6'>
@@ -54,6 +64,9 @@ const Navbar = () => {
             }
           </nav>
         </div>
+      </div>
+      <div className='row-sm-6'>
+        
       </div>
     </header>
   )

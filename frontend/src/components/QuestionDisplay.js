@@ -7,6 +7,7 @@ const QuestionDisplay = (inputData) => {
     const {givenQuestion, isAdmin, socket, lecturer} = inputData
     const {question, options, answers, questionType} = givenQuestion
     const navigate = useNavigate()
+    
     // console.log(givenQuestion)
     // console.log("Question: ", question)
     // console.log("Options: ", options)
@@ -15,6 +16,7 @@ const QuestionDisplay = (inputData) => {
     const [isMCQ, setMCQ] = useState(options.length > 1)
     const [hasCode, setCode] = useState(questionType === 'CodeMCQ')
     const [showAnswer, setShowAnswer] = useState(false)
+
     const [textAnswer, setTextAnswer] = useState(null)
 
     let initialSelectedMCQ
@@ -120,6 +122,7 @@ const QuestionDisplay = (inputData) => {
         !pressed ? submitMCQAnswer(option, position) : unSubmitMCQ(option, position)
     }
 
+
     return (
         <div className="questionContainer">
             <h1 id="displayedQuestion">{question}</h1>
@@ -161,26 +164,31 @@ const QuestionDisplay = (inputData) => {
 
             {isAdmin ?
                 <div id="questionDisplayButtons">
-                    {showAnswer ?
+                    {showAnswer ? (
                         <div>
-                            <button className="showAnswer" onClick={handleSubmission}>Hide Answers</button>
+                            <button className="showAnswer" onClick={handleSubmission}>Show Options</button>
                             <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
                         </div>
-                    : 
+                    ) : (
                         <div>
                             <button className="showAnswer" onClick={handleSubmission}>Show Answers</button>
                             <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
                         </div>
-                    }
+                    )}
                     <div className="card" id="answerBox">
-                        {showAnswer ?
+                        {showAnswer ? (
                             <div id="answers">
                                 {answers.map((answer) => (
-                                    // <div className="card-text">{answer}</div>
                                     <button className="answer">{answer}</button>
                                 ))}
                             </div>
-                        : null}
+                        ) : (
+                            <div id="options">
+                                {options.map((option) => (
+                                    <button className="answer">{option}</button>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             : null}
