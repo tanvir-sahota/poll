@@ -57,7 +57,7 @@ const ClassroomObject = ({ classroom }) => {
             <p><strong>Owner: </strong>{ownerUsername}</p>
             <p>{formatDistanceToNow(new Date(classroom.createdAt), { addSuffix: true })}</p>
             <div className="deleteIcons">
-              <span className="material-symbols-outlined" onClick={handleClick}>Delete</span>
+              <span className="material-symbols-outlined" onClick={handleShow}>Delete</span>
             </div>
           </div>
         </div>
