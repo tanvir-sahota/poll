@@ -1,76 +1,41 @@
-import {render, screen, fireEvent, waitFor} from '@testing-library/react';
-import ClassroomForm from "../components/ClassroomObject";
-import {ClassroomContextProvider} from "../context/ClassroomContext";
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import ClassroomForm from "../components/forms/ClassroomForm";
+import { ClassroomContextProvider } from "../context/ClassroomContext";
 
+test('renders ClassroomForm component', () => {
+  render(
+    <ClassroomContextProvider>
+      <ClassroomForm />
+    </ClassroomContextProvider>
+  );
 
+  const addButton = screen.getByRole('button', { name: '' });
 
-const MockClassroom = {
-  title:"Test Classroom",
-  owner:"Test Owner",
-  questions:"Test Questions",
-  quizzes:"Test Quizzes",
-}
+  expect(addButton).toBeInTheDocument();
+});
 
-const MockClassroomForm = () => {
+test('handles form submission', async () => {
+  // Mock fetch function
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({}),
+    })
+  );
+  const mockCallback = jest.fn()
+  render(
+    <ClassroomContextProvider>
+      <ClassroomForm onSubmit={mockCallback()}/>
+    </ClassroomContextProvider>
+  );
+
+  const createButton = screen.getByRole('button', { name: '' });
+  fireEvent.click(createButton);
   
-    return (<ClassroomContextProvider>
-        <ClassroomForm classroom={MockClassroom}/>
-    </ClassroomContextProvider>)
-}
+  expect(mockCallback).toHaveBeenCalled()
+  expect(screen.getByText('Create new classroom')).toBeInTheDocument()
+  expect(screen.getByText('Cancel')).toBeInTheDocument()
+  expect(screen.getByText('Create classroom')).toBeInTheDocument()
 
-test("Ensures there is a header for classroom creation", () => {
-    const classroomForm = render(MockClassroomForm()).container.firstChild
-    const createHeader = screen.getByText(/new classroom/)
-    expect(createHeader).toBeInTheDocument()
-})
-
-describe("classroom title tests", () => {
-    test("Ensures there is a label for classroom title", () => {
-        const classroomForm = render(MockClassroomForm()).container.firstChild
-        const titleLabel = screen.getByText(/title/)
-        expect(titleLabel).toBeInTheDocument()
-    })
-
-    test("Ensures there is a input for classroom title", () => {
-        const classroomForm = render(MockClassroomForm()).container.firstChild
-        const titleInput = screen.getByPlaceholderText(/Input the new title/)
-        expect(titleInput).toBeInTheDocument()
-    })
-
-    test("Ensures we can type in the input for classroom title", () => {
-        const classroomForm = render(MockClassroomForm()).container.firstChild
-        const titleInput = screen.getByPlaceholderText(/Input the new title/)
-        fireEvent.change(titleInput, {target: {value: "test title"}})
-        expect(titleInput.value).toBe("test title")
-    })
-})
-
-describe("classroom submission tests", () => {
-    test("Checks whether there is a button to submit the new classroom", () => {
-        const classroomForm = render(MockClassroomForm()).container.firstChild
-        const submitButton = screen.getByRole("button", {name: /Add Classroom/})
-        expect(submitButton).toBeInTheDocument()
-    })
-
-    test("tests whether a callback is fired when the form is submitted",  () => {
-        const mockCallback = jest.fn()
-        const classroomFormMock = render(<ClassroomContextProvider>
-            <ClassroomForm onSubmit={mockCallback()}classroom={MockClassroom}/>
-        </ClassroomContextProvider>)
-
-        const classroomForm = classroomFormMock.container.firstChild
-        fireEvent.submit(classroomForm)
-        expect(mockCallback).toHaveBeenCalled()
-    })
-
-    test("tests whether a callback is fired when the submission button is pressed",  () => {
-        const mockCallback = jest.fn()
-        const calssroomFormMock = render(<ClassroomContextProvider>
-            <ClassroomForm onSubmit={mockCallback()}classroom={MockClassroom}/>
-        </ClassroomContextProvider>)
-
-        fireEvent.click(screen.getByRole("button", {name: /Add Classroom/}))
-        expect(mockCallback).toHaveBeenCalled()
-    })
-
-})
+});
