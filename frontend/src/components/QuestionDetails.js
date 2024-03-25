@@ -3,6 +3,7 @@ import UpdateQuestionForm from "./UpdateQuestionForm"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
+
 const QuestionDetails = ({ question, classID }) => {
     
     const { dispatch } = useQuestionContext()
@@ -37,7 +38,9 @@ const QuestionDetails = ({ question, classID }) => {
             <h4>{question?.question}</h4>
             {showOptions ? <p><strong>Options: </strong>{question?.options?.toString()}</p> : null}
             <p><strong>Answer(s): </strong>{question?.answers?.toString()}</p>
-            <span onClick={deleteQuestion}>delete</span>
+            <div className="deleteIcons">
+                <span className="material-symbols-outlined" onClick={deleteQuestion}>Delete</span>
+            </div>
             <p><strong>{question?.questionType}</strong></p>
             <div>
                 <input type="submit" className="edit" value= {showForm ? "Hide" : "Edit"} onClick={editQuestion}/>

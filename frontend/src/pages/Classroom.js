@@ -175,10 +175,14 @@ const Classroom = () => {
 
             <Modal show={showQWF} onHide={handleCloseQWF}>
                 <Modal.Body>
-                    <div className="quizzes">
+                    <div className="quizModal">
+                        <h3>Quizzes</h3>
+                        <div className="closeIcon">
+                            <span className="material-symbols-outlined" onClick={handleCloseQWF}>Close</span>
+                        </div>
                         {quizzes_without_folder && quizzes_without_folder.map((quiz) => (
                             <QuizDetails key={quiz._id} quiz={quiz} classID={classID} onDragStart={handleDragStart}/>
-                            ))}
+                        ))}
                     </div>
                 </Modal.Body>
             </Modal>
@@ -186,6 +190,10 @@ const Classroom = () => {
             <Modal show={showFolders} onHide={handleCloseFolders}>
                 <Modal.Body>
                     <div className="folders">
+                    <h3>Folders</h3>
+                    <div className="closeIcon">
+                        <span className="material-symbols-outlined" onClick={handleCloseFolders}>Close</span>
+                    </div>
                         {folders && folders.map((folder) => (
                             <FolderDetails key={folder._id} folder={folder} classID={classID}
                             onDragOver={handleDragOver} onDrop={handleDrop}/>
@@ -196,12 +204,18 @@ const Classroom = () => {
 
             <Modal show={showQuizForm} onHide={handleCloseQuizForm}>
                 <Modal.Body>
+                    <div className="closeIcon">
+                        <span className="material-symbols-outlined" onClick={handleCloseQuizForm}>Close</span>
+                    </div>
                     <QuizForm classID={classID}/>
                 </Modal.Body>
             </Modal>
 
             <Modal show={showFolderForm} onHide={handleCloseFolderForm}>
                 <Modal.Body>
+                    <div className="closeIcon">
+                        <span className="material-symbols-outlined" onClick={handleCloseFolderForm}>Close</span>
+                    </div>
                     <FolderForm classID={classID}/>
                 </Modal.Body>
             </Modal>

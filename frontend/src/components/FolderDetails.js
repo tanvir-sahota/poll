@@ -1,7 +1,6 @@
 import {useFoldersContext} from "../hooks/useFoldersContext";
 import Button from 'react-bootstrap/Button'
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 const FolderDetails = ({folder, classID,onDrop,onDragOver}) => {
     const {dispatch} = useFoldersContext()
@@ -48,8 +47,10 @@ const FolderDetails = ({folder, classID,onDrop,onDragOver}) => {
                 <div className="card"
                     onDragOver = {e => handleDragOver(e)}
                     onDrop={e => handleDrop(e)}>
-                    <h4 id="otherHeading">{folder.title} </h4>
-                    <span id="otherSpan" onClick={handleClick}>delete</span>
+                    <h4 className="cardHeading">{folder.title} </h4>
+                    <div className="deleteIcons">
+                        <span className="material-symbols-outlined" onClick={handleClick}>Delete</span>
+                    </div>
                     <br></br>
                     <br></br>
                     <Button id="folderButton" onClick={navigateAway}>Go</Button>

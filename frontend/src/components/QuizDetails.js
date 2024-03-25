@@ -1,10 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 import { useState } from "react";
+import Button from 'react-bootstrap/Button'
+
 
 const QuizDetails = ({quiz, classID}) => {
     const {dispatch} = useQuizzesContext()
     const classID_or_emptystring = classID_value(classID)
+    const navigate = useNavigate()
 
     /**
      * Handles quiz delete requests
@@ -22,6 +25,10 @@ const QuizDetails = ({quiz, classID}) => {
         }
     }
 
+    const navigateAway = async () => {
+        navigate(`/api/quizzes/${quiz._id}/${classID}`)
+    }
+
 
     const handleDragStart = (e) => {
         console.log(quiz._id)
@@ -30,17 +37,17 @@ const QuizDetails = ({quiz, classID}) => {
 
         if(classID_or_emptystring=="" || classID_or_emptystring==quiz.classroom){
             return (
-                <div className="quiz-details" 
+                <div className="card" 
                      draggable = "true" 
-                     onDragStart = {e => handleDragStart(e)}
-                     style={{ border: '1px solid black', margin: '5px', padding: '5px' }}>
-                    <h4>{quiz.title} </h4>
+                     onDragStart = {e => handleDragStart(e)}>
+                    <h4 className="cardHeading">{quiz.title} </h4>
                     <p><strong>Description: </strong> {quiz.description}</p>
-                    <span onClick={handleClick}>delete</span>
-                    <Link to={"/api/quizzes/" + quiz._id + "/" + classID}><h4>"Go to this quizzes page"</h4></Link>
+                    <div className="deleteIcons">
+                        <span className="material-symbols-outlined" onClick={handleClick}>Delete</span>
+                    </div>
                     <br></br>
-                    <br></br>
-                    <br></br>
+                    <Button id="quizButton" onClick={navigateAway}>Go</Button>
+
     
                 </div>
             )

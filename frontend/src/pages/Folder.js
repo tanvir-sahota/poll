@@ -55,25 +55,48 @@ const Folder = () => {
         return <h2>"Still loading..."</h2>
     }
     return (
-        <div className="folder">
-            <br/>
-            <br/>
-            <div className="folders">
-                <h2>{folder.title}</h2>
-            </div>
-                 <div className="quizzes">
-                {quizzes&&quizzes.map((quiz) => (
-                    <QuizDetails key={quiz._id} quiz={quiz} classID={classroom_id}/>
-                ))}
-            </div>
+    //     <div className="folder">
+    //         <div className="folders" style={{textAlign:"left"}}>
+    //             <h2>{folder.title}</h2>
+    //             <hr className="split"></hr>
+    //             <br/>
+    //         </div>
+    //             <div className="quizzes">
+    //             {quizzes&&quizzes.map((quiz) => (
+    //                 <QuizDetails key={quiz._id} quiz={quiz} classID={classroom_id}/>
+    //             ))}
+    //         </div>
 
-            <br/>
-            <br/>
+    //         <br/>
+    //         <br/>
             
             
 
-            {error && <div className={"error"}>{error}</div>}
+    //         {error && <div className={"error"}>{error}</div>}
+    // </div>
+
+    <div className="folder" style={{ display: 'flex'}}>
+        <div className="container-fluid">
+            <div className="row">
+                <div className="row-sm-6 mb-3" style={{textAlign:"left"}}>
+                    <h2>{folder.title}</h2>
+                    <hr className="split"></hr>
+                </div>
+                {/* <div className="col-sm-6 mb-3">
+                </div> */}
+                <div className="col-sm-6 mb-3">
+                    <div className="quizzes">
+                        {quizzes&&quizzes.map((quiz) => (
+                            <QuizDetails key={quiz._id} quiz={quiz} classID={classroom_id}/>
+                        ))}
+                   </div>
+                </div>
+                <div className="row-sm-6 mb-3">
+                    {error && <div className={"error"}>{error}</div>}
+                </div>     
+            </div>
         </div>
+    </div>
     )
 }
 
