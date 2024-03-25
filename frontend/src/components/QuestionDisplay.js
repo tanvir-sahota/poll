@@ -2,6 +2,7 @@ import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom"
 import { Map } from  "immutable"
 import MCQButton from "./MCQButton"
+import parse from 'html-react-parser'
 
 const QuestionDisplay = (inputData) => {
     const {givenQuestion, isAdmin, socket, lecturer} = inputData
@@ -185,7 +186,7 @@ const QuestionDisplay = (inputData) => {
                         ) : (
                             <div id="options">
                                 {options.map((option) => (
-                                    <button className="answer">{option}</button>
+                                    <button className="answer">{parse(option)}</button>
                                 ))}
                             </div>
                         )}
