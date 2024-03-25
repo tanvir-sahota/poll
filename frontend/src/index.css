@@ -516,3 +516,18 @@ input[type="text"] {
   border: black 1px solid;
   padding: 10px;
 }
+
+.host {
+  background-color: goldenrod;
+  color: #fff;
+  font-family: "Poppins";
+  border-radius: 4px;
+}
+
+#optionsDisplay {
+  padding-bottom: 40px;
+}
+
+.bi-arrow-left, .bi-arrow-right{
+  font-size: 60px;
+}

@@ -9,6 +9,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import {useNavigate} from "react-router-dom";
 import ReactDOM from "react-dom/client";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const HostingAdmin = (inputData) => {
     const {socket, currentQuestion, lecturer} = inputData
@@ -253,7 +254,7 @@ const HostingAdmin = (inputData) => {
             <div class="row" id="rowQuestionDisplay">
                 <div id="prevButtonContainer">
                     <button id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>
-                        PREVIOUS QUESTION
+                        <i className="bi bi-arrow-left"></i>
                     </button>
                 </div>
                 <div id="questionDisplayContainer">
@@ -261,7 +262,7 @@ const HostingAdmin = (inputData) => {
                 </div>
                 <div id="nextButtonContainer">
                     <button id="nextButton" onClick={handleNext} onLoad={shouldRenderNext}>
-                        NEXT QUESTION
+                        <i className="bi bi-arrow-right"></i>
                     </button>
                 </div>
             </div>
