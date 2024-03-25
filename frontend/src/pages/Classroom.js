@@ -36,6 +36,9 @@ const Classroom = () => {
     const handleCloseFolderForm = () => setShowFolderForm(false)
     const handleShowFolderForm = () => setShowFolderForm(true)
 
+    const [hasQuizzes, setHasQuizzes] = useState(false)
+    const [hasFolders, setHasFolders] = useState(false)
+
     const navigate = useNavigate()
 
 
@@ -50,6 +53,16 @@ const Classroom = () => {
                 console.log(json)
                 const all_quizzes = json
                 const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom==classID)
+
+                if(classroom_quizzes.length>0){
+                    setHasQuizzes(true)
+                }
+                else{
+                    setHasQuizzes(false)
+                }
+
+                console.log("has quizzes: " + hasQuizzes)
+                
                 assign_questions_to_quizzes(classroom_quizzes, classID)
             }
 
@@ -73,6 +86,14 @@ const Classroom = () => {
                 dispatch_folder({type: 'SET_FOLDERS', payload: json})
                 const all_folders = json
                 const classroom_folders = all_folders.filter((folder) => folder.classroom==classID)
+
+                if(classroom_folders.length>0) {
+                    setHasFolders(true)
+                }
+                else{
+                    setHasFolders(false)
+                }
+                
                 assign_quizzes_to_folders(classroom_folders, classID)
             }
         }
@@ -180,9 +201,12 @@ const Classroom = () => {
                         <div className="closeIcon">
                             <span className="material-symbols-outlined" onClick={handleCloseQWF}>Close</span>
                         </div>
-                        {quizzes_without_folder && quizzes_without_folder.map((quiz) => (
+                        {quizzes_without_folder && hasQuizzes && quizzes_without_folder.map((quiz) => (
                             <QuizDetails key={quiz._id} quiz={quiz} classID={classID} onDragStart={handleDragStart}/>
                         ))}
+                        {!quizzes_without_folder || (quizzes_without_folder && !hasQuizzes) ? (
+                            <h6>You have no quizzes that have no folders.</h6>
+                        ) : null}
                     </div>
                 </Modal.Body>
             </Modal>
@@ -194,10 +218,13 @@ const Classroom = () => {
                     <div className="closeIcon">
                         <span className="material-symbols-outlined" onClick={handleCloseFolders}>Close</span>
                     </div>
-                        {folders && folders.map((folder) => (
+                        {folders && hasFolders && folders.map((folder) => (
                             <FolderDetails key={folder._id} folder={folder} classID={classID}
                             onDragOver={handleDragOver} onDrop={handleDrop}/>
                         ))}
+                        {!folders || (folders && !hasFolders) ? (
+                            <h6>You have no folders.</h6>
+                        ) : null}
                     </div>
                 </Modal.Body>
             </Modal>
