@@ -180,7 +180,7 @@ const QuestionDisplay = (inputData) => {
                         {showAnswer ? (
                             <div id="answers">
                                 {answers.map((answer) => (
-                                    <button className="answer">{answer}</button>
+                                    <button className="answer">{parse(answer)}</button>
                                 ))}
                             </div>
                         ) : (
