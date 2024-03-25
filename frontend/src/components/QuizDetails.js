@@ -37,7 +37,7 @@ const QuizDetails = ({quiz, classID}) => {
                     <h4>{quiz.title} </h4>
                     <p><strong>Description: </strong> {quiz.description}</p>
                     <span onClick={handleClick}>delete</span>
-                    <Link to={"http://localhost:3000/api/quizzes/" + quiz._id + "/" + classID}><h4>"Go to this quizzes page"</h4></Link>
+                    <Link to={"/api/quizzes/" + quiz._id + "/" + classID}><h4>"Go to this quizzes page"</h4></Link>
                     <br></br>
                     <br></br>
                     <br></br>

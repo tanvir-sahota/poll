@@ -57,6 +57,7 @@ const HostingAdmin = (inputData) => {
     useEffect(() => {
         let receiveTextHandler = null
         receiveTextHandler = answer => {
+            console.log("received answer: " + answer)
             setAnswers(prevAnswers => {
                 const allAnswers = [...prevAnswers]
                 allAnswers[position] = [...prevAnswers[position], answer]

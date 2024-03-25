@@ -16,7 +16,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const handleSubmission = async (e) => {
         e.preventDefault()
 
-        const response = await fetch('http://localhost:4000/api/quizzes/' + quiz_id, {
+        const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes/` + quiz_id, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -42,7 +42,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     
     
     const update_quiz = async () => {
-        const response = await fetch('http://localhost:4000/api/quizzes/' + quiz_id, {
+        const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes/` + quiz_id, {
             method: "PATCH",
             body: JSON.stringify({questions: quiz_questions}),
             headers: {

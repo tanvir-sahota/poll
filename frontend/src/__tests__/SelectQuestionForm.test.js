@@ -47,7 +47,7 @@ const MockSQForm_no_quiz = () => {
     )
 }
 
-const url = "http://localhost:4000/api/questions/" + mockClassroom._id
+const url = `${process.env.REACT_APP_URL}api/questions/` + mockClassroom._id
 const select_questions_toggle = "Select Questions Below"
 const user = userEvent.setup()
 
@@ -139,7 +139,7 @@ describe("Appearance test after questions are fetched (questions and classroom p
 })
 
 describe("Ensure requests are sent properly when patching quizzes", () => {
-    const get_quiz_url = "http://localhost:4000/api/quizzes/" + mockQuiz._id
+    const get_quiz_url = `${process.env.REACT_APP_URL}api/quizzes/`+ mockQuiz._id
     
     test("Ensures GET and PATCH requests consecutively sent after submit is clicked", async() => {
         fetchMock.mock(url, JSON.stringify([mockQuestion]))

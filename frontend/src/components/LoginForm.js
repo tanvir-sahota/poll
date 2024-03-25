@@ -11,8 +11,8 @@ const LoginForm = () => {
   const { dispatch } = useAuthContext()
   const navigate = useNavigate()
 
-  const onSubmit = async (data) => {
-    const response = await fetch("http://localhost:4000/api/users/login", {
+  const onSubmit = async  (data) => {
+      const response= await fetch(`${process.env.REACT_APP_URL}api/users/login`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
