@@ -363,6 +363,14 @@ input[type="text"] {
   width: 100%;
 }
 
+.quizzes {
+  text-align: center;
+}
+
+.folders {
+  text-align: center;
+}
+
 #hostingDisplay {
   display: flex;
 }
