@@ -321,7 +321,16 @@ input[type="text"] {
   text-align: center;
 }
 
+#codeOptions {
+  text-align: center;
+}
+
 .answer {
+  background-color: white;
+  color: black;
+}
+
+.codeOption {
   background-color: white;
   color: black;
 }
