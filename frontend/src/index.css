@@ -392,6 +392,7 @@ input[type="text"] {
 #questionDisplayContainer {
   flex: 1;
   flex-basis: 35%;
+  justify-content: center;
 }
 
 #prevButton {
@@ -581,4 +582,14 @@ input[type="text"] {
 
 #quiz-result-answers{
   width: 400px;
+}
+
+#responseButton{
+  margin-top: 10px;
+  width: 803px;
+}
+
+#hostingLabels{
+  margin-top: 10px;
+  vertical-align: bottom;
 }

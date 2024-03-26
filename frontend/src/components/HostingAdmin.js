@@ -318,7 +318,9 @@ const HostingAdmin = (inputData) => {
                 </Modal.Body>
             </Modal>
             {questions[position].options.length > 0 ?
-            <Button id="graphButton" onClick={handleShow}>Student Responses</Button>
+            <div className="questionDisplayContainer">
+                <Button id="responseButton" onClick={handleShow}>Student Responses</Button>
+            </div>
             : null}
 
             <Modal show={showWH} onHide={handleWHClose} fullscreen={true}>
@@ -331,20 +333,34 @@ const HostingAdmin = (inputData) => {
             </Modal>
 
             {questions[position].options.length === 0 ?
-            <Button id="graphButton" onClick={handleWHShow}>Student Responses</Button>
+            <div className="questionDisplayContainer">
+                <Button id="responseButton" onClick={handleWHShow}>Student Responses</Button>
+            </div>
             : null}
             
-            <div className="saveQuizButton">
-                <button id="saveQuiz" onClick={handleSaveQuiz}>
-                    Save Quiz
-                </button>
+            <div className="row">
+                <div className="col-sm-2"></div>
+                <div className="col-sm-1" style={{textAlign:"right"}}>
+                    <span id="hostingLabels"className="material-symbols-outlined">input</span>
+                </div>
+                <div className="col-sm-1" style={{textAlign:"left"}}>
+                    <p id="hostingLabels">{attendees}</p>
+                </div>
+
+                <div className="col-sm-4">
+                    <button id="saveQuiz" onClick={handleSaveQuiz}>
+                        Save Quiz
+                    </button>
+                </div>
+                <div className="col-sm-1" style={{textAlign:"right"}}>
+                    <span id="hostingLabels"className="material-symbols-outlined">group</span>
+                </div>
+                <div className="col-sm-1" style={{textAlign:"left"}}>
+                    <p id="hostingLabels">{submission}</p>
+                </div>
+                <div className="col-sm-2"></div>
             </div>
-            <div className="attendeeNumber">
-                <p>Number of attendees: {attendees}</p>
-            </div>
-            <div className="submissionNumber">
-                <p>Number of submissions: {submission}</p>
-            </div>
+            
 
 
         </div>
