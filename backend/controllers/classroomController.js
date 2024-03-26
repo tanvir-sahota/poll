@@ -76,6 +76,14 @@ exports.createClassroom = async (req, res) => {
                 res.status(401).json({ error: 'Invalid token' })
             } else {
                 const userId = decoded._id
+                let emptyFields = []
+
+                if (!title) {
+                    emptyFields.push('title')
+                }
+                if (emptyFields.length > 0) {
+                    return res.status(400).json({error: 'Please fill in all the fields', emptyFields})
+                }
 
                 try {
                     const classroom = new ClassroomModel({ owner:userId, title:title, questions:questions });
