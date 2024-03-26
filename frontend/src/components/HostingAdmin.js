@@ -17,6 +17,8 @@ const HostingAdmin = (inputData) => {
     const {quiz} = useQuizzesContext()
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
+    const [correctSubmissions, setCorrectSubmissions] = useState(0)
+    const [regularExpression, setRegex] = useState([])
     
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
@@ -60,11 +62,19 @@ const HostingAdmin = (inputData) => {
         let receiveTextHandler = null
         receiveTextHandler = answer => {
             console.log("received answer: " + answer)
-            setAnswers(prevAnswers => {
-                const allAnswers = [...prevAnswers]
-                allAnswers[position] = [...prevAnswers[position], answer]
-                return allAnswers
-            })
+            // setAnswers(prevAnswers => {
+            //     const allAnswers = [...prevAnswers]
+            //     allAnswers[position] = [...prevAnswers[position], answer]
+            //     return allAnswers
+            // })
+            console.log("REGEX", regularExpression)
+            const comparison = regularExpression.map(regex => {
+                return regex == answer.toString().replaceAll(" ","").toLowerCase()})
+            console.log(comparison)
+            if(comparison.includes(true)){
+                setCorrectSubmissions(prevValue => {return (prevValue + 1)})
+            }
+            console.log("NUMBER OF CORRECT SUBMISSIONS ", correctSubmissions)
             socket.emit("get-number-of-submissions", lecturer, (response) => {
                 setSubmission(response.count)
             })
@@ -136,7 +146,18 @@ const HostingAdmin = (inputData) => {
     }, [position])
 
     useEffect(() => {
+        console.log("SET QUESTION")
         socket.emit("set-question", questions[position], lecturer)
+        if(questions[position].questionType == "Wh-Question"){
+            const answers = questions[position].answers
+            const regexArray = answers.map(answer => {
+                const temp = answer.toLowerCase().replaceAll(' ', '')
+                return temp
+            })
+            console.log(regexArray)
+            setRegex(regexArray)
+            console.log("NEW REGEX ", regularExpression)
+        }
         shouldRenderPrevious(position)
         shouldRenderNext(position)
     }, [position])

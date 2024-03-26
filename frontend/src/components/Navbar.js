@@ -3,6 +3,8 @@ import { useLogout } from '../hooks/useLogout'
 import { useAuthContext } from '../hooks/useAuthContext'
 import Dropdown from 'react-bootstrap/Dropdown'
 import QRCode from "react-qr-code"
+import { useState } from 'react'
+import Modal from 'react-bootstrap/Modal'
 
 const Navbar = () => {
   const { logout } = useLogout()
@@ -17,8 +19,9 @@ const Navbar = () => {
   const handleDashboard = () => {
     navigate("/dashboard")
   }
-
-
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   return (
     <header className="justify-content-space-between">
@@ -29,13 +32,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className='navbar'>
-          <div className="qr-code-container">
-              {user && (
-                <div style={{ background: 'white', padding: '8px'}}>
-                  <QRCode value={`${window.location.origin}/` + user.username + "/waiting"} size={128}/>
-                </div>
-              )}  
-          </div>
+          
         </div>
       </div>
       <div className='row-sm-6'>
@@ -51,6 +48,22 @@ const Navbar = () => {
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={handleDashboard}>Dashboard</Dropdown.Item>
                         <Dropdown.Item onClick={handleClick}>Log out</Dropdown.Item>
+                        <Dropdown.Item onClick={handleShow}>QR code</Dropdown.Item>
+                        <Modal show={show} onHide={handleClose}>
+                          <Modal.Header closeButton>
+                            <h1>Join Session Here</h1>
+                          </Modal.Header>
+                          <Modal.Body style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                            {user && (
+                            <div style={{ background: 'white', padding: '8px'}}>
+                              <QRCode value={`${window.location.origin}/` + user.username + "/waiting"} size={256}/>
+                            </div>
+                            )}  
+                          </div>
+                </Modal.Body>
+            </Modal>
+                        
                     </Dropdown.Menu>
                 </Dropdown>
               </div>
