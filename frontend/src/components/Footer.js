@@ -4,7 +4,7 @@ const Footer = () => {
     <div>
       <br/>
       <br/>
-      <footer className=" bg-black text-white text-center fixed-bottom" >
+      <footer id="footer" className="fixed-bottom" >
           <div className="text-center p-3">
             Developed by Marshall & Co, 2024
           </div>

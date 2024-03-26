@@ -69,7 +69,7 @@ const Classroom = () => {
 
         }
         fetchQuizzes()
-    }, [dispatch_quiz,classID, showQuizForm])
+    }, [dispatch_quiz,classID, showQWF])
 
 
     useEffect(() => {
@@ -99,7 +99,7 @@ const Classroom = () => {
             }
         }
         fetchFolders()
-    }, [dispatch_folder,classID, showFolderForm])
+    }, [dispatch_folder,classID, showFolders])
 
     const handleDragStart = (e, quizId) => {
         e.dataTransfer.setData('quizId', quizId);

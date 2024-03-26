@@ -112,7 +112,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
                         <div>
                             <h3 onClick={toggleForm} className="form-heading">Click to select questions</h3>
                             {classroom_questions ? (
-                                <div>
+                                <div id="SQFContainer">
                                     { showForm ? (
                                         <form id="questionSelection" onSubmit={handleSubmission}>
                                             {classroom_questions.map((cq, index) => (
@@ -131,7 +131,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
                                                 </div>
                                             ))}
 
-                                            <button className = "create">Select Questions</button>
+                                            <button id="selectQuestionsButton">Select Questions</button>
                                             {error && <div className="error">{error}</div>}
 
                                         </form>

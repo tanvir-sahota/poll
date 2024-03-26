@@ -37,6 +37,12 @@ header a {
   color: white;
   text-decoration: none;
 }
+#appjs {
+  container: fluid;
+  color: black;
+  background-color: white;
+  /* margin-bottom: 300px; */
+}
 .pages{
   max-width: 1400px;
   padding: 20px;
@@ -47,6 +53,15 @@ header a {
 .split{
   border: 1px solid black;
 }
+
+#footer {
+  color: white;
+  background-color: black;
+  text-align: center;
+  /* margin-top: 3000px; */
+  /* padding-top: 400px; */
+}
+
 .questionBank {
   display: grid;
   grid-template-columns: 3fr 1fr;
@@ -514,6 +529,11 @@ input[type="text"] {
 
 #questionSelection{
   border: black 1px solid;
+  padding: 10px;
+  margin-bottom: 100px;
+}
+
+#SQFContainer {
   padding: 10px;
 }
 
