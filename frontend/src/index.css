@@ -531,3 +531,8 @@ input[type="text"] {
 .bi-arrow-left, .bi-arrow-right{
   font-size: 60px;
 }
+
+#root .container-fluid{
+  padding:0px !important;
+ }
+ 
