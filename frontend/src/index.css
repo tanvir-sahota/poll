@@ -550,5 +550,8 @@ input[type="text"] {
 
 #root .container-fluid{
   padding:0px !important;
- }
- 
+}
+
+#studentAnswer{
+  text-align: center;
+} 

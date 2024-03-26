@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Map } from  "immutable"
 import MCQButton from "./MCQButton"
 import parse from 'html-react-parser'
+import Modal from 'react-bootstrap/Modal'
 
 const QuestionDisplay = (inputData) => {
     const {givenQuestion, isAdmin, socket, lecturer} = inputData
@@ -18,7 +19,13 @@ const QuestionDisplay = (inputData) => {
     const [hasCode, setCode] = useState(questionType === 'CodeMCQ')
     const [showAnswer, setShowAnswer] = useState(false)
 
+    const [clientSideInput, setInput] = useState("")
+    const [hasSubmitted, setSubmitted] = useState(false)
     const [textAnswer, setTextAnswer] = useState(null)
+
+    const [showInput, setShowInput] = useState(false)
+    const handleCloseInput = () => setShowInput(false)
+    const handleShowInput = () => setShowInput(true)
 
     let initialSelectedMCQ
     if (isMCQ) {
@@ -45,8 +52,10 @@ const QuestionDisplay = (inputData) => {
         e.preventDefault()
         socket.emit("submit-answer-text", lecturer, textAnswer)
         console.log("Submitted " + textAnswer)
+        setInput(textAnswer)
         setTextAnswer("")
-        document.getElementById("answerSubmit").disabled = true
+        setSubmitted(true)
+        document.getElementById("answerBox").disabled = true
     }
 
     useEffect(() => {
@@ -152,10 +161,29 @@ const QuestionDisplay = (inputData) => {
                                 <div className="col">
                                     <div className="answerOptions">
                                         <form onSubmit={submitAnswer}>
-                                            <input id="answerBox" name="answerArea" type="text" value={textAnswer} onChange={(e) => setTextAnswer(e.target.value)}/>
+                                            <input id="answerBox" name="answerArea" type="text" value={textAnswer} onChange={(e) => setTextAnswer(e.target.value)} disabled={hasSubmitted}/>
                                             <br/>
-                                            <button id="answerSubmit" type="submit">Submit</button>
+                                            {!hasSubmitted ?
+                                                <button id="answerSubmit" type="submit">Submit</button>
+                                            :
+                                            null}
                                         </form>
+                                        {hasSubmitted ?
+                                        <div>
+                                            <button id="answerSubmit" onClick={handleShowInput}>Show</button>
+                                            <Modal show={showInput} onHide={handleCloseInput}>
+                                                <Modal.Body>
+                                                    <h3>Your Answer</h3>
+                                                    <div className="closeIcon">
+                                                        <span className="material-symbols-outlined" onClick={handleCloseInput}>Close</span>
+                                                    </div>
+                                                    <div className="card">
+                                                        <p id = "studentAnswer">{clientSideInput}</p>
+                                                    </div>
+                                                </Modal.Body>
+                                            </Modal>
+                                        </div>
+                                        : null}
                                     </div>
                                 </div>
                             </div>

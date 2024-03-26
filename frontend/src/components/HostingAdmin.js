@@ -343,7 +343,7 @@ const HostingAdmin = (inputData) => {
                 <p>Number of attendees: {attendees}</p>
             </div>
             <div className="submissionNumber">
-                <p>Number of attendee submissions: {submission}</p>
+                <p>Number of submissions: {submission}</p>
             </div>
 
 
