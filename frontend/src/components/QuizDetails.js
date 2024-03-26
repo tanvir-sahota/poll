@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
+import {useQuizResultContext} from "../hooks/useQuizResultContext";
 import { useState } from "react";
 import Button from 'react-bootstrap/Button'
 
 
 const QuizDetails = ({quiz, classID}) => {
-    const {dispatch} = useQuizzesContext()
+    const {dispatch: dispatchQ} = useQuizzesContext()
+    const {dispatch: dispatchQR} = useQuizResultContext()
     const classID_or_emptystring = classID_value(classID)
     const navigate = useNavigate()
 
@@ -14,14 +16,20 @@ const QuizDetails = ({quiz, classID}) => {
      * @returns {Promise<void>}
      */
     const handleClick = async () => {
-        const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes/`+ quiz._id, {
-            method: 'DELETE'
-        })
+        const deleteQuiz = await fetch(`${process.env.REACT_APP_URL}api/quizzes/`+ quiz._id, {method: 'DELETE'})
 
-        const json = await response.json()
+        const quiz_results = await get_quiz_results(quiz, classID_or_emptystring)
+        const deleteQuizResults = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/` + quiz_results._id, {method: 'DELETE'})
 
-        if (response.ok) {
-            dispatch({type: 'DELETE_QUIZ', payload: json})
+        const jsonQ = await deleteQuiz.json()
+        const jsonQR = await deleteQuizResults.json()
+
+        if (deleteQuiz.ok) {
+            dispatchQ({type: 'DELETE_QUIZ', payload: jsonQ})
+        }
+        if(deleteQuizResults.ok){
+            console.log("da qr: " + jsonQR)
+            // dispatchQR({type: 'DELETE_QUIZ_RESULT', payload: jsonQR})
         }
     }
 
@@ -60,6 +68,18 @@ const classID_value = (classID) => {
     }
     else{
         return ""
+    }
+}
+
+const get_quiz_results = async (quiz, classID) => {
+    const allClassroomQuizResults = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/` + classID, {method: 'GET'})
+    const jsonCQR = await allClassroomQuizResults.json()
+    if(allClassroomQuizResults.ok){
+        for(let i=0; i<jsonCQR.length; i++){
+            if(jsonCQR[i].quiz == quiz._id){
+                return jsonCQR[i]
+            }
+        }
     }
 }
 
