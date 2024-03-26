@@ -24,6 +24,13 @@ const HostingAdmin = (inputData) => {
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
+    const [showWH, setWHShow] = useState(false)
+    const handleWHClose = () => setWHShow(false)
+    const handleWHShow = () => setWHShow(true)
+
+
+    
+
     const getChart = () => ({
         labels: questions[position].options,
         datasets: [{
@@ -40,6 +47,17 @@ const HostingAdmin = (inputData) => {
     const navigate = useNavigate()
     const [attendees, setAttendees] = useState(0)
     const [submission, setSubmission] = useState(0)
+
+    const getWHChart = () => ({
+        labels: ["Correct", "Incorrect"],
+        datasets: [{
+            label: "Selections",
+            data: [correctSubmissions, ((submission - correctSubmissions))],
+            backgroundColor: ['green', 'red'],
+        }],
+    })
+    const [chartWHData, setWHChart] = useState(getWHChart())
+    useEffect(() => {setWHChart(getWHChart())}, [questions, answers, position, submission, correctSubmissions])
 
     useEffect(() => {
 
@@ -302,6 +320,19 @@ const HostingAdmin = (inputData) => {
             {questions[position].options.length > 0 ?
             <Button id="graphButton" onClick={handleShow}>Student Responses</Button>
             : null}
+
+            <Modal show={showWH} onHide={handleWHClose} fullscreen={true}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Responses</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Bar data={chartWHData} options={chartOptions}/>                
+                </Modal.Body>
+            </Modal>
+
+            {questions[position].options.length === 0 ?
+            <Button id="graphButton" onClick={handleWHShow}>Student Responses</Button>
+            : null}
             
             <div className="saveQuizButton">
                 <button id="saveQuiz" onClick={handleSaveQuiz}>
@@ -314,38 +345,6 @@ const HostingAdmin = (inputData) => {
             <div className="submissionNumber">
                 <p>Number of attendee submissions: {submission}</p>
             </div>
-
-            {/* <div class="row">
-                <br/>
-                <div className="options">
-                    {questions[position].options.length > 1 ?
-                        (questions[position].questionType === "CodeMCQ") ?
-                            questions[position].options.map(option => {
-                                const count = answers[position].at(questions[position].options.indexOf(option))
-                                //console.log(`${option}: ${count}`)
-                                //console.log(`ANSWERS: ${answers}`)
-
-                                return <dl>
-                                    <dt>{parse(option)}</dt>
-                                    <dd>{count}</dd>
-
-                                </dl>
-                            })
-                            :
-                            questions[position].options.map(option => {
-                                const count = answers[position].at(questions[position].options.indexOf(option))
-                                //console.log(`${option}: ${count}`)
-                                //console.log(`ANSWERS: ${answers}`)
-                                return <dl>
-                                    <dt>{option}</dt>
-                                    <dd>{count}</dd>
-                                </dl>
-                            })
-                        :
-                        answers[position] && answers[position].map(answer => (<p>{answer}</p>))
-                    }
-                </div>
-            </div> */}
 
 
         </div>
