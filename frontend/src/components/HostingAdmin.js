@@ -27,7 +27,8 @@ const HostingAdmin = (inputData) => {
         datasets: [{
             label: "Selections",
             data: questions[position].options.map(option => answers[position].at(questions[position].options.indexOf(option))),
-            backgroundColor: 'goldenrod',
+            backgroundColor: questions[position].options.map(op => (questions[position].answers.includes(op) 
+            || questions[position].answers.includes(op.slice(2)) ? 'green' : 'red')),
         }],
       })
     const [chartData, setChart] = useState(getChart())
