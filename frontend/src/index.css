@@ -66,7 +66,7 @@ header a {
   grid-template-columns: 3fr 1fr;
   gap: 100px;
 }
-.question-details, .quizzes .card {
+.question-details, .quizzes .card{
   background: #fff;
   border-radius: 4px;
   border: 1px solid darkgrey;
@@ -75,7 +75,7 @@ header a {
   position: relative;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
 }
-.question-details h4, .cardHeading {
+.question-details h4, .cardHeading, #question-result-heading{
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
@@ -555,3 +555,30 @@ input[type="text"] {
 #studentAnswer{
   text-align: center;
 } 
+
+.create input {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#cardOne{
+  width:1200px;
+}
+
+#cardTwo, #cardThree{
+  width:600px;
+}
+
+.quizResults p{
+  width: 200px;
+  text-align: center;
+}
+
+#quiz-result-answers{
+  width: 400px;
+}

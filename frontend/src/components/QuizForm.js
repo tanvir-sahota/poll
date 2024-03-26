@@ -86,7 +86,7 @@ const QuizForm = (classID) => {
                 />
             <button> Add Quiz</button>
             {error && <div className={"error"}>{error}</div>}
-            {success && <div className="success">{success}</div>}
+            {success && <div className={"success"}>{success}</div>}
         </form>
     )
 }

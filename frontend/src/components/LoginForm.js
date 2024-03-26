@@ -39,7 +39,7 @@ const LoginForm = () => {
   return (
     <div
       className="form-container"
-      style={{ display: "block", width: 700, padding: 30 }}
+      style={{ display: "inline-block", width: 700, padding: 30 }}
     >
       <Form className="login" onSubmit={handleSubmit(onSubmit)}>
         <h1>Log in</h1>

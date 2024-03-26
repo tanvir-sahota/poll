@@ -16,6 +16,14 @@ const Navbar = () => {
     navigate("/log_in")
   }
 
+  const handleLogin = () => {
+    navigate("/log_in")
+  }
+
+  const handleSignup = () => {
+    navigate("/sign_up")
+  }
+
   const handleDashboard = () => {
     navigate("/dashboard")
   }
@@ -70,8 +78,15 @@ const Navbar = () => {
             )}
             {!user && (
               <div>
-                <Link to ="/log_in">Login</Link>
-                <Link to ="/sign_up">Signup</Link>
+                <Dropdown>
+                  <Dropdown.Toggle id="mainMenu" variant="btn filter-by dropdown-toggle">
+                      Menu
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={handleLogin}>Login</Dropdown.Item>
+                    <Dropdown.Item onClick={handleSignup}>Signup</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </div>
             )
             }

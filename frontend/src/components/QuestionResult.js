@@ -76,28 +76,34 @@ const QuestionResult = (params) => {
             question_and_answer_map.set(questions[i], question_results[i])
         }
      return (
-            <div>
+            <div className="card" id="cardOne">
                 <h2> Results for {quiz.title}</h2>
-                <table>
                 {Array.from(question_and_answer_map).map(pair => (
-                    <div>
-
-                        <h3> {pair[0].question} </h3>
-                        <tr>
-                            {pair[0].options.map( (question) => <th>{question}</th>) }
-                        </tr>
-
-                            {pair[1].questionResultsArray.map( (answer) => <td>{answer}</td>)}
-
+                    <div className="card" id="cardTwo">
+                        <div className="row">
+                            <h4 id="question-result-heading"> {pair[0].question} </h4>
+                            <div className="col-sm-8">
+                                {pair[0].options.map( (question) => <p>{question}</p>) }
+                            </div>
+                            <div className="col-sm-3">
+                                {pair[1].questionResultsArray.map( (answer) => <p>{answer}</p>)}
+                            </div>
+                        </div>
                     </div>
                 ))}
-                </table>
                 <h3>
                     Correct answers:
                 </h3>
-                <p>
-                    {questions.map((question) => <p> {question.question} : {question.answers} </p>)}
-                </p>
+                <div className="card" id="cardThree">
+                    <div className="row">
+                            <div className="col-sm-3">
+                                {questions.map( (question) => <p>{question.question} :</p>) }
+                            </div>
+                            <div className="col-sm-9">
+                                {questions.map( (question) => <p id="quiz-result-answers">{question.answers}</p>)}
+                            </div>
+                        </div>
+                </div>
 
             </div>
         )
