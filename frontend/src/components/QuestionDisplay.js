@@ -46,6 +46,7 @@ const QuestionDisplay = (inputData) => {
         socket.emit("submit-answer-text", lecturer, textAnswer)
         console.log("Submitted " + textAnswer)
         setTextAnswer("")
+        document.getElementById("answerSubmit").disabled = true
     }
 
     useEffect(() => {
