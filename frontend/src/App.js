@@ -28,7 +28,7 @@ function App() {
   })
 
   return (
-    <div id="appjs" class="p-3">
+    <div id="appjs" class="container-fluid p-3">
       <BrowserRouter>
         <Navbar />
         <div className="pages">

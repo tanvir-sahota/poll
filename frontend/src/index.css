@@ -38,7 +38,6 @@ header a {
   text-decoration: none;
 }
 #appjs {
-  container: fluid;
   color: black;
   background-color: white;
   /* margin-bottom: 300px; */
