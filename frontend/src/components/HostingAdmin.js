@@ -242,8 +242,8 @@ const HostingAdmin = (inputData) => {
         else {
             console.log("Saved quiz results")
         }
-      //  navigate("/dashboard")
-        navigate(`/api/quizzes/${quiz._id}/${quiz.classroom}`)
+      // navigate(`/api/quizzes/${quiz._id}/${quiz.classroom}`)
+        navigate(-1)
     }
 
     const chartOptions = {scales: {

@@ -3,6 +3,7 @@ import {useQuizzesContext} from "../hooks/useQuizzesContext";
 import {useParams, useRouteError} from "react-router-dom";
 import {useEffect, useState} from "react";
 import QuizDetails from "../components/QuizDetails"
+import BackButton from "../components/BackButton";
 
 const Folder = () => {
     const {folder,dispatch:dispatch_folder} = useFoldersContext()
@@ -79,6 +80,7 @@ const Folder = () => {
         <div className="container-fluid">
             <div className="row">
                 <div className="row-sm-6 mb-3" style={{textAlign:"left"}}>
+                    <BackButton />
                     <h2>{folder.title}</h2>
                     <hr className="split"></hr>
                 </div>

@@ -5,6 +5,7 @@ import QuizQuestionDetails from "../components/QuizQuestionDetails";
 
 import ShowSelectQuestion from "../components/ShowSelectQuestion"
 import { useQuizzesContext } from "../hooks/useQuizzesContext";
+import BackButton from "../components/BackButton";
 
 const Quiz = () => {
 
@@ -53,6 +54,7 @@ const Quiz = () => {
 
     return (
         <div className="quiz">
+            <BackButton />
             <div class="row">
                 <div class="col-sm-5">
                     <div class="row-sm-2" id="quizDetails">

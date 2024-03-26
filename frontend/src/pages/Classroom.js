@@ -1,16 +1,17 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useLocation, useNavigate } from "react-router-dom"
-import {useQuizzesContext} from "../hooks/useQuizzesContext";
-import {useFoldersContext} from "../hooks/useFoldersContext";
+import {useQuizzesContext} from "../hooks/useQuizzesContext"
+import {useFoldersContext} from "../hooks/useFoldersContext"
 
 
 import QuizDetails from "../components/QuizDetails"
-import QuizForm from '../components/QuizForm';
+import QuizForm from '../components/QuizForm'
 import FolderDetails from "../components/FolderDetails"
-import FolderForm from '../components/FolderForm';
+import FolderForm from '../components/FolderForm'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import BackButton from '../components/BackButton'
 
 
 const Classroom = () => {
@@ -85,7 +86,7 @@ const Classroom = () => {
             if (response.ok) {
                 dispatch_folder({type: 'SET_FOLDERS', payload: json})
                 const all_folders = json
-                const classroom_folders = all_folders.filter((folder) => folder.classroom==classID)
+                const classroom_folders = all_folders.filter((folder) => folder.classroom===classID)
 
                 if(classroom_folders.length>0) {
                     setHasFolders(true)
@@ -144,26 +145,27 @@ const Classroom = () => {
     }
     return (
         <div className="classroom" style={{ display: 'flex', alignItems: 'center' }}>
-            <div class="container">
-                <div class="row">
-                    <div class= "row-sm-6 mb-3">
+            <div className="container">
+                <div className="row">
+                    <div className= "row-sm-6 mb-3">
                         <div className="row-sm-6">
+                            <BackButton />
                             <h2>Classroom</h2>
                         </div>
                         <hr className='split'></hr>
                     </div>
-                    <div class= "col-sm-5 mb-3">
+                    <div className= "col-sm-5 mb-3">
                         {/* <div className="row-sm-6">
                             <h2>Classroom</h2>
                         </div> */}
                         <div className="row-sm-6">
-                            <div class="card">
-                                <h3 class="card-title">Question Bank</h3>
+                            <div className="card">
+                                <h3 className="card-title">Question Bank</h3>
                                 <Button id="graphButton" onClick={handleQuestionBankNavigation}>Access</Button>
                             </div>
                         </div>
                         <div className="row-sm-6">
-                            <div class="card">
+                            <div className="card">
                                 <h3 class="card-title">Quizzes and Folders</h3>
                                 <Button id="graphButton" onClick={handleShowQWF}>Quizzes</Button>
                                 <Button id="graphButton" onClick={handleShowFolders}>Folders</Button>
@@ -175,21 +177,21 @@ const Classroom = () => {
                             <h2>Classroom</h2>
                         </div> */}
                         <div className="row-sm-6">
-                            <div class="card">
-                                <h3 class="card-title">Quiz Results</h3>
+                            <div className="card">
+                                <h3 className="card-title">Quiz Results</h3>
                                 <Button id="graphButton" onClick={handleQuizResultNavigation}>Access</Button>
                             </div>
                         </div>
                         <div className="row-sm-6">
-                            <div class="card">
-                                <h3 class="card-title">Creation</h3>
+                            <div className="card">
+                                <h3 className="card-title">Creation</h3>
                                 <Button id="graphButton" onClick={handleShowQuizForm}>Create Quiz</Button>
                                 <Button id="graphButton" onClick={handleShowFolderForm}>Create Folder</Button>    
                             </div> 
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div className="row">
             </div>
 
 

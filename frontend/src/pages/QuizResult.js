@@ -8,6 +8,7 @@ import QuizDetails from "../components/QuizDetails";
 import quiz from "./Quiz";
 import QuestionResult from "../components/QuestionResult";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
+import BackButton from "../components/BackButton"
 
 
 const QuizResult = () => {
@@ -40,6 +41,7 @@ const QuizResult = () => {
     else{
         return (
             <div className="quizResults">
+                <BackButton />
                 <h1>
                     All quiz results
                 </h1>

@@ -5,6 +5,7 @@ import { useQuestionContext } from "../hooks/useQuestionContext"
 import { useLocation } from "react-router-dom"
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import BackButton from "../components/BackButton"
 
 
 const QuestionBank = () => {
@@ -37,6 +38,7 @@ const QuestionBank = () => {
             <div className="container-fluid">
                 <div className="row">
                     <div className="row-sm-6 mb-3" style={{textAlign:"left"}}>
+                        <BackButton />
                         <h2>Question Bank</h2>
                         <hr className="split"></hr>
                     </div>

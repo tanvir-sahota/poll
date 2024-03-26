@@ -37,7 +37,8 @@ const QuestionDisplay = (inputData) => {
 
     const handleDisconnect = () => {
         socket.emit("host-disconnect", lecturer) 
-        navigate("/dashboard")
+        //navigate("/dashboard")
+        navigate(-1)
     }
 
     const submitAnswer = async e => {
