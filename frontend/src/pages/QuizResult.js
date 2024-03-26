@@ -41,17 +41,23 @@ const QuizResult = () => {
     else{
         return (
             <div className="quizResults">
-                <BackButton />
-                <h1>
-                    All quiz results
-                </h1>
-                {quiz_results.map( (quiz_result) => (
-                    <div className="quizResultDetails">
-                        <h2> {quiz_result.createdAt.slice(0,10)} {quiz_result.createdAt.slice(11,16)}</h2>
-                        <QuestionResult quiz_result_id={quiz_result._id} quiz_id={quiz_result.quiz} />
+                <div className="row">
+                    <div className="col-sm-11" style={{textAlign:"left"}}>
+                        <h1>All quiz results</h1>
                     </div>
-                ))}
-
+                    <div className="col-sm-1">
+                        <BackButton />
+                    </div>
+                    <span className="split"/>
+                </div>
+                <div className="row">
+                    {quiz_results.map( (quiz_result) => (
+                        <div className="quizResultDetails">
+                            <h2> {quiz_result.createdAt.slice(0,10)} {quiz_result.createdAt.slice(11,16)}</h2>
+                            <QuestionResult quiz_result_id={quiz_result._id} quiz_id={quiz_result.quiz} />
+                        </div>
+                    ))}
+                </div>
             </div>
         )
     }

@@ -54,7 +54,6 @@ const Quiz = () => {
 
     return (
         <div className="quiz">
-            <BackButton />
             <div class="row">
                 <div class="col-sm-5">
                     <div class="row-sm-2" id="quizDetails">
@@ -65,6 +64,7 @@ const Quiz = () => {
                             <div class="card-body">
                                 <i>{quiz.description}</i>
                             </div>
+                            <BackButton />
                         </div>
                         <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id}/>
                     </div>

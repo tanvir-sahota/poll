@@ -37,11 +37,16 @@ const QuestionBank = () => {
         <div className="questionBank" style={{ display: 'flex'}}>
             <div className="container-fluid">
                 <div className="row">
-                    <div className="row-sm-6 mb-3" style={{textAlign:"left"}}>
-                        <BackButton />
+                    <div className="col-sm-11" style={{textAlign:"left"}}>
                         <h2>Question Bank</h2>
-                        <hr className="split"></hr>
+
                     </div>
+                    <div className = "col-sm-1">
+                        <BackButton />
+                    </div>
+                    <hr className="split"></hr>
+                </div>
+                <div className="row">
                     <div className="col-sm-6 mb-3">
                         <div className="questions">
                             {questions && questions.map(question => (

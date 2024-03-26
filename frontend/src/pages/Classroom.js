@@ -147,52 +147,53 @@ const Classroom = () => {
         <div className="classroom" style={{ display: 'flex', alignItems: 'center' }}>
             <div className="container">
                 <div className="row">
-                    <div className= "row-sm-6 mb-3">
-                        <div className="row-sm-6">
-                            <BackButton />
-                            <h2>Classroom</h2>
-                        </div>
-                        <hr className='split'></hr>
+                    <div className = "col-sm-11">
+                        <h2>Classroom</h2>
                     </div>
-                    <div className= "col-sm-5 mb-3">
-                        {/* <div className="row-sm-6">
-                            <h2>Classroom</h2>
-                        </div> */}
-                        <div className="row-sm-6">
-                            <div className="card">
-                                <h3 className="card-title">Question Bank</h3>
-                                <Button id="graphButton" onClick={handleQuestionBankNavigation}>Access</Button>
+                    <div className='col-sm-1'>
+                        <BackButton />
+                    </div>
+                    <hr className='split'></hr>
+                <div className="row">
+                    <div className= "col-sm-6 mb-3">
+                            {/* <div className="row-sm-6">
+                                <h2>Classroom</h2>
+                            </div> */}
+                            <div className="row-sm-6">
+                                <div className="card">
+                                    <h3 className="card-title">Question Bank</h3>
+                                    <Button id="graphButton" onClick={handleQuestionBankNavigation}>Access</Button>
+                                </div>
+                            </div>
+                            <div className="row-sm-6">
+                                <div className="card">
+                                    <h3 class="card-title">Quizzes and Folders</h3>
+                                    <Button id="graphButton" onClick={handleShowQWF}>Quizzes</Button>
+                                    <Button id="graphButton" onClick={handleShowFolders}>Folders</Button>
+                                </div> 
                             </div>
                         </div>
-                        <div className="row-sm-6">
-                            <div className="card">
-                                <h3 class="card-title">Quizzes and Folders</h3>
-                                <Button id="graphButton" onClick={handleShowQWF}>Quizzes</Button>
-                                <Button id="graphButton" onClick={handleShowFolders}>Folders</Button>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class= "col-sm-5 mb-3">
-                        {/* <div className="row-sm-6">
-                            <h2>Classroom</h2>
-                        </div> */}
-                        <div className="row-sm-6">
-                            <div className="card">
-                                <h3 className="card-title">Quiz Results</h3>
-                                <Button id="graphButton" onClick={handleQuizResultNavigation}>Access</Button>
+                        <div class= "col-sm-6 mb-3">
+                            {/* <div className="row-sm-6">
+                                <h2>Classroom</h2>
+                            </div> */}
+                            <div className="row-sm-6">
+                                <div className="card">
+                                    <h3 className="card-title">Quiz Results</h3>
+                                    <Button id="graphButton" onClick={handleQuizResultNavigation}>Access</Button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="row-sm-6">
-                            <div className="card">
-                                <h3 className="card-title">Creation</h3>
-                                <Button id="graphButton" onClick={handleShowQuizForm}>Create Quiz</Button>
-                                <Button id="graphButton" onClick={handleShowFolderForm}>Create Folder</Button>    
-                            </div> 
+                            <div className="row-sm-6">
+                                <div className="card">
+                                    <h3 className="card-title">Creation</h3>
+                                    <Button id="graphButton" onClick={handleShowQuizForm}>Create Quiz</Button>
+                                    <Button id="graphButton" onClick={handleShowFolderForm}>Create Folder</Button>    
+                                </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="row">
-            </div>
+                    
 
 
 
