@@ -3,7 +3,7 @@
 
 /* layout */
 :root {
-  --primary: #1aac83;
+  --primary: #20DA48;
   --error: #e7195a;
 }
 
@@ -20,7 +20,7 @@ header {
   background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   justify-content: center;
   font-size: calc(10px + 2vmin);
 }
@@ -37,6 +37,11 @@ header a {
   color: white;
   text-decoration: none;
 }
+#appjs {
+  color: black;
+  background-color: white;
+  /* margin-bottom: 300px; */
+}
 .pages{
   max-width: 1400px;
   padding: 20px;
@@ -44,20 +49,33 @@ header a {
 }
 
 /* homepage */
+.split{
+  border: 1px solid black;
+}
+
+#footer {
+  color: white;
+  background-color: black;
+  text-align: center;
+  /* margin-top: 3000px; */
+  /* padding-top: 400px; */
+}
+
 .questionBank {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 100px;
 }
-.question-details {
+.question-details, .quizzes .card{
   background: #fff;
   border-radius: 4px;
+  border: 1px solid darkgrey;
   margin: 20px auto;
   padding: 20px;
   position: relative;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
 }
-.question-details h4 {
+.question-details h4, .cardHeading, #question-result-heading{
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
@@ -67,35 +85,44 @@ header a {
   font-size: 0.9em;
   color: #555;
 }
-.question-details span {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  background: #f1f1f1;
-  padding: 6px;
-  border-radius: 50%;
-  color: #333;
+
+#quizDetails {
+  text-align: center;
+  height: 300px;
 }
+
+#showSelectQuestionsForm {
+  text-align: center;
+  height: 300px;
+}
+
+
 
 /* new question form */
 .form-heading:hover{
-  color: #e7195a;
+  color: rgb(112, 111, 111);
   cursor: pointer;
+}
+.form-heading{
+  padding: 10px;
+  margin-bottom: 15px;
+  background: lightgrey;
+  border: 0;
+  color: black;
+  font-family: "Poppins";
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+#questionsToSelect {
+  align-items: center;
 }
 
 label, input {
   display: block;
 }
-.create input {
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
+
 form button {
   background: var(--primary);
   border: 0;
@@ -148,18 +175,13 @@ label, input {
   font-size: 0.9em;
   color: #555;
 }
-.classroom-object span {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  background: #f1f1f1;
-  padding: 6px;
-  border-radius: 50%;
-  color: #333;
+
+#folderForm {
+  margin-top: 0px;
+  
 }
 
-form button, div button {
+form button, div button, #answerSubmit {
   background: goldenrod;
   border: 0;
   color: #fff;
@@ -175,7 +197,18 @@ div.error {
   color: var(--error);
   border-radius: 4px;
   margin: 20px 0;
+  text-align: center;
 }
+div.success {
+  padding: 10px;
+  background: #e1f5e0;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: 4px;
+  margin: 20px 0;
+  text-align: center;
+}
+
 /* edit button */
 .edit{
   background: var(--primary);
@@ -187,8 +220,8 @@ div.error {
   cursor: pointer;
 }
 
-.questions div .edit{
-  background-color:#c0392b;
+.questions div .edit ,#folderButton, #quizButton{
+  background-color:goldenrod;
   border-top-left-radius:5px;
   border-top-right-radius:5px;
   border-bottom-left-radius:5px;
@@ -198,18 +231,19 @@ div.error {
  }
  
  /* Span Tag */
- .questions .question-details span{
-  font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
-  text-transform:uppercase;
-  background-color:#d3d3d3;
-  border-top-left-radius:20px;
-  border-top-right-radius:20px;
-  border-bottom-left-radius:20px;
-  border-bottom-right-radius:20px;
- }
+ .deleteIcons, .closeIcon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  background: #f1f1f1;
+  padding: 6px;
+  border-radius: 50%;
+  color: #333;
+}
  
  /* Paragraph */
- .questions .question-details p{
+ .questions .question-details p, .quizzes .card p  {
   position:relative;
   font-size:15px;
   text-transform:none;
@@ -225,6 +259,10 @@ div.error {
   
 input.error {
   border: 1px solid crimson;
+}
+
+input.success {
+  border: 1px solid greenyellow;
 }
 
 #add {
@@ -249,57 +287,309 @@ code {
   monospace;
 }
 
-/* HostingAdmin and QuestionDisplay *//*
-.questionDisplay {
-  grid-area: question;
-  
+input[type="text"] {
+  color: black;
 }
 
-.nextButton {
-  grid-area: next;
+.container-fluid {
+  text-align: center;
+  padding-bottom: 200px;
+  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
 }
 
-.prevButton {
-  grid-area: prev;
-}
-.options { 
-  grid-area: options;
-}
-
-.hostingDisplay {
-  display: grid;
-  grid-template-areas:
-  '. question question question .'
-  '. options . . .'
-  'prev . . . next';
-
-  grid-template-rows: 3fr 3fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
+.menuNav {
+  /* padding-right: 75%; */
+  background: goldenrod;
+  max-width: max-content;
+  max-height: max-content;
 }
 
-.display {
-  display: flex;
-  flex-direction: column;
+#mainMenu {
+  color: white;
 }
 
 #disconnectButton {
-  float: right;
+  margin-left: 10px;
 }
 
-#showAnswer {
-  margin-top:50px ;
+.showAnswer {
+  margin-right: 10px;
 }
 
-input[name="answerArea"] {
-  min-width: 300px;
-  min-height: 45px;
-  background: rgba(23,184,237,1);
+#saveQuiz {
+  margin-top: 10px;
 }
 
-input:focus[name="answerArea"] {
-  outline: none !important;
-  border:1px solid black;
-  box-shadow: 0 0 10px #719ECE;
-}*/
+#answers {
+  text-align: center;
+}
+
+#codeOptions {
+  text-align: center;
+}
+
+.answer {
+  background-color: white;
+  color: black;
+}
+
+.codeOption {
+  background-color: white;
+  color: black;
+}
+
+#answerBox {
+  width: 10%;
+  min-height: 150px;
+}
+
+.questionContainer {
+  border-style: solid;
+  background-color: rgba(211, 211, 211, 0.222);
+  height: 100%;
+  width: 100%;
+}
+
+.classroom {
+  text-align: left;
+  border-style: none;
+  padding-bottom: 200px;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+
+#deleteClassroomButton {
+  width: 100%;
+}
+
+#notDeleteClassroomButton {
+  width: 100%;
+}
+
+.quizzes {
+  text-align: center;
+}
+
+.folders {
+  text-align: center;
+}
+
+#hostingDisplay {
+  display: flex;
+}
+#rowQuestionDisplay {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+#prevButtonContainer {
+  flex: 1;
+}
+#nextButtonContainer {
+  flex: 1;
+}
+#questionDisplayContainer {
+  flex: 1;
+  flex-basis: 35%;
+  justify-content: center;
+}
+
+#prevButton {
+  width: 50%;
+  height: 100%;
+  flex-basis: 30%;
+} 
+#nextButton {
+  width: 50%;
+  height: 100%;
+  flex-basis: 20%;
+}
+#questionDisplay {
+  width: 100%;
+  height: 100%;
+}
+
+#displayedQuestion {
+  font-size: 50px;
+  padding-top: 20px;
+  color: black;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  border-bottom-style: solid;
+  border-bottom-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+  padding-bottom: 20px;
+}
+
+.answerOptions {
+  color: black;
+  width: auto;
+}
+
+#answerBox {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 200%;
+  text-align: center;
+  height: 100px;
+  width: 800px;
+}
+#answerSubmit {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100px;
+}
+
+.options {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  width: auto;
+  height: auto;
+}
+
+.pOption, .unpOption {
+  width: 190px;
+  height: 150px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+   margin-right: 10px;
+
+  border-radius: 50px;
+  font-size: 35px;
+}
+
+#graphButton {
+  margin-top: 10px;
+  width: 60%;
+}
+
+#createButton {
+  margin-top: 10px;
+  width: 40%;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 
+
+.update{
+  align-content: left;
+  text-align: left;
+}
+
+.update label{
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+
+#disclaimer{
+  text-align: left;
+  padding-bottom: 5px;
+}
+
+#folderButton, #quizButton{
+  max-width: 80px;
+}
+
+.quizzes .card{
+  max-width: 600px;
+  align-self: left;
+}
+
+#questionCheckbox{
+  padding: 10px;
+  margin-top: 25px;
+  margin-bottom: 22px;
+  width: 100%;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  box-sizing: border-box;
+  vertical-align: top;
+  cursor: pointer;
+  height: 20px;
+}
+
+#questionsLabel{
+  vertical-align: top;
+  text-align: center;
+  font-size: 20px;
+  width: 100%;
+}
+
+#questionSelection{
+  border: black 1px solid;
+  padding: 10px;
+  margin-bottom: 100px;
+}
+
+#SQFContainer {
+  padding: 10px;
+}
+
+.host {
+  background-color: goldenrod;
+  color: #fff;
+  font-family: "Poppins";
+  border-radius: 4px;
+}
+
+#optionsDisplay {
+  padding-bottom: 40px;
+}
+
+.bi-arrow-left, .bi-arrow-right{
+  font-size: 60px;
+}
+
+#root .container-fluid{
+  padding:0px !important;
+}
+
+#studentAnswer{
+  text-align: center;
+} 
+
+.create input {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#cardOne{
+  width:1200px;
+}
+
+#cardTwo, #cardThree{
+  width:600px;
+}
+
+.quizResults p{
+  width: 200px;
+  text-align: center;
+}
+
+#quiz-result-answers{
+  width: 400px;
+}
+
+#responseButton{
+  margin-top: 10px;
+  width: 803px;
+}
+
+#hostingLabels{
+  margin-top: 10px;
+  vertical-align: bottom;
+}

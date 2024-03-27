@@ -5,6 +5,7 @@ import QuizQuestionDetails from "../components/QuizQuestionDetails";
 
 import ShowSelectQuestion from "../components/ShowSelectQuestion"
 import { useQuizzesContext } from "../hooks/useQuizzesContext";
+import BackButton from "../components/BackButton";
 
 const Quiz = () => {
 
@@ -44,33 +45,42 @@ const Quiz = () => {
         fetchQuiz()
     }, [quiz])
 
+
     if (quiz==null) {
         return <h2>"Still loading..."</h2>
     }
+
+    
+
     return (
         <div className="quiz">
-            <h2>Quiz</h2>
-            <br/>
-            <br/>
-            <div className="quizzes">
-                <h3>{quiz.title}</h3>
-                <h3>{quiz.description}</h3>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="row-sm-2" id="quizDetails">
+                        <div class="card">
+                            <h3 class="card-title">
+                                {quiz.title}
+                            </h3>
+                            <div class="card-body">
+                                <i>{quiz.description}</i>
+                            </div>
+                            <BackButton />
+                        </div>
+                        <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id}/>
+                    </div>
+                </div>
+
+
+
+                <div class="col-sm-7">
+                    <div className="questions">
+                        {questions.length > 0 && questions.map(question => (
+                            <QuizQuestionDetails question = {question} key={question._id} classID = {classroom_id} />
+                        ))}
+                    </div>
+                </div>
+
             </div>
-
-            <div className="questions">
-                {questions.length > 0 && questions.map(question => (
-                    <QuizQuestionDetails question = {question} key={question._id} classID = {classroom_id} />
-                ))}
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-
-
-            <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id}/>
-            
             
 
             {error && <div className={"error"}>{error}</div>}

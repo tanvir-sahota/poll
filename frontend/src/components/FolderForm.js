@@ -7,6 +7,7 @@ const FolderForm = (classID) => {
     const {dispatch} = useFoldersContext()
     const [title, setTitle] = useState('')
     const [error, setError] = useState(null)
+    const [success, setSuccess] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
     const [quizzes, setQuizzes] = useState([])
     
@@ -30,19 +31,21 @@ const FolderForm = (classID) => {
 
         if (!response.ok) {
             setError(json.error)
+            setSuccess(null)
             setEmptyFields(json.emptyFields)
         }
         if (response.ok) {
             setTitle('')
             setQuizzes('')
             setError(null)
+            setSuccess("Successful Creation!")
             setEmptyFields([])
             console.log('new folder added', json)
             dispatch({type: 'CREATE_FOLDER', payload: json})
         }
     }
     return (
-        <form className="create" onSubmit={handleSubmit} title="folder form">
+        <form className="create" onSubmit={handleSubmit} title="folder form" id="folderForm">
             <h3> Add a new folder</h3>
             <label>Folder title:</label>
             <input
@@ -54,6 +57,7 @@ const FolderForm = (classID) => {
                 />
             <button> Add Folder</button>
             {error && <div className={"error"}>{error}</div>}
+            {/* {success && <div className={"success"}>{success}</div>} */}
         </form>
     )
 }

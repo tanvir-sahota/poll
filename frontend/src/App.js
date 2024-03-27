@@ -15,8 +15,9 @@ import ConnectionPage from './pages/ConnectionPage'
 import Home from "./pages/Home"
 import UserPage from './pages/UserPage'
 import WaitingPage from './pages/WaitingPage'
-
+import QuizResult from "./pages/QuizResult"
 import io from "socket.io-client"
+
 
 const socket = io.connect(`${process.env.REACT_APP_URL}`)
 
@@ -27,7 +28,7 @@ function App() {
   })
 
   return (
-    <div className="App">
+    <div id="appjs" class="container-fluid p-3">
       <BrowserRouter>
         <Navbar />
         <div className="pages">
@@ -53,6 +54,10 @@ function App() {
               element = {<QuestionBankPage />}
             />
             <Route
+              path="/:classID/quiz-results"
+              element = {<QuizResult/>}
+            />
+            <Route
                 path="/api/quizzes/"
                 element={<QuizDashboard/>}
             />
@@ -72,6 +77,7 @@ function App() {
                 path="/api/quizzes/:quiz_id/:classroom_id?"
                 element={<Quiz/>}
             />
+
             <Route 
               path = "/:lecturer/admin"
               element ={<HostedClassroom socket={socket}/>}

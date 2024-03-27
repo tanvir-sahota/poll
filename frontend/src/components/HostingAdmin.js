@@ -3,7 +3,13 @@ import {useQuizzesContext} from "../hooks/useQuizzesContext"
 import {useEffect, useState} from "react"
 import QuestionDisplay from "./QuestionDisplay"
 import parse from 'html-react-parser'
+import { Bar } from 'react-chartjs-2'
+import Chart from 'chart.js/auto'
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 import {useNavigate} from "react-router-dom";
+import ReactDOM from "react-dom/client";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const HostingAdmin = (inputData) => {
     const {socket, currentQuestion, lecturer} = inputData
@@ -12,13 +18,85 @@ const HostingAdmin = (inputData) => {
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
 
+    const [correctSubmissions, setCorrectSubmissions] = useState(0)
+    const [regularExpression, setRegex] = useState([])
+    
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
+
+    const [showWH, setWHShow] = useState(false)
+    const handleWHClose = () => setWHShow(false)
+    const handleWHShow = () => setWHShow(true)
+
+
+    
+
+    const getChart = () => ({
+        labels: questions[position].options,
+        datasets: [{
+            label: "Selections",
+            data: questions[position].options.map(option => answers[position].at(questions[position].options.indexOf(option))),
+            backgroundColor: questions[position].options.map(op => (questions[position].answers.includes(op) 
+            || questions[position].answers.includes(op.slice(2)) ? 'green' : 'red')),
+        }],
+      })
+    const [chartData, setChart] = useState(getChart())
+    useEffect(() => {setChart(getChart())}, [questions, answers, position])
+
+      
+    const navigate = useNavigate()
+    const [attendees, setAttendees] = useState(0)
+    const [submission, setSubmission] = useState(0)
+
+    const getWHChart = () => ({
+        labels: ["Correct", "Incorrect"],
+        datasets: [{
+            label: "Selections",
+            data: [correctSubmissions, ((submission - correctSubmissions))],
+            backgroundColor: ['green', 'red'],
+        }],
+    })
+    const [chartWHData, setWHChart] = useState(getWHChart())
+    useEffect(() => {setWHChart(getWHChart())}, [questions, answers, position, submission, correctSubmissions])
+
+    useEffect(() => {
+
+        const attendeeChecker = () => {
+            console.log("Got message")
+            socket.emit("update-attendees", lecturer, (response) => {
+                console.log(response.count)
+                setAttendees(response.count)
+            })
+        }
+
+        socket.on("new-attendees", attendeeChecker)
+        return () => {
+            socket.off("new-attendees", attendeeChecker)
+        }
+    }, [])
+    
+
+
     useEffect(() => {
         let receiveTextHandler = null
         receiveTextHandler = answer => {
-            setAnswers(prevAnswers => {
-                const allAnswers = [...prevAnswers]
-                allAnswers[position] = [...prevAnswers[position], answer]
-                return allAnswers
+            console.log("received answer: " + answer)
+            // setAnswers(prevAnswers => {
+            //     const allAnswers = [...prevAnswers]
+            //     allAnswers[position] = [...prevAnswers[position], answer]
+            //     return allAnswers
+            // })
+            console.log("REGEX", regularExpression)
+            const comparison = regularExpression.map(regex => {
+                return regex == answer.toString().replaceAll(" ","").toLowerCase()})
+            console.log(comparison)
+            if(comparison.includes(true)){
+                setCorrectSubmissions(prevValue => {return (prevValue + 1)})
+            }
+            console.log("NUMBER OF CORRECT SUBMISSIONS ", correctSubmissions)
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
             })
         }
         socket.addEventListener("recieve-answer-text", receiveTextHandler)
@@ -48,6 +126,9 @@ const HostingAdmin = (inputData) => {
                 console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
+            })
         }
         socket.addEventListener("recieve-answer-mcq", receiveMultipleChoiceHandler)
         console.log("Added MCQ event handler")
@@ -72,6 +153,9 @@ const HostingAdmin = (inputData) => {
                 console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
+            socket.emit("get-number-of-submissions", lecturer, (response) => {
+                setSubmission(response.count)
+            })
         }
         socket.addEventListener("decline-answer-mcq", declineMultipleChoiceHandler)
         return () => {
@@ -82,30 +166,89 @@ const HostingAdmin = (inputData) => {
     }, [position])
 
     useEffect(() => {
+        console.log("SET QUESTION")
         socket.emit("set-question", questions[position], lecturer)
+        if(questions[position].questionType == "Wh-Question"){
+            const answers = questions[position].answers
+            const regexArray = answers.map(answer => {
+                const temp = answer.toLowerCase().replaceAll(' ', '')
+                return temp
+            })
+            console.log(regexArray)
+            setRegex(regexArray)
+            console.log("NEW REGEX ", regularExpression)
+        }
+        shouldRenderPrevious(position)
+        shouldRenderNext(position)
     }, [position])
 
-    const handleNext = async () => {
-        if (position >= questions.length - 1) {
-            setPosition(0)
-        } else {
+    const handleNext =  () => {
+        // if (position >= questions.length - 1) {
+        //     setPosition(0)
+        // } else {
+        //     const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
+        //     setPosition(tempPosition + 1)
+        // }
+
+        if (position < questions.length - 1) {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition + 1)
+
+            shouldRenderPrevious(tempPosition + 1)
+            shouldRenderNext(tempPosition + 1)
+
         }
     }
-    const handlePrev = async () => {
-        if (position <= 0) {
-            setPosition(questions.length - 1)
+
+    const shouldRenderNext = async (newPos = 0) => {
+       // const nextButton = document.getElementById("nextButton");
+        const nextButton = document.getElementById("nextButton");
+        if (newPos === questions.length - 1) {
+            nextButton.hidden = true
         } else {
+            nextButton.hidden = false
+        }
+
+    }
+
+
+    const handlePrev = async () => {
+        // if (position <= 0) {
+        //     setPosition(questions.length - 1)
+        // } else {
+        //     const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
+        //     setPosition(tempPosition - 1)
+        // }
+
+        if (position > 0) {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition - 1)
+
+            shouldRenderPrevious(tempPosition -1)
+            shouldRenderNext(tempPosition -1)
+        }
+        setSubmission(0)
+    }
+
+    const shouldRenderPrevious = async (newPos = 0) => {
+       // const nextButton = document.getElementById("nextButton");
+        const prevButton = document.getElementById("prevButton");
+        console.log(position)
+        if (newPos === 0) {
+            prevButton.hidden = true
+        } else {
+           prevButton.hidden = false
         }
     }
+
 
     const handleSaveQuiz = async () => {
         console.log("Handling save quiz")
         socket.emit("host-disconnect", lecturer)
         console.log("About to send fetch")
+
+
+
         const quizResults = {quiz, questions, answers}
         const response = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/`, {
             method: "POST",
@@ -114,6 +257,23 @@ const HostingAdmin = (inputData) => {
                 "Content-Type": "application/json",
             },
         });
+
+
+        for (let index = 0; index < questions.length; index++) {
+            const currentQuestion = questions.at(index)
+            const currentAnswer = answers.at(index)
+            console.log(currentQuestion)
+
+            const questionAnswerBody = {currentQuestion, currentAnswer, quiz}
+            const response =  fetch(`${process.env.REACT_APP_URL}api/question-results/`, {
+            method: "POST",
+            body: JSON.stringify(questionAnswerBody),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            });
+        }
+
         console.log("Sent fetch")
         const json = await response.json();
         console.log("Got JSON")
@@ -124,57 +284,89 @@ const HostingAdmin = (inputData) => {
         else {
             console.log("Saved quiz results")
         }
-        window.location.href = "/dashboard"
+
+      // navigate(`/api/quizzes/${quiz._id}/${quiz.classroom}`)
+        navigate(-1)
+
     }
+
+    const chartOptions = {scales: {
+        x: {ticks: {font: {size : 25},},},
+        y: {ticks: {stepSize: 1,},},},}
+      
 
     return (
         <div className="hostingDisplay">
-            <div className="questionDisplay">
-                <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket}
-                                 lecturer={lecturer}/>
+            <div class="row" id="rowQuestionDisplay">
+                <div id="prevButtonContainer">
+                    <button id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>
+                        <i className="bi bi-arrow-left"></i>
+                    </button>
+                </div>
+                <div id="questionDisplayContainer">
+                    <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket} lecturer={lecturer}/>
+                </div>
+                <div id="nextButtonContainer">
+                    <button id="nextButton" onClick={handleNext} onLoad={shouldRenderNext}>
+                        <i className="bi bi-arrow-right"></i>
+                    </button>
+                </div>
             </div>
-            <div className="nextButton">
-                <button onClick={handleNext}>
-                    NEXT QUESTION
-                </button>
+           
+            <Modal show={show} onHide={handleClose} fullscreen={true}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Responses</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Bar data={chartData} options={chartOptions} />                
+                </Modal.Body>
+            </Modal>
+            {questions[position].options.length > 0 ?
+            <div className="questionDisplayContainer">
+                <Button id="responseButton" onClick={handleShow}>Student Responses</Button>
             </div>
-            <div className="prevButton">
-                <button onClick={handlePrev}>
-                    PREVIOUS QUESTION
-                </button>
-            </div>
-            <div className="saveQuizButton">
-                <button id="disconnectButton" onClick={handleSaveQuiz}>
-                    Save Quiz
-                </button>
-            </div>
-            <div className="options">
-                {questions[position].options.length > 1 ?
-                    (questions[position].questionType === "CodeMCQ") ?
-                        questions[position].options.map(option => {
-                            const count = answers[position].at(questions[position].options.indexOf(option))
-                            //console.log(`${option}: ${count}`)
-                            //console.log(`ANSWERS: ${answers}`)
+            : null}
 
-                            return <dl>
-                                <dt>{parse(option)}</dt>
-                                <dd>{count}</dd>
-                            </dl>
-                        })
-                        :
-                        questions[position].options.map(option => {
-                            const count = answers[position].at(questions[position].options.indexOf(option))
-                            //console.log(`${option}: ${count}`)
-                            //console.log(`ANSWERS: ${answers}`)
-                            return <dl>
-                                <dt>{option}</dt>
-                                <dd>{count}</dd>
-                            </dl>
-                        })
-                    :
-                    answers[position] && answers[position].map(answer => (<p>{answer}</p>))
-                }
+            <Modal show={showWH} onHide={handleWHClose} fullscreen={true}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Responses</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Bar data={chartWHData} options={chartOptions}/>                
+                </Modal.Body>
+            </Modal>
+
+            {questions[position].options.length === 0 ?
+            <div className="questionDisplayContainer">
+                <Button id="responseButton" onClick={handleWHShow}>Student Responses</Button>
             </div>
+            : null}
+            
+            <div className="row">
+                <div className="col-sm-2"></div>
+                <div className="col-sm-1" style={{textAlign:"right"}}>
+                    <span id="hostingLabels"className="material-symbols-outlined">input</span>
+                </div>
+                <div className="col-sm-1" style={{textAlign:"left"}}>
+                    <p id="hostingLabels">{attendees}</p>
+                </div>
+
+                <div className="col-sm-4">
+                    <button id="saveQuiz" onClick={handleSaveQuiz}>
+                        Save Quiz
+                    </button>
+                </div>
+                <div className="col-sm-1" style={{textAlign:"right"}}>
+                    <span id="hostingLabels"className="material-symbols-outlined">group</span>
+                </div>
+                <div className="col-sm-1" style={{textAlign:"left"}}>
+                    <p id="hostingLabels">{submission}</p>
+                </div>
+                <div className="col-sm-2"></div>
+            </div>
+            
+
+
         </div>
     )
 }

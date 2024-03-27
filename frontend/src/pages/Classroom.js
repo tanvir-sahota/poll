@@ -1,42 +1,75 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { useLocation } from "react-router-dom"
-import {useQuizzesContext} from "../hooks/useQuizzesContext";
-import {useFoldersContext} from "../hooks/useFoldersContext";
-
-import { Link } from 'react-router-dom'
+import { useLocation, useNavigate } from "react-router-dom"
+import {useQuizzesContext} from "../hooks/useQuizzesContext"
+import {useFoldersContext} from "../hooks/useFoldersContext"
 
 
 import QuizDetails from "../components/QuizDetails"
-import QuizForm from '../components/QuizForm';
+import QuizForm from '../components/QuizForm'
 import FolderDetails from "../components/FolderDetails"
-import FolderForm from '../components/FolderForm';
+import FolderForm from '../components/FolderForm'
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import BackButton from '../components/BackButton'
 
 
 const Classroom = () => {
     const classID = useLocation().pathname.split("/").at(1)
     const [quizzes_without_folder,set_qwf] = useState([]);
-    const {quizzes, dispatch: dispatch_quiz} = useQuizzesContext() 
+    const {quizzes, dispatch: dispatch_quiz} = useQuizzesContext()
     const {folders, dispatch: dispatch_folder} = useFoldersContext()
+
+
+    const [showQWF, setShowQWF] = useState(false)
+    const handleCloseQWF = () => setShowQWF(false)
+    const handleShowQWF = () => setShowQWF(true)
+
+    const [showFolders, setShowFolders] = useState(false)
+    const handleCloseFolders = () => setShowFolders(false)
+    const handleShowFolders = () => setShowFolders(true)
+
+    const [showQuizForm, setShowQuizForm] = useState(false)
+    const handleCloseQuizForm = () => setShowQuizForm(false)
+    const handleShowQuizForm = () => setShowQuizForm(true)
+
+    const [showFolderForm, setShowFolderForm] = useState(false)
+    const handleCloseFolderForm = () => setShowFolderForm(false)
+    const handleShowFolderForm = () => setShowFolderForm(true)
+
+    const [hasQuizzes, setHasQuizzes] = useState(false)
+    const [hasFolders, setHasFolders] = useState(false)
+
+    const navigate = useNavigate()
 
 
     useEffect(() => {        
         const fetchQuizzes = async () => {
             const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes`)
             const json = await response.json()
-            
+
 
             if (response.ok) {
                 dispatch_quiz({type: 'SET_QUIZZES', payload: json})
                 console.log(json)
                 const all_quizzes = json
-                const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom==classID)          
+                const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom==classID)
+
+                if(classroom_quizzes.length>0){
+                    setHasQuizzes(true)
+                }
+                else{
+                    setHasQuizzes(false)
+                }
+
+                console.log("has quizzes: " + hasQuizzes)
+                
                 assign_questions_to_quizzes(classroom_quizzes, classID)
             }
-            
+
         }
         fetchQuizzes()
-    }, [dispatch_quiz,classID])
+    }, [dispatch_quiz,classID, showQWF])
 
 
     useEffect(() => {
@@ -45,7 +78,7 @@ const Classroom = () => {
         assign_questions_to_quizzes(classroom_quizzes_without_folder,classID)
     }, [quizzes]);
 
-    useEffect(() => {        
+    useEffect(() => {
         const fetchFolders = async () => {
             const response = await fetch(`${process.env.REACT_APP_URL}api/folders`)
             const json = await response.json()
@@ -53,19 +86,27 @@ const Classroom = () => {
             if (response.ok) {
                 dispatch_folder({type: 'SET_FOLDERS', payload: json})
                 const all_folders = json
-                const classroom_folders = all_folders.filter((folder) => folder.classroom==classID)                
+                const classroom_folders = all_folders.filter((folder) => folder.classroom===classID)
+
+                if(classroom_folders.length>0) {
+                    setHasFolders(true)
+                }
+                else{
+                    setHasFolders(false)
+                }
+                
                 assign_quizzes_to_folders(classroom_folders, classID)
             }
         }
         fetchFolders()
-    }, [dispatch_folder,classID])
+    }, [dispatch_folder,classID, showFolders])
 
     const handleDragStart = (e, quizId) => {
         e.dataTransfer.setData('quizId', quizId);
     };
 
     const handleDrop = async (quizId, folderId) => {
-       
+
         try {
             const response = await fetch(`/api/quizzes/${quizId}`, {
                 method: 'PATCH',
@@ -76,48 +117,138 @@ const Classroom = () => {
             });
             const json = await response.json()
             json.folder = folderId
-    
+
             if (!response.ok) {
                 throw new Error('Failed to move quiz to folder');
             }else{
                 console.log(json)
                 dispatch_quiz({ type: 'UPDATE_QUIZ', payload: json });
             }
-    
+
         } catch (error) {
             console.error('Error moving quiz to folder:', error);
         }
-        
-        
+
+
     };
 
     const handleDragOver = (e) => {
         e.preventDefault()
     }
 
+    const handleQuestionBankNavigation = () => {
+        navigate(`/${classID}/question-bank`)
+    }
+
+    const handleQuizResultNavigation = () => {
+        navigate(`/${classID}/quiz-results`)
+    }
     return (
-        <div className="dashboard">
-            
-            <h2>Classroom</h2>
-            <QuizForm classID={classID} />
-            <div className="quizzes">
-                {quizzes_without_folder && quizzes_without_folder.map((quiz) => (
-                        <QuizDetails key={quiz._id} quiz={quiz} classID={classID} onDragStart={handleDragStart}/>
-                ))}
-            </div>
+        <div className="classroom" style={{ display: 'flex', alignItems: 'center' }}>
+            <div className="container">
+                <div className="row">
+                    <div className = "col-sm-11">
+                        <h2>Classroom</h2>
+                    </div>
+                    <div className='col-sm-1'>
+                        <BackButton />
+                    </div>
+                    <hr className='split'></hr>
+                <div className="row">
+                    <div className= "col-sm-6 mb-3">
+                            {/* <div className="row-sm-6">
+                                <h2>Classroom</h2>
+                            </div> */}
+                            <div className="row-sm-6">
+                                <div className="card">
+                                    <h3 className="card-title">Question Bank</h3>
+                                    <Button id="graphButton" onClick={handleQuestionBankNavigation}>Access</Button>
+                                </div>
+                            </div>
+                            <div className="row-sm-6">
+                                <div className="card">
+                                    <h3 class="card-title">Quizzes and Folders</h3>
+                                    <Button id="graphButton" onClick={handleShowQWF}>Quizzes</Button>
+                                    <Button id="graphButton" onClick={handleShowFolders}>Folders</Button>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class= "col-sm-6 mb-3">
+                            {/* <div className="row-sm-6">
+                                <h2>Classroom</h2>
+                            </div> */}
+                            <div className="row-sm-6">
+                                <div className="card">
+                                    <h3 className="card-title">Quiz Results</h3>
+                                    <Button id="graphButton" onClick={handleQuizResultNavigation}>Access</Button>
+                                </div>
+                            </div>
+                            <div className="row-sm-6">
+                                <div className="card">
+                                    <h3 className="card-title">Creation</h3>
+                                    <Button id="graphButton" onClick={handleShowQuizForm}>Create Quiz</Button>
+                                    <Button id="graphButton" onClick={handleShowFolderForm}>Create Folder</Button>    
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
 
-            <FolderForm classID={classID} />
-            <div className="folders">
-                {folders && folders.map((folder) => (
-                    <FolderDetails key={folder._id} folder={folder} classID={classID} 
-                    onDragOver={handleDragOver} onDrop={handleDrop}/>
-                ))}
-            </div>
-            { <div className="classrooms">
-                <h3>Question Bank</h3>
-                <Link to={`${process.env.REACT_APP_URL}` + classID + "/question-bank"}><h4>click here for questions</h4></Link>
-            </div> }
 
+
+            <Modal show={showQWF} onHide={handleCloseQWF}>
+                <Modal.Body>
+                    <div className="quizModal">
+                        <h3>Quizzes</h3>
+                        <div className="closeIcon">
+                            <span className="material-symbols-outlined" onClick={handleCloseQWF}>Close</span>
+                        </div>
+                        {quizzes_without_folder && hasQuizzes && quizzes_without_folder.map((quiz) => (
+                            <QuizDetails key={quiz._id} quiz={quiz} classID={classID} onDragStart={handleDragStart}/>
+                        ))}
+                        {!quizzes_without_folder || (quizzes_without_folder && !hasQuizzes) ? (
+                            <h6>You have no quizzes that have no folders.</h6>
+                        ) : null}
+                    </div>
+                </Modal.Body>
+            </Modal>
+            </div>
+            <Modal show={showFolders} onHide={handleCloseFolders}>
+                <Modal.Body>
+                    <div className="folders">
+                    <h3>Folders</h3>
+                    <div className="closeIcon">
+                        <span className="material-symbols-outlined" onClick={handleCloseFolders}>Close</span>
+                    </div>
+                        {folders && hasFolders && folders.map((folder) => (
+                            <FolderDetails key={folder._id} folder={folder} classID={classID}
+                            onDragOver={handleDragOver} onDrop={handleDrop}/>
+                        ))}
+                        {!folders || (folders && !hasFolders) ? (
+                            <h6>You have no folders.</h6>
+                        ) : null}
+                    </div>
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={showQuizForm} onHide={handleCloseQuizForm}>
+                <Modal.Body>
+                    <div className="closeIcon">
+                        <span className="material-symbols-outlined" onClick={handleCloseQuizForm}>Close</span>
+                    </div>
+                    <QuizForm classID={classID}/>
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={showFolderForm} onHide={handleCloseFolderForm}>
+                <Modal.Body>
+                    <div className="closeIcon">
+                        <span className="material-symbols-outlined" onClick={handleCloseFolderForm}>Close</span>
+                    </div>
+                    <FolderForm classID={classID}/>
+                </Modal.Body>
+            </Modal>
         </div>
          
     )

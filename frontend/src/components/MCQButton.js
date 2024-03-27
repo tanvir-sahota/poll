@@ -2,10 +2,10 @@ import { useState } from "react"
 
 
 const MCQButton = (inputData) => {
-    const {option, socket, lecturer} = inputData
-    const [pressed, setPressed] = useState(false)
-
-    const submitMCQAnswer = (option) => {
+    const {option, position, socket, lecturer, pressed, handleMCQ} = inputData
+    //const [pressed, setPressed] = useState(false)
+    
+    /*const submitMCQAnswer = (option) => {
         socket.emit("submit-answer-MCQ", lecturer , option)
         setPressed(true)
         console.log("Option is ", option)
@@ -19,12 +19,14 @@ const MCQButton = (inputData) => {
 
     const handleMCQ = (option) => {
         !pressed ? submitMCQAnswer(option) : unSubmitMCQ(option)
-    }
-
+    }*/
+    
     const buttonColour = pressed ? {backgroundColor: "red"} : {backgroundColor: "goldenrod"}
+
     return(
-        <button style={buttonColour} key={option} className={pressed ? "pOption" : "unpOption"} onClick={() => handleMCQ(option)}>
-            {option.includes("<code>") ? option[0]: option}</button>
+        <button style={buttonColour} key={option} className={pressed ? "pOption" : "unpOption"} onClick={() => handleMCQ(option, position)}>
+            {option.includes("<code>") ? option[0] : option}
+        </button>
     )
 }
 

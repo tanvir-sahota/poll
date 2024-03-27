@@ -2,10 +2,16 @@ import { useClassroomContext } from "../hooks/useClassroomContext"
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
+import Modal from 'react-bootstrap/Modal'
+import { Button } from "rsuite"
 
 const ClassroomObject = ({ classroom }) => {
     const { dispatch } = useClassroomContext()
     const [ownerUsername, setOwnerUsername] = useState('')
+    
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
 
     const fetchOwnerUsername = async (ownerid) => {
       try {
@@ -40,17 +46,35 @@ const ClassroomObject = ({ classroom }) => {
 
     }
 
+    // const 
+    
+
     return (
       <div className="card-grid">
         <div className="card">
           <div className="classroom-object">
             <Link to={`/` + classroom._id + "/classroom"}><h4>{classroom.title}</h4></Link>
             <p><strong>Owner: </strong>{ownerUsername}</p>
-            <p><strong>Number of quizzes: </strong>{classroom.quizzes.length}</p>
-            {classroom.createdAt && (<p>{formatDistanceToNow(new Date(classroom.createdAt), { addSuffix: true })}</p>)}
-            <span className="material-symbols-outlined" onClick={handleClick}>Delete</span>
+            <p>{formatDistanceToNow(new Date(classroom.createdAt), { addSuffix: true })}</p>
+            <div className="deleteIcons">
+              <span className="material-symbols-outlined" onClick={handleShow}>Delete</span>
+            </div>
           </div>
         </div>
+        
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header>
+            <h4>Are you sure you want to delete this classroom?</h4>
+          </Modal.Header>
+          <Modal.Body>
+            <h6>This will also delete ALL your quizzes and questions in this classroom.</h6>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button id="deleteClassroomButton" onClick={handleClick}>Yes</Button>
+            <Button id="notDeleteClassroomButton" onClick={handleClose}>No</Button>
+          </Modal.Footer>
+        </Modal>
+
       </div>
     )
   }

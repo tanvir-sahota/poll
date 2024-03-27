@@ -40,7 +40,7 @@ const SignupForm = () => {
   return (
     <div
       className="form-container"
-      style={{ display: "block", width: 700, padding: 30 }}
+      style={{ display: "inline-block", width: 700, padding: 30 }}
     >
       <Form className="sign-up" onSubmit={handleSubmit(onSubmit)}>
         <h1>Sign Up</h1>

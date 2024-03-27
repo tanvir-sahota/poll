@@ -63,14 +63,14 @@ const EnterNameForm = (inputData) => {
     }*/
 
     const generateUsername = () => {
-        let count = sessionStorage.getItem('usernameCounter') || 1
+        let count = sessionStorage.getItem('usernameCounter') || Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000
         let newUsername = '';
 
         while (true) {
             newUsername = `guest${count}`;
             if (!usedUsernames.includes(newUsername)) {
                 setUsedUsernames([...usedUsernames, newUsername])
-                sessionStorage.setItem('usernameCounter', parseInt(count) + 1)
+                sessionStorage.setItem('usernameCounter', Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000)
                 return newUsername;
             }
             count++;

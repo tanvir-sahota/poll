@@ -10,8 +10,8 @@ const LoginForm = () => {
   const { handleSubmit, control, setError, formState: { errors } } = useForm();
   const { dispatch } = useAuthContext()
 
-  const onSubmit = async (data) => {
-    const response = await fetch("http://localhost:4000/api/users/login", {
+  const onSubmit = async  (data) => {
+      const response= await fetch(`${process.env.REACT_APP_URL}api/users/login`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -38,7 +38,7 @@ const LoginForm = () => {
   return (
     <div
       className="form-container"
-      style={{ display: "block", width: 700, padding: 30 }}
+      style={{ display: "inline-block", width: 700, padding: 30 }}
     >
       <Form className="login" onSubmit={handleSubmit(onSubmit)}>
         <h1>Log in</h1>

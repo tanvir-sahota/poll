@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
 import {useFoldersContext} from "../hooks/useFoldersContext";
+import Button from 'react-bootstrap/Button'
+import { useNavigate } from "react-router-dom";
 
 const FolderDetails = ({folder, classID,onDrop,onDragOver}) => {
     const {dispatch} = useFoldersContext()
     const classID_or_emptystring = classID_value(classID)
 
-
+    const navigate = useNavigate()
     
     
     
@@ -37,20 +38,24 @@ const FolderDetails = ({folder, classID,onDrop,onDragOver}) => {
         // e.target.appendChild(document.getElementById(quizId))
     }
 
+    const navigateAway = async () => {
+        navigate(`/api/folders/${folder._id}/${classID}`)
+    }
+
     if(classID_or_emptystring=="" || classID_or_emptystring==folder.classroom){
         return (
-            <div className="folder-details"
-                 onDragOver = {e => handleDragOver(e)}
-                 onDrop={e => handleDrop(e)}
-                 style={{ border: '1px dashed black', margin: '5px', padding: '5px' }}>
-                <h4>{folder.title} </h4>
-                <span onClick={handleClick}>delete</span>
-                <Link to={"http://localhost:3000/api/folders/" + folder._id + "/" + classID}><h4>"Go to this folder"</h4></Link>
-                <br></br>
-                <br></br>
-                <br></br>
-
-            </div>
+                <div className="card"
+                    onDragOver = {e => handleDragOver(e)}
+                    onDrop={e => handleDrop(e)}>
+                    <h4 className="cardHeading">{folder.title} </h4>
+                    <div className="deleteIcons">
+                        <span className="material-symbols-outlined" onClick={handleClick}>Delete</span>
+                    </div>
+                    <br></br>
+                    <br></br>
+                    <Button id="folderButton" onClick={navigateAway}>Go</Button>
+                    {/*<Link to={"http://localhost:3000/api/folders/" + folder._id + "/" + classID}><h4>"Go to this folder"</h4></Link>*/}
+                </div>
         )
     }
 }

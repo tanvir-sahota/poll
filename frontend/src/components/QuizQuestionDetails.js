@@ -15,7 +15,7 @@ const QuizQuestionDetails = ({ question, classID }) => {
     return (
         <div className="question-details">
             <h4>{question?.question}</h4>
-            {showOptions ? <p><strong>Options: </strong>{question?.options?.toString()}</p> : null}
+            {showOptions ? <p id="optionsDisplay"><strong>Options: </strong>{question?.options?.toString()}</p> : null}
             <p><strong>Answer(s): </strong>{question?.answers?.toString()}</p>
             <input type="submit" className="host" value="HOST" onClick={hostQuestion}/>
             <p><strong>{question?.questionType}</strong></p>

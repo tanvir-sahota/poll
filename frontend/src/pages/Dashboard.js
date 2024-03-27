@@ -84,11 +84,11 @@ const Dashboard = () => {
                         </Dropdown>
                     </div>
                 </div>
-            <div className="classrooms">
-                {filteredClassrooms.map(classroom => (
-                    <ClassroomObject classroom={classroom} key={classroom._id} />
-                ))}
-            </div>
+                <div className="classrooms">
+                    {filteredClassrooms.map(classroom => (
+                        <ClassroomObject classroom={classroom} key={classroom._id} />
+                    ))}
+                </div>
             </div>
         </div>
          
