@@ -1,23 +1,41 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-//import userEvent from '@testing-library/user-event'
-import ClassroomForm from '../../src/components/forms/ClassroomForm'
-import { ClassroomContextProvider } from '../context/ClassroomContext'
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import ClassroomForm from "../components/forms/ClassroomForm";
+import { ClassroomContextProvider } from "../context/ClassroomContext";
 
-test('renders ClassroomForm correctly', () => {
-    render(<ClassroomContextProvider><ClassroomForm /></ClassroomContextProvider>)
-    
-    // Testing elements in form
-    expect(screen.getByRole('button')).toBeInTheDocument()
-    //userEvent.click(screen.getByRole('button'))
-   
-    /*expect(screen.getAllByText('Create new classroom')[0]).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('Enter name')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Create classroom' })).toBeInTheDocument()
+test('renders ClassroomForm component', () => {
+  render(
+    <ClassroomContextProvider>
+      <ClassroomForm />
+    </ClassroomContextProvider>
+  );
+
+  const addButton = screen.getByRole('button', { name: '' });
+
+  expect(addButton).toBeInTheDocument();
+});
+
+test('handles form submission', async () => {
+  // Mock fetch function
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({}),
+    })
+  );
+  const mockCallback = jest.fn()
+  render(
+    <ClassroomContextProvider>
+      <ClassroomForm onSubmit={mockCallback()}/>
+    </ClassroomContextProvider>
+  );
+
+  const createButton = screen.getByRole('button', { name: '' });
+  fireEvent.click(createButton);
   
-    // Testing submitting form
-    const usernameInput = screen.getByPlaceholderText('Enter name')
-    userEvent.type(usernameInput, 'testclassroom')
-    userEvent.click(screen.getByRole('button', { name: 'Create classroom' }))*/
-  })
+  expect(mockCallback).toHaveBeenCalled()
+  expect(screen.getByText('Create new classroom')).toBeInTheDocument()
+  expect(screen.getByText('Cancel')).toBeInTheDocument()
+  expect(screen.getByText('Create classroom')).toBeInTheDocument()
+
+});

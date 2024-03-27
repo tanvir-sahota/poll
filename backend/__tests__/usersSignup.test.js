@@ -1,0 +1,102 @@
+require("dotenv").config();
+
+const request = require("supertest");
+const express = require("express");
+const mongoose = require("mongoose");
+const User = require("../models/userModel.js");
+const userController = require("../controllers/userController.js");
+const defaultUser = require("./fixtures/default_user.json");
+
+const app = require("../app.js");
+const server = require("../server.js");
+
+beforeAll(async () => {
+  await mongoose.connect(process.env.MONGO_URI);
+  defaultUserModel = await User.create(defaultUser);
+});
+
+afterAll(async () => {
+  await User.deleteOne({ username: defaultUser.username });
+  await User.deleteOne({ username: "janedoe" });
+  await mongoose.connection.close();
+  await server.close();
+});
+
+describe("GET /api/users", () => {
+  it("should get all the users", async () => {
+    const response = await request(app).get("/api/users");
+    expect(response.statusCode).toBe(200);
+    expect(response.body.length).toBeGreaterThan(0);
+  });
+});
+
+describe("POST /api/users/signup", () => {
+  it("should post a user to signup", async () => {
+    const username = "janedoe";
+    const password = "$2b$10$1sG4DFGZRLaxdABGJTP1E.NHIRpt2Fqt1eJpzD4r8pTAtU8Fqw7c.";
+
+    const oldNumberOfUsers = (await request(app).get("/api/users")).body.length;
+
+    const response = await request(app).post("/api/users/signup").send({
+      username: username,
+      password: password,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.username).toBe(username);
+
+    const newNumberOfUsers = (await request(app).get("/api/users/")).body.length;
+    const userAdded = newNumberOfUsers == oldNumberOfUsers + 1;
+    expect(userAdded).toBe(true);
+  });
+});
+
+describe("POST /api/users/signup", () => {
+  it("should return error 400 as user field is empty", async () => {
+    const username = "";
+    const password = "$2b$10$1sG4DFGZRLaxdABGJTP1E.NHIRpt2Fqt1eJpzD4r8pTAtU8Fqw7c.";
+
+    const response = await request(app).post("/api/users/signup").send({
+      username: username,
+      password: password,
+    });
+    expect(response.statusCode).toBe(400);
+  });
+});
+
+describe("POST /api/users/signup", () => {
+  it("should return error 400 as password field is empty", async () => {
+    const username = "abc";
+    const password = "";
+
+    const response = await request(app).post("/api/users/signup").send({
+      username: username,
+      password: password,
+    });
+    expect(response.statusCode).toBe(400);
+  });
+});
+
+describe("POST /api/users/signup", () => {
+  it("should return error 400 as username and password field is empty", async () => {
+    const username = "";
+    const password = "";
+
+    const response = await request(app).post("/api/users/signup").send({
+      username: username,
+      password: password,
+    });
+    expect(response.statusCode).toBe(400);
+  });
+});
+
+describe("POST /api/users/signup", () => {
+  it("should return error 400 as the username is in use", async () => {
+    const password = "Password123";
+
+    const response = await request(app).post("/api/users/signup").send({
+      username: defaultUser.username,
+      password: password,
+    });
+    expect(response.statusCode).toBe(400);
+  });
+});

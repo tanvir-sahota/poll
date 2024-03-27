@@ -7,6 +7,10 @@ import userEvent from "@testing-library/user-event";
 import { act } from 'react-dom/test-utils';
 
 
+jest.mock('../hooks/useQuizzesContext', () => ({
+    useQuizzesContext: () => ({dispatch: jest.fn()})
+}))
+
 // mock models
 
 const mockClassroom = {
@@ -48,7 +52,7 @@ const MockSQForm_no_quiz = () => {
 }
 
 const url = `${process.env.REACT_APP_URL}api/questions/` + mockClassroom._id
-const select_questions_toggle = "Select Questions Below"
+const select_questions_toggle = "Click to select questions"
 const user = userEvent.setup()
 
 
@@ -155,35 +159,3 @@ describe("Ensure requests are sent properly when patching quizzes", () => {
         await user.click(screen.queryByRole('button'))
     })
 })
-
-// describe("Ensure requests are NOT sent properly with incorrect arguments", () => {
-//     const get_quiz_url = "http://localhost:4000/api/quizzes/" + mockQuiz._id
-    
-//     test("Ensures GET request is not sent after submit is clicked", async() => {
-//         fetchMock.mock(url, JSON.stringify([mockQuestion]))
-//         await act(async () => {    
-//             render(MockSQForm_with_questions())
-//         })
-        
-//         fetchMock.patch(get_quiz_url, JSON.stringify(mockQuiz))
-        
-//         await user.click(screen.getByText(select_questions_toggle))
-//         await user.click(screen.queryByRole('checkbox'))
-//         await user.click(screen.queryByRole('button'))
-
-
-        
-//     })
-//     // test("Ensures PATCH request is not sent after submit is clicked", async() => {
-//     //     fetchMock.mock(url, JSON.stringify([mockQuestion]))
-//     //     await act(async () => {    
-//     //         render(MockSQForm_with_questions())
-//     //     })
-        
-//     //     fetchMock.get(get_quiz_url, JSON.stringify(mockQuiz))
-        
-//     //     await user.click(screen.getByText(select_questions_toggle))
-//     //     await user.click(screen.queryByRole('checkbox'))
-//     //     await user.click(screen.queryByRole('button'))
-//     // })
-// })
