@@ -75,7 +75,6 @@ function App() {
                 path="/api/quizzes/:quiz_id/:classroom_id?"
                 element={<Quiz/>}
             />
-
             <Route 
               path = "/:lecturer/admin"
               element ={<HostedClassroom socket={socket}/>}

@@ -1,7 +1,9 @@
+//import all required components
 const Folder = require('../models/folderModel');
 const mongoose = require('mongoose')
 const Quiz = require('../models/quiz_model');
 
+//Create a folder
 exports.createFolder = async (req, res) => {
   const {title, quizzes,classroom} = req.body
 
@@ -23,6 +25,7 @@ exports.createFolder = async (req, res) => {
   }
 };
 
+//Get a folder based on ID
 exports.getFolderById = async (req, res) => {
   const {id} = req.params
 
@@ -39,6 +42,7 @@ exports.getFolderById = async (req, res) => {
   res.status(200).json(folder)
 };
 
+//Get all folders
 exports.getAllFolders = async (req, res) => {
   try {
       const folders = await Folder.find({});
@@ -49,6 +53,7 @@ exports.getAllFolders = async (req, res) => {
   }
 };
 
+//Delete folder based on its ID
 exports.deleteFolder = async (req, res) => {
   const {id} = req.params
 
@@ -65,6 +70,7 @@ exports.deleteFolder = async (req, res) => {
   res.status(200).json(deleted_folder)
 };
 
+//Update quizzes belonging to a folder
 exports.patchFolder = async (request, response) => {
   const {id} = request.params
 
@@ -81,6 +87,7 @@ exports.patchFolder = async (request, response) => {
   response.status(200).json(updated_folder)
 };
 
+//Get all quizzes belonging to a folder
 exports.getQuizzesByFolder = async (req, res) => {
   try {
       const folderId = req.params.id;

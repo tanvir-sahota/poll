@@ -359,6 +359,12 @@ input[type="text"] {
 
 #deleteClassroomButton {
   width: 100%;
+  
+}
+
+#deleteClassroomButton:hover{
+  background-color: red;
+  color: black;
 }
 
 #notDeleteClassroomButton {

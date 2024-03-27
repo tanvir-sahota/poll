@@ -18,7 +18,6 @@ const HostingAdmin = (inputData) => {
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
     const [correctSubmissions, setCorrectSubmissions] = useState(0)
-    const [regularExpression, setRegex] = useState([])
 
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
@@ -28,8 +27,8 @@ const HostingAdmin = (inputData) => {
     const handleWHClose = () => setWHShow(false)
     const handleWHShow = () => setWHShow(true)
 
-
-
+    let regularExpression = [];
+    
 
     const getChart = () => ({
         labels: questions[position].options,
@@ -61,9 +60,7 @@ const HostingAdmin = (inputData) => {
     useEffect(() => {
 
         const attendeeChecker = () => {
-            console.log("Got message")
             socket.emit("update-attendees", lecturer, (response) => {
-                console.log(response.count)
                 setAttendees(response.count)
             })
         }
@@ -78,20 +75,11 @@ const HostingAdmin = (inputData) => {
     useEffect(() => {
         let receiveTextHandler = null
         receiveTextHandler = answer => {
-            console.log("received answer: " + answer)
-            // setAnswers(prevAnswers => {
-            //     const allAnswers = [...prevAnswers]
-            //     allAnswers[position] = [...prevAnswers[position], answer]
-            //     return allAnswers
-            // })
-            console.log("REGEX", regularExpression)
             const comparison = regularExpression.map(regex => {
                 return regex == answer.toString().replaceAll(" ","").toLowerCase()})
-            console.log(comparison)
             if(comparison.includes(true)){
                 setCorrectSubmissions(prevValue => {return (prevValue + 1)})
             }
-            console.log("NUMBER OF CORRECT SUBMISSIONS ", correctSubmissions)
             socket.emit("get-number-of-submissions", lecturer, (response) => {
                 setSubmission(response.count)
             })
@@ -192,22 +180,13 @@ const HostingAdmin = (inputData) => {
                 const temp = answer.toLowerCase().replaceAll(' ', '')
                 return temp
             })
-            console.log(regexArray)
-            setRegex(regexArray)
-            console.log("NEW REGEX ", regularExpression)
+            regularExpression = regexArray;
         }
         shouldRenderPrevious(position)
         shouldRenderNext(position)
     }, [position])
 
     const handleNext =  () => {
-        // if (position >= questions.length - 1) {
-        //     setPosition(0)
-        // } else {
-        //     const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
-        //     setPosition(tempPosition + 1)
-        // }
-
         if (position < questions.length - 1) {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
             setPosition(tempPosition + 1)
@@ -219,7 +198,6 @@ const HostingAdmin = (inputData) => {
     }
 
     const shouldRenderNext = async (newPos = 0) => {
-        // const nextButton = document.getElementById("nextButton");
         const nextButton = document.getElementById("nextButton");
         if (newPos === questions.length - 1) {
             nextButton.hidden = true
@@ -231,12 +209,6 @@ const HostingAdmin = (inputData) => {
 
 
     const handlePrev = async () => {
-        // if (position <= 0) {
-        //     setPosition(questions.length - 1)
-        // } else {
-        //     const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
-        //     setPosition(tempPosition - 1)
-        // }
 
         if (position > 0) {
             const tempPosition = questions.findIndex((x) => x._id === questions[position]._id)
@@ -249,7 +221,6 @@ const HostingAdmin = (inputData) => {
     }
 
     const shouldRenderPrevious = async (newPos = 0) => {
-        // const nextButton = document.getElementById("nextButton");
         const prevButton = document.getElementById("prevButton");
         console.log(position)
         if (newPos === 0) {
@@ -264,8 +235,6 @@ const HostingAdmin = (inputData) => {
         console.log("Handling save quiz")
         socket.emit("host-disconnect", lecturer)
         console.log("About to send fetch")
-
-
 
         const quizResults = {quiz, questions, answers}
         const response = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/`, {
@@ -302,7 +271,6 @@ const HostingAdmin = (inputData) => {
         else {
             console.log("Saved quiz results")
         }
-        // navigate(`/api/quizzes/${quiz._id}/${quiz.classroom}`)
         navigate(-1)
     }
 
@@ -364,7 +332,7 @@ const HostingAdmin = (inputData) => {
                     <span id="hostingLabels"className="material-symbols-outlined">input</span>
                 </div>
                 <div className="col-sm-1" style={{textAlign:"left"}}>
-                    <p id="hostingLabels">{attendees}</p>
+                    <p id="hostingLabels">{submission}</p>
                 </div>
 
                 <div className="col-sm-4">
@@ -376,7 +344,7 @@ const HostingAdmin = (inputData) => {
                     <span id="hostingLabels"className="material-symbols-outlined">group</span>
                 </div>
                 <div className="col-sm-1" style={{textAlign:"left"}}>
-                    <p id="hostingLabels">{submission}</p>
+                    <p id="hostingLabels">{attendees}</p>
                 </div>
                 <div className="col-sm-2"></div>
             </div>

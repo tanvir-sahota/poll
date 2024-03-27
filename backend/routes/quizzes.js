@@ -1,3 +1,4 @@
+//import all required components
 const express = require('express')
 const {
     get_all_quizzes,
@@ -12,16 +13,13 @@ const Quiz = require("../models/quiz_model")
 
 const router = express.Router()
 
+//defines all api request urls to access controllers 
 router.get('/', get_all_quizzes)
-
 router.get('/:id', get_one_quiz)
-
 router.post('/', create_quiz)
-
 router.delete('/:id', delete_quiz)
-
 router.patch('/:id', patch_quiz)
-
 router.delete('/', delete_all_quizzes)
 
+//Export questions router module
 module.exports = router

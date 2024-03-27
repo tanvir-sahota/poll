@@ -1,3 +1,4 @@
+//import all required components
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
@@ -23,6 +24,7 @@ else
 app.use(cors())
 }
 
+//import all routes
 const quizRoutes = require('./routes/quizzes')
 const questionRoutes = require("./routes/questions")
 const questionResultRoutes = require("./routes/questionResults")
@@ -34,6 +36,7 @@ const folderRoutes = require('./routes/folders')
 
 app.use(express.json())
 
+//database connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('Successfuly connected to database.')
@@ -48,11 +51,7 @@ mongoose.connect(process.env.MONGO_URI)
     console.log(err)
   }) 
 
-// connect frontend
-// const dirName = path.dirname("")
 const buildPath = path.join(__dirname, "../frontend/build");
-
-
 
 // Routes
 app.use(express.static(buildPath))
@@ -74,4 +73,5 @@ app.get("/*", function(req,res){
     }
   )
 })
+//Exports the app
 module.exports = app

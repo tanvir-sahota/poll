@@ -1,17 +1,14 @@
+//import all required components
 const Quiz = require("../models/quiz_model")
-
-// used to sanitise :id input
 const mongoose = require('mongoose')
 
-// Paths are relative to /api/quizzes, e.g. the below is /api/quizzes/
-
-// Retrieves all of the quizzes
+//Get all quizzes
 const get_all_quizzes = async (request, response) => {
     const quizzes = await Quiz.find({})
     response.status(200).json(quizzes)
 }
 
-// Retrieves a single quiz
+//Get a quiz based on its ID
 const get_one_quiz = async (request, response) => {
     const {id} = request.params
 
@@ -28,7 +25,7 @@ const get_one_quiz = async (request, response) => {
     response.status(200).json(quiz)
 }
 
-// Post a new quiz
+//Create a question
 const create_quiz = async (request, response) => {
     const {title, description, folder,num_questions, questions, classroom} = request.body
 
@@ -50,7 +47,7 @@ const create_quiz = async (request, response) => {
     }
 }
 
-// Delete a quiz
+// Delete a quiz based on ID
 const delete_quiz = async (request, response) => {
     const {id} = request.params
 
@@ -67,7 +64,7 @@ const delete_quiz = async (request, response) => {
     response.status(200).json(deleted_quiz)
 }
 
-// Delete a quiz
+//Delete all quizzes
 const delete_all_quizzes = async (request, response) => {
     const deleted_quiz = await Quiz.deleteMany({})
     if (!deleted_quiz) {
@@ -76,7 +73,7 @@ const delete_all_quizzes = async (request, response) => {
     response.status(200).json(deleted_quiz)
 }
 
-// Update a quiz
+//Update a quiz based on its ID
 const patch_quiz = async (request, response) => {
     const {id} = request.params
 
@@ -93,6 +90,7 @@ const patch_quiz = async (request, response) => {
     response.status(200).json(updated_quiz)
 }
 
+//exports all quiz functions/controllers
 module.exports = {
     get_all_quizzes,
     get_one_quiz,

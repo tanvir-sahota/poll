@@ -1,19 +1,19 @@
 import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom"
-import { Map } from  "immutable"
+import { Map, setIn } from  "immutable"
 import MCQButton from "./MCQButton"
 import parse from 'html-react-parser'
 import Modal from 'react-bootstrap/Modal'
 
 const QuestionDisplay = (inputData) => {
     const {givenQuestion, isAdmin, socket, lecturer} = inputData
-    const {question, options, answers, questionType} = givenQuestion
+    const {question, options, answers, questionType, _id} = givenQuestion
     const navigate = useNavigate()
 
     const [isMCQ, setMCQ] = useState(options.length > 1)
     const [hasCode, setCode] = useState(questionType === 'CodeMCQ')
     const [showAnswer, setShowAnswer] = useState(false)
-
+    const [currentQuestion, setID] = useState(_id)
     const [clientSideInput, setInput] = useState("")
     const [hasSubmitted, setSubmitted] = useState(false)
     const [textAnswer, setTextAnswer] = useState(null)
@@ -29,6 +29,10 @@ const QuestionDisplay = (inputData) => {
         initialSelectedMCQ = map.set(givenQuestion._id, optionPressed)
     } else {
         initialSelectedMCQ = new Map()
+    }
+
+    if(currentQuestion != _id){
+        setID(() => {return _id})
     }
 
     const [selectedMCQ, setSelectedMCQ] = useState(initialSelectedMCQ)
@@ -51,6 +55,14 @@ const QuestionDisplay = (inputData) => {
         setSubmitted(true)
         document.getElementById("answerBox").disabled = true
     }
+
+    useEffect(() => {
+        console.log("Rechecking")
+        setID(_id)
+        setInput("")
+        setSubmitted(false)
+        document.getElementById("answerBox").disabled = false
+    },[currentQuestion])
 
     useEffect(() => {
         let displayQuestionHandler = null
@@ -137,7 +149,7 @@ const QuestionDisplay = (inputData) => {
                     
                     :
                     <div className="answerInput">
-                        {!isAdmin ?
+                         {!isAdmin ?
                             <div className="row">
                                 <div className="col">
                                     <div className="answerOptions">
@@ -191,7 +203,7 @@ const QuestionDisplay = (inputData) => {
                         {showAnswer ? (
                             <div id="answers">
                                 {answers.map((answer) => (
-                                    <button className="answer">{parse(answer)}</button>
+                                    <button key={answer} className="answer">{parse(answer)}</button>
                                 ))}
                             </div>
                         ) : (

@@ -1,7 +1,10 @@
+//import all required components
 const mongoose = require('mongoose')
 const bcrypt = require ('bcrypt')
 const Schema = mongoose.Schema
 
+//Schema for User
+//Contains an username and password
 const userSchema = new Schema({
   username: {
     type: String,
@@ -14,6 +17,7 @@ const userSchema = new Schema({
 
 }, { timestamps: true })
 
+//Static Async function for sign up
 userSchema.statics.signUp = async function(username, password) {
 
   if (!(username && password)) {
@@ -29,7 +33,7 @@ userSchema.statics.signUp = async function(username, password) {
   return user
 }
 
-// static login method
+//Static Async function for login
 userSchema.statics.login = async function(username, password) {
   if (!(username && password)) {
     throw Error("Need username and password details!");
@@ -62,4 +66,5 @@ userSchema.pre('save', function (next) {
   })
 })
 
+//exporting the user schema as a model 
 module.exports = mongoose.model('User', userSchema)

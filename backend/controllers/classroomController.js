@@ -1,9 +1,10 @@
+//import all required components
 const ClassroomModel = require('../models/ClassroomModel');
 const QuestionBank = require('../models/questionBankModel');
 const authMiddleware = require('../middlewares/authMiddleware.js')
 const jwt = require('jsonwebtoken');
 
-
+//Get all classrooms from database
 exports.getAllClassrooms = async (req, res) => {
     try {
         const classrooms = await ClassroomModel.find();
@@ -14,6 +15,7 @@ exports.getAllClassrooms = async (req, res) => {
     }
 };
 
+//Get a classroom based on ID from database
 exports.getClassroomById = async (req, res) => {
     try {
         const classroom = await ClassroomModel.findById(req.params.id);
@@ -27,6 +29,7 @@ exports.getClassroomById = async (req, res) => {
     }
 };
 
+//Get all classrooms belong to a user based on its token 
 exports.getAllClassroomsByToken = async (req, res) => {
     try {
         const userId = await authMiddleware.extractUserIdFromToken(req.params.token)
@@ -51,6 +54,7 @@ exports.getAllClassroomsByToken = async (req, res) => {
     }
 }
 
+//Get all classrooms belong to a user based on user id
 exports.getAllClassroomsOfOwner = async (req, res) => {
     try {
         const classrooms = await ClassroomModel.find({ owner : req.params.ownerid }); 
@@ -64,6 +68,7 @@ exports.getAllClassroomsOfOwner = async (req, res) => {
     }
 }
 
+//Create a classroom
 exports.createClassroom = async (req, res) => {
     try {
         const questions  = new QuestionBank({questionArray:[]})
@@ -94,6 +99,7 @@ exports.createClassroom = async (req, res) => {
     }
 };
 
+//Delete a classroom based on its ID
 exports.deleteClassroom = async (req, res) => {
     console.log("Delete class")
     try {

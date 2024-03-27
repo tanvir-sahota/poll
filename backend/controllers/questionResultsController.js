@@ -1,3 +1,4 @@
+//import all required components
 const QuizResult = require("../models/quizResultsModel")
 const QuestionResult = require("../models/questionResultsModel")
 const Classroom = require("../models/ClassroomModel")
@@ -28,6 +29,7 @@ const getQuestionResults = async (request, response) => {
     response.status(200).json(question_results)
 }
 
+//Get a question result
 const getQuestionResult = async (request, response) => {
     const {quizResultID} = request.params
     const {id} = request.params
@@ -50,12 +52,11 @@ const getQuestionResult = async (request, response) => {
     response.status(200).json(question_result)
 }
 
-//Post request to create question result
+//Create a question result
 const createQuestionResults = async (request, response) => {
-    const {currentAnswer} = request.body // an array of answers
-    const {currentQuestion} = request.body // the question object this result belongs to
+    const {currentAnswer} = request.body 
+    const {currentQuestion} = request.body 
     const {quiz} = request.body
-
 
     try {
 
@@ -74,7 +75,7 @@ const createQuestionResults = async (request, response) => {
     }
 }
 
-//delete a question
+//Delete a question results based on its ID
 const deleteQuestionResults = async (request, response) => {
     const {id} = request.params
 
@@ -91,7 +92,7 @@ const deleteQuestionResults = async (request, response) => {
     response.status(200).json(questionResult)
 }
 
-
+//exports all question result functions/controllers
 module.exports = {
     createQuestionResults, getQuestionResults, deleteQuestionResults, getQuestionResult
 }

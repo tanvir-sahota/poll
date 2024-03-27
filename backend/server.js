@@ -1,6 +1,6 @@
+//import all required components
 const app = require('./app.js')
 const socketio = require('socket.io')
-//const {instruement} = require("@socket.io/admin-ui")
 const PORT = 4000
 
 // Start Server
@@ -17,8 +17,8 @@ const io = socketio(server, {
 });
 let currentQuestionMap = new Map()
 let hostedSession = new Map()
-//will be a list of current questions in the future
 
+//all web socket interactions
 io.on("connection", (socket) => {
   console.log(`Socket ${socket.id} connected. ${io.engine.clientsCount} clients.`)
   socket.on("set-question", (question,userName) =>{
