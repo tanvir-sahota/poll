@@ -8,11 +8,10 @@ import Modal from 'react-bootstrap/Modal'
 const QuestionDisplay = (inputData) => {
     const {givenQuestion, isAdmin, socket, lecturer} = inputData
     const {question, options, answers, questionType} = givenQuestion
-<<<<<<< HEAD
-=======
+
     const navigate = useNavigate()
     
->>>>>>> 3.1_host_classrooms
+
     // console.log(givenQuestion)
     // console.log("Question: ", question)
     // console.log("Options: ", options)
@@ -47,12 +46,9 @@ const QuestionDisplay = (inputData) => {
 
     const handleDisconnect = () => {
         socket.emit("host-disconnect", lecturer) 
-<<<<<<< HEAD
-        window.location.href = "/dashboard"
-=======
+
         //navigate("/dashboard")
         navigate(-1)
->>>>>>> 3.1_host_classrooms
     }
 
     const submitAnswer = async e => {
