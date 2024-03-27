@@ -7,6 +7,10 @@ import userEvent from "@testing-library/user-event";
 import { act } from 'react-dom/test-utils';
 
 
+jest.mock('../hooks/useQuizzesContext', () => ({
+    useQuizzesContext: () => ({dispatch: jest.fn()})
+}))
+
 // mock models
 
 const mockClassroom = {
@@ -48,7 +52,7 @@ const MockSQForm_no_quiz = () => {
 }
 
 const url = `${process.env.REACT_APP_URL}api/questions/` + mockClassroom._id
-const select_questions_toggle = "Select Questions Below"
+const select_questions_toggle = "Click to select questions"
 const user = userEvent.setup()
 
 

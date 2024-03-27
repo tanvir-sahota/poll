@@ -9,7 +9,7 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const [quiz_questions, setQuizQuestions] = useState([])
     const [tickboxes, setTickboxes] = useState(false)
     const [no_questions, setNoQuestions] = useState(true)
-    const {quiz, dispatch} = useQuizzesContext()
+    const {dispatch} = useQuizzesContext()
 
 
     
