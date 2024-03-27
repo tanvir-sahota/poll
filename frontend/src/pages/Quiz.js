@@ -54,17 +54,23 @@ const Quiz = () => {
 
     return (
         <div className="quiz">
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="row-sm-2" id="quizDetails">
-                        <div class="card">
-                            <h3 class="card-title">
+            <div className="row">
+                <div className="col-sm-11"></div>
+                <div className="col-sm-1">
+                    <BackButton />
+                </div>
+            </div>
+            <div className="row">
+            <hr className="split"></hr>
+                <div className="col-sm-5">
+                    <div className="row-sm-2" id="quizDetails">
+                        <div className="card">
+                            <h3 className="card-title">
                                 {quiz.title}
                             </h3>
-                            <div class="card-body">
+                            <div className="card-body">
                                 <i>{quiz.description}</i>
                             </div>
-                            <BackButton />
                         </div>
                         <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id}/>
                     </div>
@@ -72,7 +78,7 @@ const Quiz = () => {
 
 
 
-                <div class="col-sm-7">
+                <div className="col-sm-7">
                     <div className="questions">
                         {questions.length > 0 && questions.map(question => (
                             <QuizQuestionDetails question = {question} key={question._id} classID = {classroom_id} />

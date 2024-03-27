@@ -145,15 +145,16 @@ const Classroom = () => {
     }
     return (
         <div className="classroom" style={{ display: 'flex', alignItems: 'center' }}>
-            <div className="container">
+            <div className="container-fluid">
                 <div className="row">
-                    <div className = "col-sm-11">
-                        <h2>Classroom</h2>
-                    </div>
-                    <div className='col-sm-1'>
-                        <BackButton />
-                    </div>
-                    <hr className='split'></hr>
+                        <div className="col-sm-11">
+                            <h2 style={{ textAlign: 'left' }}>Classroom</h2>
+                        </div>
+                        <div className='col-sm-1'>
+                            <BackButton />
+                        </div>
+                        <hr className='split'></hr>
+                </div>
                 <div className="row">
                     <div className= "col-sm-6 mb-3">
                             {/* <div className="row-sm-6">
@@ -161,13 +162,13 @@ const Classroom = () => {
                             </div> */}
                             <div className="row-sm-6">
                                 <div className="card">
-                                    <h3 className="card-title">Question Bank</h3>
+                                    <h3 className="card-title" style={{ textAlign: 'left' }}>Question Bank</h3>
                                     <Button id="graphButton" onClick={handleQuestionBankNavigation}>Access</Button>
                                 </div>
                             </div>
                             <div className="row-sm-6">
                                 <div className="card">
-                                    <h3 class="card-title">Quizzes and Folders</h3>
+                                    <h3 className="card-title" style={{ textAlign: 'left' }}>Quizzes and Folders</h3>
                                     <Button id="graphButton" onClick={handleShowQWF}>Quizzes</Button>
                                     <Button id="graphButton" onClick={handleShowFolders}>Folders</Button>
                                 </div> 
@@ -179,20 +180,20 @@ const Classroom = () => {
                             </div> */}
                             <div className="row-sm-6">
                                 <div className="card">
-                                    <h3 className="card-title">Quiz Results</h3>
+                                    <h3 className="card-title" style={{ textAlign: 'left' }}>Quiz Results</h3>
                                     <Button id="graphButton" onClick={handleQuizResultNavigation}>Access</Button>
                                 </div>
                             </div>
                             <div className="row-sm-6">
                                 <div className="card">
-                                    <h3 className="card-title">Creation</h3>
+                                    <h3 className="card-title" style={{ textAlign: 'left' }}>Creation</h3>
                                     <Button id="graphButton" onClick={handleShowQuizForm}>Create Quiz</Button>
                                     <Button id="graphButton" onClick={handleShowFolderForm}>Create Folder</Button>    
                                 </div> 
                             </div>
                         </div>
                     </div>
-                </div>
+                
                     
 
 

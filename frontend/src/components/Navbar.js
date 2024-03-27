@@ -36,7 +36,7 @@ const Navbar = () => {
       <div className='row-sm-6'>
         <div className='container'>
           <Link to="/">
-            <h1>Poll</h1>
+            <h1>PollAnywhere</h1>
           </Link>
         </div>
         <div className='navbar'>

@@ -79,7 +79,7 @@ const Folder = () => {
     <div className="folder" style={{ display: 'flex'}}>
         <div className="container-fluid">
             <div className="row">
-                <div className="col-sm-11 mb-3" style={{textAlign:"left"}}>
+                <div className="col-sm-11" style={{textAlign:"left"}}>
                     <h2>{folder.title}</h2>
                 </div>
                 <div className="col-sm-1">
