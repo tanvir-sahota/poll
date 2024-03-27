@@ -16,9 +16,8 @@ const HostingAdmin = (inputData) => {
     const {questions} = useQuestionContext()
     const {quiz} = useQuizzesContext()
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
-    const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : 0)))
-    const [correctSubmissions, setCorrectSubmissions] = useState(0)
-    
+    const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [0, 0])))
+
     const navigate = useNavigate()
     const [attendees, setAttendees] = useState(0)
     const [submission, setSubmission] = useState(0)
@@ -49,12 +48,12 @@ const HostingAdmin = (inputData) => {
         labels: ["Correct", "Incorrect"],
         datasets: [{
             label: "Selections",
-            data: [answers[position], ((submission - [answers[position]]))],
+            data: [answers[position][0], answers[position][1]],
             backgroundColor: ['green', 'red'],
         }],
     })
     const [chartWHData, setWHChart] = useState(getWHChart())
-    useEffect(() => {setWHChart(getWHChart())}, [questions, answers, position, submission, correctSubmissions])
+    useEffect(() => {setWHChart(getWHChart())}, [questions, answers, position])
 
     useEffect(() => {
 
@@ -75,12 +74,12 @@ const HostingAdmin = (inputData) => {
         let receiveTextHandler = null
         receiveTextHandler = answer => {
             const comparison = regularExpression.map(regex => {
-                return regex == answer.toString().replaceAll(" ","").toLowerCase()})
+                return regex === answer.toString().replaceAll(" ","").toLowerCase()})
             setAnswers(prevAnswers => {
                 console.log(`Previous answers: ${prevAnswers[position]}`)
                 const allAnswers = [...prevAnswers]
-                let questionAnswers = prevAnswers[position]
-                if(comparison.includes(true)){questionAnswers += 1}
+                const questionAnswers = [...prevAnswers[position]]
+                comparison.includes(true) ? questionAnswers[0] += 1 : questionAnswers[1] += 1
                 allAnswers[position] = questionAnswers
                 console.log(`${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
