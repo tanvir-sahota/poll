@@ -13,10 +13,10 @@ const QuestionDisplay = (inputData) => {
     const [isMCQ, setMCQ] = useState(options.length > 1)
     const [hasCode, setCode] = useState(questionType === 'CodeMCQ')
     const [showAnswer, setShowAnswer] = useState(false)
-    const [currentQuestion, setID] = useState(_id)
-    const [clientSideInput, setInput] = useState("")
-    const [hasSubmitted, setSubmitted] = useState(false)
     const [textAnswer, setTextAnswer] = useState(null)
+
+    let initialWh = new Map()
+    const [answeredTextQuestions, setAnsweredQuestions] = useState(initialWh)
 
     const [showInput, setShowInput] = useState(false)
     const handleCloseInput = () => setShowInput(false)
@@ -29,10 +29,6 @@ const QuestionDisplay = (inputData) => {
         initialSelectedMCQ = map.set(givenQuestion._id, optionPressed)
     } else {
         initialSelectedMCQ = new Map()
-    }
-
-    if(currentQuestion != _id){
-        setID(() => {return _id})
     }
 
     const [selectedMCQ, setSelectedMCQ] = useState(initialSelectedMCQ)
@@ -50,21 +46,13 @@ const QuestionDisplay = (inputData) => {
         e.preventDefault()
         socket.emit("submit-answer-text", lecturer, textAnswer)
         console.log("Submitted " + textAnswer)
-        setInput(textAnswer)
-        setTextAnswer("")
-        setSubmitted(true)
-        document.getElementById("answerBox").disabled = true
-    }
 
-    useEffect(() => {
-        console.log("Rechecking")
-        setID(_id)
-        setInput("")
-        setSubmitted(false)
-        if(!isMCQ){
-            document.getElementById("answerBox").disabled = false
-        }
-    },[currentQuestion])
+        setAnsweredQuestions((prevMap) => {
+            const newMap = prevMap.set(_id, textAnswer)
+            return newMap
+        })
+        setTextAnswer("")
+    }
 
     useEffect(() => {
         let displayQuestionHandler = null
@@ -155,14 +143,14 @@ const QuestionDisplay = (inputData) => {
                                 <div className="col">
                                     <div className="answerOptions">
                                         <form onSubmit={submitAnswer}>
-                                            <input id="answerBox" name="answerArea" type="text" value={textAnswer} onChange={(e) => setTextAnswer(e.target.value)} disabled={hasSubmitted}/>
+                                            <input id="answerBox" name="answerArea" type="text" value={textAnswer} onChange={(e) => setTextAnswer(e.target.value)} disabled={answeredTextQuestions.has(_id)}/>
                                             <br/>
-                                            {!hasSubmitted ?
+                                            {!(answeredTextQuestions.has(_id)) ?
                                                 <button id="answerSubmit" type="submit">Submit</button>
                                             :
                                             null}
                                         </form>
-                                        {hasSubmitted ?
+                                        {answeredTextQuestions.has(_id) ?
                                         <div>
                                             <button id="answerSubmit" onClick={handleShowInput}>Show</button>
                                             <Modal show={showInput} onHide={handleCloseInput}>
@@ -172,7 +160,7 @@ const QuestionDisplay = (inputData) => {
                                                         <span className="material-symbols-outlined" onClick={handleCloseInput}>Close</span>
                                                     </div>
                                                     <div className="card">
-                                                        <p id = "studentAnswer">{clientSideInput}</p>
+                                                        <p id = "studentAnswer">{answeredTextQuestions.get(_id)}</p>
                                                     </div>
                                                 </Modal.Body>
                                             </Modal>

@@ -80,7 +80,7 @@ const HostingAdmin = (inputData) => {
                 console.log(`Previous answers: ${prevAnswers[position]}`)
                 const allAnswers = [...prevAnswers]
                 let questionAnswers = prevAnswers[position]
-                comparison.includes(true) ? questionAnswers += 1 : questionAnswers -=1
+                if(comparison.includes(true)){questionAnswers += 1}
                 allAnswers[position] = questionAnswers
                 console.log(`${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
