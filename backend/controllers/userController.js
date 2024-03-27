@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 
 //Create a token 
 const createToken = (_id) => {
-  return jwt.sign({_id}, process.env.SECRET, { expiresIn: '3d'})
+  return jwt.sign({_id}, process.env.SECRET)
 }
 
 //Get a user based on its token
