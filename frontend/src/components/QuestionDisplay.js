@@ -61,7 +61,9 @@ const QuestionDisplay = (inputData) => {
         setID(_id)
         setInput("")
         setSubmitted(false)
-        document.getElementById("answerBox").disabled = false
+        if(!isMCQ){
+            document.getElementById("answerBox").disabled = false
+        }
     },[currentQuestion])
 
     useEffect(() => {
@@ -128,7 +130,6 @@ const QuestionDisplay = (inputData) => {
         }
         !pressed ? submitMCQAnswer(option, position) : unSubmitMCQ(option, position)
     }
-
 
     return (
         <div className="questionContainer">
