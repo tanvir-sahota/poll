@@ -9,7 +9,7 @@ const QuestionResult = (params) => {
 
     const classID = useLocation().pathname.split("/").at(1)
 
-        const [error, setError] = useState(null)
+    const [error, setError] = useState(null)
 
 
     const {quiz_result_id} = params
@@ -26,8 +26,10 @@ const QuestionResult = (params) => {
 
     useEffect(() => {
         const fetchQuestionResults = async () =>{
-            const response = await fetch(`${process.env.REACT_APP_URL}api/question-results/` + quiz_result_id, {method: 'GET'})
+            const url = `${process.env.REACT_APP_URL}api/question-results/` + quiz_result_id
+            const response = await fetch(url, {method: 'GET'})
             const json = await response.json()
+
 
             if(response.ok){
                 dispatch({type: "SET_QUESTION_RESULTS", payload:json})
@@ -42,10 +44,12 @@ const QuestionResult = (params) => {
 
         const fetchQuiz = async () => {
             const response = await fetch(`${process.env.REACT_APP_URL}api/questions/` + classID)
+            
             const json = await response.json()
 
             if (response.ok) {
                 const response2 = await fetch(`${process.env.REACT_APP_URL}api/quizzes/` + quiz_id, {method: 'GET'})
+                
                 const json2 = await response2.json()
 
                 if (response2.ok) {
@@ -74,8 +78,8 @@ const QuestionResult = (params) => {
         const question_and_answer_map = new Map()
         for (let i = 0; i < questions.length; i ++) {
             question_and_answer_map.set(questions[i], question_results[i])
-        }
-     return (
+        }        
+        return (
             <div className="card" id="cardOne">
                 <h2> Results for {quiz.title}</h2>
                 {Array.from(question_and_answer_map).map(pair => (
