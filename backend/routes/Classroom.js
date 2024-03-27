@@ -7,8 +7,7 @@ router.use(express.json());
 
 //defines all api request urls to access controllers 
 router.get('/', classroomController.getAllClassrooms);
-router.get('/:token', classroomController.getAllClassroomsByToken);
-router.get('/:ownerid', classroomController.getAllClassroomsOfOwner);
+router.get('/token/:token', classroomController.getAllClassroomsByToken);
 router.get('/:id', classroomController.getClassroomById);
 router.post('/', classroomController.createClassroom);
 router.delete('/:id', classroomController.deleteClassroom);
