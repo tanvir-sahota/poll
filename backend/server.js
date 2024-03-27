@@ -18,6 +18,7 @@ const io = socketio(server, {
 let currentQuestionMap = new Map()
 let hostedSession = new Map()
 
+//all web socket interactions
 io.on("connection", (socket) => {
   console.log(`Socket ${socket.id} connected. ${io.engine.clientsCount} clients.`)
   socket.on("set-question", (question,userName) =>{
