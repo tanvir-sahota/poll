@@ -70,13 +70,10 @@ const UpdateQuestionForm = ({question, setShowForm, classID, setShowOptions}) =>
                 </i>
             </div>
 
-
             <button>Update Question</button>
             {error && <div className="error">{error}</div>}
-
         </form>
     )
-
 }
 
 export default UpdateQuestionForm

@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 import {useFoldersContext} from "../hooks/useFoldersContext";
-import { useEffect } from 'react'
 import Select from 'react-select'
 
 const QuizForm = (classID) => {

@@ -25,7 +25,6 @@ export const questionsReducer = (state, action) => {
     }
 } 
 
-
 export const QuestionContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(questionsReducer, {
         questions: null

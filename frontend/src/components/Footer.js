@@ -1,5 +1,4 @@
 const Footer = () => {
-// class="p-3 mb-2 bg-dark text-white"
   return (
     <div>
       <br/>

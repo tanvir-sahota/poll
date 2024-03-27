@@ -14,9 +14,7 @@ import BackButton from "../components/BackButton"
 const QuizResult = () => {
 
     const classID = useLocation().pathname.split("/").at(1)
-
     const {quiz_results, dispatch} = useQuizResultContext()
-
 
     useEffect(() => {
 
@@ -31,9 +29,6 @@ const QuizResult = () => {
         fetchQuizResults()
 
     }, [])
-
-
-
 
     if (quiz_results == null ) {
         return <h2>"Still loading all quiz results..."</h2>
@@ -61,21 +56,6 @@ const QuizResult = () => {
             </div>
         )
     }
-    // else if (!Array.isArray(quiz_results)) {
-    //     return (
-    //     <div className="quizResults">
-    //         <h1>
-    //             Quiz Results
-    //         </h1>
-    //         <QuizResultDetails quiz_result_id={quiz_results._id} key={quiz_results._id} />
-    //     </div>
-    // )
-    // }
-    // else {
-
-    // }
 }
 
 export default QuizResult
-
-

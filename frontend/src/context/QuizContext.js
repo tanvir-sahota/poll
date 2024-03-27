@@ -1,9 +1,6 @@
 import {createContext, useReducer} from "react";
 
 export const QuizzesContext = createContext()
-
-
-
 /**
  * Performs changes to states based on actions
  * @param state the previous state before the change is made

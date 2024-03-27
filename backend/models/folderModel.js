@@ -9,7 +9,6 @@ const folderSchema = new Schema({
   },
 
   classroom: {
-    // classID
     type: String,
 
     required: false,

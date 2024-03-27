@@ -69,10 +69,6 @@ const createQuestionResults = async (request, response) => {
 
        await QuizResult.findByIdAndUpdate(latestQuizResult._id, { $push: {quizResultsArray: questionResult}})
 
-        // const latestQuizResult = QuizResult.findOne().sort({ createdAt: -1 }).limit(1)
-        // latestQuizResult.updateOne({$push: {quizResultsArray: questionResult}})
-
-
     } catch (error) {
         response.status(400).json({error: error.message})
     }

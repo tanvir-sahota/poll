@@ -10,8 +10,6 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
     const [tickboxes, setTickboxes] = useState(false)
     const [no_questions, setNoQuestions] = useState(true)
     const {quiz, dispatch} = useQuizzesContext()
-
-
     
     const handleSubmission = async (e) => {
         e.preventDefault()
@@ -40,7 +38,6 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
         setShowForm(!showForm)
     }
     
-    
     const update_quiz = async () => {
         const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes/` + quiz_id, {
             method: "PATCH",
@@ -57,7 +54,6 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
             dispatch({type:"SET_QUIZ", payload: json})
         }
     }
-
 
     const add_to_quiz_questions = (index_tickboxes, new_question_id) => {
         const new_qq = [...quiz_questions, new_question_id]
@@ -101,9 +97,6 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
         fetchQuestions()
     }, [])
 
-
-
-
     return(        
         <div>
             {loading ? (<p>Loading questions...</p>) : (
@@ -117,15 +110,15 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
                                         <form id="questionSelection" onSubmit={handleSubmission}>
                                             {classroom_questions.map((cq, index) => (
                                                 <div key={index}>
-                                                    <div class="row" id="questionsToSelect">
-                                                        <div class="col-sm-1"></div>
-                                                        <div class="col-sm-2">
+                                                    <div className="row" id="questionsToSelect">
+                                                        <div className="col-sm-1"></div>
+                                                        <div className="col-sm-2">
                                                             <input type="checkbox" id="questionCheckbox" checked={tickboxes[index]} onChange={() => add_to_quiz_questions(index, cq._id)}/>
                                                         </div>
-                                                        <div class="col-sm-8">
+                                                        <div className="col-sm-8">
                                                             <label for="questionCheckbox" id="questionsLabel">{cq.question}</label>
                                                         </div>
-                                                        <div class="col-sm-1"></div>
+                                                        <div className="col-sm-1"></div>
                                                     </div>
                                                     <hr className="split"></hr>
                                                 </div>

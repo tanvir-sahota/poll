@@ -1,14 +1,11 @@
 import {useEffect} from "react";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
-
-//components
 import QuizDetails from "../components/QuizDetails"
 import QuizForm from "../components/QuizForm";
 
 const QuizDashboard = () => {
 
     const {quizzes, dispatch} = useQuizzesContext()
-    // Fires once when the component first renders
     useEffect(() => {
         const fetchQuizzes = async () => {
             const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes`)

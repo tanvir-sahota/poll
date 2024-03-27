@@ -37,9 +37,6 @@ const create_quiz = async (request, response) => {
     if (!title) {
         emptyFields.push('title')
     }
-    // if (!description){
-    //     emptyFields.push('description')
-    // }
 
     if (emptyFields.length > 0) {
         return response.status(400).json({error: 'Please fill in all the fields', emptyFields})

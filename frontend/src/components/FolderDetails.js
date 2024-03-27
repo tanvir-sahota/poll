@@ -8,9 +8,6 @@ const FolderDetails = ({folder, classID,onDrop,onDragOver}) => {
 
     const navigate = useNavigate()
     
-    
-    
-    
     /**
      * Handles folder delete requests
      * @returns {Promise<void>}
@@ -35,7 +32,6 @@ const FolderDetails = ({folder, classID,onDrop,onDragOver}) => {
         e.preventDefault()
         const quizId = e.dataTransfer.getData('quizId')
         onDrop(quizId, folder._id)
-        // e.target.appendChild(document.getElementById(quizId))
     }
 
     const navigateAway = async () => {
@@ -54,7 +50,6 @@ const FolderDetails = ({folder, classID,onDrop,onDragOver}) => {
                     <br></br>
                     <br></br>
                     <Button id="folderButton" onClick={navigateAway}>Go</Button>
-                    {/*<Link to={"http://localhost:3000/api/folders/" + folder._id + "/" + classID}><h4>"Go to this folder"</h4></Link>*/}
                 </div>
         )
     }

@@ -1,15 +1,11 @@
 import {useEffect} from "react";
 import {useFoldersContext} from "../hooks/useFoldersContext";
-
-//components
 import FolderDetails from "../components/FolderDetails"
 import FolderForm from "../components/FolderForm";
-
 
 const FolderDashboard = () => {
 
     const {folders, dispatch} = useFoldersContext()
-    // Fires once when the component first renders
     useEffect(() => {
         const fetchFolders = async () => {
             const response = await fetch(`${process.env.REACT_APP_URL}api/folders`)

@@ -14,10 +14,8 @@ import HostedClassroom from "./pages/HostedClassroom"
 import ConnectionPage from './pages/ConnectionPage'
 import Home from "./pages/Home"
 import UserPage from './pages/UserPage'
-import WaitingPage from './pages/WaitingPage'
 import QuizResult from "./pages/QuizResult"
 import io from "socket.io-client"
-
 
 const socket = io.connect(`${process.env.REACT_APP_URL}`)
 
@@ -28,7 +26,7 @@ function App() {
   })
 
   return (
-    <div id="appjs" class="container-fluid p-3">
+    <div id="appjs" className="container-fluid p-3">
       <BrowserRouter>
         <Navbar />
         <div className="pages">

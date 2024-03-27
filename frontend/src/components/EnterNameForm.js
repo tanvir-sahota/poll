@@ -50,19 +50,6 @@ const EnterNameForm = (inputData) => {
         navigate("/" + lecturer)
     }
 
-    /*const generateUsername = () => {
-        let uniqueUsername = ''
-        let count = 1;
-    
-        do {
-          uniqueUsername = `guest${count}`
-          count++;
-        } while (usedUsernames.includes(uniqueUsername))
-    
-        setUsedUsernames([...usedUsernames, uniqueUsername])
-        return uniqueUsername
-    }*/
-
     const generateUsername = () => {
         let count = sessionStorage.getItem('usernameCounter') || Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000
         let newUsername = '';

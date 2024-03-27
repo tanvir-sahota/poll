@@ -46,9 +46,6 @@ const ClassroomObject = ({ classroom }) => {
 
     }
 
-    // const 
-    
-
     return (
       <div className="card-grid">
         <div className="card">
@@ -78,7 +75,5 @@ const ClassroomObject = ({ classroom }) => {
       </div>
     )
   }
-  
-  //<p>{formatDistanceToNow(new Date(classroom.createdAt), { addSuffix: true })}</p>
-  
+    
   export default ClassroomObject

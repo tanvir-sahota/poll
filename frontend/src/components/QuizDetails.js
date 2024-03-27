@@ -1,7 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 import {useQuizResultContext} from "../hooks/useQuizResultContext";
-import { useState } from "react";
 import Button from 'react-bootstrap/Button'
 
 

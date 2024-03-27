@@ -96,8 +96,6 @@ header a {
   height: 300px;
 }
 
-
-
 /* new question form */
 .form-heading:hover{
   color: rgb(112, 111, 111);
@@ -132,7 +130,6 @@ form button {
   border-radius: 4px;
   cursor: pointer;
 }
-
 
 /* update question form */
 .update{
@@ -233,13 +230,19 @@ div.success {
  /* Span Tag */
  .deleteIcons, .closeIcon {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
   background: #f1f1f1;
   padding: 6px;
   border-radius: 50%;
   color: #333;
+}
+
+.deleteIcons span, .closeIcon span{
+  margin-top: 4px;
+  margin-left: 2px;
+  margin-right: 2px;
 }
  
  /* Paragraph */
@@ -280,8 +283,6 @@ input.success {
   outline: none !important;
 }
 
-
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
@@ -294,11 +295,9 @@ input[type="text"] {
 .container-fluid {
   text-align: center;
   padding-bottom: 200px;
-  /* background:linear-gradient(59deg, rgba(2,62,138,1) 0%, rgba(23,184,237,1) 100%); */
 }
 
 .menuNav {
-  /* padding-right: 75%; */
   background: goldenrod;
   max-width: max-content;
   max-height: max-content;

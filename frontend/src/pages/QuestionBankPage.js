@@ -7,13 +7,10 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import BackButton from "../components/BackButton"
 
-
 const QuestionBank = () => {
 
     const classID = useLocation().pathname.split("/").at(1)
-
     const {questions, dispatch} = useQuestionContext()
-
     const [showQuestionForm, setShowQuestionForm] = useState(false)
     const handleCloseQuestionForm = () => setShowQuestionForm(false)
     const handleShowQuestionForm = () => setShowQuestionForm(true)
@@ -59,8 +56,6 @@ const QuestionBank = () => {
                     </div>
                 </div>
             </div>
-            
-    
             
             <Modal show={showQuestionForm} onHide={handleCloseQuestionForm}>
                 <Modal.Body>

@@ -40,20 +40,6 @@ const ConnectToRoomForm = () => {
     }
     
     return (
-        /*<form className="join" onSubmit={handleSubmit}>
-            <h3> Join Classroom</h3>
-            <label>localhost:3000/</label>
-            <input
-                type="text"
-                onChange={(e) => setUsername(e.target.value)}
-                value={username}
-                className={emptyFields.includes('title') ? 'error' : ''}
-                placeholder="username"
-                />
-            <button>Connect</button>
-            {error && <div className={"error"}>{error}</div>}
-        </form>*/
-
         <div className="container h-100 w-50">
         <div className="row h-100 justify-content-center align-items-center text-center">
             <div className="col-10 col-md-8 col-lg-6">

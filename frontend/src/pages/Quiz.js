@@ -2,20 +2,16 @@ import {useQuestionContext} from "../hooks/useQuestionContext";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import QuizQuestionDetails from "../components/QuizQuestionDetails";
-
 import ShowSelectQuestion from "../components/ShowSelectQuestion"
 import { useQuizzesContext } from "../hooks/useQuizzesContext";
 import BackButton from "../components/BackButton";
 
 const Quiz = () => {
 
-    //const [quiz, setQuiz] = useState(null)
     const [error, setError] = useState(null)
-
     const {quiz_id, classroom_id} = useParams()
     const {questions, dispatch} = useQuestionContext()
     const {quiz, dispatch: dispatch_quiz} = useQuizzesContext()
-
 
     useEffect(() => {
 
@@ -28,7 +24,6 @@ const Quiz = () => {
                 const json2 = await response2.json()
 
                 if (response2.ok) {
-                    //setQuiz(json2)
                     dispatch_quiz({type:"SET_QUIZ", payload: json2})
                     const {questions} = json2
                     const filteredQuestions = json.filter(x => questions.includes(x._id))
@@ -45,12 +40,9 @@ const Quiz = () => {
         fetchQuiz()
     }, [quiz])
 
-
     if (quiz==null) {
         return <h2>"Still loading..."</h2>
     }
-
-    
 
     return (
         <div className="quiz">
@@ -75,9 +67,6 @@ const Quiz = () => {
                         <ShowSelectQuestion classroom_id={classroom_id} quiz_id={quiz_id}/>
                     </div>
                 </div>
-
-
-
                 <div className="col-sm-7">
                     <div className="questions">
                         {questions.length > 0 && questions.map(question => (
@@ -85,10 +74,7 @@ const Quiz = () => {
                         ))}
                     </div>
                 </div>
-
             </div>
-            
-
             {error && <div className={"error"}>{error}</div>}
         </div>
     )

@@ -9,11 +9,6 @@ const QuestionDisplay = (inputData) => {
     const {givenQuestion, isAdmin, socket, lecturer} = inputData
     const {question, options, answers, questionType} = givenQuestion
     const navigate = useNavigate()
-    
-    // console.log(givenQuestion)
-    // console.log("Question: ", question)
-    // console.log("Options: ", options)
-    // console.log("Answers: ", answers)
 
     const [isMCQ, setMCQ] = useState(options.length > 1)
     const [hasCode, setCode] = useState(questionType === 'CodeMCQ')
@@ -44,7 +39,6 @@ const QuestionDisplay = (inputData) => {
 
     const handleDisconnect = () => {
         socket.emit("host-disconnect", lecturer) 
-        //navigate("/dashboard")
         navigate(-1)
     }
 
@@ -66,7 +60,6 @@ const QuestionDisplay = (inputData) => {
             if (isMCQ) {
                 console.log("Loaded buttons")
                 setSelectedMCQ(prevMCQ => {
-                    //const newMCQ = prevMCQ.set(question._id, "test")
                     if(!prevMCQ.has(newQuestion._id)) {
                         const optionPressed = newQuestion.options.map(o => false)
                         const newMCQ = prevMCQ.set(newQuestion._id, optionPressed)
@@ -74,15 +67,6 @@ const QuestionDisplay = (inputData) => {
                         return newMCQ
                     }
                     return prevMCQ
-                    /*else {
-                    const optionPressed = options.map(o => false)
-                    const newMCQ = prevMCQ.set(givenQuestion._id, optionPressed)
-                    console.log(newMCQ)
-                    return newMCQ
-                }*/
-                    /*const allAnswers = [...prevAnswers]
-                    allAnswers[position] = [...prevAnswers[position], answer]*/
-                    //return allAnswers
                 })
             }
         }
@@ -115,7 +99,6 @@ const QuestionDisplay = (inputData) => {
 
     const unSubmitMCQ = (option, position) => {
         socket.emit("unsubmit-answer-MCQ", lecturer , option)
-        //setPressed(false)
         setSelectedMCQ(prevMCQ => {
             const newOptionPressed = prevMCQ.get(givenQuestion._id)
             newOptionPressed[position] = false
@@ -149,13 +132,11 @@ const QuestionDisplay = (inputData) => {
                         if (selectedMCQ.has(givenQuestion._id)) {
                             pressed = selectedMCQ.get(givenQuestion._id)[i]
                         }
-                        //const pressed = selectedMCQ.get(question._id)[i]
                         return <MCQButton option={option} position={i} socket={socket} lecturer={lecturer} pressed={pressed} handleMCQ={handleMCQ}/>
                     })
                     
                     :
                     <div className="answerInput">
-                        {/* <textarea id="answerSubmission" name="answerArea" rows="1" cols="50"></textarea> */}
                         {!isAdmin ?
                             <div className="row">
                                 <div className="col">

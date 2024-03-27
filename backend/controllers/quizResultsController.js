@@ -40,12 +40,8 @@ const getOneQuizResult = async (request, response) => {
     if (!quiz_result) {
         return response.status(404).json({error: "Quiz result does not exist."})
     }
-    // if (Array.isArray(quizResult)) {
-    //     response.status(200).json(quizResult[0])
-    // }
-    // else {
+
     response.status(200).json(quiz_result)
-    // }
 }
 
 // Post a new quiz
@@ -60,8 +56,6 @@ const createQuizResult = async (request, response) => {
         console.log("Created quiz result")
 
         await Classroom.findByIdAndUpdate(quiz.classroom, { $push: {quizResultArray: quizResult}})
-
-        // const test = classroom.quizResultArray.push(quizResult)
 
         response.status(201).json(quizResult)
 

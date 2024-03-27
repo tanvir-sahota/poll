@@ -6,10 +6,8 @@ import ClassroomForm from '../components/forms/ClassroomForm'
 import Dropdown from 'react-bootstrap/Dropdown'
 
 const Dashboard = () => {
-
     const { classrooms, dispatch } = useClassroomContext()
     const token = JSON.parse(localStorage.getItem('user'))?.token
-
     const [filteredClassrooms, setFilteredClassrooms] = useState(classrooms || [])
 
     const filterBySearch = (event) => {

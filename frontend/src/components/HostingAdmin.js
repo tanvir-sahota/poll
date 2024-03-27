@@ -293,7 +293,7 @@ const HostingAdmin = (inputData) => {
 
     return (
         <div className="hostingDisplay">
-            <div class="row" id="rowQuestionDisplay">
+            <div className="row" id="rowQuestionDisplay">
                 <div id="prevButtonContainer">
                     <button id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>
                         <i className="bi bi-arrow-left"></i>

@@ -13,11 +13,8 @@ const QuestionResult = (params) => {
 
 
     const {quiz_result_id} = params
-
     const {quiz_id} = params
 
-
-    // const {id} = quizResult
     const {question_results, dispatch} = useQuestionResultContext()
     const {quiz, dispatch: dispatch_quiz} = useQuizzesContext()
     const {questions, dispatch: dispatch_questions} = useQuestionContext()
@@ -49,7 +46,6 @@ const QuestionResult = (params) => {
                 const json2 = await response2.json()
 
                 if (response2.ok) {
-                    //setQuiz(json2)
                     dispatch_quiz({type:"SET_QUIZ", payload: json2})
                     const {questions} = json2
                     const filteredQuestions = json.filter(x => questions.includes(x._id))

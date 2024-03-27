@@ -80,7 +80,6 @@ io.on("connection", (socket) => {
   })
   socket.on("update-attendees", (userName, callback) => {
     if(io.sockets.adapter.rooms.get(userName)){
-      //console.log(`The number of attendees ${io.sockets.adapter.rooms.get(userName).size}`)
       const size = io.sockets.adapter.rooms.get(userName).size
       callback({
         count: size > 0 ? (size - 1) : 0  
@@ -102,13 +101,11 @@ io.on("connection", (socket) => {
         count++
       }
     }
-    //console.log(`The number of students that answered is ${count}`)
     callback({
       count: count
     })
   })
   socket.on("disconnect", ()=> {
-    console.log("disconnected host")
     socket.broadcast.emit("new-attendees")
   })
 })

@@ -1,5 +1,4 @@
 import { useAuthContext } from "../hooks/useAuthContext";
-
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useForm, Controller } from 'react-hook-form';
@@ -28,9 +27,7 @@ const LoginForm = () => {
     if (response.ok) {
       console.log("Logged in: ", json);
 
-      // save the user to local storage
       localStorage.setItem('user', JSON.stringify(json))
-      // update the auth context
       dispatch({type: 'LOGIN', payload: json})
       navigate("/dashboard")
     }

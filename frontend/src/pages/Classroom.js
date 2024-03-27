@@ -13,13 +13,11 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import BackButton from '../components/BackButton'
 
-
 const Classroom = () => {
     const classID = useLocation().pathname.split("/").at(1)
     const [quizzes_without_folder,set_qwf] = useState([]);
     const {quizzes, dispatch: dispatch_quiz} = useQuizzesContext()
     const {folders, dispatch: dispatch_folder} = useFoldersContext()
-
 
     const [showQWF, setShowQWF] = useState(false)
     const handleCloseQWF = () => setShowQWF(false)
@@ -42,12 +40,10 @@ const Classroom = () => {
 
     const navigate = useNavigate()
 
-
     useEffect(() => {        
         const fetchQuizzes = async () => {
             const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes`)
             const json = await response.json()
-
 
             if (response.ok) {
                 dispatch_quiz({type: 'SET_QUIZZES', payload: json})
@@ -128,8 +124,6 @@ const Classroom = () => {
         } catch (error) {
             console.error('Error moving quiz to folder:', error);
         }
-
-
     };
 
     const handleDragOver = (e) => {
@@ -157,9 +151,6 @@ const Classroom = () => {
                 </div>
                 <div className="row">
                     <div className= "col-sm-6 mb-3">
-                            {/* <div className="row-sm-6">
-                                <h2>Classroom</h2>
-                            </div> */}
                             <div className="row-sm-6">
                                 <div className="card">
                                     <h3 className="card-title" style={{ textAlign: 'left' }}>Question Bank</h3>
@@ -174,10 +165,7 @@ const Classroom = () => {
                                 </div> 
                             </div>
                         </div>
-                        <div class= "col-sm-6 mb-3">
-                            {/* <div className="row-sm-6">
-                                <h2>Classroom</h2>
-                            </div> */}
+                        <div className= "col-sm-6 mb-3">
                             <div className="row-sm-6">
                                 <div className="card">
                                     <h3 className="card-title" style={{ textAlign: 'left' }}>Quiz Results</h3>
@@ -194,10 +182,6 @@ const Classroom = () => {
                         </div>
                     </div>
                 
-                    
-
-
-
             <Modal show={showQWF} onHide={handleCloseQWF}>
                 <Modal.Body>
                     <div className="quizModal">
@@ -254,8 +238,6 @@ const Classroom = () => {
          
     )
 }
-
-
 const assign_questions_to_quizzes = (quizzes, classID) => {
     const fetchQuestions = async () =>{
         const response = await fetch(`${process.env.REACT_APP_URL}api/questions/`+ classID)

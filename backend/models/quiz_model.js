@@ -2,8 +2,6 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-// placeholder until Question is complete
-
 const quizSchema = new Schema({
     title: {
         type: String,
@@ -23,14 +21,9 @@ const quizSchema = new Schema({
     },
     questions: {
         type: [{type: mongoose.Schema.Types.ObjectId, ref:"Question"}],
-
-        // doesn't allow this line ???
-        // required: false,
     },
     classroom: {
-        // classID
         type: String,
-
         required: false,
     },
 }, {timestamps: true})

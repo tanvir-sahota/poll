@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useQuestionContext } from '../hooks/useQuestionContext'
-import QuestionDetails from './QuestionDetails'
 
 const ClassroomDropdown = (newClassID) =>{
     
@@ -15,7 +13,6 @@ const ClassroomDropdown = (newClassID) =>{
             if(response.ok){
                 setQuestion(json)
             }
-            //console.log(questions)
         }
 
         fetchQuestions()

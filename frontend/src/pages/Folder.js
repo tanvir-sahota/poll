@@ -10,10 +10,7 @@ const Folder = () => {
     const {quizzes,dispatch:dispatch_quiz} = useQuizzesContext()
      const [error, setError] = useState(null)
     const {folder_id, classroom_id} = useParams()
-    
-    console.log(folder)
-    console.log(quizzes)
-    // Fires once when the component first renders
+
     useEffect(() => {
 
         const fetchFolder = async () => {
@@ -56,26 +53,6 @@ const Folder = () => {
         return <h2>"Still loading..."</h2>
     }
     return (
-    //     <div className="folder">
-    //         <div className="folders" style={{textAlign:"left"}}>
-    //             <h2>{folder.title}</h2>
-    //             <hr className="split"></hr>
-    //             <br/>
-    //         </div>
-    //             <div className="quizzes">
-    //             {quizzes&&quizzes.map((quiz) => (
-    //                 <QuizDetails key={quiz._id} quiz={quiz} classID={classroom_id}/>
-    //             ))}
-    //         </div>
-
-    //         <br/>
-    //         <br/>
-            
-            
-
-    //         {error && <div className={"error"}>{error}</div>}
-    // </div>
-
     <div className="folder" style={{ display: 'flex'}}>
         <div className="container-fluid">
             <div className="row">
@@ -103,6 +80,4 @@ const Folder = () => {
     </div>
     )
 }
-
-
 export default Folder

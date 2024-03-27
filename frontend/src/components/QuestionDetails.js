@@ -1,16 +1,12 @@
 import { useQuestionContext } from "../hooks/useQuestionContext"
 import UpdateQuestionForm from "./UpdateQuestionForm"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-
 
 const QuestionDetails = ({ question, classID }) => {
     
     const { dispatch } = useQuestionContext()
-    const navigate = useNavigate()
     const [showForm, setShowForm] = useState(false)
     const [showOptions, setShowOptions] = useState(question.options.length != 0 ? true : false)
-    //const {username} = localStorage.getItem("user")
 
     const deleteQuestion = async () => {
         const response = await fetch(`${process.env.REACT_APP_URL}api/questions/${classID}/${question._id}`, {
@@ -26,12 +22,6 @@ const QuestionDetails = ({ question, classID }) => {
     const editQuestion = () => {
         setShowForm(!showForm)
     }
-
-    // const hostQuestion = () => {
-    //     const data = JSON.parse(localStorage.getItem("user"))
-    //     const {username} = data
-    //     navigate(`/${username}/admin`, {state:{currentClassID: classID, currentQuestion: question}})
-    // } 
     
     return (
         <div className="question-details">
