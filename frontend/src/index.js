@@ -13,7 +13,6 @@ import { FoldersContextProvider } from './context/FolderContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <AuthContextProvider>
       <ClassroomContextProvider>
           <FoldersContextProvider>
@@ -29,7 +28,6 @@ root.render(
               </FoldersContextProvider>
       </ClassroomContextProvider>
     </AuthContextProvider>
-  </React.StrictMode>
 
 );
 

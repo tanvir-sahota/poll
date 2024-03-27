@@ -19,7 +19,7 @@ const HostingAdmin = (inputData) => {
     const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
     const [correctSubmissions, setCorrectSubmissions] = useState(0)
     const [regularExpression, setRegex] = useState([])
-    
+
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -29,21 +29,20 @@ const HostingAdmin = (inputData) => {
     const handleWHShow = () => setWHShow(true)
 
 
-    
+
 
     const getChart = () => ({
         labels: questions[position].options,
         datasets: [{
             label: "Selections",
             data: questions[position].options.map(option => answers[position].at(questions[position].options.indexOf(option))),
-            backgroundColor: questions[position].options.map(op => (questions[position].answers.includes(op) 
+            backgroundColor: questions[position].options.map(op => (questions[position].answers.includes(op)
             || questions[position].answers.includes(op.slice(2)) ? 'green' : 'red')),
         }],
-      })
+    })
     const [chartData, setChart] = useState(getChart())
     useEffect(() => {setChart(getChart())}, [questions, answers, position])
 
-      
     const navigate = useNavigate()
     const [attendees, setAttendees] = useState(0)
     const [submission, setSubmission] = useState(0)
@@ -74,7 +73,7 @@ const HostingAdmin = (inputData) => {
             socket.off("new-attendees", attendeeChecker)
         }
     }, [])
-    
+
 
     useEffect(() => {
         let receiveTextHandler = null
@@ -116,6 +115,7 @@ const HostingAdmin = (inputData) => {
                 console.log("Empty answers")
             }
             setAnswers(prevAnswers => {
+                console.log(`Previous answers: ${prevAnswers[position]}`)
                 const allAnswers = [...prevAnswers]
                 const questionAnswers = [...prevAnswers[position]]
                 questionAnswers[index] += 1
@@ -141,14 +141,34 @@ const HostingAdmin = (inputData) => {
     useEffect(() => {
         let declineMultipleChoiceHandler = null
         declineMultipleChoiceHandler = option => {
-            const index = questions[position].options.findIndex(comparisonOption => comparisonOption == option)
+            const index = questions[position].options.findIndex(comparisonOption => comparisonOption === option)
             setAnswers(prevAnswers => {
+                console.log(`Previous answers: ${prevAnswers[position]}`)
+                const oldAnswers = prevAnswers[position]
                 const allAnswers = [...prevAnswers]
                 const questionAnswers = [...prevAnswers[position]]
-                questionAnswers.at(index) > 0 ? prevAnswers[position][index] -= 1 : prevAnswers[position][index] = 0
+                //questionAnswers.at(index) > 0 ? prevAnswers[position][index] -= 1 : prevAnswers[position][index] = 0
+                questionAnswers.at(index) > 0 ? questionAnswers[index] -= 1 : questionAnswers[index] = 0
+                /*if (questionAnswers.at(index) > 0) {
+                    prevAnswers[position][index] -= 1
+                } else {
+                    prevAnswers[position][index] = 0
+                }*/
+                //allAnswers[position] = questionAnswers
+                //allAnswers[position] = oldAnswers
                 allAnswers[position] = questionAnswers
-                console.log("Option minus count", option)
+                console.log("Option minus count:", option)
                 console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
+                if (JSON.stringify(oldAnswers) === JSON.stringify(allAnswers[position]))
+                {
+                    //console.error("ERROR DID NOT DECREASE ANSWER")
+                }
+                if (!questions[position].options)
+                {
+                    console.error(`ERROR INVALID OPTIONS: ${questions[position].options}`)
+                    console.log("Option minus count:", option)
+                    console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
+                }
                 return allAnswers
             })
             socket.emit("get-number-of-submissions", lecturer, (response) => {
@@ -199,7 +219,7 @@ const HostingAdmin = (inputData) => {
     }
 
     const shouldRenderNext = async (newPos = 0) => {
-       // const nextButton = document.getElementById("nextButton");
+        // const nextButton = document.getElementById("nextButton");
         const nextButton = document.getElementById("nextButton");
         if (newPos === questions.length - 1) {
             nextButton.hidden = true
@@ -229,13 +249,13 @@ const HostingAdmin = (inputData) => {
     }
 
     const shouldRenderPrevious = async (newPos = 0) => {
-       // const nextButton = document.getElementById("nextButton");
+        // const nextButton = document.getElementById("nextButton");
         const prevButton = document.getElementById("prevButton");
         console.log(position)
         if (newPos === 0) {
             prevButton.hidden = true
         } else {
-           prevButton.hidden = false
+            prevButton.hidden = false
         }
     }
 
@@ -264,11 +284,11 @@ const HostingAdmin = (inputData) => {
 
             const questionAnswerBody = {currentQuestion, currentAnswer, quiz}
             const response =  fetch(`${process.env.REACT_APP_URL}api/question-results/`, {
-            method: "POST",
-            body: JSON.stringify(questionAnswerBody),
-            headers: {
-                "Content-Type": "application/json",
-            },
+                method: "POST",
+                body: JSON.stringify(questionAnswerBody),
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
         }
 
@@ -282,14 +302,14 @@ const HostingAdmin = (inputData) => {
         else {
             console.log("Saved quiz results")
         }
-      // navigate(`/api/quizzes/${quiz._id}/${quiz.classroom}`)
+        // navigate(`/api/quizzes/${quiz._id}/${quiz.classroom}`)
         navigate(-1)
     }
 
     const chartOptions = {scales: {
-        x: {ticks: {font: {size : 25},},},
-        y: {ticks: {stepSize: 1,},},},}
-      
+            x: {ticks: {font: {size : 25},},},
+            y: {ticks: {stepSize: 1,},},},}
+
 
     return (
         <div className="hostingDisplay">
@@ -308,36 +328,36 @@ const HostingAdmin = (inputData) => {
                     </button>
                 </div>
             </div>
-           
+
             <Modal show={show} onHide={handleClose} fullscreen={true}>
                 <Modal.Header closeButton>
                     <Modal.Title>Responses</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Bar data={chartData} options={chartOptions} />                
+                    <Bar data={chartData} options={chartOptions} />
                 </Modal.Body>
             </Modal>
             {questions[position].options.length > 0 ?
-            <div className="questionDisplayContainer">
-                <Button id="responseButton" onClick={handleShow}>Student Responses</Button>
-            </div>
-            : null}
+                <div className="questionDisplayContainer">
+                    <Button id="responseButton" onClick={handleShow}>Student Responses</Button>
+                </div>
+                : null}
 
             <Modal show={showWH} onHide={handleWHClose} fullscreen={true}>
                 <Modal.Header closeButton>
                     <Modal.Title>Responses</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Bar data={chartWHData} options={chartOptions}/>                
+                    <Bar data={chartWHData} options={chartOptions}/>
                 </Modal.Body>
             </Modal>
 
             {questions[position].options.length === 0 ?
-            <div className="questionDisplayContainer">
-                <Button id="responseButton" onClick={handleWHShow}>Student Responses</Button>
-            </div>
-            : null}
-            
+                <div className="questionDisplayContainer">
+                    <Button id="responseButton" onClick={handleWHShow}>Student Responses</Button>
+                </div>
+                : null}
+
             <div className="row">
                 <div className="col-sm-2"></div>
                 <div className="col-sm-1" style={{textAlign:"right"}}>
@@ -360,7 +380,7 @@ const HostingAdmin = (inputData) => {
                 </div>
                 <div className="col-sm-2"></div>
             </div>
-            
+
 
 
         </div>
