@@ -81,7 +81,7 @@ const createQuestion = async (request, response) => {
                     }
                 })
                 if(hasCode){
-                    const newOptions = optionsArray.map((option, i) => `${String.fromCharCode(65 + i)}:${option}`)
+                    const newOptions = optionsArray.map((option, i) => `${String.fromCharCode(65 + i)}: ${option}`)
 
                     const fullQuestion = await Question.create({
                         question: questionAsked, 
@@ -166,7 +166,7 @@ const updateQuestion = async(request, response) =>{
     if(options.length != 0)
     {
         let tempArray = optionsArray
-        tempArray = optionsArray.map(sub => {if(sub.includes("<code>")){return sub.slice(2)} 
+        tempArray = optionsArray.map(sub => {if(sub.includes("<code>")){return sub.slice(3)} 
             else{return sub}})
 
         const checkOptionsIncludeAnswer = answersArray.filter(x => {
