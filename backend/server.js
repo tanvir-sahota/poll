@@ -29,7 +29,8 @@ io.on("connection", (socket) => {
   socket.on("connect-to-room", (userName, callback) => {
     //console.log("Socket ",socket.id, " and rooms in ", socket.rooms)
     const currentQuestion = currentQuestionMap.get(userName)
-    if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id)) return
+    //if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id)) return
+    if(!hostedSession.get(userName)) return
     if(currentQuestion != undefined){
       hostedSession.get(userName).set(socket.id, {value : 0})
       socket.to(userName).emit("new-attendees")
@@ -72,7 +73,8 @@ io.on("connection", (socket) => {
     socket.to(userName).emit("recieve-answer-text", answer)
   })
   socket.on("submit-answer-MCQ", (userName , option) => {
-    if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id))
+    //if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id))
+    if(!hostedSession.get(userName))
     {
       socket.to(userName).emit("disconnect-handler")
       return
@@ -82,7 +84,8 @@ io.on("connection", (socket) => {
     socket.to(userName).emit("recieve-answer-mcq", option)
   })
   socket.on("unsubmit-answer-MCQ", (userName , option) => {
-    if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id))
+    //if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id))
+    if(!hostedSession.get(userName))
     {
       socket.to(userName).emit("disconnect-handler")
       return
