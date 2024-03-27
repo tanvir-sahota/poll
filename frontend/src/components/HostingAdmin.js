@@ -16,8 +16,12 @@ const HostingAdmin = (inputData) => {
     const {questions} = useQuestionContext()
     const {quiz} = useQuizzesContext()
     const [position, setPosition] = useState(questions.findIndex(q => q._id === currentQuestion._id))
-    const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : [])))
+    const [answers, setAnswers] = useState(questions.map((q => q.options.length > 1 ? q.options.map(o => 0) : 0)))
     const [correctSubmissions, setCorrectSubmissions] = useState(0)
+    
+    const navigate = useNavigate()
+    const [attendees, setAttendees] = useState(0)
+    const [submission, setSubmission] = useState(0)
 
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
@@ -41,15 +45,11 @@ const HostingAdmin = (inputData) => {
     const [chartData, setChart] = useState(getChart())
     useEffect(() => {setChart(getChart())}, [questions, answers, position])
 
-    const navigate = useNavigate()
-    const [attendees, setAttendees] = useState(0)
-    const [submission, setSubmission] = useState(0)
-
     const getWHChart = () => ({
         labels: ["Correct", "Incorrect"],
         datasets: [{
             label: "Selections",
-            data: [correctSubmissions, ((submission - correctSubmissions))],
+            data: [answers[position], ((submission - [answers[position]]))],
             backgroundColor: ['green', 'red'],
         }],
     })
@@ -76,9 +76,15 @@ const HostingAdmin = (inputData) => {
         receiveTextHandler = answer => {
             const comparison = regularExpression.map(regex => {
                 return regex == answer.toString().replaceAll(" ","").toLowerCase()})
-            if(comparison.includes(true)){
-                setCorrectSubmissions(prevValue => {return (prevValue + 1)})
-            }
+            setAnswers(prevAnswers => {
+                console.log(`Previous answers: ${prevAnswers[position]}`)
+                const allAnswers = [...prevAnswers]
+                let questionAnswers = prevAnswers[position]
+                comparison.includes(true) ? questionAnswers += 1 : questionAnswers -=1
+                allAnswers[position] = questionAnswers
+                console.log(`${allAnswers[position]} ${questions[position].question}`)
+                return allAnswers
+            })
             socket.emit("get-number-of-submissions", lecturer, (response) => {
                 setSubmission(response.count)
             })
