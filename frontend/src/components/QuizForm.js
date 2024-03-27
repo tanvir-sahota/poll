@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 import {useFoldersContext} from "../hooks/useFoldersContext";
 import { useEffect } from 'react'
+import Select from 'react-select'
 
 const QuizForm = (classID) => {
     
@@ -24,6 +25,22 @@ const QuizForm = (classID) => {
         return folder ? folder._id : null;
     };
     
+    const classroomFolders = folders.filter(folder => folder.classroom === classroom)
+    const options = classroomFolders.map(folder => ({
+        value: folder.title,
+        label: folder.title
+      }))
+    
+    const folderOptions = [
+        { value: '', label: 'None' }, 
+        ...options
+    ];
+
+    const handleSelectChange = (selectedOption) => {
+        setFolderName(selectedOption.value)
+        console.log('Selected option:', selectedOption.value)
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(folderName)
@@ -49,7 +66,7 @@ const QuizForm = (classID) => {
         if (response.ok) {
             setTitle('')
             setDescription('')
-            setFolderName('')
+            setFolderName({ value: '' })
             setError(null)
             setSuccess("Successful Creation!")
             setEmptyFields([])
@@ -77,13 +94,20 @@ const QuizForm = (classID) => {
                 placeholder={"Input the new description"}
                 />
             <label>Folder:</label>
-            <input
-                type="text"
-                onChange={(e) => setFolderName(e.target.value)}
-                value={folderName}
-                className={emptyFields.includes('folder') ? 'error' : ''}
-                placeholder={"Input the new folder"}
-                />
+            <Select
+                value={folderName.value}
+                onChange={handleSelectChange}
+                isSearchable={true}
+                options={folderOptions}
+                placeholder={"Select a folder"}
+                styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      marginTop: 10,
+                      marginBottom: 10,
+                    }),
+                  }}
+            />
             <button> Add Quiz</button>
             {error && <div className={"error"}>{error}</div>}
             {success && <div className={"success"}>{success}</div>}
