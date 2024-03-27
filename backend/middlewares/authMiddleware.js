@@ -1,5 +1,7 @@
+//import all required components
 const jwt = require('jsonwebtoken');
 
+//Verify userID from token 
 const extractUserIdFromToken = (token) => {
     return new Promise((resolve, reject) => {
       jwt.verify(token, process.env.SECRET, async (err, decoded) => {
@@ -13,6 +15,7 @@ const extractUserIdFromToken = (token) => {
     })
 }
 
+//Exports the middleware 
 module.exports = {
     extractUserIdFromToken
   }

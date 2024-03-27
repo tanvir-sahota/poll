@@ -1,12 +1,14 @@
-const mongoose = require('mongoose')
+//import all required components
 const User = require('../models/userModel')
 const authMiddleware = require('../middlewares/authMiddleware.js')
 const jwt = require('jsonwebtoken')
 
+//Create a token 
 const createToken = (_id) => {
   return jwt.sign({_id}, process.env.SECRET, { expiresIn: '3d'})
 }
 
+//Get a user based on its token
 const getUserByToken = async (req, res) => {
     try {
       const userId = await authMiddleware.extractUserIdFromToken(req.params.token)
@@ -31,6 +33,7 @@ const getUserByToken = async (req, res) => {
     }
 }
 
+//Get a user based on its ID
 const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -47,6 +50,7 @@ const getUserById = async (req, res) => {
   }
 }
 
+//Get a user by its username
 const getUserByUsername = async (req, res) => {
   try {
     const user = await User.find({username:req.params.username})
@@ -63,17 +67,18 @@ const getUserByUsername = async (req, res) => {
   }
 }
 
+//Get all users
 const getUsers = async (req, res) => {
     const users = await User.find({})
     res.status(200).json(users)
 }
 
+//Creates a user
 const createUser = async (req, res) => {
     const { username, password } = req.body;
 
     try {
         const user = await User.signUp(username, password)
-
         // create token
         const token = createToken(user._id)
 
@@ -85,6 +90,7 @@ const createUser = async (req, res) => {
 
 }
 
+//Login a user 
 const loginUser = async (req, res) => {
   const {username, password} = req.body
 
@@ -100,6 +106,7 @@ const loginUser = async (req, res) => {
   }
 }
 
+//exports all user functions/controllers
 module.exports = {
     getUserByToken,
     getUserById,

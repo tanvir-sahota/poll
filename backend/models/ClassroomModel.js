@@ -1,8 +1,12 @@
+//import all required components
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-// create Schema
-
-const ClassroomSchema = new mongoose.Schema({
+//Schema for Classrooms
+//Contains a title and references to its Question Bank,
+//the user who created it, the folders and quizzes it contains and
+//an array of saved quiz results
+const ClassroomSchema = new Schema({
     title:{
         type: String,
         required: true
@@ -29,4 +33,5 @@ const ClassroomSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+//exporting the classroom schema as a model 
 module.exports = mongoose.model('Classroom',ClassroomSchema);

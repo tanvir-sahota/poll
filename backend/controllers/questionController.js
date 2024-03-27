@@ -1,3 +1,4 @@
+//import all required components
 const QuestionBank = require("../models/questionBankModel")
 const Question = require("../models/questionModel")
 const Classroom = require("../models/ClassroomModel")
@@ -18,7 +19,7 @@ const getAllQuestions = async (request, response) => {
     }
 }
 
-//Get a question
+//Get a question based on ID
 const getQuestion = async (request, response) => {
     const {id} = request.params
     const {classID} = request.params
@@ -39,7 +40,7 @@ const getQuestion = async (request, response) => {
     response.status(200).json(question)
 }
 
-//Post request to create question
+//Create a question
 const createQuestion = async (request, response) => {
     const {questionAsked, options, answers} = request.body
     const {classID} = request.params
@@ -134,7 +135,7 @@ const createQuestion = async (request, response) => {
     }
 }
 
-//delete a question
+//Delete a question by ID
 const deleteQuestion = async (request, response) => {
     const {id} = request.params
 
@@ -151,6 +152,7 @@ const deleteQuestion = async (request, response) => {
     response.status(200).json(question)
 }
 
+//Update a question based on ID
 const updateQuestion = async(request, response) =>{
     const {id} = request.params
     const {questionAsked, options, answers} = request.body
@@ -176,8 +178,6 @@ const updateQuestion = async(request, response) =>{
             return response.status(422).json({error: "All answers must be included in options"})
         }
     }
-
-    
     
     let questionType = (options.length != 0) ? "MCQ" : "Wh-Question"
     if(questionType==="MCQ"){
@@ -193,6 +193,7 @@ const updateQuestion = async(request, response) =>{
     response.status(200).json(questionContext)
 }
 
+//exports all question functions/controllers
 module.exports = {
     createQuestion, getAllQuestions, getQuestion, deleteQuestion, updateQuestion
 }

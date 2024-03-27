@@ -1,13 +1,9 @@
-const Quiz = require("../models/quiz_model")
+//import all required components
 const QuizResult = require("../models/quizResultsModel")
-
-// used to sanitise :id input
 const mongoose = require('mongoose')
 const Classroom = require("../models/ClassroomModel");
 
-// Paths are relative to /api/quizzes, e.g. the below is /api/quizzes/
-
-// Retrieves all of the quizzes
+//Get all quizzes
 const getAllQuizResults = async (request, response) => {
     const {classID} = request.params
     const classroom = await Classroom.findById(classID)
@@ -18,7 +14,7 @@ const getAllQuizResults = async (request, response) => {
     response.status(200).json(quiz_results)
 }
 
-// Retrieves a single quiz
+//Get a quiz based on its ID
 const getOneQuizResult = async (request, response) => {
     const {classID} = request.params
     const {id} = request.params
@@ -28,9 +24,7 @@ const getOneQuizResult = async (request, response) => {
         return response.status(404).json({error: "Quiz result does not exist. ID not in correct format."})
     }
 
-
     const classroom = await Classroom.findById(classID)
-    // console.log(classroom)
     const quiz_results = classroom.quizResultArray
 
     const quiz_result = quiz_results.find(result => {
@@ -44,7 +38,7 @@ const getOneQuizResult = async (request, response) => {
     response.status(200).json(quiz_result)
 }
 
-// Post a new quiz
+//Create a new quiz result
 const createQuizResult = async (request, response) => {
     try {
         const {quiz} = request.body
@@ -66,7 +60,7 @@ const createQuizResult = async (request, response) => {
     }
 }
 
-// Delete a quiz
+//Delete a quiz result based on its ID
 const deleteQuizResult = async (request, response) => {
     const {id} = request.params
 
@@ -83,7 +77,7 @@ const deleteQuizResult = async (request, response) => {
     response.status(200).json(deleted_quiz_result)
 }
 
-// Delete a quiz
+//Delete all quiz result
 const deleteAllQuizResults = async (request, response) => {
     const deleted_quiz_result = await QuizResult.deleteMany({})
     if (!deleted_quiz_result) {
@@ -92,7 +86,7 @@ const deleteAllQuizResults = async (request, response) => {
     response.status(200).json(deleted_quiz_result)
 }
 
-// Update a quiz
+//Update a quiz result
 const patchQuizResult = async (request, response) => {
     const {id} = request.params
 
@@ -109,6 +103,7 @@ const patchQuizResult = async (request, response) => {
     response.status(200).json(updated_quiz_result)
 }
 
+//exports all quiz result functions/controllers
 module.exports = {
     getAllQuizResults,
     getOneQuizResult,
