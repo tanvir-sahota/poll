@@ -29,7 +29,6 @@ const HostingAdmin = (inputData) => {
 
     let regularExpression = [];
     
-
     const getChart = () => ({
         labels: questions[position].options,
         datasets: [{
@@ -206,7 +205,6 @@ const HostingAdmin = (inputData) => {
         }
 
     }
-
 
     const handlePrev = async () => {
 
