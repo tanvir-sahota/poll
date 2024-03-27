@@ -30,6 +30,7 @@ const ConnectionPage = (inputData) =>{
     }, [])
 
     socket.on("disconnect-handler", () => {
+        console.log("DISCONNECT")
         navigateAway()
     })
 

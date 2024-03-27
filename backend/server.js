@@ -30,8 +30,8 @@ io.on("connection", (socket) => {
     //console.log("Socket ",socket.id, " and rooms in ", socket.rooms)
     const currentQuestion = currentQuestionMap.get(userName)
     //if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id)) return
-    if(!hostedSession.get(userName)) return
-    if(currentQuestion != undefined){
+    //if(!hostedSession.get(userName)) return
+    if(currentQuestion != undefined && hostedSession.get(userName)){
       hostedSession.get(userName).set(socket.id, {value : 0})
       socket.to(userName).emit("new-attendees")
       callback({
@@ -65,18 +65,24 @@ io.on("connection", (socket) => {
     console.log("Socket ",socket.id, " and rooms to ", userName)
     socket.to(userName).emit("disconnect-handler")
     currentQuestionMap.delete(userName)
-    //hostedSession.delete(userName)
+    hostedSession.delete(userName)
   })
   socket.on("submit-answer-text", (userName, answer) => {
+    if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id))
+    {
+      socket.broadcast.to(socket.id).emit("disconnect-handler")
+      //socket.to(userName).emit("disconnect-handler")
+      return
+    }
     console.log(`Sent the answer (${answer}) to ${userName} ${io.engine.clientsCount} clients.`)
     hostedSession.get(userName).get(socket.id).value++
     socket.to(userName).emit("recieve-answer-text", answer)
   })
   socket.on("submit-answer-MCQ", (userName , option) => {
-    //if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id))
-    if(!hostedSession.get(userName))
+    if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id))
     {
-      socket.to(userName).emit("disconnect-handler")
+      socket.broadcast.to(socket.id).emit("disconnect-handler")
+      //socket.to(userName).emit("disconnect-handler")
       return
     }
     console.log(`Sent the answer (${option}) to ${userName} ${io.engine.clientsCount} clients.`)
@@ -84,10 +90,10 @@ io.on("connection", (socket) => {
     socket.to(userName).emit("recieve-answer-mcq", option)
   })
   socket.on("unsubmit-answer-MCQ", (userName , option) => {
-    //if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id))
-    if(!hostedSession.get(userName))
+    if(!hostedSession.get(userName) || !hostedSession.get(userName).get(socket.id))
     {
-      socket.to(userName).emit("disconnect-handler")
+      socket.broadcast.to(socket.id).emit("disconnect-handler")
+      //socket.to(userName).emit("disconnect-handler")
       return
     }
     console.log(`Rebuke the answer (${option}) to ${userName} ${io.engine.clientsCount} clients.`)
@@ -108,6 +114,12 @@ io.on("connection", (socket) => {
     }
   })
   socket.on("get-number-of-submissions", (userName, callback) => {
+    if(!hostedSession.get(userName))
+    {
+      socket.broadcast.to(socket.id).emit("disconnect-handler")
+      //socket.to(userName).emit("disconnect-handler")
+      return
+    }
     const roomMap = hostedSession.get(userName)
     const iterator = roomMap.values()
     let count = 0;
@@ -123,13 +135,12 @@ io.on("connection", (socket) => {
   })
   socket.on("disconnect", ()=> {
     console.log("DISCONNECT")
-    hostedSession.forEach(v => console.log(v))
     console.log(socket.id)
     if(socket.data.hosting) {
       console.log("LECTURER DISCONNECTED")
-      socket.broadcast.emit("disconnect-handler")
+      socket.to(socket.data.username).emit("disconnect-handler")
       currentQuestionMap.delete(socket.data.username)
-      //hostedSession.delete(socket.data.username)
+      hostedSession.delete(socket.data.username)
     }
 
     socket.broadcast.emit("new-attendees")
