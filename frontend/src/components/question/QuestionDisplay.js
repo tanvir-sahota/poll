@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom"
 import { Map, setIn } from  "immutable"
-import MCQButton from "./MCQButton"
+import MCQButton from "../buttons/MCQButton"
 import parse from 'html-react-parser'
 import Modal from 'react-bootstrap/Modal'
 

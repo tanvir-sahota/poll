@@ -1,10 +1,10 @@
 import {useQuestionContext} from "../hooks/useQuestionContext";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import QuizQuestionDetails from "../components/QuizQuestionDetails";
-import ShowSelectQuestion from "../components/ShowSelectQuestion"
+import QuizQuestionDetails from "../components/quiz/QuizQuestionDetails";
+import ShowSelectQuestion from "../components/quiz/ShowSelectQuestion"
 import { useQuizzesContext } from "../hooks/useQuizzesContext";
-import BackButton from "../components/BackButton";
+import BackButton from "../components/buttons/BackButton";
 
 const Quiz = () => {
 

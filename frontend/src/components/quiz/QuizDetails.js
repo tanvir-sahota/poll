@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import {useQuizzesContext} from "../hooks/useQuizzesContext";
-import {useQuizResultContext} from "../hooks/useQuizResultContext";
+import {useQuizzesContext} from "../../hooks/useQuizzesContext";
+import {useQuizResultContext} from "../../hooks/useQuizResultContext";
 import Button from 'react-bootstrap/Button'
 
 
@@ -42,7 +42,7 @@ const QuizDetails = ({quiz, classID}) => {
         e.dataTransfer.setData('quizId', quiz._id)
     }
 
-        if(classID_or_emptystring=="" || classID_or_emptystring==quiz.classroom){
+        if(classID_or_emptystring==="" || classID_or_emptystring===quiz.classroom){
             return (
                 <div className="card" 
                      draggable = "true" 
@@ -75,7 +75,7 @@ const get_quiz_results = async (quiz, classID) => {
     const jsonCQR = await allClassroomQuizResults.json()
     if(allClassroomQuizResults.ok){
         for(let i=0; i<jsonCQR.length; i++){
-            if(jsonCQR[i].quiz == quiz._id){
+            if(jsonCQR[i].quiz === quiz._id){
                 return jsonCQR[i]
             }
         }

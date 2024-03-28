@@ -1,14 +1,14 @@
 import {useEffect, useRef} from "react"
-import QuestionDetails from "../components/QuestionDetails"
-import QuestionForm from "../components/QuestionForm"
+import QuestionDetails from "../components/question/QuestionDetails"
+import QuestionForm from "../components/forms/QuestionForm"
 import {useQuestionContext} from "../hooks/useQuestionContext"
 import {useLocation} from "react-router-dom"
 import {useQuizResultContext} from "../hooks/useQuizResultContext";
-import QuizDetails from "../components/QuizDetails";
+import QuizDetails from "../components/quiz/QuizDetails";
 import quiz from "./Quiz";
-import QuestionResult from "../components/QuestionResult";
+import QuestionResult from "../components/question/QuestionResult";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
-import BackButton from "../components/BackButton"
+import BackButton from "../components/buttons/BackButton"
 
 
 const QuizResult = () => {

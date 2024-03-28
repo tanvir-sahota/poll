@@ -1,6 +1,6 @@
 import {useState} from "react";
 import { useParams, useLocation } from "react-router-dom";
-import HostingOptions from "../components/HostingOptions"
+import HostingOptions from "../components/hosting/HostingOptions"
 
 const HostedClassroom = (inputData) =>{
     const {socket} = inputData

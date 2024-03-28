@@ -37,7 +37,7 @@ exports.getAllClassroomsByToken = async (req, res) => {
         try {
           const classrooms = await ClassroomModel.find({ owner: userId })
       
-          if (classrooms.length == 0) {
+          if (classrooms.length === 0) {
             return res.status(404).json({ message: 'No virtual classrooms found' });
           }
       

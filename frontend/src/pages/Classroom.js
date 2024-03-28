@@ -5,13 +5,13 @@ import {useQuizzesContext} from "../hooks/useQuizzesContext"
 import {useFoldersContext} from "../hooks/useFoldersContext"
 
 
-import QuizDetails from "../components/QuizDetails"
-import QuizForm from '../components/QuizForm'
-import FolderDetails from "../components/FolderDetails"
-import FolderForm from '../components/FolderForm'
+import QuizDetails from "../components/quiz/QuizDetails"
+import QuizForm from '../components/forms/QuizForm'
+import FolderDetails from "../components/folder/FolderDetails"
+import FolderForm from '../components/forms/FolderForm'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-import BackButton from '../components/BackButton'
+import BackButton from '../components/buttons/BackButton'
 
 const Classroom = () => {
     const classID = useLocation().pathname.split("/").at(1)
@@ -60,7 +60,7 @@ const Classroom = () => {
                 dispatch_quiz({type: 'SET_QUIZZES', payload: json})
                 console.log(json)
                 const all_quizzes = json
-                const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom==classID)
+                const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom===classID)
 
                 if(classroom_quizzes.length>0){
                     setHasQuizzes(true)
@@ -80,7 +80,7 @@ const Classroom = () => {
 
 
     useEffect(() => {
-        const classroom_quizzes_without_folder = quizzes && quizzes.filter((quiz) => quiz.folder === null);
+        const classroom_quizzes_without_folder = quizzes && quizzes.filter((quiz) => quiz.folder == null);
         set_qwf(classroom_quizzes_without_folder);
         assign_questions_to_quizzes(classroom_quizzes_without_folder,classID)
     }, [quizzes]);

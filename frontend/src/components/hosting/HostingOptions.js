@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useClassroomContext } from '../hooks/useClassroomContext'
+import { useClassroomContext } from '../../hooks/useClassroomContext'
 import HostingAdmin from './HostingAdmin'
 
 const HostingOptions = (inputData) =>{

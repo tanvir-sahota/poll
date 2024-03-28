@@ -1,7 +1,7 @@
-import {useQuestionContext} from "../hooks/useQuestionContext"
-import {useQuizzesContext} from "../hooks/useQuizzesContext"
+import {useQuestionContext} from "../../hooks/useQuestionContext"
+import {useQuizzesContext} from "../../hooks/useQuizzesContext"
 import {useEffect, useState} from "react"
-import QuestionDisplay from "./QuestionDisplay"
+import QuestionDisplay from "../question/QuestionDisplay"
 import parse from 'html-react-parser'
 import { Bar } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
@@ -84,7 +84,7 @@ const HostingAdmin = (inputData) => {
                 console.log(`${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
-            if(currentQuestion.questionType == "Wh-Question"){
+            if(currentQuestion.questionType === "Wh-Question"){
                 setSubmission((prevSubmissions) => {
                     const newSubmissions = prevSubmissions
                     return newSubmissions + 1
@@ -211,7 +211,7 @@ const HostingAdmin = (inputData) => {
         } else {
             nextButton.hidden = false
         }
-        if(currentQuestion.questionType == "Wh-Question"){
+        if(currentQuestion.questionType === "Wh-Question"){
             setSubmission(answers[position][0] + answers[position][1])
         }
     }
@@ -235,7 +235,7 @@ const HostingAdmin = (inputData) => {
         } else {
             prevButton.hidden = false
         }
-        if(currentQuestion.questionType == "Wh-Question"){
+        if(currentQuestion.questionType === "Wh-Question"){
             setSubmission(answers[position][0] + answers[position][1])
         }
     }

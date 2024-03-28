@@ -1,6 +1,6 @@
 import {useState} from "react";
-import {useQuizzesContext} from "../hooks/useQuizzesContext";
-import {useFoldersContext} from "../hooks/useFoldersContext";
+import {useQuizzesContext} from "../../hooks/useQuizzesContext";
+import {useFoldersContext} from "../../hooks/useFoldersContext";
 import Select from 'react-select'
 
 const QuizForm = (classID) => {

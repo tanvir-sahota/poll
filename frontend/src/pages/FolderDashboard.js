@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {useFoldersContext} from "../hooks/useFoldersContext";
-import FolderDetails from "../components/FolderDetails"
-import FolderForm from "../components/FolderForm";
+import FolderDetails from "../components/folder/FolderDetails"
+import FolderForm from "../components/forms/FolderForm";
 
 const FolderDashboard = () => {
 

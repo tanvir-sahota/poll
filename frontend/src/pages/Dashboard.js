@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react'
 import { useClassroomContext } from '../hooks/useClassroomContext'
-import ClassroomObject from '../components/ClassroomObject'
+import ClassroomObject from '../components/classroom/ClassroomObject'
 import ClassroomForm from '../components/forms/ClassroomForm'
 import Dropdown from 'react-bootstrap/Dropdown'
 

@@ -1,5 +1,5 @@
-import { useQuestionContext } from "../hooks/useQuestionContext"
-import UpdateQuestionForm from "./UpdateQuestionForm"
+import { useQuestionContext } from "../../hooks/useQuestionContext"
+import UpdateQuestionForm from "../forms/UpdateQuestionForm"
 import { useState } from "react"
 
 const QuestionDetails = ({ question, classID }) => {

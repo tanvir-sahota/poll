@@ -1,4 +1,4 @@
-import ConnectToRoomForm from "../components/ConnectToRoomForm"
+import ConnectToRoomForm from "../components/forms/ConnectToRoomForm"
 
 const Home = () =>{
     return(

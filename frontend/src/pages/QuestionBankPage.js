@@ -1,11 +1,11 @@
 import { useEffect, useState} from "react"
-import QuestionDetails from "../components/QuestionDetails"
-import QuestionForm from "../components/QuestionForm"
+import QuestionDetails from "../components/question/QuestionDetails"
+import QuestionForm from "../components/forms/QuestionForm"
 import { useQuestionContext } from "../hooks/useQuestionContext"
 import { useLocation } from "react-router-dom"
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-import BackButton from "../components/BackButton"
+import BackButton from "../components/buttons/BackButton"
 
 const QuestionBank = () => {
 

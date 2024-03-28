@@ -1,4 +1,4 @@
-import { useClassroomContext } from "../hooks/useClassroomContext"
+import { useClassroomContext } from "../../hooks/useClassroomContext"
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'

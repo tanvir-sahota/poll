@@ -180,7 +180,7 @@ const updateQuestion = async(request, response) =>{
     }
     
     let questionType = (options.length != 0) ? "MCQ" : "Wh-Question"
-    if(questionType==="MCQ"){
+    if(questionType=="MCQ"){
         answersArray.forEach(sub => {if(sub.includes("<code>")){questionType = "CodeMCQ" }})
     }
     const newQuestion = await Question.findByIdAndUpdate(id, {question:questionAsked, options:optionsArray, answers:answersArray, questionType:questionType })
