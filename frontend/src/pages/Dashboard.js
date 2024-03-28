@@ -35,6 +35,7 @@ const Dashboard = () => {
         const fetchClassrooms = async () => {
             if (!token) {
                 console.warn('No user is signed in. Token is null.')
+                window.location.href = '/'
                 return
             }
 
