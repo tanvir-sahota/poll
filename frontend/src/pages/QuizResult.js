@@ -48,7 +48,7 @@ const QuizResult = () => {
                 <div className="row">
                     {quiz_results.map( (quiz_result) => (
                         <div className="quizResultDetails">
-                            {/* <h2> {quiz_result.createdAt.slice(0,10)} {quiz_result.createdAt.slice(11,16)}</h2> */}
+                            <h2> {quiz_result.createdAt.slice(0,10)} {quiz_result.createdAt.slice(11,16)}</h2>
                             <QuestionResult quiz_result_id={quiz_result._id} quiz_id={quiz_result.quiz} />
                         </div>
                     ))}
