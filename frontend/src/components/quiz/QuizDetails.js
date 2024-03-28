@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 
 const QuizDetails = ({quiz, classID}) => {
     const {dispatch: dispatchQ} = useQuizzesContext()
-    const {dispatch: dispatchQR} = useQuizResultContext()
+    // const {dispatch: dispatchQR} = useQuizResultContext()
     const classID_or_emptystring = classID_value(classID)
     const navigate = useNavigate()
 

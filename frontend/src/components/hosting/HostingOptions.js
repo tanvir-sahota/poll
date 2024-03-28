@@ -4,7 +4,7 @@ import HostingAdmin from './HostingAdmin'
 
 const HostingOptions = (inputData) =>{
     const {socket, lecturer, question, classID} = inputData    
-    const { classrooms, dispatch } = useClassroomContext()
+    const {dispatch} = useClassroomContext()
     const questionReceived = question
     const IDReceived = classID
     
