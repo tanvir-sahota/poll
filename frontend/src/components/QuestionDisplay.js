@@ -57,9 +57,11 @@ const QuestionDisplay = (inputData) => {
     useEffect(() => {
         let displayQuestionHandler = null
         displayQuestionHandler = newQuestion => {
+            const mcq = newQuestion.options.length > 1
+            const code = newQuestion.questionType === 'CodeMCQ'
             setMCQ(newQuestion.options.length > 1)
             setCode(newQuestion.questionType === 'CodeMCQ')
-            if (isMCQ) {
+            if (mcq) {
                 console.log("Loaded buttons")
                 setSelectedMCQ(prevMCQ => {
                     if(!prevMCQ.has(newQuestion._id)) {
