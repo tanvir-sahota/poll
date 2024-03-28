@@ -18,7 +18,6 @@ const Folder = () => {
             const json = await response.json()
 
             if (response.ok) {
-                console.log(json)
                 dispatch_folder({type: 'SET_FOLDER', payload: json})
             }
             else{
@@ -36,7 +35,6 @@ const Folder = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log(data)
                 dispatch_quiz({type: 'SET_QUIZZES', payload: data})
             } catch (error) {
                 setError(error.message);

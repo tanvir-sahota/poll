@@ -37,7 +37,6 @@ const QuestionForm = (classID) => {
             setError(null)
             setSuccess("Successful Creation!")
             setEmptyFields([])
-            console.log("Successful added question")
             dispatch({type: "CREATE_QUESTIONS", payload: json})
         }
     }

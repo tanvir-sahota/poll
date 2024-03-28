@@ -90,7 +90,6 @@ const SelectQuestionForm = ({classID, quiz_id}) => {
 
             }
             catch (error){
-                console.log("error: " + error)
             }
         }
         

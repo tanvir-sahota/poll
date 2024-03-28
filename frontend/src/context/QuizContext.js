@@ -8,7 +8,6 @@ export const QuizzesContext = createContext()
  */
 
 export const quizzesReducer = (state, action) => {
-    console.log(action.payload)
     switch (action.type) {
         case 'SET_QUIZZES':
             return {
@@ -48,7 +47,6 @@ export const QuizzesContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(quizzesReducer, {
         quizzes: null
     })
-    console.log(state)
 
     return (
         <QuizzesContext.Provider value={{...state, dispatch}}>

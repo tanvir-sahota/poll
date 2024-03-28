@@ -21,11 +21,9 @@ const SignupForm = () => {
     const json = await response.json();
 
     if (!response.ok) {
-      console.log("new user NOT added:", json);
       setError("username", { message: json.error })
     }
     if (response.ok) {
-      console.log("new user added:", json);
 
       // save the user to local storage
       localStorage.setItem('user', JSON.stringify(json))

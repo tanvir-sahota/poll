@@ -19,7 +19,6 @@ const ConnectionPage = (inputData) =>{
     useEffect(() => {
         socket.emit("join-room", lecturer)
         socket.emit("connect-to-room", lecturer, (response) => {
-            console.log(response.question)
             if(response.question != null){
                 updateQuestion(response.question)
             }
@@ -30,7 +29,6 @@ const ConnectionPage = (inputData) =>{
     }, [])
 
     socket.on("disconnect-handler", () => {
-        console.log("DISCONNECT")
         navigateAway()
     })
 

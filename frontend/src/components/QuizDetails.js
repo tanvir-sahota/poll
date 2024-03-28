@@ -16,20 +16,12 @@ const QuizDetails = ({quiz, classID}) => {
      */
     const handleClick = async () => {
         const deleteQuiz = await fetch(`${process.env.REACT_APP_URL}api/quizzes/`+ quiz._id, {method: 'DELETE'})
-
-        // const quiz_results = await get_quiz_results(quiz, classID_or_emptystring)
-        // const deleteQuizResults = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/` + quiz_results._id, {method: 'DELETE'})
-
         const jsonQ = await deleteQuiz.json()
-        // const jsonQR = await deleteQuizResults.json()
 
         if (deleteQuiz.ok) {
             dispatchQ({type: 'DELETE_QUIZ', payload: jsonQ})
         }
-        // if(deleteQuizResults.ok){
-        //     console.log("da qr: " + jsonQR)
-        //     // dispatchQR({type: 'DELETE_QUIZ_RESULT', payload: jsonQR})
-        // }
+
     }
 
     const navigateAway = async () => {
@@ -38,7 +30,6 @@ const QuizDetails = ({quiz, classID}) => {
 
 
     const handleDragStart = (e) => {
-        console.log(quiz._id)
         e.dataTransfer.setData('quizId', quiz._id)
     }
 

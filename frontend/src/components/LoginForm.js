@@ -21,12 +21,9 @@ const LoginForm = () => {
     const json = await response.json();
 
     if (!response.ok) {
-      console.log("NOT Logged in: ", json);
       setError("username", { message: json.error })
     }
     if (response.ok) {
-      console.log("Logged in: ", json);
-
       localStorage.setItem('user', JSON.stringify(json))
       dispatch({type: 'LOGIN', payload: json})
       navigate("/dashboard")

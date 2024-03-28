@@ -40,7 +40,6 @@ const FolderForm = (classID) => {
             setError(null)
             setSuccess("Successful Creation!")
             setEmptyFields([])
-            console.log('new folder added', json)
             dispatch({type: 'CREATE_FOLDER', payload: json})
         }
     }

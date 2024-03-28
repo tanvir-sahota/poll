@@ -20,7 +20,6 @@ export const ClassroomReducer = (state, action) => {
                 }
             }
         case 'DELETE_CLASSROOM':
-            console.log("ACTION : "+ action.payload);
             return {
                 classrooms: state.classrooms.filter((w) => w._id !== action.payload)
             }

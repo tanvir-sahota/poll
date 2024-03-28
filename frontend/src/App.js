@@ -21,10 +21,6 @@ const socket = io.connect(`${process.env.REACT_APP_URL}`)
 
 function App() {
 
-  socket.on("connect", () => {
-    console.log(socket.id)
-  })
-
   return (
     <div id="appjs" className="container-fluid p-3">
       <BrowserRouter>

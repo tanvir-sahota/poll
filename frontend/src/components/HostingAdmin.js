@@ -76,12 +76,10 @@ const HostingAdmin = (inputData) => {
             const comparison = regularExpression.map(regex => {
                 return regex === answer.toString().replaceAll(" ","").toLowerCase()})
             setAnswers(prevAnswers => {
-                console.log(`Previous answers: ${prevAnswers[position]}`)
                 const allAnswers = [...prevAnswers]
                 const questionAnswers = [...prevAnswers[position]]
                 comparison.includes(true) ? questionAnswers[0] += 1 : questionAnswers[1] += 1
                 allAnswers[position] = questionAnswers
-                console.log(`${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
             if(currentQuestion.questionType == "Wh-Question"){
@@ -93,31 +91,22 @@ const HostingAdmin = (inputData) => {
             
         }
         socket.addEventListener("recieve-answer-text", receiveTextHandler)
-        console.log("Added text event handler")
         return () => {
             if (receiveTextHandler) {
                 socket.removeEventListener("recieve-answer-text", receiveTextHandler)
-                console.log("Removed text event handler")
             }
         }
     }, [position])
 
     useEffect(() => {
-        console.log("useEffect receiveMultipleChoice effect running")
         let receiveMultipleChoiceHandler = null
         receiveMultipleChoiceHandler = option => {
             const index = questions[position].options.findIndex(comparisonOption => comparisonOption === option)
-            if (index === -1) {
-                console.log("Empty answers")
-            }
             setAnswers(prevAnswers => {
-                console.log(`Previous answers: ${prevAnswers[position]}`)
                 const allAnswers = [...prevAnswers]
                 const questionAnswers = [...prevAnswers[position]]
                 questionAnswers[index] += 1
                 allAnswers[position] = questionAnswers
-                console.log("Option added count", option)
-                console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
             socket.emit("get-number-of-submissions", lecturer, (response) => {
@@ -125,11 +114,9 @@ const HostingAdmin = (inputData) => {
             })
         }
         socket.addEventListener("recieve-answer-mcq", receiveMultipleChoiceHandler)
-        console.log("Added MCQ event handler")
         return () => {
             if (receiveMultipleChoiceHandler) {
                 socket.removeEventListener("recieve-answer-mcq", receiveMultipleChoiceHandler)
-                console.log("Removed MCQ event handler")
             }
         }
     }, [position])
@@ -139,32 +126,11 @@ const HostingAdmin = (inputData) => {
         declineMultipleChoiceHandler = option => {
             const index = questions[position].options.findIndex(comparisonOption => comparisonOption === option)
             setAnswers(prevAnswers => {
-                console.log(`Previous answers: ${prevAnswers[position]}`)
                 const oldAnswers = prevAnswers[position]
                 const allAnswers = [...prevAnswers]
                 const questionAnswers = [...prevAnswers[position]]
-                //questionAnswers.at(index) > 0 ? prevAnswers[position][index] -= 1 : prevAnswers[position][index] = 0
                 questionAnswers.at(index) > 0 ? questionAnswers[index] -= 1 : questionAnswers[index] = 0
-                /*if (questionAnswers.at(index) > 0) {
-                    prevAnswers[position][index] -= 1
-                } else {
-                    prevAnswers[position][index] = 0
-                }*/
-                //allAnswers[position] = questionAnswers
-                //allAnswers[position] = oldAnswers
                 allAnswers[position] = questionAnswers
-                console.log("Option minus count:", option)
-                console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
-                if (JSON.stringify(oldAnswers) === JSON.stringify(allAnswers[position]))
-                {
-                    //console.error("ERROR DID NOT DECREASE ANSWER")
-                }
-                if (!questions[position].options)
-                {
-                    console.error(`ERROR INVALID OPTIONS: ${questions[position].options}`)
-                    console.log("Option minus count:", option)
-                    console.log(`${option} ${allAnswers[position]} ${questions[position].question}`)
-                }
                 return allAnswers
             })
             socket.emit("get-number-of-submissions", lecturer, (response) => {
@@ -180,7 +146,6 @@ const HostingAdmin = (inputData) => {
     }, [position])
 
     useEffect(() => {
-        console.log("SET QUESTION")
         socket.emit("set-question", questions[position], lecturer)
         if(questions[position].questionType == "Wh-Question"){
             const answers = questions[position].answers
@@ -229,7 +194,6 @@ const HostingAdmin = (inputData) => {
 
     const shouldRenderPrevious = async (newPos = 0) => {
         const prevButton = document.getElementById("prevButton");
-        console.log(position)
         if (newPos === 0) {
             prevButton.hidden = true
         } else {
@@ -242,9 +206,7 @@ const HostingAdmin = (inputData) => {
 
 
     const handleSaveQuiz = async () => {
-        console.log("Handling save quiz")
         socket.emit("host-disconnect", lecturer)
-        console.log("About to send fetch")
 
         const quizResults = {quiz, questions, answers}
         const response = await fetch(`${process.env.REACT_APP_URL}api/quiz-results/`, {
@@ -259,7 +221,6 @@ const HostingAdmin = (inputData) => {
         for (let index = 0; index < questions.length; index++) {
             const currentQuestion = questions.at(index)
             const currentAnswer = answers.at(index)
-            console.log(currentQuestion)
 
             const questionAnswerBody = {currentQuestion, currentAnswer, quiz}
             const response =  fetch(`${process.env.REACT_APP_URL}api/question-results/`, {
@@ -271,16 +232,8 @@ const HostingAdmin = (inputData) => {
             });
         }
 
-        console.log("Sent fetch")
         const json = await response.json();
-        console.log("Got JSON")
 
-        if (!response.ok) {
-            console.log("Failed to save quiz results", json);
-        }
-        else {
-            console.log("Saved quiz results")
-        }
         navigate(-1)
     }
 

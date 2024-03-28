@@ -37,14 +37,11 @@ const QuizForm = (classID) => {
 
     const handleSelectChange = (selectedOption) => {
         setFolderName(selectedOption.value)
-        console.log('Selected option:', selectedOption.value)
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(folderName)
         const folderId = findFolderId(folderName)
-        console.log(folderId)
         
         const quiz = {title, description,folder:folderId,classroom}
         const response = await fetch('/api/quizzes', {
@@ -54,7 +51,6 @@ const QuizForm = (classID) => {
                 'Content-Type': 'application/json'
             }
         })
-        console.log(response)
         const json = await response.json()
 
         if (!response.ok) {
@@ -69,7 +65,6 @@ const QuizForm = (classID) => {
             setError(null)
             setSuccess("Successful Creation!")
             setEmptyFields([])
-            console.log('new quiz added', json)
             dispatch({type: 'CREATE_QUIZ', payload: json})
         }
     }

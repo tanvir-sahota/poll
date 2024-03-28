@@ -58,7 +58,6 @@ const Classroom = () => {
 
             if (response.ok) {
                 dispatch_quiz({type: 'SET_QUIZZES', payload: json})
-                console.log(json)
                 const all_quizzes = json
                 const classroom_quizzes = all_quizzes.filter((quiz) => quiz.classroom==classID)
 
@@ -68,8 +67,6 @@ const Classroom = () => {
                 else{
                     setHasQuizzes(false)
                 }
-
-                console.log("has quizzes: " + hasQuizzes)
                 
                 assign_questions_to_quizzes(classroom_quizzes, classID)
             }
@@ -128,12 +125,10 @@ const Classroom = () => {
             if (!response.ok) {
                 throw new Error('Failed to move quiz to folder');
             }else{
-                console.log(json)
                 dispatch_quiz({ type: 'UPDATE_QUIZ', payload: json });
             }
 
         } catch (error) {
-            console.error('Error moving quiz to folder:', error);
         }
     };
 
@@ -228,12 +223,6 @@ const Classroom = () => {
                 </Modal.Body>
             </Modal>
 
-<<<<<<< HEAD
-            { <div className="classrooms">
-                <h3>Question Bank</h3>
-                <Link to={`${process.env.REACT_APP_URL}` + classID + "/question-bank"}><h4>click here for questions</h4></Link>
-            </div> }
-=======
             <Modal show={showQuizForm} onHide={handleCloseQuizForm}>
                 <Modal.Body>
                     <div className="closeIcon">
@@ -242,7 +231,6 @@ const Classroom = () => {
                     <QuizForm classID={classID}/>
                 </Modal.Body>
             </Modal>
->>>>>>> 3.1_host_classrooms
 
             <Modal show={showFolderForm} onHide={handleCloseFolderForm}>
                 <Modal.Body>
@@ -258,11 +246,7 @@ const Classroom = () => {
 }
 const assign_questions_to_quizzes = (quizzes, classID) => {
     const fetchQuestions = async () =>{
-<<<<<<< HEAD
-        const response = await fetch(`${process.env.REACT_APP_URL}api/questions/` + classID)
-=======
         const response = await fetch(`${process.env.REACT_APP_URL}api/questions/`+ classID)
->>>>>>> 3.1_host_classrooms
         const json = await response.json()
 
         if(response.ok){
@@ -271,7 +255,6 @@ const assign_questions_to_quizzes = (quizzes, classID) => {
                     assign_questions(quiz, json)
                 }
             })
-            console.log(quizzes)
         }
     }
     fetchQuestions()
@@ -280,9 +263,6 @@ const assign_questions_to_quizzes = (quizzes, classID) => {
     }
 }
 
-<<<<<<< HEAD
-export default Classroom
-=======
 const assign_quizzes_to_folders = (folders, classID) => {
     const fetchQuizzes = async () =>{
         const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes/`)
@@ -294,7 +274,6 @@ const assign_quizzes_to_folders = (folders, classID) => {
                     assign_quizzes(folder, json)
                 }
             })
-            console.log(folders)
         }
     }
     fetchQuizzes()
@@ -304,4 +283,3 @@ const assign_quizzes_to_folders = (folders, classID) => {
 }
 
 export default Classroom
->>>>>>> 3.1_host_classrooms
