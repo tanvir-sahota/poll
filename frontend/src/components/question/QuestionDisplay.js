@@ -186,7 +186,7 @@ const QuestionDisplay = (inputData) => {
                         </div>
                     ) : (
                         <div>
-                            <button className="showAnswer" onClick={handleSubmission}>Show Answers</button>
+                            <button className="showAnswer" onClick={handleSubmission}>Show Answer(s)</button>
                             <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
                         </div>
                     )}
