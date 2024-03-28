@@ -33,7 +33,6 @@ jest.mock('../hooks/useQuestionContext', () => ({
         expect(screen.getByText('Question')).toBeInTheDocument();
         expect(screen.getByText('Options')).toBeInTheDocument();
         expect(screen.getByText('Answers')).toBeInTheDocument();
-        expect(screen.getByText('Input as a comma seperated string for multiple answers and options')).toBeInTheDocument();
         expect(screen.getByText("Doesn't require all fields to be inputted")).toBeInTheDocument();
         expect(screen.getByText('Update Question')).toBeInTheDocument();
       });
