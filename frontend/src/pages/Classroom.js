@@ -15,6 +15,7 @@ import BackButton from '../components/BackButton'
 
 const Classroom = () => {
     const classID = useLocation().pathname.split("/").at(1)
+    const [classRoomName, setClassRoomName] = useState()
     const [quizzes_without_folder,set_qwf] = useState([]);
     const {quizzes, dispatch: dispatch_quiz} = useQuizzesContext()
     const {folders, dispatch: dispatch_folder} = useFoldersContext()
@@ -39,8 +40,18 @@ const Classroom = () => {
     const [hasFolders, setHasFolders] = useState(false)
 
     const navigate = useNavigate()
+    useEffect(() => {
+        const fetchClassroomName = async () => {
+            const response = await fetch(`${process.env.REACT_APP_URL}api/classrooms/${classID}`)
+            const classroomData = await response.json()
+            if (response.ok) {
+                setClassRoomName(classroomData.title)
+            }
+        }
+        fetchClassroomName()
+    }, [classID])
 
-    useEffect(() => {        
+    useEffect(() => {
         const fetchQuizzes = async () => {
             const response = await fetch(`${process.env.REACT_APP_URL}api/quizzes`)
             const json = await response.json()
@@ -142,7 +153,7 @@ const Classroom = () => {
             <div className="container-fluid">
                 <div className="row">
                         <div className="col-sm-11">
-                            <h2 style={{ textAlign: 'left' }}>Classroom</h2>
+                            <h2 style={{ textAlign: 'left' }}>{classRoomName}</h2>
                         </div>
                         <div className='col-sm-1'>
                             <BackButton />
