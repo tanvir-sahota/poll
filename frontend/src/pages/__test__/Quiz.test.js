@@ -1,6 +1,6 @@
 import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import QuizDashboard from "../QuizDashboard";
-import QuizForm from "../../components/QuizForm";
+import QuizForm from "../../components/forms/QuizForm";
 import {QuizzesContextProvider} from "../../context/QuizContext";
 
 const MockQuiz = () => {

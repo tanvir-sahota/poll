@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, waitFor, act } from '@testing-library/react';
-import HostingOptions from '../components/HostingOptions';
+import HostingOptions from '../components/hosting/HostingOptions';
 import { useClassroomContext } from '../hooks/useClassroomContext';
-import HostingAdmin from '../components/HostingAdmin';
+import HostingAdmin from '../components/hosting/HostingAdmin';
 
 // Mock useClassroomContext hook
 jest.mock('../hooks/useClassroomContext', () => ({
@@ -10,7 +10,7 @@ jest.mock('../hooks/useClassroomContext', () => ({
 }));
 
 // Mock HostingAdmin component
-jest.mock('../components/HostingAdmin', () => jest.fn(() => null));
+jest.mock('../components/hosting/HostingAdmin', () => jest.fn(() => null));
 
 describe('HostingOptions component', () => {
   it('fetches classrooms and renders HostingAdmin component', async () => {

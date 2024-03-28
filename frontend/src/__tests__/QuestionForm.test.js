@@ -1,7 +1,7 @@
 import React from "react"
 import {fireEvent, render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import QuestionForm from "../components/QuestionForm"
+import QuestionForm from "../components/forms/QuestionForm"
 import { QuestionContextProvider } from "../context/QuestionContext"
 
 

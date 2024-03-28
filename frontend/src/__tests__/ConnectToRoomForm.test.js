@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import ConnectToRoomForm from '../components/ConnectToRoomForm';
+import ConnectToRoomForm from '../components/forms/ConnectToRoomForm';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 describe('ConnectToRoomForm component', () => {

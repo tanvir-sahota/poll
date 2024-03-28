@@ -1,5 +1,5 @@
 import {render, screen, fireEvent, waitFor} from '@testing-library/react';
-import QuizForm from "../components/QuizForm";
+import QuizForm from "../components/forms/QuizForm";
 import {QuizzesContextProvider} from "../context/QuizContext";
 import { FoldersContextProvider } from '../context/FolderContext';
 

@@ -1,5 +1,5 @@
 import {render, screen, waitFor} from '@testing-library/react'
-import EnterNameForm from '../components/EnterNameForm';
+import EnterNameForm from '../components/forms/EnterNameForm';
 import {WS} from 'jest-websocket-mock'
 import userEvent from "@testing-library/user-event";
 import { useNavigate } from 'react-router-dom';

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import QuizDetails from '../components/QuizDetails';
+import QuizDetails from '../components/quiz/QuizDetails';
 import { QuizResultsContextProvider } from '../context/QuizResultContext';
 
 

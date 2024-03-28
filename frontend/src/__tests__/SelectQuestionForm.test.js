@@ -1,7 +1,7 @@
 import {render, screen, waitFor, fireEvent} from '@testing-library/react';
 import fetchMock, { post } from 'fetch-mock'
 
-import ShowSelectQuestion from "../components/ShowSelectQuestion";
+import ShowSelectQuestion from "../components/quiz/ShowSelectQuestion";
 
 import userEvent from "@testing-library/user-event";
 import { act } from 'react-dom/test-utils';

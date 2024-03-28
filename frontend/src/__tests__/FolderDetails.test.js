@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import FolderDetails from '../components/FolderDetails';
+import FolderDetails from '../components/folder/FolderDetails';
 import { useFoldersContext } from '../hooks/useFoldersContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { FolderContextProvider } from "../context/FolderContext"

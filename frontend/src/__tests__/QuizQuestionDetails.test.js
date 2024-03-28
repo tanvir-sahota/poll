@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import QuizQuestionDetails from '../components/QuizQuestionDetails';
+import QuizQuestionDetails from '../components/quiz/QuizQuestionDetails';
 import { useNavigate } from 'react-router-dom';
 
 // Mocking the useNavigate hook

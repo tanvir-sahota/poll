@@ -1,10 +1,10 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import QuestionDetails from '../components/QuestionDetails';
+import QuestionDetails from '../components/question/QuestionDetails';
 import { useQuestionContext } from '../hooks/useQuestionContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QuestionContextProvider } from "../context/QuestionContext"
-import  UpdateQuestionForm from "../components/UpdateQuestionForm"
+import  UpdateQuestionForm from "../components/forms/UpdateQuestionForm"
 
 jest.mock('../hooks/useQuestionContext', () => ({
     useQuestionContext: jest.fn()

@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import SignupForm from '../../src/components/SignupForm'
+import SignupForm from '../../src/components/forms/SignupForm'
 import { AuthContextProvider } from '../context/AuthContext'
 
 describe('SignupForm component', () => {

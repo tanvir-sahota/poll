@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen,fireEvent, waitFor, act, getByTestId } from '@testing-library/react';
-import HostingAdmin from '../components/HostingAdmin';
+import HostingAdmin from '../components/hosting/HostingAdmin';
 import { useQuestionContext } from "../hooks/useQuestionContext";
 import { useQuizzesContext } from "../hooks/useQuizzesContext";
 import { useNavigate } from "react-router-dom";
