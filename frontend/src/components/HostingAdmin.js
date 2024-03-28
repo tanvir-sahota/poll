@@ -38,7 +38,7 @@ const HostingAdmin = (inputData) => {
             label: "Selections",
             data: questions[position].options.map(option => answers[position].at(questions[position].options.indexOf(option))),
             backgroundColor: questions[position].options.map(op => (questions[position].answers.includes(op)
-            || questions[position].answers.includes(op.slice(2)) ? 'green' : 'red')),
+            || questions[position].answers.includes(op.slice(3)) ? 'green' : 'red')),
         }],
     })
     const [chartData, setChart] = useState(getChart())
@@ -84,9 +84,13 @@ const HostingAdmin = (inputData) => {
                 console.log(`${allAnswers[position]} ${questions[position].question}`)
                 return allAnswers
             })
-            socket.emit("get-number-of-submissions", lecturer, (response) => {
-                setSubmission(response.count)
-            })
+            if(currentQuestion.questionType == "Wh-Question"){
+                setSubmission((prevSubmissions) => {
+                    const newSubmissions = prevSubmissions
+                    return newSubmissions + 1
+                })
+            }
+            
         }
         socket.addEventListener("recieve-answer-text", receiveTextHandler)
         console.log("Added text event handler")
@@ -197,7 +201,6 @@ const HostingAdmin = (inputData) => {
 
             shouldRenderPrevious(tempPosition + 1)
             shouldRenderNext(tempPosition + 1)
-
         }
     }
 
@@ -208,7 +211,9 @@ const HostingAdmin = (inputData) => {
         } else {
             nextButton.hidden = false
         }
-
+        if(currentQuestion.questionType == "Wh-Question"){
+            setSubmission(answers[position][0] + answers[position][1])
+        }
     }
 
     const handlePrev = async () => {
@@ -220,7 +225,6 @@ const HostingAdmin = (inputData) => {
             shouldRenderPrevious(tempPosition -1)
             shouldRenderNext(tempPosition -1)
         }
-        setSubmission(0)
     }
 
     const shouldRenderPrevious = async (newPos = 0) => {
@@ -230,6 +234,9 @@ const HostingAdmin = (inputData) => {
             prevButton.hidden = true
         } else {
             prevButton.hidden = false
+        }
+        if(currentQuestion.questionType == "Wh-Question"){
+            setSubmission(answers[position][0] + answers[position][1])
         }
     }
 

@@ -180,3 +180,23 @@ describe("PATCH /api/quizzes/:id", () => {
             })
     })
 })
+
+describe("POST /api/quiz-results", () => {
+    it("should create quiz results", async () => {
+        const quizData = {
+            quiz: "Quiz Title",
+            questions: ["Question 1", "Question 2"],
+            answers: ["Answer 1", "Answer 2"]
+        };
+
+        const response = await request(app)
+            .post("/api/quiz-results")
+            .send(quizData)
+            .set({
+                "Content-Type": "application/json"
+            });
+
+        expect(response.statusCode).toBe(201);
+        expect(response.body).toEqual(quizData);
+    });
+});
