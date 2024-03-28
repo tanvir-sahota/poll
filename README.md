@@ -1,4 +1,4 @@
-# Team Marshall & Co
+# Team Marshall & Co - Major Group Project
 
 ## Project Title
 C3: Interactive polling for Informatics lectures
