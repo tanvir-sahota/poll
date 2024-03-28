@@ -7,8 +7,8 @@ const Classroom = require("../models/ClassroomModel");
 const classroomController = require("../controllers/classroomController");
 const defaultClassroom = require("./fixtures/default_classroom.json");
 
-const app = require("../app.js");
-const server = require("../server.js");
+const app = require("../app");
+const server = require("../server");
 let classroomID
 
 beforeAll(async () => {

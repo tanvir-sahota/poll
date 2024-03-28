@@ -37,8 +37,7 @@ const UpdateQuestionForm = ({question, setShowForm, classID, setShowOptions}) =>
 
     return(
         <form className="update" onSubmit={handleSubmission}>
-            <h3>Update Questions</h3>
-
+            <hr className="split"></hr>
             <label>Question</label>
             <input
                 type="text"
@@ -63,15 +62,18 @@ const UpdateQuestionForm = ({question, setShowForm, classID, setShowOptions}) =>
                 className={""}
             />
 
-            <p>Input as a comma seperated string for multiple answers and options</p>
-            <p>Doesn't require all fields to be inputted</p>
+            <br></br>
+            <div id="disclaimer">
+                <i>
+                    <p>Input as a comma seperated string for multiple answers and options</p>
+                    <p>Doesn't require all fields to be inputted</p>
+                </i>
+            </div>
 
             <button>Update Question</button>
             {error && <div className="error">{error}</div>}
-
         </form>
     )
-
 }
 
 export default UpdateQuestionForm

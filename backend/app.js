@@ -1,3 +1,4 @@
+//import all required components
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
@@ -23,14 +24,19 @@ else
 app.use(cors())
 }
 
+//import all routes
 const quizRoutes = require('./routes/quizzes')
 const questionRoutes = require("./routes/questions")
+const questionResultRoutes = require("./routes/questionResults")
 const classroomRoutes = require('./routes/Classroom')
 const userRoutes = require('./routes/users')
+const quizResultsRoutes = require('./routes/quizResults')
+const folderRoutes = require('./routes/folders')
 
 
 app.use(express.json())
 
+//database connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('Successfuly connected to database.')
@@ -45,18 +51,18 @@ mongoose.connect(process.env.MONGO_URI)
     console.log(err)
   }) 
 
-// connect frontend
-// const dirName = path.dirname("")
 const buildPath = path.join(__dirname, "../frontend/build");
-
-
 
 // Routes
 app.use(express.static(buildPath))
+app.use('/api/folders',folderRoutes)
 app.use("/api/questions", questionRoutes)
+app.use("/api/question-results", questionResultRoutes)
 app.use('/api/classrooms', classroomRoutes);
 app.use('/api/users', userRoutes)
 app.use('/api/quizzes', quizRoutes)
+app.use('/api/quiz-results', quizResultsRoutes)
+
 app.get("/*", function(req,res){
   res.sendFile(
     path.join(buildPath,"index.html"),
@@ -67,4 +73,5 @@ app.get("/*", function(req,res){
     }
   )
 })
+//Exports the app
 module.exports = app

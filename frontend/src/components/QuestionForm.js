@@ -8,9 +8,8 @@ const QuestionForm = (classID) => {
     const [options, setOptions] = useState("")
     const [answers, setAnswers] = useState("")
     const [error, setError] = useState(null)
+    const [success, setSuccess] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
-
-    const [showForm, setShowForm] = useState(false)
 
     const handleSubmission = async (e) => {
         e.preventDefault()
@@ -28,6 +27,7 @@ const QuestionForm = (classID) => {
 
         if(!response.ok){
             setError(json.error)
+            setSuccess(null)
             setEmptyFields(json.emptyFields)
         }
         if(response.ok){
@@ -35,20 +35,17 @@ const QuestionForm = (classID) => {
             setOptions("")
             setAnswers("")
             setError(null)
+            setSuccess("Successful Creation!")
             setEmptyFields([])
             console.log("Successful added question")
             dispatch({type: "CREATE_QUESTIONS", payload: json})
         }
     }
 
-    const toggleForm = () => {
-        setShowForm(!showForm)
-    }
-
     return(
         <div>
-            <h3 onClick={toggleForm} className="form-heading">Add a new Question</h3>
-        {showForm ? 
+            <h2>Create Question</h2>
+            <br></br>
             <form className="create" onSubmit={handleSubmission}>
                 <label>Question</label>
                 <input
@@ -76,11 +73,10 @@ const QuestionForm = (classID) => {
 
                 <p>Input as a comma seperated string for multiple answers and options</p>
 
-                <button className = "create">Add Question</button>
+                <button>Add Question</button>
                 {error && <div className="error">{error}</div>}
-
+                {success && <div className="success">{success}</div>}
             </form>
-        : null}
         </div>
         
     )

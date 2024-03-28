@@ -1,13 +1,14 @@
 import {createContext, useReducer} from "react";
 
 export const QuizzesContext = createContext()
-
 /**
  * Performs changes to states based on actions
  * @param state the previous state before the change is made
  * @param action corresponds to the action performed on a quiz
  */
+
 export const quizzesReducer = (state, action) => {
+    console.log(action.payload)
     switch (action.type) {
         case 'SET_QUIZZES':
             return {
@@ -25,6 +26,12 @@ export const quizzesReducer = (state, action) => {
             return {
                 quizzes: state.quizzes.filter((q) => q._id !== action.payload._id)
             }
+        case 'UPDATE_QUIZ':
+            return {
+                quizzes: state.quizzes.map(quiz =>
+                    quiz._id === action.payload._id ? { ...quiz, folder: action.payload.folder } : quiz
+                )
+            };
         default:
             return state
     }
@@ -37,10 +44,11 @@ export const quizzesReducer = (state, action) => {
  * @constructor
  */
 export const QuizzesContextProvider = ({children}) => {
+    
     const [state, dispatch] = useReducer(quizzesReducer, {
         quizzes: null
     })
-
+    console.log(state)
 
     return (
         <QuizzesContext.Provider value={{...state, dispatch}}>

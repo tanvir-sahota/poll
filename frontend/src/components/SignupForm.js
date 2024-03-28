@@ -1,15 +1,17 @@
-import { useState } from "react";
-
+import { useAuthContext } from "../hooks/useAuthContext";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useForm, Controller } from 'react-hook-form';
 import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const { handleSubmit, control, setError, formState: { errors } } = useForm();
+  const { dispatch } = useAuthContext()
+  const navigate = useNavigate()
 
   const onSubmit = async (data) => {
-    const response = await fetch(`${process.env.REACT_APP_URL}api/users`, {
+    const response = await fetch(`${process.env.REACT_APP_URL}api/users/signup`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -24,13 +26,20 @@ const SignupForm = () => {
     }
     if (response.ok) {
       console.log("new user added:", json);
+
+      // save the user to local storage
+      localStorage.setItem('user', JSON.stringify(json))
+
+      // update the auth context
+      dispatch({type: 'LOGIN', payload: json})
+      navigate("/dashboard")
     }
   };
 
   return (
     <div
       className="form-container"
-      style={{ display: "block", width: 700, padding: 30 }}
+      style={{ display: "inline-block", width: 700, padding: 30 }}
     >
       <Form className="sign-up" onSubmit={handleSubmit(onSubmit)}>
         <h1>Sign Up</h1>

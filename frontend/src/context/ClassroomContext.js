@@ -9,8 +9,15 @@ export const ClassroomReducer = (state, action) => {
                 classrooms: action.payload
             }
         case 'CREATE_CLASSROOM':
-            return {
-                classrooms: [action.payload, ...state.classrooms]
+            if(state.classrooms){
+                return {
+                    classrooms: [action.payload, ...state.classrooms]
+                }
+            }
+            else{
+                return{
+                    classrooms : [action.payload]
+                }
             }
         case 'DELETE_CLASSROOM':
             console.log("ACTION : "+ action.payload);

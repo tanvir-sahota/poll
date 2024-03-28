@@ -2,21 +2,37 @@ const mongoose = require("mongoose")
 const request = require("supertest")
 const app = require("../app")
 const server = require("../server")
-
+const { findByIdAndDelete } = require("../models/questionModel")
+const User = require("../models/userModel")
 require("dotenv").config()
 
 let questionID
 let classID
+let userID
 
 beforeAll(async () => {
   await mongoose.connect(process.env.MONGO_URI)
+
+  //create sample user
+  const userResponse = await request(app)
+    .post("/api/users/signup")
+    .send({
+      username: "testUser",
+      password: "testPassword"
+    })
+    .set({
+      "Content-Type": "application/json"
+    })
+
+    userID = userResponse.body._id
 
   //create sample class
   const classResponse = await request(app)
     .post("/api/classrooms")
     .send({
+      owner : JSON.stringify({token: userResponse.body.token}),
       title : "title",
-      owner : "owner"
+      questions: []
     })
     .set({
       "Content-Type": "application/json"
@@ -29,8 +45,7 @@ beforeAll(async () => {
     .send({
       questionAsked: "question",
       options: "5,6,7",
-      answers: "6,7",
-      questionType: "MCQ"
+      answers: "6,7"
     })
     .set({
       "Content-Type": "application/json"
@@ -39,6 +54,7 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
+  await User.deleteOne({ username: "testUser" })
     await mongoose.connection.close()
     server.close()
 }) 

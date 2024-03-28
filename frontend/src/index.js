@@ -6,18 +6,28 @@ import reportWebVitals from './reportWebVitals';
 import { QuizzesContextProvider } from "./context/QuizContext";
 import { QuestionContextProvider } from './context/QuestionContext';
 import { ClassroomContextProvider } from './context/ClassroomContext';
+import { AuthContextProvider } from './context/AuthContext';
+import {QuizResultsContextProvider} from "./context/QuizResultContext";
+import {QuestionResultsContextProvider} from "./context/QuestionResultContext";
+import { FoldersContextProvider } from './context/FolderContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <ClassroomContextProvider>
-      <QuizzesContextProvider>
-        <QuestionContextProvider>
-          <App/>
-        </QuestionContextProvider>
-      </QuizzesContextProvider>
-    </ClassroomContextProvider>
-  </React.StrictMode>
+    <AuthContextProvider>
+      <ClassroomContextProvider>
+          <FoldersContextProvider>
+        <QuizzesContextProvider>
+          <QuestionContextProvider>
+              <QuizResultsContextProvider>
+                  <QuestionResultsContextProvider>
+                      <App/>
+                  </QuestionResultsContextProvider>
+              </QuizResultsContextProvider>
+          </QuestionContextProvider>
+        </QuizzesContextProvider>
+              </FoldersContextProvider>
+      </ClassroomContextProvider>
+    </AuthContextProvider>
 
 );
 
