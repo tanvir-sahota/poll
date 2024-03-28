@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 const QuizQuestionDetails = ({ question, classID }) => {
     
     const navigate = useNavigate()
-    const [showOptions, setShowOptions] = useState(question.options.length != 0 ? true : false)
+    const [showOptions, setShowOptions] = useState(question.options.length !== 0 ? true : false)
 
     const hostQuestion = () => {
         const data = JSON.parse(localStorage.getItem("user"))

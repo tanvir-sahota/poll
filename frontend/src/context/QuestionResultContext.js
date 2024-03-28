@@ -18,11 +18,11 @@ export const questionResultsReducer = (state, action) => {
             }
         case "DELETE_QUESTION_RESULTS":
             return{
-                question_results: state.question_results.filter(question => question._id != action.payload._id)
+                question_results: state.question_results.filter(question => question._id !== action.payload._id)
             }
         case "UPDATE_QUESTION_RESULTS":
             return{
-                question_results: [action.payload, ...state.question_results.filter(question => question._id != action.payload._id)]
+                question_results: [action.payload, ...state.question_results.filter(question => question._id !== action.payload._id)]
             }
         default:
             return state

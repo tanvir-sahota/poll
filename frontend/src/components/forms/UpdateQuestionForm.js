@@ -31,7 +31,7 @@ const UpdateQuestionForm = ({question, setShowForm, classID, setShowOptions}) =>
             console.log("Successful updated question")
             dispatch({type: "UPDATE_QUESTIONS", payload: json})
             setShowForm(false)
-            setShowOptions(options.length != 0 ? true : false)
+            setShowOptions(options.length !== 0 ? true : false)
         }
     }
 
