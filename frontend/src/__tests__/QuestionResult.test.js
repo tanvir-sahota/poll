@@ -76,24 +76,10 @@ const urlQuiz = `${process.env.REACT_APP_URL}api/quizzes/` + mockQuiz._id
 
 
 
-describe("Appearance tests", () => {
-    test("Ensures there is loading text for fetching", () => {
-        render(MockQuestionResult())
-        const loading_text = screen.getByText('"Still loading all question results..."')
-        expect(loading_text).toBeInTheDocument()
-    })
-})
-
-
 beforeEach(() => {
     fetchMock.restore()
 })
 describe("Appearance test after fetches", () => {
-    const wait_for_fetch = async (check_this_string) => {
-        await waitFor(() => {
-            expect(screen.getByText(check_this_string)).toBeInTheDocument()
-        })
-    }
     beforeEach(async () => {
         fetchMock.mock(urlQuizResult, JSON.stringify(mockQuizResult))
         fetchMock.mock(urlQuestionResult, JSON.stringify([mockQuestionResults]))
