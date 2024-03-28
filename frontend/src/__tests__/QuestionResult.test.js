@@ -99,7 +99,6 @@ describe("Appearance test after fetches", () => {
         render(MockQuestionResult())
         await waitFor(() => {
             expect(screen.getAllByText("Correct answers:")[0]).toBeInTheDocument()
-            screen.debug()
         })
     })
     test("Check answers text", async () => {
