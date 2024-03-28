@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useQuizzesContext } from "../hooks/useQuizzesContext"
+import { useQuizzesContext } from "../../hooks/useQuizzesContext"
 
 const SelectQuestionForm = ({classID, quiz_id}) => {    
     const [error, setError] = useState(null)

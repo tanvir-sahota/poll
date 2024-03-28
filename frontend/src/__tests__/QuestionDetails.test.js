@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import QuestionDetails from '../components/QuestionDetails';
+import QuestionDetails from '../components/question/QuestionDetails';
 import { useQuestionContext } from '../hooks/useQuestionContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QuestionContextProvider } from "../context/QuestionContext"
@@ -31,7 +31,7 @@ describe('QuestionDetails component', () => {
     expect(screen.getByText(mockQuestion.question)).toBeInTheDocument();
     expect(screen.getByText('Options:')).toBeInTheDocument();
     expect(screen.getByText('Answer(s):')).toBeInTheDocument();
-    expect(screen.getByText('delete')).toBeInTheDocument();
+    expect(screen.getByText('Delete')).toBeInTheDocument();
     expect(screen.getByText('Edit')).toBeInTheDocument();
     expect(screen.getByText('Option A,Option B')).toBeInTheDocument();
     expect(screen.getByText('Answer A')).toBeInTheDocument();
@@ -45,7 +45,7 @@ describe('QuestionDetails component', () => {
         <QuestionDetails question={mockQuestion} classID="classID" onSubmit={mockCallback()} />
         </Router>
     );
-    const deleteButton = screen.getByText('delete');
+    const deleteButton = screen.getByText('Delete');
     fireEvent.click(deleteButton)
     expect(mockCallback).toHaveBeenCalled()
   });

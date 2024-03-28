@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import QuizDetails from '../components/QuizDetails';
+import QuizDetails from '../components/quiz/QuizDetails';
+import { QuizResultsContextProvider } from '../context/QuizResultContext';
 
 
 const mockCallback = jest.fn()
@@ -41,7 +42,9 @@ const mockClassroom = {
 
 const MockQuizDetails = () => {
   return (
+    <QuizResultsContextProvider>
       <QuizDetails quiz={mockQuiz} classID="Classroom 101" onSubmit={mockCallback()} />
+      </QuizResultsContextProvider>
     )
 }
 

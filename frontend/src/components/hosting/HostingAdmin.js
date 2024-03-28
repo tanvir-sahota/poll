@@ -1,7 +1,7 @@
-import {useQuestionContext} from "../hooks/useQuestionContext"
-import {useQuizzesContext} from "../hooks/useQuizzesContext"
+import {useQuestionContext} from "../../hooks/useQuestionContext"
+import {useQuizzesContext} from "../../hooks/useQuizzesContext"
 import {useEffect, useState} from "react"
-import QuestionDisplay from "./QuestionDisplay"
+import QuestionDisplay from "../question/QuestionDisplay"
 import parse from 'html-react-parser'
 import { Bar } from 'react-chartjs-2'
 import Chart from 'chart.js/auto'
@@ -82,7 +82,7 @@ const HostingAdmin = (inputData) => {
                 allAnswers[position] = questionAnswers
                 return allAnswers
             })
-            if(currentQuestion.questionType == "Wh-Question"){
+            if(currentQuestion.questionType === "Wh-Question"){
                 setSubmission((prevSubmissions) => {
                     const newSubmissions = prevSubmissions
                     return newSubmissions + 1
@@ -176,7 +176,7 @@ const HostingAdmin = (inputData) => {
         } else {
             nextButton.hidden = false
         }
-        if(currentQuestion.questionType == "Wh-Question"){
+        if(currentQuestion.questionType === "Wh-Question"){
             setSubmission(answers[position][0] + answers[position][1])
         }
     }
@@ -199,7 +199,7 @@ const HostingAdmin = (inputData) => {
         } else {
             prevButton.hidden = false
         }
-        if(currentQuestion.questionType == "Wh-Question"){
+        if(currentQuestion.questionType === "Wh-Question"){
             setSubmission(answers[position][0] + answers[position][1])
         }
     }
@@ -246,7 +246,7 @@ const HostingAdmin = (inputData) => {
         <div className="hostingDisplay">
             <div className="row" id="rowQuestionDisplay">
                 <div id="prevButtonContainer">
-                    <button id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>
+                    <button data-testid = "prevButton" id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>
                         <i className="bi bi-arrow-left"></i>
                     </button>
                 </div>
@@ -254,7 +254,7 @@ const HostingAdmin = (inputData) => {
                     <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket} lecturer={lecturer}/>
                 </div>
                 <div id="nextButtonContainer">
-                    <button id="nextButton" onClick={handleNext} onLoad={shouldRenderNext}>
+                    <button data-testid = "nextButton"id="nextButton" onClick={handleNext} onLoad={shouldRenderNext}>
                         <i className="bi bi-arrow-right"></i>
                     </button>
                 </div>

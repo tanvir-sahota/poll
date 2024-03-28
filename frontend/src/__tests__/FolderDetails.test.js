@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import FolderDetails from '../components/FolderDetails';
+import FolderDetails from '../components/folder/FolderDetails';
 import { useFoldersContext } from '../hooks/useFoldersContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { FolderContextProvider } from "../context/FolderContext"
@@ -30,7 +30,7 @@ describe('FolderDetails component', () => {
 
     expect(screen.getByText(mockFolder.title)).toBeInTheDocument();
     expect(screen.getByText('Mock Folder')).toBeInTheDocument();
-    expect(screen.getByText('delete')).toBeInTheDocument();
+    expect(screen.getByText('Delete')).toBeInTheDocument();
 
   });
 
@@ -41,7 +41,7 @@ describe('FolderDetails component', () => {
         <FolderDetails folder={mockFolder} classID="Classroom 101" onSubmit={mockCallback()} />
         </Router>
     );
-    const deleteButton = screen.getByText('delete');
+    const deleteButton = screen.getByText('Delete');
     fireEvent.click(deleteButton)
     expect(mockCallback).toHaveBeenCalled()
   });

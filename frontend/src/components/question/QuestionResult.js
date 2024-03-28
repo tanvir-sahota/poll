@@ -1,9 +1,9 @@
-import {useQuizResultContext} from "../hooks/useQuizResultContext";
+import {useQuizResultContext} from "../../hooks/useQuizResultContext";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
-import {useQuestionResultContext} from "../hooks/useQuestionResultContext";
-import {useQuizzesContext} from "../hooks/useQuizzesContext";
-import {useQuestionContext} from "../hooks/useQuestionContext";
+import {useQuestionResultContext} from "../../hooks/useQuestionResultContext";
+import {useQuizzesContext} from "../../hooks/useQuizzesContext";
+import {useQuestionContext} from "../../hooks/useQuestionContext";
 
 const QuestionResult = (params) => {
 

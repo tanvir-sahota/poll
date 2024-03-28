@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
-import QuizDetails from "../components/QuizDetails"
-import QuizForm from "../components/QuizForm";
+import QuizDetails from "../components/quiz/QuizDetails"
+import QuizForm from "../components/forms/QuizForm";
 
 const QuizDashboard = () => {
 

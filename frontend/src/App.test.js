@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-import QuizForm from "./components/QuizForm";
+import QuizForm from './components/forms/QuizForm';
 import {QuizzesContextProvider} from "./context/QuizContext";
 // import ClassroomForm from "./components/forms/ClassroomForm";
 // import {ClassroomContextProvider} from "./context/ClassroomContext";

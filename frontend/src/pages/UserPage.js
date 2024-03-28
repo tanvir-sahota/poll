@@ -1,4 +1,4 @@
-import EnterNameForm from "../components/EnterNameForm"
+import EnterNameForm from "../components/forms/EnterNameForm"
 
 const UserPage = (inputData) =>{
     const {socket} = inputData

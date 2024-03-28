@@ -1,5 +1,5 @@
 import {render, screen, fireEvent, waitFor} from '@testing-library/react';
-import ClassroomForm from "../components/ClassroomObject";
+import ClassroomForm from "../components/classroom/ClassroomObject";
 import {ClassroomContextProvider} from "../context/ClassroomContext";
 import { BrowserRouter } from 'react-router-dom';
 

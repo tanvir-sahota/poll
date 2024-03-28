@@ -1,4 +1,4 @@
-import {useFoldersContext} from "../hooks/useFoldersContext";
+import {useFoldersContext} from "../../hooks/useFoldersContext";
 import Button from 'react-bootstrap/Button'
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +38,7 @@ const FolderDetails = ({folder, classID,onDrop,onDragOver}) => {
         navigate(`/api/folders/${folder._id}/${classID}`)
     }
 
-    if(classID_or_emptystring=="" || classID_or_emptystring==folder.classroom){
+    if(classID_or_emptystring==="" || classID_or_emptystring===folder.classroom){
         return (
                 <div className="card"
                     onDragOver = {e => handleDragOver(e)}

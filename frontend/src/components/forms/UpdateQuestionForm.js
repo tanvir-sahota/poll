@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useQuestionContext } from "../hooks/useQuestionContext"
+import { useQuestionContext } from "../../hooks/useQuestionContext"
 
 const UpdateQuestionForm = ({question, setShowForm, classID, setShowOptions}) => {
 
@@ -30,7 +30,7 @@ const UpdateQuestionForm = ({question, setShowForm, classID, setShowOptions}) =>
             setError(null)
             dispatch({type: "UPDATE_QUESTIONS", payload: json})
             setShowForm(false)
-            setShowOptions(options.length != 0 ? true : false)
+            setShowOptions(options.length !== 0 ? true : false)
         }
     }
 
@@ -64,7 +64,7 @@ const UpdateQuestionForm = ({question, setShowForm, classID, setShowOptions}) =>
             <br></br>
             <div id="disclaimer">
                 <i>
-                    <p>Input as a comma seperated string for multiple answers and options</p>
+                    <p>Input as a comma separated string for multiple answers and options</p>
                     <p>Doesn't require all fields to be inputted</p>
                 </i>
             </div>

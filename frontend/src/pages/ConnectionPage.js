@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import QuestionDisplay from "../components/QuestionDisplay";
+import QuestionDisplay from "../components/question/QuestionDisplay";
 
 const ConnectionPage = (inputData) =>{
     const {socket} = inputData

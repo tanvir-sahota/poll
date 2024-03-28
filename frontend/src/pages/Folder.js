@@ -2,8 +2,8 @@ import {useFoldersContext} from "../hooks/useFoldersContext";
 import {useQuizzesContext} from "../hooks/useQuizzesContext";
 import {useParams, useRouteError} from "react-router-dom";
 import {useEffect, useState} from "react";
-import QuizDetails from "../components/QuizDetails"
-import BackButton from "../components/BackButton";
+import QuizDetails from "../components/quiz/QuizDetails"
+import BackButton from "../components/buttons/BackButton";
 
 const Folder = () => {
     const {folder,dispatch:dispatch_folder} = useFoldersContext()

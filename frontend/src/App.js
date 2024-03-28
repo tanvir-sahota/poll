@@ -8,8 +8,8 @@ import Folder from './pages/Folder'
 import QuestionBankPage from './pages/QuestionBankPage'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import SignupForm from './components/SignupForm'
-import LoginForm from './components/LoginForm'
+import SignupForm from './components/forms/SignupForm'
+import LoginForm from './components/forms/LoginForm'
 import HostedClassroom from "./pages/HostedClassroom"
 import ConnectionPage from './pages/ConnectionPage'
 import Home from "./pages/Home"

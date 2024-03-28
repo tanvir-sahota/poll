@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ShowSelectQuestion from '../components/ShowSelectQuestion';
+import ShowSelectQuestion from '../components/quiz/ShowSelectQuestion';
 
-jest.mock('../components/SelectQuestionForm', () => () => <div data-testid="mock-select-question-form" />);
+jest.mock('../components/forms/SelectQuestionForm', () => () => <div data-testid="mock-select-question-form" />);
 
 describe('show_form', () => {
   it('displays "No classroom linked to this quiz" message when classroom_id is undefined', () => {

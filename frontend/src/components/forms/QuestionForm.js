@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useQuestionContext } from "../hooks/useQuestionContext"
+import { useQuestionContext } from "../../hooks/useQuestionContext"
 
 const QuestionForm = (classID) => {
 
@@ -70,7 +70,7 @@ const QuestionForm = (classID) => {
                     className={emptyFields.includes("answers") ? "error" : ""}
                 />
 
-                <p>Input as a comma seperated string for multiple answers and options</p>
+                <p>Input as a comma separated string for multiple answers and options</p>
 
                 <button>Add Question</button>
                 {error && <div className="error">{error}</div>}

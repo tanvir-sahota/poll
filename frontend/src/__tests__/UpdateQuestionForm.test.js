@@ -1,10 +1,10 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import QuestionDetails from '../components/QuestionDetails';
+import QuestionDetails from '../components/question/QuestionDetails';
 import { useQuestionContext } from '../hooks/useQuestionContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QuestionContextProvider } from "../context/QuestionContext"
-import  UpdateQuestionForm from "../components/UpdateQuestionForm"
+import  UpdateQuestionForm from "../components/forms/UpdateQuestionForm"
 
 jest.mock('../hooks/useQuestionContext', () => ({
     useQuestionContext: jest.fn()
@@ -29,13 +29,13 @@ jest.mock('../hooks/useQuestionContext', () => ({
           </Router>
         );
     
-        expect(screen.getByText('Update Questions')).toBeInTheDocument();
+        expect(screen.getByText('Update Question')).toBeInTheDocument();
         expect(screen.getByText('Question')).toBeInTheDocument();
         expect(screen.getByText('Options')).toBeInTheDocument();
         expect(screen.getByText('Answers')).toBeInTheDocument();
         expect(screen.getByText('Input as a comma seperated string for multiple answers and options')).toBeInTheDocument();
         expect(screen.getByText("Doesn't require all fields to be inputted")).toBeInTheDocument();
-        expect(screen.getByText('Update Questions')).toBeInTheDocument();
+        expect(screen.getByText('Update Question')).toBeInTheDocument();
       });
 
       test('toggles update form visibility when update question button is clicked',() => {

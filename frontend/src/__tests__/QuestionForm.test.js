@@ -1,7 +1,7 @@
 import React from "react"
 import {fireEvent, render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import QuestionForm from "../components/QuestionForm"
+import QuestionForm from "../components/forms/QuestionForm"
 import { QuestionContextProvider } from "../context/QuestionContext"
 
 
@@ -19,27 +19,27 @@ describe('question form rendering tests', () => {
 
     test('form title renders', () => {
          render(MockQuestionForm())
-        expect(screen.getByText('Add a new Question')).toBeInTheDocument()
+        expect(screen.getByText('Create Question')).toBeInTheDocument()
     })
 
     test('form subtitle question renders', () => {
          render(MockQuestionForm())
-        fireEvent.click(screen.getByText('Add a new Question'))
+        fireEvent.click(screen.getByText('Create Question'))
         expect(screen.getByText('Question')).toBeInTheDocument()
     })
     test('form subtitle options renders', () => {
          render(MockQuestionForm())
-        fireEvent.click(screen.getByText('Add a new Question'))
+        fireEvent.click(screen.getByText('Create Question'))
         expect(screen.getByText('Options')).toBeInTheDocument()
     })
     test('form subtitle answers renders', () => {
          render(MockQuestionForm())
-        fireEvent.click(screen.getByText('Add a new Question'))
+        fireEvent.click(screen.getByText('Create Question'))
         expect(screen.getByText('Answers')).toBeInTheDocument()
     })
     test('form button submission renders', () => {
          render(MockQuestionForm())
-        fireEvent.click(screen.getByText('Add a new Question'))
+        fireEvent.click(screen.getByText('Create Question'))
         expect(screen.getByText('Add Question', {selector: 'button'})).toBeInTheDocument()
     })
 
@@ -54,7 +54,7 @@ describe('form submission tests', () => {
             <QuestionForm onSubmit={mockCallback()}/>
         </QuestionContextProvider>)
 
-        fireEvent.click(screen.getByText('Add a new Question'))
+        fireEvent.click(screen.getByText('Create Question'))
         // Testing submitting form
         const questionInput = screen.getByText('Question')
         const optionsInput = screen.getByText('Options')
@@ -72,7 +72,7 @@ describe('form submission tests', () => {
             <QuestionForm onSubmit={mockCallback()}/>
         </QuestionContextProvider>)
 
-        fireEvent.click(screen.getByText('Add a new Question'))
+        fireEvent.click(screen.getByText('Create Question'))
         // Testing submitting form
         const questionInput = screen.getByText('Question')
         const optionsInput = screen.getByText('Options')

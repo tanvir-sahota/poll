@@ -1,5 +1,5 @@
 import {render, screen, fireEvent, waitFor} from '@testing-library/react';
-import FolderForm from "../components/FolderForm";
+import FolderForm from "../components/forms/FolderForm";
 import {FoldersContextProvider} from "../context/FolderContext";
 
 const MockFolderForm = () => {

@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {useFoldersContext} from "../hooks/useFoldersContext";
+import {useFoldersContext} from "../../hooks/useFoldersContext";
 
 const FolderForm = (classID) => {
     

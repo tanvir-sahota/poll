@@ -10,7 +10,7 @@ test('renders ClassroomForm component', () => {
     </ClassroomContextProvider>
   );
 
-  const addButton = screen.getByRole('button', { name: '' });
+  const addButton = screen.getByRole('button');
 
   expect(addButton).toBeInTheDocument();
 });
@@ -30,7 +30,7 @@ test('handles form submission', async () => {
     </ClassroomContextProvider>
   );
 
-  const createButton = screen.getByRole('button', { name: '' });
+  const createButton = screen.getByRole('button');
   fireEvent.click(createButton);
   
   expect(mockCallback).toHaveBeenCalled()

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import LoginForm from '../../src/components/LoginForm';
+import LoginForm from '../../src/components/forms/LoginForm';
 import { AuthContextProvider } from '../context/AuthContext';
 import { act } from 'react-dom/test-utils';
 

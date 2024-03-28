@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import QuestionDisplay from '../components/QuestionDisplay';
+import QuestionDisplay from '../components/question/QuestionDisplay';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('QuestionDisplay', () => {

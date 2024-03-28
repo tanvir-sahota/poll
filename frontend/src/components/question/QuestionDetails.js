@@ -1,12 +1,12 @@
-import { useQuestionContext } from "../hooks/useQuestionContext"
-import UpdateQuestionForm from "./UpdateQuestionForm"
+import { useQuestionContext } from "../../hooks/useQuestionContext"
+import UpdateQuestionForm from "../forms/UpdateQuestionForm"
 import { useState } from "react"
 
 const QuestionDetails = ({ question, classID }) => {
     
     const { dispatch } = useQuestionContext()
     const [showForm, setShowForm] = useState(false)
-    const [showOptions, setShowOptions] = useState(question.options.length != 0 ? true : false)
+    const [showOptions, setShowOptions] = useState(question.options.length !== 0 ? true : false)
 
     const deleteQuestion = async () => {
         const response = await fetch(`${process.env.REACT_APP_URL}api/questions/${classID}/${question._id}`, {

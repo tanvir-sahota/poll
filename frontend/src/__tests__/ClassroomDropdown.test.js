@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ClassroomDropdown from '../components/ClassroomDropdown';
+import ClassroomDropdown from '../components/classroom/ClassroomDropdown';
 
 // Mocking the useQuestionContext hook
 jest.mock('../hooks/useQuestionContext', () => ({

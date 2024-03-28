@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom"
 import { Map, setIn } from  "immutable"
-import MCQButton from "./MCQButton"
+import MCQButton from "../buttons/MCQButton"
 import parse from 'html-react-parser'
 import Modal from 'react-bootstrap/Modal'
 
@@ -45,6 +45,7 @@ const QuestionDisplay = (inputData) => {
     const submitAnswer = async e => {
         e.preventDefault()
         socket.emit("submit-answer-text", lecturer, textAnswer)
+        console.log("Submitted " + textAnswer)
 
         setAnsweredQuestions((prevMap) => {
             const newMap = prevMap.set(_id, textAnswer)
@@ -56,13 +57,17 @@ const QuestionDisplay = (inputData) => {
     useEffect(() => {
         let displayQuestionHandler = null
         displayQuestionHandler = newQuestion => {
+            const mcq = newQuestion.options.length > 1
+            const code = newQuestion.questionType === 'CodeMCQ'
             setMCQ(newQuestion.options.length > 1)
             setCode(newQuestion.questionType === 'CodeMCQ')
-            if (isMCQ) {
+            if (mcq) {
+                console.log("Loaded buttons")
                 setSelectedMCQ(prevMCQ => {
                     if(!prevMCQ.has(newQuestion._id)) {
                         const optionPressed = newQuestion.options.map(o => false)
                         const newMCQ = prevMCQ.set(newQuestion._id, optionPressed)
+                        console.log(newMCQ)
                         return newMCQ
                     }
                     return prevMCQ
@@ -70,9 +75,11 @@ const QuestionDisplay = (inputData) => {
             }
         }
         socket.addEventListener("display-question", displayQuestionHandler)
+        console.log("Added display question event handler")
         return () => {
             if (displayQuestionHandler) {
                 socket.removeEventListener("display-question", displayQuestionHandler)
+                console.log("Removed display question event handler")
             }
         }
 
@@ -82,10 +89,16 @@ const QuestionDisplay = (inputData) => {
         socket.emit("submit-answer-MCQ", lecturer , option)
         setSelectedMCQ(prevMCQ => {
             const newOptionPressed = prevMCQ.get(givenQuestion._id)
+            if(!newOptionPressed)
+            {
+                console.log("newOptionPressed UNDEFINED")
+            }
             newOptionPressed[position] = true
             const newMCQ = prevMCQ.set(givenQuestion._id, [...newOptionPressed])
+            console.log(newMCQ)
             return newMCQ
         })
+        console.log("Option is ", option)
     }
 
     const unSubmitMCQ = (option, position) => {
@@ -94,8 +107,10 @@ const QuestionDisplay = (inputData) => {
             const newOptionPressed = prevMCQ.get(givenQuestion._id)
             newOptionPressed[position] = false
             const newMCQ = prevMCQ.set(givenQuestion._id, [...newOptionPressed])
+            console.log(newMCQ)
             return newMCQ
         })
+        console.log("Option is ", option)
     }
 
     const handleMCQ = (option, position) => {
@@ -113,6 +128,10 @@ const QuestionDisplay = (inputData) => {
                 {isMCQ && (!isAdmin) ?
                     options.map((option, i) => {
                         let pressed = false
+                        if (!selectedMCQ)
+                        {
+                            console.log("selectedMCQ UNDEFINED")
+                        }
                         if (selectedMCQ.has(givenQuestion._id)) {
                             pressed = selectedMCQ.get(givenQuestion._id)[i]
                         }
@@ -167,7 +186,7 @@ const QuestionDisplay = (inputData) => {
                         </div>
                     ) : (
                         <div>
-                            <button className="showAnswer" onClick={handleSubmission}>Show Answers</button>
+                            <button className="showAnswer" onClick={handleSubmission}>Show Answer(s)</button>
                             <button id="disconnectButton" onClick={handleDisconnect}>Disconnect</button>
                         </div>
                     )}

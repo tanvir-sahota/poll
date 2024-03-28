@@ -1,17 +1,17 @@
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useForm, Controller } from 'react-hook-form';
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const SignupForm = () => {
+const LoginForm = () => {
   const { handleSubmit, control, setError, formState: { errors } } = useForm();
   const { dispatch } = useAuthContext()
   const navigate = useNavigate()
 
-  const onSubmit = async (data) => {
-    const response = await fetch(`${process.env.REACT_APP_URL}api/users/signup`, {
+  const onSubmit = async  (data) => {
+      const response= await fetch(`${process.env.REACT_APP_URL}api/users/login`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -24,11 +24,7 @@ const SignupForm = () => {
       setError("username", { message: json.error })
     }
     if (response.ok) {
-
-      // save the user to local storage
       localStorage.setItem('user', JSON.stringify(json))
-
-      // update the auth context
       dispatch({type: 'LOGIN', payload: json})
       navigate("/dashboard")
     }
@@ -37,10 +33,10 @@ const SignupForm = () => {
   return (
     <div
       className="form-container"
-      style={{ display: "inline-block", width: 700, padding: 30 }}
+      style={{ display: "inline-block", width: 700, maxWidth: "100%", padding: 30 }}
     >
-      <Form className="sign-up" onSubmit={handleSubmit(onSubmit)}>
-        <h1>Sign Up</h1>
+      <Form className="login" onSubmit={handleSubmit(onSubmit)}>
+        <h1>Log in</h1>
         <Form.Group className="mb-3">
           <Form.Label htmlFor="username">Username:</Form.Label>
           <Controller
@@ -88,7 +84,7 @@ const SignupForm = () => {
         </Form.Group>
 
         <Button variant="primary" type="submit">
-          Sign Up
+          Log in
         </Button>
         {errors.apiError && <div className="error">{errors.apiError.message}</div>}
       </Form>
@@ -96,4 +92,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default LoginForm;

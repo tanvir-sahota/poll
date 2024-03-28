@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import MCQButton from '../components/MCQButton';
+import MCQButton from '../components/buttons/MCQButton';
 
 describe('MCQButton component', () => {
   it('renders button with option text and default background color when not pressed', () => {
