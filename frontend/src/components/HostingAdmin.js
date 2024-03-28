@@ -293,7 +293,7 @@ const HostingAdmin = (inputData) => {
         <div className="hostingDisplay">
             <div className="row" id="rowQuestionDisplay">
                 <div id="prevButtonContainer">
-                    <button id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>
+                    <button data-testid = "prevButton" id="prevButton" onClick={handlePrev} onLoad={shouldRenderPrevious}>
                         <i className="bi bi-arrow-left"></i>
                     </button>
                 </div>
@@ -301,7 +301,7 @@ const HostingAdmin = (inputData) => {
                     <QuestionDisplay givenQuestion={questions[position]} isAdmin={true} socket={socket} lecturer={lecturer}/>
                 </div>
                 <div id="nextButtonContainer">
-                    <button id="nextButton" onClick={handleNext} onLoad={shouldRenderNext}>
+                    <button data-testid = "nextButton"id="nextButton" onClick={handleNext} onLoad={shouldRenderNext}>
                         <i className="bi bi-arrow-right"></i>
                     </button>
                 </div>
