@@ -40,9 +40,9 @@ const ConnectToRoomForm = () => {
     }
     
     return (
-        <div className="container h-100 w-50">
+        <div className="container h-100 w-80">
         <div className="row h-100 justify-content-center align-items-center text-center">
-            <div className="col-10 col-md-8 col-lg-6">
+            <div className="col-10 col-md-8 col-lg-6 col-auto">
                 <form className="form-group" onSubmit={handleSubmit}>
                     <label className="mt-4"><h2>Join Poll</h2></label>
                     <div className="input-group mb-3 mt-3">
@@ -54,6 +54,7 @@ const ConnectToRoomForm = () => {
                             placeholder="Enter username"
                             aria-describedby="basic-addon2"
                             btn-focus-outline="none"
+                            
                         />
                     
                         <div className="input-group-append">
